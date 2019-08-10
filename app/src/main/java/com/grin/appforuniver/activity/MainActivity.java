@@ -46,6 +46,20 @@ public class MainActivity extends AppCompatActivity {
 
         progressDialog = new ProgressDialog(MainActivity.this);
 
+        if(savedInstanceState != null) {
+            usernameTIL.getEditText().setText(savedInstanceState.getString(Constants.USERNAME_KEY));
+            passwordTIL.getEditText().setText(savedInstanceState.getString(Constants.PASSWORD_KEY));
+        }
+
+        if(PreferenceUtils.getUsername(this) != null && PreferenceUtils.getPassword(this) != null ) {
+//            Intent intent = new Intent(MainActivity.this, UserActivity.class);
+//            startActivity(intent);
+//            finish();
+            progressDialog.setMessage("Authenticating...");
+            progressDialog.show();
+            loginUser(PreferenceUtils.getUsername(this), PreferenceUtils.getPassword(this));
+        }
+
     }
 
     private boolean validateLoginInput() {
@@ -104,14 +118,12 @@ public class MainActivity extends AppCompatActivity {
                         PreferenceUtils.savePassword(password, getApplicationContext());
                         progressDialog.dismiss();
                         Toasty.success(MainActivity.this, "Log in!", Toast.LENGTH_SHORT, true).show();
-//                        Toast.makeText(getApplicationContext(), "Log in!", Toast.LENGTH_SHORT).show();
-//                        Intent intent = new Intent(MainActivity.this, UserActivity.class);
-//                        startActivity(intent);
-//                        finish();
+                        Intent intent = new Intent(MainActivity.this, NavigationDrawer.class);
+                        startActivity(intent);
+                        finish();
 
                     }
                 } else {
-//                    Toast.makeText(getApplicationContext(), "Fail username OR acc is NOT ACTIVE", Toast.LENGTH_LONG).show();
                     Toasty.error(MainActivity.this, "Fail username OR acc is NOT ACTIVE", Toast.LENGTH_SHORT, true).show();
                     progressDialog.dismiss();
                 }
@@ -127,5 +139,12 @@ public class MainActivity extends AppCompatActivity {
         progressDialog.dismiss();
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
 
+        outState.putString(Constants.USERNAME_KEY, usernameTIL.getEditText().getText().toString());
+        outState.putString(Constants.PASSWORD_KEY, passwordTIL.getEditText().getText().toString());
+
+        super.onSaveInstanceState(outState);
+    }
 }

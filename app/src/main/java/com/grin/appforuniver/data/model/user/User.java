@@ -1,7 +1,6 @@
 package com.grin.appforuniver.data.model.user;
 
 import com.google.gson.annotations.SerializedName;
-import com.grin.appforuniver.data.model.user.Role;
 
 import java.util.List;
 
@@ -75,6 +74,25 @@ public class User {
     private String telefon1;
     private String telefon2;
 
+    public User(Integer id, String username, String patronymic, String firstName, String lastName, String email,
+                String password, List<Role> roles, Status status, Department department, Photo photo, Posada posada,
+                String telefon1, String telefon2) {
+        this.id = id;
+        this.username = username;
+        this.patronymic = patronymic;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.roles = roles;
+        this.status = status;
+        this.department = department;
+        this.photo = photo;
+        this.posada = posada;
+        this.telefon1 = telefon1;
+        this.telefon2 = telefon2;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -94,4 +112,7 @@ public class User {
                 ", roles='" + roles + '\'' +
                 '}';
     }
+
+
+
 }
