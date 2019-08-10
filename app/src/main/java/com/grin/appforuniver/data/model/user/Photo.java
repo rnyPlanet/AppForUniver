@@ -2,7 +2,9 @@ package com.grin.appforuniver.data.model.user;
 
 import java.util.Arrays;
 
+import lombok.Data;
 
+@Data
 class Photo {
 
     /*

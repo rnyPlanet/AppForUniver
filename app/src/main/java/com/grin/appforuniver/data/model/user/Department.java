@@ -1,5 +1,8 @@
 package com.grin.appforuniver.data.model.user;
 
+import lombok.Data;
+
+@Data
 class Department {
 
     /*

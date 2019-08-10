@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -14,6 +16,7 @@ import com.grin.appforuniver.R;
 import com.grin.appforuniver.data.WebServices.ServiceGenerator;
 import com.grin.appforuniver.data.WebServices.authInterface.AuthInterface;
 import com.grin.appforuniver.data.model.dto.AuthenticationRequestDto;
+import com.grin.appforuniver.data.model.user.User;
 import com.grin.appforuniver.data.utils.Constants;
 import com.grin.appforuniver.data.utils.PreferenceUtils;
 
@@ -51,13 +54,16 @@ public class MainActivity extends AppCompatActivity {
             passwordTIL.getEditText().setText(savedInstanceState.getString(Constants.PASSWORD_KEY));
         }
 
-        if(PreferenceUtils.getUsername(this) != null && PreferenceUtils.getPassword(this) != null ) {
+        String sharedUsername = PreferenceUtils.getUsername(this);
+        String sharedUserPassword = PreferenceUtils.getPassword(this);
+
+        if(sharedUsername != null && sharedUserPassword != null ) {
 //            Intent intent = new Intent(MainActivity.this, UserActivity.class);
 //            startActivity(intent);
 //            finish();
             progressDialog.setMessage("Authenticating...");
             progressDialog.show();
-            loginUser(PreferenceUtils.getUsername(this), PreferenceUtils.getPassword(this));
+            //loginUser(sharedUsername, sharedUserPassword);
         }
 
     }
@@ -114,8 +120,12 @@ public class MainActivity extends AppCompatActivity {
                                 Constants.setUserToken(item.getValue().toString());
                             }
                         }
-                        PreferenceUtils.saveUsername(username, getApplicationContext());
-                        PreferenceUtils.savePassword(password, getApplicationContext());
+
+                        if(PreferenceUtils.getUsername(getApplicationContext()) == null) {
+                            PreferenceUtils.saveUsername(username, getApplicationContext());
+                            PreferenceUtils.savePassword(password, getApplicationContext());
+                        }
+
                         progressDialog.dismiss();
                         Toasty.success(MainActivity.this, "Log in!", Toast.LENGTH_SHORT, true).show();
                         Intent intent = new Intent(MainActivity.this, NavigationDrawer.class);
@@ -131,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Map<Object, Object>> call, Throwable t) {
-                Toasty.error(MainActivity.this, t.getMessage(), Toast.LENGTH_SHORT, true).show();
+                //Toasty.error(MainActivity.this, t.getMessage(), Toast.LENGTH_SHORT, true).show();
                 progressDialog.dismiss();
             }
         });

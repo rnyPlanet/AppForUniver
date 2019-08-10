@@ -4,6 +4,9 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
+import lombok.Data;
+
+@Data
 public class User {
     /*
      {
@@ -73,6 +76,8 @@ public class User {
 
     private String telefon1;
     private String telefon2;
+
+    public User () {}
 
     public User(Integer id, String username, String patronymic, String firstName, String lastName, String email,
                 String password, List<Role> roles, Status status, Department department, Photo photo, Posada posada,
