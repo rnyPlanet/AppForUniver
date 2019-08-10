@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">AppForUniver</string>
+
+    <string name="activity_main_username">Username</string>
+    <string name="activity_main_password">Password</string>
+    <string name="log_in_btn">Log in</string>
+    <string name="sign_in_btn">Sign in</string>
+
+</resources>
