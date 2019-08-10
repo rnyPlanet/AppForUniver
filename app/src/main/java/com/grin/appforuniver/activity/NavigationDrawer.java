@@ -14,6 +14,7 @@ import android.view.MenuItem;
 
 import com.google.android.material.navigation.NavigationView;
 import com.grin.appforuniver.R;
+import com.grin.appforuniver.data.utils.PreferenceUtils;
 
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -21,6 +22,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
+import android.widget.Toast;
 
 public class NavigationDrawer extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -46,6 +48,9 @@ public class NavigationDrawer extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+
+        Toast.makeText(this, PreferenceUtils.getUsername(this), Toast.LENGTH_SHORT).show();
+
     }
 
     @Override
