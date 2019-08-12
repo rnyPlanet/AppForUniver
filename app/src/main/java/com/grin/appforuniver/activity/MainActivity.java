@@ -49,22 +49,22 @@ public class MainActivity extends AppCompatActivity {
 
         progressDialog = new ProgressDialog(MainActivity.this);
 
-        if(savedInstanceState != null) {
-            usernameTIL.getEditText().setText(savedInstanceState.getString(Constants.USERNAME_KEY));
-            passwordTIL.getEditText().setText(savedInstanceState.getString(Constants.PASSWORD_KEY));
-        }
-
-        String sharedUsername = PreferenceUtils.getUsername(this);
-        String sharedUserPassword = PreferenceUtils.getPassword(this);
-
-        if(sharedUsername != null && sharedUserPassword != null ) {
-//            Intent intent = new Intent(MainActivity.this, UserActivity.class);
-//            startActivity(intent);
-//            finish();
-            progressDialog.setMessage("Authenticating...");
-            progressDialog.show();
-            //loginUser(sharedUsername, sharedUserPassword);
-        }
+//        if(savedInstanceState != null) {
+//            usernameTIL.getEditText().setText(savedInstanceState.getString(Constants.USERNAME_KEY));
+//            passwordTIL.getEditText().setText(savedInstanceState.getString(Constants.PASSWORD_KEY));
+//        }
+//
+//        String sharedUsername = PreferenceUtils.getUsername(this);
+//        String sharedUserPassword = PreferenceUtils.getPassword(this);
+//
+//        if(sharedUsername != null && sharedUserPassword != null ) {
+////            Intent intent = new Intent(MainActivity.this, UserActivity.class);
+////            startActivity(intent);
+////            finish();
+//            progressDialog.setMessage("Authenticating...");
+//            progressDialog.show();
+//            //loginUser(sharedUsername, sharedUserPassword);
+//        }
 
     }
 
@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
                     if(response.body() != null) {
                         for(Map.Entry<Object, Object> item : response.body().entrySet()) {
                             if(item.getKey().equals("token")) {
-                                Constants.setUserToken(item.getValue().toString());
+                                PreferenceUtils.saveUserToken(item.getValue().toString(), getApplicationContext());
                             }
                         }
 

@@ -20,5 +20,6 @@
     <string name="menu_share">Share</string>
     <string name="menu_send">Send</string>
     <string name="title_activity_login">LoginActivity</string>
+    <string name="action_logout">Logout</string>
 
 </resources>

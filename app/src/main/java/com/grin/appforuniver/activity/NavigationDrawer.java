@@ -1,5 +1,6 @@
 package com.grin.appforuniver.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -49,8 +50,6 @@ public class NavigationDrawer extends AppCompatActivity
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
-        Toast.makeText(this, PreferenceUtils.getUsername(this), Toast.LENGTH_SHORT).show();
-
     }
 
     @Override
@@ -80,6 +79,14 @@ public class NavigationDrawer extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        }
+        if(id == R.id.action_logout) {
+            PreferenceUtils.saveUsername(null, getApplicationContext());
+            PreferenceUtils.savePassword(null, getApplicationContext());
+            PreferenceUtils.saveUser(null, getApplicationContext());
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(intent);
+            finish();
         }
 
         return super.onOptionsItemSelected(item);
