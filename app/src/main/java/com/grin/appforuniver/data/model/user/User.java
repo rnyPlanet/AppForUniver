@@ -1,12 +1,8 @@
 package com.grin.appforuniver.data.model.user;
 
 import com.google.gson.annotations.SerializedName;
-
 import java.util.List;
 
-import lombok.Data;
-
-@Data
 public class User {
     /*
      {
@@ -49,72 +45,184 @@ public class User {
     }
     */
 
-    private Integer id;
+    private Integer mId;
 
-    private String username;
+    private String mUsername;
 
-    private String patronymic;
-    private String firstName;
-    private String lastName;
+    private String mPatronymic;
+    private String mFirstName;
+    private String mLastName;
 
-    private String email;
-    private String password;
+    private String mEmail;
+    private String mPassword;
 
     @SerializedName("roles")
-    private List<Role> roles;
+    private List<Role> mRoles;
 
-    private Status status;
+    private Status mStatus;
 
     @SerializedName("department")
-    private Department department;
+    private Department mDepartment;
 
     @SerializedName("photo")
-    private Photo photo;
+    private Photo mPhoto;
 
     @SerializedName("posada")
-    private Posada posada;
+    private Posada mPosada;
 
-    private String telefon1;
-    private String telefon2;
+    private String mTelefon1;
+    private String mTelefon2;
 
     public User () {}
 
     public User(Integer id, String username, String patronymic, String firstName, String lastName, String email,
                 String password, List<Role> roles, Status status, Department department, Photo photo, Posada posada,
                 String telefon1, String telefon2) {
-        this.id = id;
-        this.username = username;
-        this.patronymic = patronymic;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
-        this.roles = roles;
-        this.status = status;
-        this.department = department;
-        this.photo = photo;
-        this.posada = posada;
-        this.telefon1 = telefon1;
-        this.telefon2 = telefon2;
+        this.mId = id;
+        this.mUsername = username;
+        this.mPatronymic = patronymic;
+        this.mFirstName = firstName;
+        this.mLastName = lastName;
+        this.mEmail = email;
+        this.mPassword = password;
+        this.mRoles = roles;
+        this.mStatus = status;
+        this.mDepartment = department;
+        this.mPhoto = photo;
+        this.mPosada = posada;
+        this.mTelefon1 = telefon1;
+        this.mTelefon2 = telefon2;
+    }
+
+    public Integer getId() {
+        return mId;
+    }
+
+    public void setId(Integer id) {
+        this.mId = id;
+    }
+
+    public String getUsername() {
+        return mUsername;
+    }
+
+    public void setUsername(String username) {
+        this.mUsername = username;
+    }
+
+    public String getPatronymic() {
+        return mPatronymic;
+    }
+
+    public void setPatronymic(String patronymic) {
+        this.mPatronymic = patronymic;
+    }
+
+    public String getFirstName() {
+        return mFirstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.mFirstName = firstName;
+    }
+
+    public String getLastName() {
+        return mLastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.mLastName = lastName;
+    }
+
+    public String getEmail() {
+        return mEmail;
+    }
+
+    public void setEmail(String email) {
+        this.mEmail = email;
+    }
+
+    public String getPassword() {
+        return mPassword;
+    }
+
+    public void setPassword(String password) {
+        this.mPassword = password;
+    }
+
+    public List<Role> getRoles() {
+        return mRoles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.mRoles = roles;
+    }
+
+    public Status getStatus() {
+        return mStatus;
+    }
+
+    public void setStatus(Status status) {
+        this.mStatus = status;
+    }
+
+    public Department getDepartment() {
+        return mDepartment;
+    }
+
+    public void setDepartment(Department department) {
+        this.mDepartment = department;
+    }
+
+    public Photo getPhoto() {
+        return mPhoto;
+    }
+
+    public void setPhoto(Photo photo) {
+        this.mPhoto = photo;
+    }
+
+    public Posada getPosada() {
+        return mPosada;
+    }
+
+    public void setPosada(Posada posada) {
+        this.mPosada = posada;
+    }
+
+    public String getTelefon1() {
+        return mTelefon1;
+    }
+
+    public void setTelefon1(String telefon1) {
+        this.mTelefon1 = telefon1;
+    }
+
+    public String getTelefon2() {
+        return mTelefon2;
+    }
+
+    public void setTelefon2(String telefon2) {
+        this.mTelefon2 = telefon2;
     }
 
     @Override
     public String toString() {
         return "User{" +
-                "id=" + id +
-                ", department=" + department +
-                ", photo=" + photo +
-                ", posada=" + posada +
-                ", status ='" + status + '\'' +
-                ", prizvishe ='" + patronymic + '\'' +
-                ", name='" + firstName + '\'' +
-                ", otchestvo='" + lastName + '\'' +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", email='" + email + '\'' +
-                ", telefon1='" + telefon1 + '\'' +
-                ", telefon2='" + telefon2 + '\'' +
-                ", roles='" + roles + '\'' +
+                "id=" + mId +
+                ", department=" + mDepartment +
+                ", photo=" + mPhoto +
+                ", posada=" + mPosada +
+                ", status ='" + mStatus + '\'' +
+                ", prizvishe ='" + mPatronymic + '\'' +
+                ", name='" + mFirstName + '\'' +
+                ", otchestvo='" + mLastName + '\'' +
+                ", username='" + mUsername + '\'' +
+                ", password='" + mPassword + '\'' +
+                ", email='" + mEmail + '\'' +
+                ", telefon1='" + mTelefon1 + '\'' +
+                ", telefon2='" + mTelefon2 + '\'' +
+                ", roles='" + mRoles + '\'' +
                 '}';
     }
 

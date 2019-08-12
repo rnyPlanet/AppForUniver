@@ -14,14 +14,30 @@ class Photo {
     }
     */
 
-    private Integer id;
-    private byte[] photo;
+    private Integer mId;
+    private byte[] mPhoto;
+
+    public Integer getmId() {
+        return mId;
+    }
+
+    public void setmId(Integer mId) {
+        this.mId = mId;
+    }
+
+    public byte[] getmPhoto() {
+        return mPhoto;
+    }
+
+    public void setmPhoto(byte[] mPhoto) {
+        this.mPhoto = mPhoto;
+    }
 
     @Override
     public String toString() {
         return "Photo{" +
-                "id=" + id +
-                ", photo=" + Arrays.toString(photo) +
+                "id=" + mId +
+                ", photo=" + Arrays.toString(mPhoto) +
                 '}';
     }
 }

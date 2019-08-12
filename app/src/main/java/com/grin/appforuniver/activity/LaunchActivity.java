@@ -3,44 +3,46 @@ package com.grin.appforuniver.activity;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Toast;
 
 import com.grin.appforuniver.R;
-import com.grin.appforuniver.data.WebServices.ServiceGenerator;
-import com.grin.appforuniver.data.WebServices.authInterface.AuthInterface;
-import com.grin.appforuniver.data.WebServices.userInterface.UserInterface;
-import com.grin.appforuniver.data.model.dto.AuthenticationRequestDto;
-import com.grin.appforuniver.data.model.user.User;
-import com.grin.appforuniver.data.utils.Constants;
+import com.grin.appforuniver.data.utils.LoginUtils;
 import com.grin.appforuniver.data.utils.PreferenceUtils;
 
-import java.util.Map;
 
-import es.dmoral.toasty.Toasty;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
+/**
+ * boot activity
+ */
 public class LaunchActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        //requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_launch);
+
+        if (android.os.Build.VERSION.SDK_INT >= 21) {
+//            getWindow().setStatusBarColor(Color.TRANSPARENT);
+//            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+//            Window window = this.getWindow();
+//            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+//            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+//            window.setStatusBarColor(this.getResources().getColor(R.color.colorWhiteStatusBar));
+        }
 
         String sharedUsername = PreferenceUtils.getUsername(this);
         String sharedUserPassword = PreferenceUtils.getPassword(this);
 
         if(sharedUsername != null && !sharedUsername.isEmpty() && sharedUserPassword != null && !sharedUserPassword.isEmpty()) {
-            loginUser(sharedUsername, sharedUserPassword);
-            getMe();
+            LoginUtils.loginUser(sharedUsername, sharedUserPassword, LaunchActivity.this);
+            LoginUtils.getMe(LaunchActivity.this);
         } else {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
@@ -48,68 +50,5 @@ public class LaunchActivity extends AppCompatActivity {
         }
 
     }
-
-    private void loginUser(String username, String password) {
-        AuthInterface authInterface = ServiceGenerator.createService(AuthInterface.class);
-
-        Call<Map<Object, Object>> call = authInterface.loginUser(new AuthenticationRequestDto(username, password));
-
-        call.enqueue(new Callback<Map<Object, Object>>() {
-            @Override
-            public void onResponse(Call<Map<Object, Object>> call, Response<Map<Object, Object>> response) {
-                if (response.isSuccessful()) {
-                    if(response.body() != null) {
-                        for(Map.Entry<Object, Object> item : response.body().entrySet()) {
-                            if(item.getKey().equals("token")) {
-                                PreferenceUtils.saveUserToken(item.getValue().toString(), getApplicationContext());
-                            }
-                        }
-
-                        if(PreferenceUtils.getUsername(getApplicationContext()) == null || PreferenceUtils.getUsername(getApplicationContext()).isEmpty()) {
-                            PreferenceUtils.saveUsername(username, getApplicationContext());
-                            PreferenceUtils.savePassword(password, getApplicationContext());
-                        }
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Map<Object, Object>> call, Throwable t) {
-                Toasty.error(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT, true).show();
-            }
-        });
-
-    }
-
-    private void getMe() {
-        UserInterface userInterface = ServiceGenerator.createService(UserInterface.class);
-
-        Call<User> call = userInterface.getMe(PreferenceUtils.getUserToken(getApplicationContext()));
-
-        call.enqueue(new Callback<User>() {
-
-            @Override
-            public void onResponse(Call<User> call, Response<User> response) {
-                if (response.isSuccessful()) {
-                    if(response.body() != null) {
-                        PreferenceUtils.saveUser(response.body(), getApplicationContext());
-                        Intent intent = new Intent(getApplicationContext(), NavigationDrawer.class);
-                        startActivity(intent);
-                        finish();
-                    }
-                } else {
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<User> call, Throwable t) {
-                Toasty.error(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT, true).show();
-            }
-        });
-    }
-
 
 }

@@ -15,6 +15,7 @@ import android.view.MenuItem;
 
 import com.google.android.material.navigation.NavigationView;
 import com.grin.appforuniver.R;
+import com.grin.appforuniver.data.model.user.User;
 import com.grin.appforuniver.data.utils.PreferenceUtils;
 
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -50,6 +51,7 @@ public class NavigationDrawer extends AppCompatActivity
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
+        User user = new User();
     }
 
     @Override

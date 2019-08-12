@@ -16,22 +16,79 @@ class Department {
     }
     */
 
-    private Integer id;
-    private Integer pkeyTypeDepartment;
-    private Integer pkeyBoss;
-    private String name;
-    private String emeil;
-    private String telefon;
+    private Integer mId;
+    private Integer mPkeyTypeDepartment;
+    private Integer mPkeyBoss;
+    private String mName;
+    private String mEmeil;
+    private String mTelefon;
+
+    Department(Integer id, Integer pkeyTypeDepartment, Integer pkeyBoss, String name, String emeil, String telefon) {
+        this.mId = id;
+        this.mPkeyTypeDepartment = pkeyTypeDepartment;
+        this.mPkeyBoss = pkeyBoss;
+        this.mName = name;
+        this.mEmeil = emeil;
+        this.mTelefon = telefon;
+    }
+
+    public Integer getmId() {
+        return mId;
+    }
+
+    public void setmId(Integer mId) {
+        this.mId = mId;
+    }
+
+    public Integer getmPkeyTypeDepartment() {
+        return mPkeyTypeDepartment;
+    }
+
+    public void setmPkeyTypeDepartment(Integer mPkeyTypeDepartment) {
+        this.mPkeyTypeDepartment = mPkeyTypeDepartment;
+    }
+
+    public Integer getmPkeyBoss() {
+        return mPkeyBoss;
+    }
+
+    public void setmPkeyBoss(Integer mPkeyBoss) {
+        this.mPkeyBoss = mPkeyBoss;
+    }
+
+    public String getmName() {
+        return mName;
+    }
+
+    public void setmName(String mName) {
+        this.mName = mName;
+    }
+
+    public String getmEmeil() {
+        return mEmeil;
+    }
+
+    public void setmEmeil(String mEmeil) {
+        this.mEmeil = mEmeil;
+    }
+
+    public String getmTelefon() {
+        return mTelefon;
+    }
+
+    public void setmTelefon(String mTelefon) {
+        this.mTelefon = mTelefon;
+    }
 
     @Override
     public String toString() {
         return "Department{" +
-                "id=" + id +
-                ", pkeyTypeDepartment=" + pkeyTypeDepartment +
-                ", pkeyBoss=" + pkeyBoss +
-                ", name='" + name + '\'' +
-                ", emeil='" + emeil + '\'' +
-                ", telefon='" + telefon + '\'' +
+                "id=" + mId +
+                ", pkeyTypeDepartment=" + mPkeyTypeDepartment +
+                ", pkeyBoss=" + mPkeyBoss +
+                ", name='" + mName + '\'' +
+                ", emeil='" + mEmeil + '\'' +
+                ", telefon='" + mTelefon + '\'' +
                 '}';
     }
 }

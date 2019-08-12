@@ -1,13 +1,17 @@
 package com.grin.appforuniver.data.model.dto;
 
+import com.google.gson.annotations.SerializedName;
+
 public class AuthenticationRequestDto {
 
-    private String username;
-    private String password;
+    @SerializedName("username")
+    private String mUsername;
+    @SerializedName("password")
+    private String mPassword;
 
     public AuthenticationRequestDto(String username, String password) {
-        this.username = username;
-        this.password = password;
+        this.mUsername = username;
+        this.mPassword = password;
     }
 
 }

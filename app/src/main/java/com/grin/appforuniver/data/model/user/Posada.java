@@ -13,14 +13,30 @@ class Posada {
     }
     */
 
-    private int id;
-    private String postVykl;
+    private int mId;
+    private String mPostVykl;
+
+    public int getmId() {
+        return mId;
+    }
+
+    public void setmId(int mId) {
+        this.mId = mId;
+    }
+
+    public String getmPostVykl() {
+        return mPostVykl;
+    }
+
+    public void setmPostVykl(String mPostVykl) {
+        this.mPostVykl = mPostVykl;
+    }
 
     @Override
     public String toString() {
         return "Posada{" +
-                "id=" + id +
-                ", postVykl='" + postVykl + '\'' +
+                "id=" + mId +
+                ", postVykl='" + mPostVykl + '\'' +
                 '}';
     }
 }
