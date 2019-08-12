@@ -42,7 +42,6 @@ public class LaunchActivity extends AppCompatActivity {
 
         if(sharedUsername != null && !sharedUsername.isEmpty() && sharedUserPassword != null && !sharedUserPassword.isEmpty()) {
             LoginUtils.loginUser(sharedUsername, sharedUserPassword, LaunchActivity.this);
-            LoginUtils.getMe(LaunchActivity.this);
         } else {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);

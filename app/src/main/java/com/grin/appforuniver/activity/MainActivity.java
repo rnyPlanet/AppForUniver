@@ -70,9 +70,8 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-//        loginUser(usernameTIL.getEditText().getText().toString(), passwordTIL.getEditText().getText().toString());
         LoginUtils.loginUser(usernameTIL.getEditText().getText().toString(), passwordTIL.getEditText().getText().toString(), MainActivity.this);
-        LoginUtils.getMe(MainActivity.this);
+
     }
 
     @Override

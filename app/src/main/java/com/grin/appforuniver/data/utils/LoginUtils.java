@@ -49,7 +49,7 @@ public class LoginUtils {
                             PreferenceUtils.saveUsername(username, context);
                             PreferenceUtils.savePassword(password, context);
                         }
-
+                        getMe(context);
 //                        if (context instanceof MainActivity){
                             // slows down
                             //Toasty.success(MainActivity.this, "Log in!", Toast.LENGTH_SHORT, true).show();
@@ -57,8 +57,6 @@ public class LoginUtils {
 //                            context.startActivity(intent);
 //                            ((Activity) context).finish();
 //                        }
-
-
                     }
                 } else {
                     Toasty.error(context, "Fail username OR acc is NOT ACTIVE", Toast.LENGTH_SHORT, true).show();
@@ -82,11 +80,10 @@ public class LoginUtils {
         Call<User> call = userInterface.getMe(PreferenceUtils.getUserToken(context));
 
         call.enqueue(new Callback<User>() {
-
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.isSuccessful()) {
-                    if(response.body() != null) {
+                    if(response.body() != null && !PreferenceUtils.getUserToken(context).isEmpty()) {
                         PreferenceUtils.saveUser(response.body(), context);
                         Intent intent = new Intent(context, NavigationDrawer.class);
                         context.startActivity(intent);
