@@ -1,9 +1,9 @@
 package com.grin.appforuniver.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.grin.appforuniver.R;
 import com.grin.appforuniver.data.utils.LoginUtils;
@@ -14,6 +14,7 @@ import com.grin.appforuniver.data.utils.PreferenceUtils;
  * boot activity
  */
 public class LaunchActivity extends AppCompatActivity {
+    public final String TAG = "LaunchActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +28,7 @@ public class LaunchActivity extends AppCompatActivity {
         String sharedUsername = PreferenceUtils.getUsername(this);
         String sharedUserPassword = PreferenceUtils.getPassword(this);
 
-        if(sharedUsername != null && !sharedUsername.isEmpty() && sharedUserPassword != null && !sharedUserPassword.isEmpty()) {
+        if (sharedUsername != null && !sharedUsername.isEmpty() && sharedUserPassword != null && !sharedUserPassword.isEmpty()) {
             LoginUtils.loginUser(sharedUsername, sharedUserPassword, LaunchActivity.this);
         } else {
             Intent intent = new Intent(this, LoginActivity.class);
