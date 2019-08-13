@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.Toast;
 
-import com.grin.appforuniver.activity.MainActivity;
+import com.grin.appforuniver.activity.LoginActivity;
 import com.grin.appforuniver.activity.NavigationDrawer;
 import com.grin.appforuniver.data.WebServices.ServiceGenerator;
 import com.grin.appforuniver.data.WebServices.authInterface.AuthInterface;
@@ -50,9 +50,9 @@ public class LoginUtils {
                             PreferenceUtils.savePassword(password, context);
                         }
                         getMe(context);
-//                        if (context instanceof MainActivity){
+//                        if (context instanceof LoginActivity){
                             // slows down
-                            //Toasty.success(MainActivity.this, "Log in!", Toast.LENGTH_SHORT, true).show();
+                            //Toasty.success(LoginActivity.this, "Log in!", Toast.LENGTH_SHORT, true).show();
 //                            Intent intent = new Intent(context, NavigationDrawer.class);
 //                            context.startActivity(intent);
 //                            ((Activity) context).finish();
@@ -74,7 +74,7 @@ public class LoginUtils {
     /**
      * megthod gets current login user and save him
      */
-    public static void getMe(Context context) {
+    private static void getMe(Context context) {
         UserInterface userInterface = ServiceGenerator.createService(UserInterface.class);
 
         Call<User> call = userInterface.getMe(PreferenceUtils.getUserToken(context));
@@ -90,7 +90,7 @@ public class LoginUtils {
                         ((Activity)context).finish();
                     }
                 } else {
-                    Intent intent = new Intent(context, MainActivity.class);
+                    Intent intent = new Intent(context, LoginActivity.class);
                     context.startActivity(intent);
                     ((Activity)context).finish();
                 }
