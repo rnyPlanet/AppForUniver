@@ -45,20 +45,28 @@ public class User {
     }
     */
 
+    @SerializedName("id")
     private Integer mId;
 
+    @SerializedName("username")
     private String mUsername;
 
+    @SerializedName("patronymic")
     private String mPatronymic;
+    @SerializedName("firstName")
     private String mFirstName;
+    @SerializedName("lastName")
     private String mLastName;
 
+    @SerializedName("email")
     private String mEmail;
+    @SerializedName("password")
     private String mPassword;
 
     @SerializedName("roles")
     private List<Role> mRoles;
 
+    @SerializedName("status")
     private Status mStatus;
 
     @SerializedName("department")
@@ -70,7 +78,9 @@ public class User {
     @SerializedName("posada")
     private Posada mPosada;
 
+    @SerializedName("telefon1")
     private String mTelefon1;
+    @SerializedName("telefon2")
     private String mTelefon2;
 
     public User () {}

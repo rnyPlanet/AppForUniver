@@ -1,9 +1,13 @@
 package com.grin.appforuniver.data.model.user;
 
 
+import com.google.gson.annotations.SerializedName;
+
 class Role {
 
+    @SerializedName("id")
     private int mId;
+    @SerializedName("name")
     private String mName;
 
     public int getmId() {

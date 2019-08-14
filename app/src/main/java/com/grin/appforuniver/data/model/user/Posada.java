@@ -1,6 +1,8 @@
 package com.grin.appforuniver.data.model.user;
 
 
+import com.google.gson.annotations.SerializedName;
+
 import lombok.Data;
 
 @Data
@@ -13,7 +15,9 @@ class Posada {
     }
     */
 
+    @SerializedName("id")
     private int mId;
+    @SerializedName("postVykl")
     private String mPostVykl;
 
     public int getmId() {

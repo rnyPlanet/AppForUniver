@@ -1,5 +1,7 @@
 package com.grin.appforuniver.data.model.user;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Arrays;
 
 import lombok.Data;
@@ -14,7 +16,9 @@ class Photo {
     }
     */
 
+    @SerializedName("id")
     private Integer mId;
+    @SerializedName("photo")
     private byte[] mPhoto;
 
     public Integer getmId() {

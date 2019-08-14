@@ -1,5 +1,7 @@
 package com.grin.appforuniver.data.model.user;
 
+import com.google.gson.annotations.SerializedName;
+
 import lombok.Data;
 
 @Data
@@ -16,11 +18,17 @@ class Department {
     }
     */
 
+    @SerializedName("id")
     private Integer mId;
+    @SerializedName("pkeyTypeDepartment")
     private Integer mPkeyTypeDepartment;
+    @SerializedName("pkeyBoss")
     private Integer mPkeyBoss;
+    @SerializedName("name")
     private String mName;
+    @SerializedName("emeil")
     private String mEmeil;
+    @SerializedName("telefon")
     private String mTelefon;
 
     Department(Integer id, Integer pkeyTypeDepartment, Integer pkeyBoss, String name, String emeil, String telefon) {

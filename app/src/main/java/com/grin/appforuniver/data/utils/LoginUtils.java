@@ -50,13 +50,6 @@ public class LoginUtils {
                             PreferenceUtils.savePassword(password, context);
                         }
                         getMe(context);
-//                        if (context instanceof LoginActivity){
-                            // slows down
-                            //Toasty.success(LoginActivity.this, "Log in!", Toast.LENGTH_SHORT, true).show();
-//                            Intent intent = new Intent(context, NavigationDrawer.class);
-//                            context.startActivity(intent);
-//                            ((Activity) context).finish();
-//                        }
                     }
                 } else {
                     Toasty.error(context, "Fail username OR acc is NOT ACTIVE", Toast.LENGTH_SHORT, true).show();
@@ -65,7 +58,9 @@ public class LoginUtils {
 
             @Override
             public void onFailure(Call<Map<Object, Object>> call, Throwable t) {
-                Toasty.error(context, t.getMessage(), Toast.LENGTH_SHORT, true).show();
+                if(t.getMessage().equals("Failed to connect to /194.9.70.244:8075")) {
+                    Toasty.warning(context, "Login with http://192.168.0.1 OR check your internet connection", Toast.LENGTH_LONG, true).show();
+                }
             }
         });
 
