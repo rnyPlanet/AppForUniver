@@ -19,9 +19,12 @@ android {
 
         if (fileVersionMajor != currentVersionMajor) {
             fileVersionMajor = currentVersionMajor
+            fileVersionMinor = 0
+            fileVersionBuild = 0
         }
         if (fileVersionMinor != currentVersionMinor) {
             fileVersionMinor = currentVersionMinor
+            fileVersionBuild = 0
         }
 
         versionProps['VERSION_MAJOR'] = fileVersionMajor.toString()
