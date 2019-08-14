@@ -80,6 +80,8 @@ public class LoginUtils {
                 if (response.isSuccessful()) {
                     if(response.body() != null && !PreferenceUtils.getUserToken(context).isEmpty()) {
                         PreferenceUtils.saveUser(response.body(), context);
+                        PreferenceUtils.saveUserRoles(response.body().getRoles(), context);
+
                         Intent intent = new Intent(context, NavigationDrawer.class);
                         context.startActivity(intent);
                         ((Activity)context).finish();

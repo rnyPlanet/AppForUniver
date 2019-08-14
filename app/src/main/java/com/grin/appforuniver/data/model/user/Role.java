@@ -3,26 +3,31 @@ package com.grin.appforuniver.data.model.user;
 
 import com.google.gson.annotations.SerializedName;
 
-class Role {
+public class Role {
 
     @SerializedName("id")
     private int mId;
     @SerializedName("name")
     private String mName;
 
-    public int getmId() {
+    public int getId() {
         return mId;
     }
 
-    public void setmId(int mId) {
-        this.mId = mId;
+    public void setId(int id) {
+        this.mId = id;
     }
 
-    public String getmName() {
+    public String getName() {
         return mName;
     }
 
-    public void setmName(String mName) {
-        this.mName = mName;
+    public void setName(String name) {
+        this.mName = name;
+    }
+
+    @Override
+    public String toString() {
+        return mName;
     }
 }

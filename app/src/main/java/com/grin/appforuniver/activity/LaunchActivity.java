@@ -14,7 +14,7 @@ import com.grin.appforuniver.data.utils.PreferenceUtils;
  * boot activity
  */
 public class LaunchActivity extends AppCompatActivity {
-    public final String TAG = "LaunchActivity";
+    public final String TAG = LaunchActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

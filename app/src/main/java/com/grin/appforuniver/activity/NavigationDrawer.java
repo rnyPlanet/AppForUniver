@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,32 +19,61 @@ import com.grin.appforuniver.R;
 import com.grin.appforuniver.data.model.user.User;
 import com.grin.appforuniver.data.utils.PreferenceUtils;
 
+import butterknife.BindView;
+import es.dmoral.toasty.Toasty;
+
 public class NavigationDrawer extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    public final String TAG = NavigationDrawer.class.getSimpleName();
+
+    DrawerLayout drawer;
+    NavigationView navigationView;
+
+    private User user = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation_drawer);
+
+        navigationDrawer();
+
+        user = PreferenceUtils.getSaveUser(this);
+
+        userInfo();
+    }
+
+    private void navigationDrawer() {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show());
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
+
+        drawer = findViewById(R.id.drawer_layout);
+
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-        navigationView.setNavigationItemSelectedListener(this);
 
-        User user = new User();
+        navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    private void userInfo() {
+        TextView nvHeaderFirstLastNameTv = navigationView.getHeaderView(0).findViewById(R.id.nv_header_firstName_lastName_tv);
+        nvHeaderFirstLastNameTv.setText(user.getFirstName() + " " + user.getLastName());
+
+        TextView nvHeaderUserEmailTv = navigationView.getHeaderView(0).findViewById(R.id.nv_header_user_email_tv);
+        nvHeaderUserEmailTv.setText(user.getEmail());
+        
+        if(PreferenceUtils.getUserRoles(this).contains("ROLE_ADMIN")) {
+            Toasty.normal(this, "admin", Toasty.LENGTH_SHORT).show();
+        }
+
     }
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -107,7 +137,6 @@ public class NavigationDrawer extends AppCompatActivity
                 break;
         }
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }

@@ -18,6 +18,8 @@ import butterknife.ButterKnife;
 
 public class LoginActivity extends AppCompatActivity {
 
+    public final String TAG = LoginActivity.class.getSimpleName();
+
     @BindView(R.id.activity_login_username_et)
     TextInputLayout usernameTIL;
     @BindView(R.id.activity_login_password_et)
