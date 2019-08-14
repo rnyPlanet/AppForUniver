@@ -2,24 +2,55 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 29
-    defaultConfig {
-        applicationId "com.grin.appforuniver"
-        minSdkVersion 19
-        targetSdkVersion 29
-        versionCode 1
-        versionName "1.0"
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-    }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+    def versionPropsFile = file('version.properties')
+    def currentVersionMajor = 0
+    def currentVersionMinor = 0
+
+
+    if (versionPropsFile.canRead()) {
+        Properties versionProps = new Properties()
+
+        versionProps.load(new FileInputStream(versionPropsFile))
+
+        def fileVersionMajor = versionProps['VERSION_MAJOR'].toInteger()
+        def fileVersionMinor = versionProps['VERSION_MINOR'].toInteger()
+        def fileVersionBuild = versionProps['VERSION_BUILD'].toInteger() + 1
+
+        if (fileVersionMajor != currentVersionMajor) {
+            fileVersionMajor = currentVersionMajor
         }
+        if (fileVersionMinor != currentVersionMinor) {
+            fileVersionMinor = currentVersionMinor
+        }
+
+        versionProps['VERSION_MAJOR'] = fileVersionMajor.toString()
+        versionProps['VERSION_MINOR'] = fileVersionMinor.toString()
+        versionProps['VERSION_BUILD'] = fileVersionBuild.toString()
+        versionProps.store(versionPropsFile.newWriter(), null)
+
+        defaultConfig {
+            applicationId "com.grin.appforuniver"
+            minSdkVersion 19
+            targetSdkVersion 29
+            versionCode 1
+            versionName "1.0"
+            testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        }
+        buildTypes {
+            release {
+                minifyEnabled false
+                proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            }
+        }
+        compileOptions {
+            sourceCompatibility JavaVersion.VERSION_1_8
+            targetCompatibility JavaVersion.VERSION_1_8
+        }
+    } else {
+        throw new FileNotFoundException("Could not read version.properties!")
     }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
+
 }
 
 dependencies {
