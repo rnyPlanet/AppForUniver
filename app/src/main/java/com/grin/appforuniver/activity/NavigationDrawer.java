@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -18,6 +20,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.grin.appforuniver.R;
 import com.grin.appforuniver.data.model.user.User;
 import com.grin.appforuniver.data.utils.PreferenceUtils;
+import com.grin.appforuniver.fragments.AdminFragment;
 
 import butterknife.BindView;
 import es.dmoral.toasty.Toasty;
@@ -27,8 +30,8 @@ public class NavigationDrawer extends AppCompatActivity
 
     public final String TAG = NavigationDrawer.class.getSimpleName();
 
-    DrawerLayout drawer;
-    NavigationView navigationView;
+    private DrawerLayout drawer;
+    private NavigationView navigationView;
 
     private User user = null;
 
@@ -42,6 +45,7 @@ public class NavigationDrawer extends AppCompatActivity
         user = PreferenceUtils.getSaveUser(this);
 
         userInfo();
+
     }
 
     private void navigationDrawer() {
@@ -50,8 +54,7 @@ public class NavigationDrawer extends AppCompatActivity
 
         drawer = findViewById(R.id.drawer_layout);
 
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
@@ -65,8 +68,9 @@ public class NavigationDrawer extends AppCompatActivity
 
         TextView nvHeaderUserEmailTv = navigationView.getHeaderView(0).findViewById(R.id.nv_header_user_email_tv);
         nvHeaderUserEmailTv.setText(user.getEmail());
-        
+
         if(PreferenceUtils.getUserRoles(this).contains("ROLE_ADMIN")) {
+            navigationView.getMenu().findItem(R.id.nav_admin).setVisible(true);
             Toasty.normal(this, "admin", Toasty.LENGTH_SHORT).show();
         }
 
@@ -89,7 +93,7 @@ public class NavigationDrawer extends AppCompatActivity
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
@@ -100,6 +104,7 @@ public class NavigationDrawer extends AppCompatActivity
             return true;
         }
         if (id == R.id.action_logout) {
+            navigationView.getMenu().findItem(R.id.nav_admin).setVisible(false);
             PreferenceUtils.saveUsername(null, getApplicationContext());
             PreferenceUtils.savePassword(null, getApplicationContext());
             PreferenceUtils.saveUser(null, getApplicationContext());
@@ -111,30 +116,34 @@ public class NavigationDrawer extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
 
         switch (item.getItemId()) {
 
-            case R.id.nav_home:
-                // Handle the camera action
+            case R.id.nav_home: {
                 break;
-            case R.id.nav_gallery:
-                break;
+            }
 
-            case R.id.nav_slideshow:
+            case R.id.nav_gallery: {
                 break;
+            }
 
-            case R.id.nav_tools:
+            case R.id.nav_share: {
                 break;
+            }
 
-            case R.id.nav_share:
+            case R.id.nav_send: {
                 break;
+            }
 
-            case R.id.nav_send:
+            case R.id.nav_admin: {
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AdminFragment()).commit();
+                this.setTitle(R.string.admin);
                 break;
+            }
+
         }
 
         drawer.closeDrawer(GravityCompat.START);

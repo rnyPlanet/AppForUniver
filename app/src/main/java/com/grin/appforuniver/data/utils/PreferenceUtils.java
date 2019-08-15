@@ -25,7 +25,6 @@ public class PreferenceUtils {
         prefsEditor.apply();
         return true;
     }
-
     public static String getUsername(Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         return prefs.getString(Constants.USERNAME_KEY, null);
@@ -38,7 +37,6 @@ public class PreferenceUtils {
         prefsEditor.apply();
         return true;
     }
-
     public static String getPassword(Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         return prefs.getString(Constants.PASSWORD_KEY, null);
@@ -53,7 +51,6 @@ public class PreferenceUtils {
         prefsEditor.apply();
         return true;
     }
-
     public static User getSaveUser(Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         Gson gson = new Gson();
@@ -63,7 +60,6 @@ public class PreferenceUtils {
         return user;
     }
 
-
     public static boolean saveUserToken(String token, Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor prefsEditor = prefs.edit();
@@ -71,7 +67,6 @@ public class PreferenceUtils {
         prefsEditor.apply();
         return true;
     }
-
     public static String getUserToken(Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         return prefs.getString(Constants.USER_TOKEN_KEY, null);
@@ -88,10 +83,9 @@ public class PreferenceUtils {
         prefsEditor.apply();
         return true;
     }
-
     public static List<String> getUserRoles(Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        List<String> arrPackageData = new ArrayList<>();
+        List<String> arrPackageData;
         Gson gson = new Gson();
         String json = prefs.getString(Constants.USER_ROLES_KEY, "");
 
@@ -101,7 +95,6 @@ public class PreferenceUtils {
 
         return arrPackageData;
     }
-
 
 }
 

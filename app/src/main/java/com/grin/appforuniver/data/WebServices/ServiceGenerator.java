@@ -22,9 +22,7 @@ public class ServiceGenerator {
     public static  <T> T createService(Class<T> serviceClass) {
         if(retrofit == null) {
             retrofit = new Retrofit.Builder()
-//                    .baseUrl("http://309694-vds-nezdoliy.yura.gmhosdt.pp.ua:8075/api/v1/")
                     .baseUrl(Constants.BASE_URL)
-//                    .baseUrl("http://192.168.0.85:8075/api/v1/")
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .build();
         }

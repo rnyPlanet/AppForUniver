@@ -2,14 +2,22 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_login"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.LoginActivity"
     android:orientation="vertical"
     android:padding="8dp"
-    android:background="#e3e3e3">
+    android:background="#fff">
+
+    <include layout="@layout/network_error_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:visibility="gone"/>
 
     <LinearLayout
+        android:id="@+id/activity_login_ll"
         android:gravity="center"
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -55,13 +63,12 @@
             android:layout_marginRight="5dp"
             android:layout_marginBottom="10dp"
             android:textAllCaps="false"
-            android:onClick="logIn"
             android:text="@string/log_in_btn" />
 
     </LinearLayout>
 
     <Button
-        android:id="@+id/activity_main_sign_in_btn"
+        android:id="@+id/activity_login_sign_in_btn"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:background="@drawable/background_login_btn"
