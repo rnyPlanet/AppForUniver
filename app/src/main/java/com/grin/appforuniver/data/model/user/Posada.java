@@ -20,20 +20,20 @@ class Posada {
     @SerializedName("postVykl")
     private String mPostVykl;
 
-    public int getmId() {
+    public int getId() {
         return mId;
     }
 
-    public void setmId(int mId) {
-        this.mId = mId;
+    public void setId(int id) {
+        this.mId = id;
     }
 
-    public String getmPostVykl() {
+    public String getPostVykl() {
         return mPostVykl;
     }
 
-    public void setmPostVykl(String mPostVykl) {
-        this.mPostVykl = mPostVykl;
+    public void setPostVykl(String postVykl) {
+        this.mPostVykl = postVykl;
     }
 
     @Override

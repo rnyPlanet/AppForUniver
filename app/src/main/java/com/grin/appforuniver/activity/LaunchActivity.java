@@ -47,34 +47,31 @@ public class LaunchActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        checkInternetConnection();
-
         checkLoginUser();
 
     }
 
-    Boolean is3g = true;
-    Boolean isWifi = true;
+    private Boolean mIs3g = true;
+    private Boolean mIsWifi = true;
 
     private void checkInternetConnection() {
         ConnectivityManager manager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
 
         // 3G confirm
         assert manager != null;
-        is3g = Objects.requireNonNull(manager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE)).isConnectedOrConnecting();
+        mIs3g = Objects.requireNonNull(manager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE)).isConnectedOrConnecting();
         // wifi confirm
-        isWifi = Objects.requireNonNull(manager.getNetworkInfo(ConnectivityManager.TYPE_WIFI)).isConnectedOrConnecting();
+        mIsWifi = Objects.requireNonNull(manager.getNetworkInfo(ConnectivityManager.TYPE_WIFI)).isConnectedOrConnecting();
 
-        if(!is3g && !isWifi) {
-            findViewById(R.id.activity_launch_tv).setVisibility(View.VISIBLE);
-        }
     }
 
     private void checkLoginUser() {
+        checkInternetConnection();
+
         String sharedUsername = PreferenceUtils.getUsername(this);
         String sharedUserPassword = PreferenceUtils.getPassword(this);
 
-        if(is3g || isWifi) {
+        if(mIs3g || mIsWifi) {
             if (sharedUsername != null && !sharedUsername.isEmpty() && sharedUserPassword != null && !sharedUserPassword.isEmpty()) {
                 LoginUtils.loginUser(sharedUsername, sharedUserPassword, LaunchActivity.this);
             } else {
@@ -91,6 +88,7 @@ public class LaunchActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+
         checkLoginUser();
     }
 

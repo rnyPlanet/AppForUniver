@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.grin.appforuniver.R;
@@ -19,6 +20,7 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import es.dmoral.toasty.Toasty;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -29,7 +31,7 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.activity_login_password_et)
     TextInputLayout passwordTIL;
 
-    Boolean ifFirstLoad = true;
+    private Boolean mIfFirstLoad = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +46,7 @@ public class LoginActivity extends AppCompatActivity {
             Window window = this.getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            window.setStatusBarColor(this.getResources().getColor(R.color.colorWhiteStatusBar));
-//            window.setStatusBarColor(this.getResources().getColor(R.color.colorWhiteStatusBar));
+            window.setStatusBarColor(this.getResources().getColor(R.color.colorWhite));
         }
     }
 
@@ -96,7 +97,13 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        logIn();
+
+        if(!mIfFirstLoad) {
+            logIn();
+        }
+
+        mIfFirstLoad = false;
 
     }
+
 }

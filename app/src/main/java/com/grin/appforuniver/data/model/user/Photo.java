@@ -21,20 +21,20 @@ class Photo {
     @SerializedName("photo")
     private byte[] mPhoto;
 
-    public Integer getmId() {
+    public Integer getId() {
         return mId;
     }
 
-    public void setmId(Integer mId) {
-        this.mId = mId;
+    public void setId(Integer id) {
+        this.mId = id;
     }
 
-    public byte[] getmPhoto() {
+    public byte[] getPhoto() {
         return mPhoto;
     }
 
-    public void setmPhoto(byte[] mPhoto) {
-        this.mPhoto = mPhoto;
+    public void setPhoto(byte[] photo) {
+        this.mPhoto = photo;
     }
 
     @Override

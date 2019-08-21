@@ -1,10 +1,13 @@
 package com.grin.appforuniver.activity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,15 +17,13 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.snackbar.Snackbar;
 import com.grin.appforuniver.R;
 import com.grin.appforuniver.data.model.user.User;
 import com.grin.appforuniver.data.utils.PreferenceUtils;
 import com.grin.appforuniver.fragments.AdminFragment;
+import com.grin.appforuniver.fragments.PersonalAreaFragment;
 
-import butterknife.BindView;
 import es.dmoral.toasty.Toasty;
 
 public class NavigationDrawer extends AppCompatActivity
@@ -30,10 +31,12 @@ public class NavigationDrawer extends AppCompatActivity
 
     public final String TAG = NavigationDrawer.class.getSimpleName();
 
-    private DrawerLayout drawer;
-    private NavigationView navigationView;
+    public NavigationView getNavigationView() { return mNavigationView; }
 
-    private User user = null;
+    private DrawerLayout mDrawer;
+    private NavigationView mNavigationView;
+
+    private User mUser = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,9 +45,15 @@ public class NavigationDrawer extends AppCompatActivity
 
         navigationDrawer();
 
-        user = PreferenceUtils.getSaveUser(this);
+        mUser = PreferenceUtils.getSaveUser(this);
 
         userInfo();
+
+        if (Build.VERSION.SDK_INT >= 21) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            }
+        }
 
     }
 
@@ -52,25 +61,27 @@ public class NavigationDrawer extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        drawer = findViewById(R.id.drawer_layout);
+        mDrawer = findViewById(R.id.drawer_layout);
 
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        mDrawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        mNavigationView = findViewById(R.id.nav_view);
+        mNavigationView.setNavigationItemSelectedListener(this);
+
+        toolbar.setTitleTextColor(getResources().getColor(android.R.color.black));
     }
 
     private void userInfo() {
-        TextView nvHeaderFirstLastNameTv = navigationView.getHeaderView(0).findViewById(R.id.nv_header_firstName_lastName_tv);
-        nvHeaderFirstLastNameTv.setText(user.getFirstName() + " " + user.getLastName());
+        TextView nvHeaderFirstLastNameTv = mNavigationView.getHeaderView(0).findViewById(R.id.nv_header_firstName_lastName_tv);
+        nvHeaderFirstLastNameTv.setText(mUser.getFirstName() + " " + mUser.getLastName());
 
-        TextView nvHeaderUserEmailTv = navigationView.getHeaderView(0).findViewById(R.id.nv_header_user_email_tv);
-        nvHeaderUserEmailTv.setText(user.getEmail());
+        TextView nvHeaderUserEmailTv = mNavigationView.getHeaderView(0).findViewById(R.id.nv_header_user_email_tv);
+        nvHeaderUserEmailTv.setText(mUser.getEmail());
 
         if(PreferenceUtils.getUserRoles(this).contains("ROLE_ADMIN")) {
-            navigationView.getMenu().findItem(R.id.nav_admin).setVisible(true);
+            mNavigationView.getMenu().findItem(R.id.nav_admin).setVisible(true);
             Toasty.normal(this, "admin", Toasty.LENGTH_SHORT).show();
         }
 
@@ -78,8 +89,8 @@ public class NavigationDrawer extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
+        if (mDrawer.isDrawerOpen(GravityCompat.START)) {
+            mDrawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
         }
@@ -104,13 +115,7 @@ public class NavigationDrawer extends AppCompatActivity
             return true;
         }
         if (id == R.id.action_logout) {
-            navigationView.getMenu().findItem(R.id.nav_admin).setVisible(false);
-            PreferenceUtils.saveUsername(null, getApplicationContext());
-            PreferenceUtils.savePassword(null, getApplicationContext());
-            PreferenceUtils.saveUser(null, getApplicationContext());
-            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-            startActivity(intent);
-            finish();
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -140,13 +145,18 @@ public class NavigationDrawer extends AppCompatActivity
 
             case R.id.nav_admin: {
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AdminFragment()).commit();
-                this.setTitle(R.string.admin);
+                break;
+            }
+
+            case R.id.nav_personal_area: {
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new PersonalAreaFragment()).commit();
                 break;
             }
 
         }
 
-        drawer.closeDrawer(GravityCompat.START);
+        mDrawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
 }

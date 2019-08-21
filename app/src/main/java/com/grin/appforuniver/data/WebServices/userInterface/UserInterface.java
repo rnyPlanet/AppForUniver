@@ -11,5 +11,4 @@ public interface UserInterface {
     @GET("users/me")
     Call<User> getMe(@Header("Authorization") String token);
 
-
 }

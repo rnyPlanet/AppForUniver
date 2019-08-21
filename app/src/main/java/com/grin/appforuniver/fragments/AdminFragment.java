@@ -15,31 +15,32 @@ import android.widget.Button;
 import com.grin.appforuniver.R;
 
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import butterknife.Unbinder;
 
 public class AdminFragment extends Fragment {
 
     public final String TAG = AdminFragment.class.getSimpleName();
 
-    private View view;
+    private View mView;
 
-    private Unbinder unbinder;
+    private Unbinder mUnbinder;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_admin, container, false);
+        mView = inflater.inflate(R.layout.fragment_admin, container, false);
 
-        unbinder = ButterKnife.bind(this, view);
+        getActivity().setTitle(R.string.admin);
 
-        return view;
+        mUnbinder = ButterKnife.bind(this, mView);
+
+        return mView;
     }
 
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        unbinder.unbind();
+        mUnbinder.unbind();
     }
 
 }

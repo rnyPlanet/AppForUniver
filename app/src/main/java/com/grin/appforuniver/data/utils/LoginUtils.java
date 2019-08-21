@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.grin.appforuniver.R;
+import com.grin.appforuniver.activity.LaunchActivity;
 import com.grin.appforuniver.activity.LoginActivity;
 import com.grin.appforuniver.activity.NavigationDrawer;
 import com.grin.appforuniver.data.WebServices.ServiceGenerator;
@@ -63,6 +64,7 @@ public class LoginUtils {
                             PreferenceUtils.saveUsername(username, context);
                             PreferenceUtils.savePassword(password, context);
                         }
+
                         getMe(context);
                     }
                 } else {
@@ -72,15 +74,16 @@ public class LoginUtils {
 
             @Override
             public void onFailure(@NonNull Call<Map<Object, Object>> call, @NonNull Throwable t) {
-                if(Objects.equals(t.getMessage(), "Failed to connect to /194.9.70.244:8075")) {
+                if( t.getMessage().contains("Failed to connect to /194.9.70.244:8075") ) {
                     if(activity instanceof LoginActivity) {
                         activity.findViewById(R.id.network_error_view).setVisibility(View.VISIBLE);
                         activity.findViewById(R.id.activity_login_ll).setVisibility(View.GONE);
                         activity.findViewById(R.id.activity_login_login_btn).setVisibility(View.GONE);
                         activity.findViewById(R.id.activity_login_sign_in_btn).setVisibility(View.GONE);
+                    } else if ( activity instanceof LaunchActivity ) {
+                        activity.findViewById(R.id.network_error_view).setVisibility(View.VISIBLE);
+                        activity.findViewById(R.id.activity_launch_tv).setVisibility(View.VISIBLE);
                     }
-                } else {
-                    Toasty.warning(context, "Check username and password OR your acc NOT ACTIVE!", Toasty.LENGTH_SHORT).show();
                 }
             }
         });

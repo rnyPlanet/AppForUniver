@@ -40,52 +40,52 @@ class Department {
         this.mTelefon = telefon;
     }
 
-    public Integer getmId() {
+    public Integer getId() {
         return mId;
     }
 
-    public void setmId(Integer mId) {
-        this.mId = mId;
+    public void setId(Integer id) {
+        this.mId = id;
     }
 
-    public Integer getmPkeyTypeDepartment() {
+    public Integer getPkeyTypeDepartment() {
         return mPkeyTypeDepartment;
     }
 
-    public void setmPkeyTypeDepartment(Integer mPkeyTypeDepartment) {
-        this.mPkeyTypeDepartment = mPkeyTypeDepartment;
+    public void setPkeyTypeDepartment(Integer pkeyTypeDepartment) {
+        this.mPkeyTypeDepartment = pkeyTypeDepartment;
     }
 
-    public Integer getmPkeyBoss() {
+    public Integer getPkeyBoss() {
         return mPkeyBoss;
     }
 
-    public void setmPkeyBoss(Integer mPkeyBoss) {
-        this.mPkeyBoss = mPkeyBoss;
+    public void setPkeyBoss(Integer pkeyBoss) {
+        this.mPkeyBoss = pkeyBoss;
     }
 
-    public String getmName() {
+    public String getName() {
         return mName;
     }
 
-    public void setmName(String mName) {
-        this.mName = mName;
+    public void setName(String name) {
+        this.mName = name;
     }
 
-    public String getmEmeil() {
+    public String getEmeil() {
         return mEmeil;
     }
 
-    public void setmEmeil(String mEmeil) {
-        this.mEmeil = mEmeil;
+    public void setEmeil(String emeil) {
+        this.mEmeil = emeil;
     }
 
-    public String getmTelefon() {
+    public String getTelefon() {
         return mTelefon;
     }
 
-    public void setmTelefon(String mTelefon) {
-        this.mTelefon = mTelefon;
+    public void setTelefon(String telefon) {
+        this.mTelefon = telefon;
     }
 
     @Override
