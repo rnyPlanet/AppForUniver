@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 
 @Data
-class Posada {
+public class Posada {
 
     /*
     sprPosada": {

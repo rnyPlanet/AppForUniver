@@ -106,14 +106,14 @@ public class PersonalAreaFragment extends Fragment {
 
                         if(mUser.getDepartment() != null ) {
                             department_ll.setVisibility(View.VISIBLE);
-                            //department_tv.setText(mUser.getDepartment());
+                            department_tv.setText(mUser.getDepartment().getName());
                         } else {
                             department_ll.setVisibility(View.GONE);
                         }
 
                         if(mUser.getPosada() != null ) {
                             posada_ll.setVisibility(View.VISIBLE);
-                            //posada_tv.setText(mUser.getPosada());
+                            posada_tv.setText(mUser.getPosada().getPostVykl());
                         } else {
                             posada_ll.setVisibility(View.GONE);
                         }

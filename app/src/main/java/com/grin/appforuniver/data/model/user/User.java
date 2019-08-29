@@ -176,21 +176,13 @@ public class User {
         this.mStatus = status;
     }
 
-    public Department getDepartment() {
-        return mDepartment;
-    }
+    public Department getDepartment() { return mDepartment; }
 
-    public void setDepartment(Department department) {
-        this.mDepartment = department;
-    }
+    public void setDepartment(Department department) { this.mDepartment = department; }
 
-    public Photo getPhoto() {
-        return mPhoto;
-    }
+    public Photo getPhoto() { return mPhoto; }
 
-    public void setPhoto(Photo photo) {
-        this.mPhoto = photo;
-    }
+    public void setPhoto(Photo photo) { this.mPhoto = photo; }
 
     public Posada getPosada() {
         return mPosada;
