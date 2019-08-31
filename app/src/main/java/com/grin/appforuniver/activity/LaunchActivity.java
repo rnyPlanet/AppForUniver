@@ -80,6 +80,7 @@ public class LaunchActivity extends AppCompatActivity {
                 finish();
             }
         } else {
+            findViewById(R.id.activity_launch_tv).setVisibility(View.VISIBLE);
             findViewById(R.id.network_error_view).setVisibility(View.VISIBLE);
         }
 

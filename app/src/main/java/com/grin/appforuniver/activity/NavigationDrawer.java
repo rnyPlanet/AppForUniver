@@ -1,10 +1,13 @@
 package com.grin.appforuniver.activity;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -19,6 +22,8 @@ import com.grin.appforuniver.R;
 import com.grin.appforuniver.data.model.user.User;
 import com.grin.appforuniver.data.utils.PreferenceUtils;
 import com.grin.appforuniver.fragments.AdminFragment;
+import com.grin.appforuniver.fragments.ConsultationFragment;
+import com.grin.appforuniver.fragments.HomeFragment;
 import com.grin.appforuniver.fragments.PersonalAreaFragment;
 import com.grin.appforuniver.fragments.ScheduleFragment;
 
@@ -29,9 +34,7 @@ public class NavigationDrawer extends AppCompatActivity
 
     public final String TAG = NavigationDrawer.class.getSimpleName();
 
-    public NavigationView getNavigationView() {
-        return mNavigationView;
-    }
+    public NavigationView getNavigationView() { return mNavigationView; }
 
     private DrawerLayout mDrawer;
     private NavigationView mNavigationView;
@@ -47,12 +50,26 @@ public class NavigationDrawer extends AppCompatActivity
 
         mUser = PreferenceUtils.getSaveUser(this);
 
+        if(savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
+            mNavigationView.setCheckedItem(R.id.nav_home);
+        }
+
         userInfo();
 
         if (Build.VERSION.SDK_INT >= 21) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
             }
+        }
+
+        if(PreferenceUtils.getUserRoles(this).contains("ROLE_ADMIN")) {
+            mNavigationView.getMenu().findItem(R.id.nav_admin).setVisible(true);
+            Toasty.normal(this, "admin", Toasty.LENGTH_SHORT).show();
+        }
+        if(PreferenceUtils.getUserRoles(this).contains("ROLE_TEACHER")) {
+            mNavigationView.getMenu().findItem(R.id.nav_admin).setVisible(true);
+            Toasty.normal(this, "ROLE_TEACHER", Toasty.LENGTH_SHORT).show();
         }
 
     }
@@ -80,7 +97,7 @@ public class NavigationDrawer extends AppCompatActivity
         TextView nvHeaderUserEmailTv = mNavigationView.getHeaderView(0).findViewById(R.id.nv_header_user_email_tv);
         nvHeaderUserEmailTv.setText(mUser.getEmail());
 
-        if (PreferenceUtils.getUserRoles(this).contains("ROLE_ADMIN")) {
+        if(PreferenceUtils.getUserRoles(this).contains("ROLE_ADMIN")) {
             mNavigationView.getMenu().findItem(R.id.nav_admin).setVisible(true);
             Toasty.normal(this, "admin", Toasty.LENGTH_SHORT).show();
         }
@@ -135,31 +152,18 @@ public class NavigationDrawer extends AppCompatActivity
                 break;
             }
 
-            case R.id.nav_gallery: {
-                break;
-            }
-
-            case R.id.nav_share: {
-                break;
-            }
-
-            case R.id.nav_send: {
+            case R.id.nav_consultation: {
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ConsultationFragment()).commit();
                 break;
             }
 
             case R.id.nav_admin: {
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.fragment_container, new AdminFragment())
-                        .commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AdminFragment()).commit();
                 break;
             }
 
             case R.id.nav_personal_area: {
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.fragment_container, new PersonalAreaFragment())
-                        .commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new PersonalAreaFragment()).commit();
                 break;
             }
 

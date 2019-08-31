@@ -1,25 +1,23 @@
 package com.grin.appforuniver.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-
-import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 
 import com.grin.appforuniver.R;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class AdminFragment extends Fragment {
+public class HomeFragment extends Fragment {
 
-    public final String TAG = AdminFragment.class.getSimpleName();
+    public final String TAG = HomeFragment.class.getSimpleName();
 
     private View mView;
 
@@ -27,9 +25,14 @@ public class AdminFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.fragment_admin, container, false);
+        mView = inflater.inflate(R.layout.fragment_home, container, false);
 
-        getActivity().setTitle(R.string.menu_admin);
+        getActivity().setTitle(R.string.mainPageOfUniversity);
+
+        WebView webView = mView.findViewById(R.id.fragment_home_wv);
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.setWebViewClient(new WebViewClient());
+        webView.loadUrl("https://chmnu.edu.ua/");
 
         mUnbinder = ButterKnife.bind(this, mView);
 

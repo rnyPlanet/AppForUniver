@@ -44,7 +44,7 @@ public class ScheduleFragment extends Fragment {
                 mView.findViewById(R.id.pair3), mView.findViewById(R.id.pair4),
                 mView.findViewById(R.id.pair5), mView.findViewById(R.id.pair6)
         };
-        getActivity().setTitle(R.string.schedule);
+        getActivity().setTitle(R.string.menu_schedule);
         getSchedule(mView.getContext(), inflater);
         return mView;
     }

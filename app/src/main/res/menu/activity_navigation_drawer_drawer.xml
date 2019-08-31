@@ -5,28 +5,21 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_schedule"
-            android:icon="@drawable/ic_menu_camera"
+            android:id="@+id/nav_home"
             android:title="@string/menu_home" />
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="@string/menu_gallery" />
-    </group>
-
-    <group android:checkableBehavior="single">
+            android:id="@+id/nav_schedule"
+            android:title="@string/menu_schedule" />
         <item
-            android:id="@+id/nav_share"
-            android:title="@string/menu_share" />
-        <item
-            android:id="@+id/nav_send"
-            android:title="@string/menu_send" />
+            android:id="@+id/nav_consultation"
+            android:title="@string/menu_consultation">
+        </item>
     </group>
 
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_admin"
-            android:title="@string/admin"
+            android:title="@string/menu_admin"
             android:visible="false">
         </item>
     </group>
@@ -34,7 +27,7 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_personal_area"
-            android:title="@string/personal_area">
+            android:title="@string/menu_personal_area">
         </item>
     </group>
 

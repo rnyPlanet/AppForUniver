@@ -68,7 +68,7 @@ public class PersonalAreaFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_personal_area, container, false);
 
-        getActivity().setTitle(R.string.personal_area);
+        getActivity().setTitle(R.string.menu_personal_area);
 
         mUnbinder = ButterKnife.bind(this, mView);
 
