@@ -1,13 +1,10 @@
 package com.grin.appforuniver.activity;
 
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -23,6 +20,7 @@ import com.grin.appforuniver.data.model.user.User;
 import com.grin.appforuniver.data.utils.PreferenceUtils;
 import com.grin.appforuniver.fragments.AdminFragment;
 import com.grin.appforuniver.fragments.PersonalAreaFragment;
+import com.grin.appforuniver.fragments.ScheduleFragment;
 
 import es.dmoral.toasty.Toasty;
 
@@ -31,7 +29,9 @@ public class NavigationDrawer extends AppCompatActivity
 
     public final String TAG = NavigationDrawer.class.getSimpleName();
 
-    public NavigationView getNavigationView() { return mNavigationView; }
+    public NavigationView getNavigationView() {
+        return mNavigationView;
+    }
 
     private DrawerLayout mDrawer;
     private NavigationView mNavigationView;
@@ -80,7 +80,7 @@ public class NavigationDrawer extends AppCompatActivity
         TextView nvHeaderUserEmailTv = mNavigationView.getHeaderView(0).findViewById(R.id.nv_header_user_email_tv);
         nvHeaderUserEmailTv.setText(mUser.getEmail());
 
-        if(PreferenceUtils.getUserRoles(this).contains("ROLE_ADMIN")) {
+        if (PreferenceUtils.getUserRoles(this).contains("ROLE_ADMIN")) {
             mNavigationView.getMenu().findItem(R.id.nav_admin).setVisible(true);
             Toasty.normal(this, "admin", Toasty.LENGTH_SHORT).show();
         }
@@ -127,7 +127,11 @@ public class NavigationDrawer extends AppCompatActivity
 
         switch (item.getItemId()) {
 
-            case R.id.nav_home: {
+            case R.id.nav_schedule: {
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new ScheduleFragment())
+                        .commit();
                 break;
             }
 
@@ -144,12 +148,18 @@ public class NavigationDrawer extends AppCompatActivity
             }
 
             case R.id.nav_admin: {
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AdminFragment()).commit();
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new AdminFragment())
+                        .commit();
                 break;
             }
 
             case R.id.nav_personal_area: {
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new PersonalAreaFragment()).commit();
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new PersonalAreaFragment())
+                        .commit();
                 break;
             }
 

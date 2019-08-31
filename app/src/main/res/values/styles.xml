@@ -32,4 +32,13 @@
         <item name="color">@android:color/black</item>
     </style>
 
+    <style name="TextViewPair">
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/text_pair_subject</item>
+    </style>
+
+    <style name="PairContainer">
+        <item name="android:background">@drawable/border</item>
+    </style>
+
 </resources>

@@ -30,5 +30,6 @@
     <string name="try_to_login_with_192_168_0_1">Try to login with 192.168.0.1</string>
     <string name="_192_168_0_1">192.168.0.1</string>
     <string name="personal_area">Личный кабинет</string>
+    <string name="schedule">Расписание</string>
 
 </resources>
