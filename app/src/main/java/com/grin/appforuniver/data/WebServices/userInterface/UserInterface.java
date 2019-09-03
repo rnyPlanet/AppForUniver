@@ -14,7 +14,22 @@ public interface UserInterface {
     @GET("users/me")
     Call<User> getMe(@Header("Authorization") String token);
 
+    @GET("users/classes/criteria?place=MONDAY")
+    Call<List<Classes>> getScheduleMonday(@Header("Authorization") String token);
+
+    @GET("users/classes/criteria?place=TUESDAY")
+    Call<List<Classes>> getScheduleTuesday(@Header("Authorization") String token);
+
+    @GET("users/classes/criteria?place=WEDNESDAY")
+    Call<List<Classes>> getScheduleWednesday(@Header("Authorization") String token);
+
+    @GET("users/classes/criteria?place=THURSDAY")
+    Call<List<Classes>> getScheduleThursday(@Header("Authorization") String token);
+
+    @GET("users/classes/criteria?place=FRIDAY")
+    Call<List<Classes>> getScheduleFriday(@Header("Authorization") String token);
+
     @GET("users/classes/all")
-    Call<List<Classes>> getSchedule(@Header("Authorization") String token);
+    Call<List<Classes>> getScheduleAll(@Header("Authorization") String token);
 
 }

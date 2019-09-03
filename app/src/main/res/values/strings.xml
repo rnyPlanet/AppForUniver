@@ -30,6 +30,13 @@
     <string name="try_to_login_with_192_168_0_1">Try to login with 192.168.0.1</string>
     <string name="_192_168_0_1">192.168.0.1</string>
     <string name="mainPageOfUniversity">Главная</string>
+    <string name="monday">Monday</string>
+    <string name="tuesday">Tuesday</string>
+    <string name="wednesday">Wednesday</string>
+    <string name="thursday">Thursday</string>
+    <string name="friday">Friday</string>
+    <string name="saturday">Saturday</string>
+    <string name="weekend">Weekend</string>
 
 
 </resources>

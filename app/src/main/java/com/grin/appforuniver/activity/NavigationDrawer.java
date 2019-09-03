@@ -1,13 +1,10 @@
 package com.grin.appforuniver.activity;
 
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -34,7 +31,9 @@ public class NavigationDrawer extends AppCompatActivity
 
     public final String TAG = NavigationDrawer.class.getSimpleName();
 
-    public NavigationView getNavigationView() { return mNavigationView; }
+    public NavigationView getNavigationView() {
+        return mNavigationView;
+    }
 
     private DrawerLayout mDrawer;
     private NavigationView mNavigationView;
@@ -50,7 +49,7 @@ public class NavigationDrawer extends AppCompatActivity
 
         mUser = PreferenceUtils.getSaveUser(this);
 
-        if(savedInstanceState == null) {
+        if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
             mNavigationView.setCheckedItem(R.id.nav_home);
         }
@@ -63,11 +62,11 @@ public class NavigationDrawer extends AppCompatActivity
             }
         }
 
-        if(PreferenceUtils.getUserRoles(this).contains("ROLE_ADMIN")) {
+        if (PreferenceUtils.getUserRoles(this).contains("ROLE_ADMIN")) {
             mNavigationView.getMenu().findItem(R.id.nav_admin).setVisible(true);
             Toasty.normal(this, "admin", Toasty.LENGTH_SHORT).show();
         }
-        if(PreferenceUtils.getUserRoles(this).contains("ROLE_TEACHER")) {
+        if (PreferenceUtils.getUserRoles(this).contains("ROLE_TEACHER")) {
             mNavigationView.getMenu().findItem(R.id.nav_admin).setVisible(true);
             Toasty.normal(this, "ROLE_TEACHER", Toasty.LENGTH_SHORT).show();
         }
@@ -97,7 +96,7 @@ public class NavigationDrawer extends AppCompatActivity
         TextView nvHeaderUserEmailTv = mNavigationView.getHeaderView(0).findViewById(R.id.nv_header_user_email_tv);
         nvHeaderUserEmailTv.setText(mUser.getEmail());
 
-        if(PreferenceUtils.getUserRoles(this).contains("ROLE_ADMIN")) {
+        if (PreferenceUtils.getUserRoles(this).contains("ROLE_ADMIN")) {
             mNavigationView.getMenu().findItem(R.id.nav_admin).setVisible(true);
             Toasty.normal(this, "admin", Toasty.LENGTH_SHORT).show();
         }
@@ -113,59 +112,73 @@ public class NavigationDrawer extends AppCompatActivity
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.navigation_drawer, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        if (id == R.id.action_logout) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        // Inflate the menu; this adds items to the action bar if it is present.
+//        getMenuInflater().inflate(R.menu.navigation_drawer, menu);
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+//        // Handle action bar item clicks here. The action bar will
+//        // automatically handle clicks on the Home/Up button, so long
+//        // as you specify a parent activity in AndroidManifest.xml.
+//        int id = item.getItemId();
+//
+//        //noinspection SimplifiableIfStatement
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
+//        if (id == R.id.action_logout) {
+//            return true;
+//        }
+//
+//        return super.onOptionsItemSelected(item);
+//    }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
 
         switch (item.getItemId()) {
-
-            case R.id.nav_schedule: {
+            case R.id.nav_home:
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new HomeFragment())
+                        .commit();
+                break;
+            case R.id.nav_schedule:
                 getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.fragment_container, new ScheduleFragment())
                         .commit();
                 break;
-            }
 
-            case R.id.nav_consultation: {
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ConsultationFragment()).commit();
-                break;
-            }
 
-            case R.id.nav_admin: {
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AdminFragment()).commit();
+            case R.id.nav_consultation:
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new ConsultationFragment())
+                        .commit();
                 break;
-            }
 
-            case R.id.nav_personal_area: {
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new PersonalAreaFragment()).commit();
+
+            case R.id.nav_admin:
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new AdminFragment())
+                        .commit();
                 break;
-            }
+
+
+            case R.id.nav_personal_area:
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new PersonalAreaFragment())
+                        .commit();
+                break;
+
 
         }
 
