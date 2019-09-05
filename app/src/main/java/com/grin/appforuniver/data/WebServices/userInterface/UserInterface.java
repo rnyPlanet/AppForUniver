@@ -1,5 +1,6 @@
 package com.grin.appforuniver.data.WebServices.userInterface;
 
+import com.grin.appforuniver.data.model.consultation.Сonsultation;
 import com.grin.appforuniver.data.model.schedule.Classes;
 import com.grin.appforuniver.data.model.user.User;
 
@@ -31,5 +32,8 @@ public interface UserInterface {
 
     @GET("users/classes/all")
     Call<List<Classes>> getScheduleAll(@Header("Authorization") String token);
+
+    @GET("users/consultation/all")
+    Call<List<Сonsultation>> getcConsultation(@Header("Authorization") String token);
 
 }

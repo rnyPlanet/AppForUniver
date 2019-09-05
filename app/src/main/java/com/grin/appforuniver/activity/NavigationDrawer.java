@@ -64,7 +64,6 @@ public class NavigationDrawer extends AppCompatActivity
 
         if (PreferenceUtils.getUserRoles(this).contains("ROLE_ADMIN")) {
             mNavigationView.getMenu().findItem(R.id.nav_admin).setVisible(true);
-            Toasty.normal(this, "admin", Toasty.LENGTH_SHORT).show();
         }
         if (PreferenceUtils.getUserRoles(this).contains("ROLE_TEACHER")) {
             mNavigationView.getMenu().findItem(R.id.nav_admin).setVisible(true);
@@ -95,11 +94,6 @@ public class NavigationDrawer extends AppCompatActivity
 
         TextView nvHeaderUserEmailTv = mNavigationView.getHeaderView(0).findViewById(R.id.nv_header_user_email_tv);
         nvHeaderUserEmailTv.setText(mUser.getEmail());
-
-        if (PreferenceUtils.getUserRoles(this).contains("ROLE_ADMIN")) {
-            mNavigationView.getMenu().findItem(R.id.nav_admin).setVisible(true);
-            Toasty.normal(this, "admin", Toasty.LENGTH_SHORT).show();
-        }
 
     }
 
