@@ -123,20 +123,9 @@ public class ScheduleDayFragment extends Fragment {
                         secondSubgroup_secondWeek = true;
                         secondSubgroup_secondWeekStr = classes.getSubject();
                     }
-                    Log.d(TAG, "----");
-                    Log.d(TAG, "bothSubgroup_firstWeek: " + bothSubgroup_firstWeek);
-                    Log.d(TAG, "bothSubgroup_secondWeek: " + bothSubgroup_secondWeek);
-                    Log.d(TAG, "bothSubgroup_bothWeek: " + bothSubgroup_bothWeek);
-                    Log.d(TAG, "firstSubgroup_firstWeek: " + firstSubgroup_firstWeek);
-                    Log.d(TAG, "firstSubgroup_secondWeek: " + firstSubgroup_secondWeek);
-                    Log.d(TAG, "firstSubgroup_bothWeek: " + firstSubgroup_bothWeek);
-                    Log.d(TAG, "secondSubgroup_firstWeek: " + secondSubgroup_firstWeek);
-                    Log.d(TAG, "secondSubgroup_secondWeek: " + secondSubgroup_secondWeek);
-                    Log.d(TAG, "secondSubgroup_bothWeek: " + secondSubgroup_bothWeek);
-                    Log.d(TAG, "Data: " + classes.toString());
+                    logcatStateBooleanVariables(classes, indexDay);
                 }
             }
-            Log.d(TAG, "setDataInLayout: place " + place.toString() + " indexDay " + indexDay);
             int layoutId = getLayoutId();
             if (layoutId == R.layout.schedule_single_type_9) {
                 inflater.inflate(R.layout.schedule_single_type_9, mContainerClasses[indexDay]);
@@ -290,5 +279,19 @@ public class ScheduleDayFragment extends Fragment {
         }
         Log.d(TAG, "EXIT LAYOUT FAIL\t 22");
         return R.layout.schedule_single_type_9;
+    }
+
+    private void logcatStateBooleanVariables(Classes classes, int indexDay) {
+        Log.d(TAG, "STATE BOOLEAN VARIABLES place: " + place.toString() + " indexDay: " + indexDay);
+        Log.d(TAG, "bothS_firstW: \t" + bothSubgroup_firstWeek
+                + "\tbothS_secondW: \t" + bothSubgroup_secondWeek
+                + "\tbothS_bothW: \t" + bothSubgroup_bothWeek);
+        Log.d(TAG, "firstS_firstW: " + firstSubgroup_firstWeek
+                + "\tfirstS_secondW: \t" + firstSubgroup_secondWeek
+                + "\tfirstS_bothW: \t" + firstSubgroup_bothWeek);
+        Log.d(TAG, "secondS_firstW: " + secondSubgroup_firstWeek
+                + "\tsecondS_secondW: \t" + secondSubgroup_secondWeek
+                + "\tsecondS_bothW: \t" + secondSubgroup_bothWeek);
+        Log.d(TAG, "Data: " + classes.toString());
     }
 }
