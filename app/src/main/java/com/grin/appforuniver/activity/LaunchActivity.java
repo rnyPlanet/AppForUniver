@@ -1,26 +1,19 @@
 package com.grin.appforuniver.activity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
-import android.net.Network;
-import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.grin.appforuniver.R;
+import com.grin.appforuniver.data.WebServices.AuthInterface;
 import com.grin.appforuniver.data.WebServices.ServiceGenerator;
-import com.grin.appforuniver.data.WebServices.authInterface.AuthInterface;
-import com.grin.appforuniver.data.WebServices.userInterface.UserInterface;
+import com.grin.appforuniver.data.WebServices.UserInterface;
 import com.grin.appforuniver.data.model.dto.AuthenticationRequestDto;
 import com.grin.appforuniver.data.model.user.User;
 import com.grin.appforuniver.data.utils.PreferenceUtils;
@@ -28,7 +21,6 @@ import com.grin.appforuniver.data.utils.PreferenceUtils;
 import java.util.Map;
 import java.util.Objects;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import es.dmoral.toasty.Toasty;
 import retrofit2.Call;

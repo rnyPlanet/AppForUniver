@@ -1,4 +1,4 @@
-package com.grin.appforuniver.data.WebServices.consultation;
+package com.grin.appforuniver.data.WebServices;
 
 
 import java.util.List;

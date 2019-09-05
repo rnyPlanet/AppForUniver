@@ -1,4 +1,4 @@
-package com.grin.appforuniver.data.WebServices.authInterface;
+package com.grin.appforuniver.data.WebServices;
 
 import com.grin.appforuniver.data.model.dto.AuthenticationRequestDto;
 

@@ -1,9 +1,5 @@
 package com.grin.appforuniver.activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -14,11 +10,14 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.textfield.TextInputLayout;
 import com.grin.appforuniver.R;
+import com.grin.appforuniver.data.WebServices.AuthInterface;
 import com.grin.appforuniver.data.WebServices.ServiceGenerator;
-import com.grin.appforuniver.data.WebServices.authInterface.AuthInterface;
-import com.grin.appforuniver.data.WebServices.userInterface.UserInterface;
+import com.grin.appforuniver.data.WebServices.UserInterface;
 import com.grin.appforuniver.data.model.dto.AuthenticationRequestDto;
 import com.grin.appforuniver.data.model.user.User;
 import com.grin.appforuniver.data.utils.Constants;
@@ -61,6 +60,12 @@ public class LoginActivity extends AppCompatActivity {
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             window.setStatusBarColor(this.getResources().getColor(R.color.colorWhite));
         }
+
+        if(savedInstanceState != null) {
+            usernameTIL.getEditText().setText(savedInstanceState.getString(Constants.USERNAME_KEY));
+            passwordTIL.getEditText().setText(savedInstanceState.getString(Constants.PASSWORD_KEY));
+        }
+
     }
 
     private boolean validateLoginInput() {
@@ -129,7 +134,7 @@ public class LoginActivity extends AppCompatActivity {
         Call<Map<Object, Object>> call = authInterface.loginUser(authenticationRequestDto);
 
         findViewById(R.id.network_error_view).setVisibility(View.GONE);
-        findViewById(R.id.activity_login_ll).setVisibility(View.VISIBLE);
+//        findViewById(R.id.activity_login_ll).setVisibility(View.VISIBLE);
         findViewById(R.id.activity_login_login_btn).setVisibility(View.VISIBLE);
         findViewById(R.id.activity_login_sign_in_btn).setVisibility(View.VISIBLE);
 
@@ -161,7 +166,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onFailure(@NonNull Call<Map<Object, Object>> call, @NonNull Throwable t) {
                 if (t.getMessage().contains("Failed to connect to /194.9.70.244:8075")) {
                     findViewById(R.id.network_error_view).setVisibility(View.VISIBLE);
-                    findViewById(R.id.activity_login_ll).setVisibility(View.GONE);
+//                    findViewById(R.id.activity_login_ll).setVisibility(View.GONE);
                     findViewById(R.id.activity_login_login_btn).setVisibility(View.GONE);
                     findViewById(R.id.activity_login_sign_in_btn).setVisibility(View.GONE);
                 }

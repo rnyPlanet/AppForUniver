@@ -10,12 +10,11 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import com.grin.appforuniver.R;
+import com.grin.appforuniver.data.WebServices.ScheduleInterface;
 import com.grin.appforuniver.data.WebServices.ServiceGenerator;
-import com.grin.appforuniver.data.WebServices.userInterface.UserInterface;
 import com.grin.appforuniver.data.model.schedule.Classes;
 import com.grin.appforuniver.data.utils.PreferenceUtils;
 import com.grin.appforuniver.fragments.schedule.ScheduleDayFragment;
@@ -44,153 +43,44 @@ public class ScheduleFragment extends Fragment {
 
     private void getSchedule(Context context, LayoutInflater inflater) {
 
-        UserInterface userInterface = ServiceGenerator.createService(UserInterface.class);
-
-//        Call<List<Classes>> callAll = userInterface.getScheduleAll(PreferenceUtils.getUserToken((context)));
-        Call<List<Classes>> callMonday = userInterface.getScheduleMonday(PreferenceUtils.getUserToken((context)));
-        Call<List<Classes>> callTuesday = userInterface.getScheduleTuesday(PreferenceUtils.getUserToken((context)));
-        Call<List<Classes>> callWednesday = userInterface.getScheduleWednesday(PreferenceUtils.getUserToken((context)));
-        Call<List<Classes>> callThursday = userInterface.getScheduleThursday(PreferenceUtils.getUserToken((context)));
-        Call<List<Classes>> callFriday = userInterface.getScheduleFriday(PreferenceUtils.getUserToken((context)));
-//        Call<List<Classes>> callSaturday = userInterface.getScheduleSaturday(PreferenceUtils.getUserToken((context)));
-
-//        callAll.enqueue(new Callback<List<Classes>>() {
-//            @Override
-//            public void onResponse(Call<List<Classes>> call, Response<List<Classes>> response) {
-//                if (response.isSuccessful())
-//                    if (response.body() != null) {
-//                        List<Classes> classesAll = new ArrayList<>();
-//                        classesAll.addAll(response.body());
-//                        logcatListClasses(classesAll);
-//                    }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<List<Classes>> call, Throwable t) {
-//
-//            }
-//        });
-        callMonday.enqueue(new Callback<List<Classes>>() {
-            Classes.Place place = Classes.Place.MONDAY;
-
-            @Override
-            public void onResponse(Call<List<Classes>> call, Response<List<Classes>> response) {
-                if (response.isSuccessful())
-                    if (response.body() != null) {
-                        List<Classes> classes = new ArrayList<>(response.body());
-                        logcatListClasses(classes, place);
-                        getChildFragmentManager()
-                                .beginTransaction()
-                                .replace(R.id.containerMonday, new ScheduleDayFragment(place, classes))
-                                .commit();
-                    }
-            }
-
-            @Override
-            public void onFailure(Call<List<Classes>> call, Throwable t) {
-                logcatFailureGetClasses(place, context, t);
-            }
-        });
-        callTuesday.enqueue(new Callback<List<Classes>>() {
-            Classes.Place place = Classes.Place.TUESDAY;
-
-            @Override
-            public void onResponse(Call<List<Classes>> call, Response<List<Classes>> response) {
-                if (response.isSuccessful())
-                    if (response.body() != null) {
-                        List<Classes> classes = new ArrayList<>(response.body());
-                        logcatListClasses(classes, place);
-                        getChildFragmentManager()
-                                .beginTransaction()
-                                .replace(R.id.containerTuesday, new ScheduleDayFragment(place, classes))
-                                .commit();
-                    }
-            }
-
-            @Override
-            public void onFailure(Call<List<Classes>> call, Throwable t) {
-                logcatFailureGetClasses(place, context, t);
-            }
-        });
-        callWednesday.enqueue(new Callback<List<Classes>>() {
-            Classes.Place place = Classes.Place.WEDNESDAY;
-
-            @Override
-            public void onResponse(Call<List<Classes>> call, Response<List<Classes>> response) {
-                if (response.isSuccessful())
-                    if (response.body() != null) {
-                        List<Classes> classes = new ArrayList<>(response.body());
-                        logcatListClasses(classes, place);
-                        getChildFragmentManager()
-                                .beginTransaction()
-                                .replace(R.id.containerWednesday, new ScheduleDayFragment(place, classes))
-                                .commit();
-                    }
-            }
-
-            @Override
-            public void onFailure(Call<List<Classes>> call, Throwable t) {
-                logcatFailureGetClasses(place, context, t);
-            }
-        });
-        callThursday.enqueue(new Callback<List<Classes>>() {
-            Classes.Place place = Classes.Place.THURSDAY;
-
-            @Override
-            public void onResponse(Call<List<Classes>> call, Response<List<Classes>> response) {
-                if (response.isSuccessful())
-                    if (response.body() != null) {
-                        List<Classes> classes = new ArrayList<>(response.body());
-                        logcatListClasses(classes, place);
-                        getChildFragmentManager()
-                                .beginTransaction()
-                                .replace(R.id.containerThursday, new ScheduleDayFragment(place, classes))
-                                .commit();
-                    }
-            }
-
-            @Override
-            public void onFailure(Call<List<Classes>> call, Throwable t) {
-                logcatFailureGetClasses(place, context, t);
-            }
-        });
-        callFriday.enqueue(new Callback<List<Classes>>() {
-            Classes.Place place = Classes.Place.FRIDAY;
-
-            @Override
-            public void onResponse(Call<List<Classes>> call, Response<List<Classes>> response) {
-                if (response.isSuccessful())
-                    if (response.body() != null) {
-                        List<Classes> classes = new ArrayList<>(response.body());
-                        logcatListClasses(classes, place);
-                        getChildFragmentManager()
-                                .beginTransaction()
-                                .replace(R.id.containerFriday, new ScheduleDayFragment(place, classes))
-                                .commit();
-                    }
-            }
-
-            @Override
-            public void onFailure(Call<List<Classes>> call, Throwable t) {
-                logcatFailureGetClasses(place, context, t);
-            }
-        });
-//        callSaturday.enqueue(new Callback<List<Classes>>() {
-//            @Override
-//            public void onResponse(Call<List<Classes>> call, Response<List<Classes>> response) {
-//
-//            }
-//
-//            @Override
-//            public void onFailure(Call<List<Classes>> call, Throwable t) {
-//
-//            }
-//        });
+        ScheduleInterface scheduleInterface = ServiceGenerator.createService(ScheduleInterface.class);
+        int[] idContainers = new int[]{
+                R.id.containerSaturday,
+                R.id.containerMonday,
+                R.id.containerTuesday,
+                R.id.containerWednesday,
+                R.id.containerThursday,
+                R.id.containerFriday
+        };
+        int counter = 0;
+        for (Classes.Place place : Classes.Place.values()) {
+            Call<List<Classes>> call = scheduleInterface.getSchedulePlace(PreferenceUtils.getUserToken(context), place);
+            int finalCounter = counter;
+            call.enqueue(new Callback<List<Classes>>() {
+                @Override
+                public void onResponse(Call<List<Classes>> call, Response<List<Classes>> response) {
+                    if (response.isSuccessful())
+                        if (response.body() != null) {
+                            List<Classes> classes = new ArrayList<>(response.body());
+                            logcatListClasses(classes, place);
+                            getChildFragmentManager()
+                                    .beginTransaction()
+                                    .replace(idContainers[finalCounter], new ScheduleDayFragment(place, classes))
+                                    .commit();
+                        }
+                }
+                @Override
+                public void onFailure(Call<List<Classes>> call, Throwable t) {
+                    logcatFailureGetClasses(place, context, t);
+                }
+            });
+            counter++;
+        }
     }
 
     private void logcatListClasses(List<Classes> list, Classes.Place place) {
         for (Classes classes : list) {
-//            Log.d(TAG, place.toString() + '\t' + classes.toString());
+            Log.d(TAG, place.toString() + '\t' + classes.toString());
         }
     }
 

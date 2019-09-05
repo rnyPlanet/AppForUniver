@@ -1,11 +1,9 @@
 package com.grin.appforuniver.fragments;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -15,9 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.grin.appforuniver.R;
 import com.grin.appforuniver.data.WebServices.ServiceGenerator;
-import com.grin.appforuniver.data.WebServices.userInterface.UserInterface;
+import com.grin.appforuniver.data.WebServices.UserInterface;
 import com.grin.appforuniver.data.model.consultation.Сonsultation;
-import com.grin.appforuniver.data.model.schedule.Classes;
 import com.grin.appforuniver.data.utils.PreferenceUtils;
 
 import java.util.ArrayList;

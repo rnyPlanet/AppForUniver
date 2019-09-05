@@ -20,7 +20,7 @@ import com.grin.appforuniver.R;
 import com.grin.appforuniver.activity.LoginActivity;
 import com.grin.appforuniver.activity.NavigationDrawer;
 import com.grin.appforuniver.data.WebServices.ServiceGenerator;
-import com.grin.appforuniver.data.WebServices.userInterface.UserInterface;
+import com.grin.appforuniver.data.WebServices.UserInterface;
 import com.grin.appforuniver.data.model.user.User;
 import com.grin.appforuniver.data.utils.PreferenceUtils;
 
