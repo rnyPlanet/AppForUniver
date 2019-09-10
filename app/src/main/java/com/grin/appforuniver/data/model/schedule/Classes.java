@@ -25,7 +25,7 @@ public class Classes {
     private String mType;
 
 
-    public enum Place {POOL, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY;}
+    public enum Place {MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, POOL}
 
     @SerializedName("place")
     private Place mPlace;
@@ -36,7 +36,7 @@ public class Classes {
     @SerializedName("additionalRequirements")
     private String mAdditionalRequirements;
 
-    public enum Week {FIRST, SECOND;}
+    public enum Week {FIRST, SECOND, BOTH}
 
     @SerializedName("week")
     private Week mWeek;
@@ -50,7 +50,7 @@ public class Classes {
     @SerializedName("roomID")
     private Rooms mRoomID;
 
-    public enum Subgroup {FIRST, SECOND, BOTH;}
+    public enum Subgroup {FIRST, SECOND, BOTH}
 
     @SerializedName("subgroup")
     private Subgroup mSubgroup;

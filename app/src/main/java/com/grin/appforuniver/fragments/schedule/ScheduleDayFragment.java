@@ -57,7 +57,6 @@ public class ScheduleDayFragment extends Fragment {
         if (mListClasses.isEmpty()) {
             mView = inflater.inflate(R.layout.schedule_weekend_day, container, false);
         } else {
-            Log.d(TAG, "onCreateView: Start");
             mView = inflater.inflate(R.layout.schedule_container_day, container, false);
             mContainerClasses = new ConstraintLayout[]{
                     mView.findViewById(R.id.containerClasses),
@@ -68,41 +67,23 @@ public class ScheduleDayFragment extends Fragment {
                     mView.findViewById(R.id.containerClasses6)
             };
             setDataInLayout(inflater);
-            Log.d(TAG, "onCreateView: End");
-
         }
         return mView;
     }
 
     private void setDataInLayout(LayoutInflater inflater) {
         for (int indexDay = 0; indexDay < 6; indexDay++) {
-            bothSubgroup_firstWeek = false;
-            bothSubgroup_secondWeek = false;
-            bothSubgroup_bothWeek = false;
             firstSubgroup_firstWeek = false;
             firstSubgroup_secondWeek = false;
             firstSubgroup_bothWeek = false;
             secondSubgroup_firstWeek = false;
             secondSubgroup_secondWeek = false;
             secondSubgroup_bothWeek = false;
+            bothSubgroup_firstWeek = false;
+            bothSubgroup_secondWeek = false;
+            bothSubgroup_bothWeek = false;
             for (Classes classes : mListClasses) {
                 if (classes.getIndexInDay() == indexDay) {
-//                        if (classes.getSubgroup() == Classes.Subgroup.BOTH && classes.getWeek() == Classes.Week.BOTH) {
-//                            bothSubgroup_bothWeek = true;
-//                            bothSubgroup_bothWeek = classes.getSubject();
-//                        }
-                    if (classes.getSubgroup() == Classes.Subgroup.BOTH && classes.getWeek() == Classes.Week.FIRST) {
-                        bothSubgroup_firstWeek = true;
-                        bothSubgroup_firstWeekStr = classes.getSubject();
-                    }
-                    if (classes.getSubgroup() == Classes.Subgroup.BOTH && classes.getWeek() == Classes.Week.SECOND) {
-                        bothSubgroup_secondWeek = true;
-                        bothSubgroup_secondWeekStr = classes.getSubject();
-                    }
-//                        if (classes.getSubgroup() == Classes.Subgroup.FIRST && classes.getWeek() == Classes.Week.BOTH) {
-//                            firstSubgroup_bothWeek = true;
-//                            firstSubgroup_bothWeekStr = classes.getSubject();
-//                        }
                     if (classes.getSubgroup() == Classes.Subgroup.FIRST && classes.getWeek() == Classes.Week.FIRST) {
                         firstSubgroup_firstWeek = true;
                         firstSubgroup_firstWeekStr = classes.getSubject();
@@ -111,10 +92,10 @@ public class ScheduleDayFragment extends Fragment {
                         firstSubgroup_secondWeek = true;
                         firstSubgroup_secondWeekStr = classes.getSubject();
                     }
-//                        if (classes.getSubgroup() == Classes.Subgroup.SECOND && classes.getWeek() == Classes.Week.BOTH) {
-//                            secondSubgroup_bothWeek = true;
-//                            secondSubgroup_bothWeekStr = classes.getSubject();
-//                        }
+                    if (classes.getSubgroup() == Classes.Subgroup.FIRST && classes.getWeek() == Classes.Week.BOTH) {
+                        firstSubgroup_bothWeek = true;
+                        firstSubgroup_bothWeekStr = classes.getSubject();
+                    }
                     if (classes.getSubgroup() == Classes.Subgroup.SECOND && classes.getWeek() == Classes.Week.FIRST) {
                         secondSubgroup_firstWeek = true;
                         secondSubgroup_firstWeekStr = classes.getSubject();
@@ -123,10 +104,27 @@ public class ScheduleDayFragment extends Fragment {
                         secondSubgroup_secondWeek = true;
                         secondSubgroup_secondWeekStr = classes.getSubject();
                     }
+                    if (classes.getSubgroup() == Classes.Subgroup.SECOND && classes.getWeek() == Classes.Week.BOTH) {
+                        secondSubgroup_bothWeek = true;
+                        secondSubgroup_bothWeekStr = classes.getSubject();
+                    }
+                    if (classes.getSubgroup() == Classes.Subgroup.BOTH && classes.getWeek() == Classes.Week.FIRST) {
+                        bothSubgroup_firstWeek = true;
+                        bothSubgroup_firstWeekStr = classes.getSubject();
+                    }
+                    if (classes.getSubgroup() == Classes.Subgroup.BOTH && classes.getWeek() == Classes.Week.SECOND) {
+                        bothSubgroup_secondWeek = true;
+                        bothSubgroup_secondWeekStr = classes.getSubject();
+                    }
+                    if (classes.getSubgroup() == Classes.Subgroup.BOTH && classes.getWeek() == Classes.Week.BOTH) {
+                        bothSubgroup_bothWeek = true;
+                        bothSubgroup_bothWeekStr = classes.getSubject();
+                    }
+
                     logcatStateBooleanVariables(classes, indexDay);
                 }
             }
-            int layoutId = getLayoutId();
+            int layoutId = getLayoutId(indexDay);
             if (layoutId == R.layout.schedule_single_type_9) {
                 inflater.inflate(R.layout.schedule_single_type_9, mContainerClasses[indexDay]);
                 TextView number_pair = mContainerClasses[indexDay].findViewById(R.id.number_pair);
@@ -136,18 +134,6 @@ public class ScheduleDayFragment extends Fragment {
                 TextView number_pair = mContainerClasses[indexDay].findViewById(R.id.number_pair);
                 number_pair.setText(String.valueOf(indexDay + 1));
 
-                if (bothSubgroup_firstWeek) {
-                    TextView bothSubgroup_firstWeek = mContainerClasses[indexDay].findViewById(R.id.both_group_first_week);
-                    bothSubgroup_firstWeek.setText(bothSubgroup_firstWeekStr);
-                }
-                if (bothSubgroup_secondWeek) {
-                    TextView bothSubgroup_secondWeek = mContainerClasses[indexDay].findViewById(R.id.both_group_second_week);
-                    bothSubgroup_secondWeek.setText(bothSubgroup_secondWeekStr);
-                }
-                if (bothSubgroup_bothWeek) {
-                    TextView bothSubgroup_bothWeek = mContainerClasses[indexDay].findViewById(R.id.both_group_both_week);
-                    bothSubgroup_bothWeek.setText(bothSubgroup_bothWeekStr);
-                }
                 if (firstSubgroup_firstWeek) {
                     TextView firstSubgroup_firstWeek = mContainerClasses[indexDay].findViewById(R.id.first_subgroup_first_week);
                     firstSubgroup_firstWeek.setText(firstSubgroup_firstWeekStr);
@@ -172,33 +158,45 @@ public class ScheduleDayFragment extends Fragment {
                     TextView secondSubgroup_bothWeek = mContainerClasses[indexDay].findViewById(R.id.second_subgroup_both_week);
                     secondSubgroup_bothWeek.setText(secondSubgroup_bothWeekStr);
                 }
+                if (bothSubgroup_firstWeek) {
+                    TextView bothSubgroup_firstWeek = mContainerClasses[indexDay].findViewById(R.id.both_subgroup_first_week);
+                    bothSubgroup_firstWeek.setText(bothSubgroup_firstWeekStr);
+                }
+                if (bothSubgroup_secondWeek) {
+                    TextView bothSubgroup_secondWeek = mContainerClasses[indexDay].findViewById(R.id.both_group_second_week);
+                    bothSubgroup_secondWeek.setText(bothSubgroup_secondWeekStr);
+                }
+                if (bothSubgroup_bothWeek) {
+                    TextView bothSubgroup_bothWeek = mContainerClasses[indexDay].findViewById(R.id.both_subgroup_both_week);
+                    bothSubgroup_bothWeek.setText(bothSubgroup_bothWeekStr);
+                }
             }
         }
     }
 
-    private int getLayoutId() {
+    private int getLayoutId(int indexDay) {
         if (bothSubgroup_bothWeek) {
-            Log.d(TAG, "EXIT LAYOUT 1\t 1");
+            logcatGetLayoutId(indexDay, 1, 1);
             return R.layout.schedule_single_type_1;
         }
         // столбец 2*1
         if (firstSubgroup_bothWeek) {
             // layout 2,5
             if (secondSubgroup_bothWeek) {
-                Log.d(TAG, "EXIT LAYOUT 2\t 2");
+                logcatGetLayoutId(indexDay, 2, 2);
                 return R.layout.schedule_single_type_2;
             } else {
-                Log.d(TAG, "EXIT LAYOUT 5\t 3");
+                logcatGetLayoutId(indexDay, 5, 3);
                 return R.layout.schedule_single_type_5;
             }
         }
         if (secondSubgroup_bothWeek) {
             // layout 2,6
             if (firstSubgroup_bothWeek) {
-                Log.d(TAG, "EXIT LAYOUT 2\t 4");
+                logcatGetLayoutId(indexDay, 2, 4);
                 return R.layout.schedule_single_type_2;
             } else {
-                Log.d(TAG, "EXIT LAYOUT 6\t 5");
+                logcatGetLayoutId(indexDay, 6, 5);
                 return R.layout.schedule_single_type_6;
             }
         }
@@ -206,20 +204,20 @@ public class ScheduleDayFragment extends Fragment {
         if (bothSubgroup_firstWeek) {
             // layout 4,7
             if (bothSubgroup_secondWeek) {
-                Log.d(TAG, "EXIT LAYOUT 4\t 6");
+                logcatGetLayoutId(indexDay, 4, 6);
                 return R.layout.schedule_single_type_4;
             } else {
-                Log.d(TAG, "EXIT LAYOUT 7\t 7");
+                logcatGetLayoutId(indexDay, 7, 7);
                 return R.layout.schedule_single_type_7;
             }
         }
         if (bothSubgroup_secondWeek) {
             // layout 4,8
             if (bothSubgroup_firstWeek) {
-                Log.d(TAG, "EXIT LAYOUT 4\t 8");
+                logcatGetLayoutId(indexDay, 4, 8);
                 return R.layout.schedule_single_type_4;
             } else {
-                Log.d(TAG, "EXIT LAYOUT 8\t 9");
+                logcatGetLayoutId(indexDay, 8, 9);
                 return R.layout.schedule_single_type_8;
             }
         }
@@ -227,26 +225,26 @@ public class ScheduleDayFragment extends Fragment {
         if (firstSubgroup_firstWeek) {
             // layout 3,6,8
             if (firstSubgroup_secondWeek || secondSubgroup_bothWeek) {
-                Log.d(TAG, "EXIT LAYOUT 6\t 10");
+                logcatGetLayoutId(indexDay, 6, 10);
                 return R.layout.schedule_single_type_6;
             } else if (secondSubgroup_firstWeek || bothSubgroup_secondWeek) {
-                Log.d(TAG, "EXIT LAYOUT 8\t 11");
+                logcatGetLayoutId(indexDay, 8, 11);
                 return R.layout.schedule_single_type_8;
             } else {
-                Log.d(TAG, "EXIT LAYOUT 3\t 12");
+                logcatGetLayoutId(indexDay, 3, 12);
                 return R.layout.schedule_single_type_3;
             }
         }
         if (firstSubgroup_secondWeek) {
             // layout 3,6,7
             if (firstSubgroup_firstWeek || secondSubgroup_bothWeek) {
-                Log.d(TAG, "EXIT LAYOUT 6\t 13");
+                logcatGetLayoutId(indexDay, 6, 13);
                 return R.layout.schedule_single_type_6;
             } else if (secondSubgroup_secondWeek || bothSubgroup_firstWeek) {
-                Log.d(TAG, "EXIT LAYOUT 7\t 14");
+                logcatGetLayoutId(indexDay, 7, 14);
                 return R.layout.schedule_single_type_7;
             } else {
-                Log.d(TAG, "EXIT LAYOUT 3\t 15");
+                logcatGetLayoutId(indexDay, 3, 15);
                 return R.layout.schedule_single_type_3;
             }
         }
@@ -254,30 +252,30 @@ public class ScheduleDayFragment extends Fragment {
         if (secondSubgroup_firstWeek) {
             // layout 3,5,8
             if (secondSubgroup_secondWeek || firstSubgroup_bothWeek) {
-                Log.d(TAG, "EXIT LAYOUT 5\t 16");
+                logcatGetLayoutId(indexDay, 5, 16);
                 return R.layout.schedule_single_type_5;
             } else if (firstSubgroup_firstWeek || bothSubgroup_secondWeek) {
-                Log.d(TAG, "EXIT LAYOUT 8\t 17");
+                logcatGetLayoutId(indexDay, 8, 17);
                 return R.layout.schedule_single_type_8;
             } else {
-                Log.d(TAG, "EXIT LAYOUT 3\t 18");
+                logcatGetLayoutId(indexDay, 3, 18);
                 return R.layout.schedule_single_type_3;
             }
         }
         if (secondSubgroup_secondWeek) {
             // layout 3,5,7
             if (secondSubgroup_firstWeek || firstSubgroup_bothWeek) {
-                Log.d(TAG, "EXIT LAYOUT 5\t 19");
+                logcatGetLayoutId(indexDay, 5, 19);
                 return R.layout.schedule_single_type_5;
             } else if (firstSubgroup_secondWeek || bothSubgroup_firstWeek) {
-                Log.d(TAG, "EXIT LAYOUT 7\t 20");
+                logcatGetLayoutId(indexDay, 7, 20);
                 return R.layout.schedule_single_type_7;
             } else {
-                Log.d(TAG, "EXIT LAYOUT 3\t 21");
+                logcatGetLayoutId(indexDay, 3, 21);
                 return R.layout.schedule_single_type_3;
             }
         }
-        Log.d(TAG, "EXIT LAYOUT FAIL\t 22");
+        logcatGetLayoutId(indexDay, 0, 22);
         return R.layout.schedule_single_type_9;
     }
 
@@ -293,5 +291,13 @@ public class ScheduleDayFragment extends Fragment {
                 + "\tsecondS_secondW: \t" + secondSubgroup_secondWeek
                 + "\tsecondS_bothW: \t" + secondSubgroup_bothWeek);
         Log.d(TAG, "Data: " + classes.toString());
+    }
+
+    private void logcatGetLayoutId(int indexDay, int numberLayout, int position) {
+        if (position == 22) {
+            Log.d(TAG, place.toString() + '\t' + indexDay + " EXIT LAYOUT FAIL" + '\t' + position);
+        } else {
+            Log.d(TAG, place.toString() + '\t' + indexDay + " EXIT LAYOUT " + numberLayout + '\t' + position);
+        }
     }
 }

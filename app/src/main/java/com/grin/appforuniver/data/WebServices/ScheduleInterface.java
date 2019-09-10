@@ -11,11 +11,11 @@ import retrofit2.http.Query;
 
 public interface ScheduleInterface {
 
-    @GET("schedule/classes/criteria")
+    @GET("schedule/classes/user/criteria")
     Call<List<Classes>> getSchedulePlace(@Header("Authorization") String token,
                                          @Query("place") Classes.Place place);
 
-    @GET("schedule/classes/all")
+    @GET("schedule/classes/user/all")
     Call<List<Classes>> getScheduleAll(@Header("Authorization") String token);
 
 

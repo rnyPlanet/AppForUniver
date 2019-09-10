@@ -37,7 +37,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/both_group_both_week"
+        android:id="@+id/both_subgroup_both_week"
         style="@style/TextViewPair"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

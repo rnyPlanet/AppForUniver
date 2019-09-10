@@ -45,15 +45,17 @@ public class ScheduleFragment extends Fragment {
 
         ScheduleInterface scheduleInterface = ServiceGenerator.createService(ScheduleInterface.class);
         int[] idContainers = new int[]{
-                R.id.containerSaturday,
                 R.id.containerMonday,
                 R.id.containerTuesday,
                 R.id.containerWednesday,
                 R.id.containerThursday,
-                R.id.containerFriday
+                R.id.containerFriday,
+                R.id.containerSaturday
         };
         int counter = 0;
         for (Classes.Place place : Classes.Place.values()) {
+            if (place == Classes.Place.POOL)
+                break;
             Call<List<Classes>> call = scheduleInterface.getSchedulePlace(PreferenceUtils.getUserToken(context), place);
             int finalCounter = counter;
             call.enqueue(new Callback<List<Classes>>() {
