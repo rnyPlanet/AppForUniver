@@ -9,11 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import com.grin.appforuniver.R;
@@ -41,7 +41,7 @@ public class PersonalAreaFragment extends Fragment {
 
     @BindView(R.id.fragment_personal_area_detail_progress) ProgressBar detail_progress;
 
-    @BindView(R.id.fragment_personal_area_userinfo_rl) RelativeLayout userinfo_rl;
+    @BindView(R.id.fragment_personal_area_userinfo_rl) ConstraintLayout userinfo_rl;
 
     @BindView(R.id.fragment_personal_area_username_ll) LinearLayout username_ll;
     @BindView(R.id.fragment_personal_area_username_tv) TextView username_tv;
@@ -86,39 +86,34 @@ public class PersonalAreaFragment extends Fragment {
             @Override
             public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
                 if (response.isSuccessful()) {
-                    if(response.body() != null && !PreferenceUtils.getUserToken(context).isEmpty()) {
+                    if (response.body() != null && !PreferenceUtils.getUserToken(context).isEmpty()) {
                         mUser = response.body();
 
-                        if(mUser.getFirstName() != null && !mUser.getFirstName().isEmpty()) {
+                        if (mUser.getFirstName() != null && !mUser.getFirstName().isEmpty()) {
                             username_ll.setVisibility(View.VISIBLE);
                             username_tv.setText(mUser.getFirstName() + " " + mUser.getLastName());
                         }
 
-                        if(mUser.getEmail() != null && !mUser.getEmail().isEmpty()) {
+                        if (mUser.getEmail() != null && !mUser.getEmail().isEmpty()) {
                             email_ll.setVisibility(View.VISIBLE);
                             email_tv.setText(mUser.getEmail());
                         }
 
-                        if(mUser.getEmail() != null && !mUser.getEmail().isEmpty()) {
-                            email_ll.setVisibility(View.VISIBLE);
-                            email_tv.setText(mUser.getEmail());
-                        }
-
-                        if(mUser.getDepartment() != null ) {
+                        if (mUser.getDepartment() != null) {
                             department_ll.setVisibility(View.VISIBLE);
                             department_tv.setText(mUser.getDepartment().getName());
                         } else {
                             department_ll.setVisibility(View.GONE);
                         }
 
-                        if(mUser.getPosada() != null ) {
+                        if (mUser.getPosada() != null) {
                             posada_ll.setVisibility(View.VISIBLE);
                             posada_tv.setText(mUser.getPosada().getPostVykl());
                         } else {
                             posada_ll.setVisibility(View.GONE);
                         }
 
-                        if(mUser.getTelefon1() != null && !mUser.getTelefon1().isEmpty()) {
+                        if (mUser.getTelefon1() != null && !mUser.getTelefon1().isEmpty()) {
                             telefon1_ll.setVisibility(View.VISIBLE);
                             telefon1_tv.setText(mUser.getTelefon1());
                         } else {
@@ -142,13 +137,13 @@ public class PersonalAreaFragment extends Fragment {
 
     @OnClick(R.id.fragment_personal_area_logout_ll)
     void onClickLogout() {
-        ((NavigationDrawer)mView.getContext()).getNavigationView().getMenu().findItem(R.id.nav_admin).setVisible(false);
+        ((NavigationDrawer) mView.getContext()).getNavigationView().getMenu().findItem(R.id.nav_admin).setVisible(false);
         PreferenceUtils.saveUsername(null, mView.getContext());
         PreferenceUtils.savePassword(null, mView.getContext());
         PreferenceUtils.saveUser(null, mView.getContext());
         Intent intent = new Intent(mView.getContext(), LoginActivity.class);
         startActivity(intent);
-        ((Activity)mView.getContext()).finish();
+        ((Activity) mView.getContext()).finish();
     }
 
     @Override

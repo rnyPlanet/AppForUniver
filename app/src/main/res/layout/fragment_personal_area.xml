@@ -1,24 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".fragments.AdminFragment">
 
+    <LinearLayout
+        android:id="@+id/fragment_personal_area_logout_ll"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_alignParentBottom="true"
+        android:background="#86D6D6D6"
+        android:clickable="true"
+        android:focusable="true"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal|center_vertical"
+            android:shadowColor="@android:color/darker_gray"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="2"
+
+            android:text="LOG OUT"
+            android:textColor="@android:color/black"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
     <ProgressBar
         android:id="@+id/fragment_personal_area_detail_progress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:layout_centerInParent="true"
+        android:layout_gravity="center"
         android:scaleX="2"
         android:scaleY="2"
-        android:visibility="visible"/>
+        android:visibility="visible" />
 
-    <RelativeLayout
-        android:visibility="gone"
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/fragment_personal_area_userinfo_rl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -27,9 +53,12 @@
 
         <LinearLayout
             android:id="@+id/fragment_personal_area_username_ll"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -44,32 +73,38 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
             android:id="@+id/fragment_personal_area_email_ll"
-            android:layout_below="@+id/fragment_personal_area_username_ll">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/fragment_personal_area_username_ll"
+            android:layout_marginTop="8dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/fragment_personal_area_username_ll">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Электронная почта"/>
+                android:text="Электронная почта" />
+
             <TextView
                 android:id="@+id/fragment_personal_area_email_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorBlack"/>
+                android:textColor="@color/colorBlack" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/fragment_personal_area_department_ll"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/fragment_personal_area_email_ll"
+            android:layout_marginTop="8dp"
             android:orientation="vertical"
-            android:layout_marginTop="10dp">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/fragment_personal_area_email_ll">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -84,71 +119,51 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="10dp"
             android:id="@+id/fragment_personal_area_posada_ll"
-            android:layout_below="@+id/fragment_personal_area_department_ll">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/fragment_personal_area_department_ll"
+            android:layout_marginTop="8dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/fragment_personal_area_department_ll">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Посада"/>
+                android:text="Посада" />
+
             <TextView
                 android:id="@+id/fragment_personal_area_posada_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorBlack"/>
+                android:textColor="@color/colorBlack" />
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="10dp"
             android:id="@+id/fragment_personal_area_telefon1_ll"
-            android:layout_below="@+id/fragment_personal_area_posada_ll">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/fragment_personal_area_posada_ll"
+            android:layout_marginTop="8dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/fragment_personal_area_posada_ll">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Телефон"/>
+                android:text="Телефон" />
+
             <TextView
                 android:id="@+id/fragment_personal_area_telefon1_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorBlack"/>
+                android:textColor="@color/colorBlack" />
         </LinearLayout>
 
-    </RelativeLayout>
-
-
-    <LinearLayout
-        android:id="@+id/fragment_personal_area_logout_ll"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:orientation="horizontal"
-        android:layout_alignParentBottom="true"
-        android:clickable="true"
-        android:focusable="true"
-        android:background="#86D6D6D6">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="LOG OUT"
-            android:gravity="center_horizontal|center_vertical"
-            android:textSize="25sp"
-            android:textStyle="bold"
-            android:textColor="@android:color/black"
-
-            android:shadowDx="1"
-            android:shadowDy="1"
-            android:shadowRadius="2"
-            android:shadowColor="@android:color/darker_gray"
-            />
-
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </RelativeLayout>
