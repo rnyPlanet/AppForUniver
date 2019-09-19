@@ -1,13 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_margin="16dp">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/list_item_consultation"
+    android:layout_marginStart="16dp"
+    android:layout_marginEnd="16dp">
 
     <TextView
+        android:id="@+id/list_item_consultation_lastName_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/list_item_consultation_tv"
-        />
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:text="lastName"
+        android:textColor="@android:color/black"
+        android:textSize="20sp" />
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/list_item_consultation_firstName_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@+id/list_item_consultation_lastName_tv"
+        android:text="fistName"
+        android:textColor="@android:color/black"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/list_item_consultation_middleName_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@+id/list_item_consultation_firstName_tv"
+        android:text="middleName"
+        android:textColor="@android:color/black"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/list_item_consultation_email_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/list_item_consultation_lastName_tv"
+        android:layout_alignParentStart="true"
+        android:text="email"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/list_item_consultation_roomNum_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/list_item_consultation_email_tv"
+        android:layout_alignParentStart="true"
+        android:text="Aud: 2-209"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/list_item_consultation_dateOfPassage_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/list_item_consultation_email_tv"
+        android:text="Date: 22.07.2019 9:00"
+        android:layout_alignParentEnd="true"
+        android:textSize="20sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@android:color/darker_gray"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/list_item_consultation_roomNum_tv"/>
+</RelativeLayout>

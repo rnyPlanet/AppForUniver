@@ -65,10 +65,6 @@ public class NavigationDrawer extends AppCompatActivity
         if (PreferenceUtils.getUserRoles(this).contains("ROLE_ADMIN")) {
             mNavigationView.getMenu().findItem(R.id.nav_admin).setVisible(true);
         }
-        if (PreferenceUtils.getUserRoles(this).contains("ROLE_TEACHER")) {
-            mNavigationView.getMenu().findItem(R.id.nav_admin).setVisible(true);
-            Toasty.normal(this, "ROLE_TEACHER", Toasty.LENGTH_SHORT).show();
-        }
 
     }
 

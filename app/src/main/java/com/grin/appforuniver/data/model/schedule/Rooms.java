@@ -38,5 +38,52 @@ public class Rooms {
     public String toString() {
         return "newModel.Rooms[ id= ]";
     }
-    
+
+    public Integer getId() {
+        return mId;
+    }
+
+    public void setId(Integer mId) {
+        this.mId = mId;
+    }
+
+    public String getName() {
+        return mName;
+    }
+
+    public void setName(String mName) {
+        this.mName = mName;
+    }
+
+    public Short getCountPlaces() {
+        return mCountPlaces;
+    }
+
+    public void setCountPlaces(Short mCountPlaces) {
+        this.mCountPlaces = mCountPlaces;
+    }
+
+    public Short getCountPCs() {
+        return mCountPCs;
+    }
+
+    public void setCountPCs(Short mCountPCs) {
+        this.mCountPCs = mCountPCs;
+    }
+
+    public Short getIsBlocked() {
+        return mIsBlocked;
+    }
+
+    public void setIsBlocked(Short mIsBlocked) {
+        this.mIsBlocked = mIsBlocked;
+    }
+
+    public String getType() {
+        return mType;
+    }
+
+    public void setType(String mType) {
+        this.mType = mType;
+    }
 }

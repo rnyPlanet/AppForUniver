@@ -5,6 +5,9 @@
  */
 package com.grin.appforuniver.data.model.consultation;
 import android.view.View;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.annotations.SerializedName;
 import com.grin.appforuniver.R;
@@ -22,31 +25,23 @@ import java.util.List;
 
 import lombok.Data;
 
-@Data
 public class Сonsultation extends AbstractItem<Сonsultation.ViewHolder> {
 
     @SerializedName("id")
     private Integer mId;
 
-    @SerializedName("idCreatedUser")
+    @SerializedName("createdUser")
     private User mCreatedUser;
 
-    @SerializedName("idRoom")
+    @SerializedName("room")
     private Rooms idRoom;
     
-    @SerializedName("date_of_passage")
+    @SerializedName("dateOfPassage")
     private Date date_of_passage;
-    
-    @Override
-    public String toString() {
-        return "consultationsconsultations";
-    }
 
     @NotNull
     @Override
-    public ViewHolder getViewHolder(@NotNull View view) {
-        return new ViewHolder(view);
-    }
+    public ViewHolder getViewHolder(@NotNull View view) { return new ViewHolder(view); }
 
     @Override
     public int getLayoutRes() {
@@ -55,23 +50,50 @@ public class Сonsultation extends AbstractItem<Сonsultation.ViewHolder> {
 
     @Override
     public int getType() {
-        return 0;
+        return R.id.list_item_consultation;
     }
 
     public class ViewHolder extends FastAdapter.ViewHolder<Сonsultation> {
 
+        RelativeLayout list_item_consultation;
+        TextView lastName;
+        TextView firstName;
+        TextView middleName;
+        TextView email;
+        TextView room;
+
         public ViewHolder(@NotNull View itemView) {
             super(itemView);
+
+            lastName = itemView.findViewById(R.id.list_item_consultation_lastName_tv);
+            firstName = itemView.findViewById(R.id.list_item_consultation_firstName_tv);
+            middleName = itemView.findViewById(R.id.list_item_consultation_middleName_tv);
+            email = itemView.findViewById(R.id.list_item_consultation_email_tv);
+            room = itemView.findViewById(R.id.list_item_consultation_roomNum_tv);
+            list_item_consultation = itemView.findViewById(R.id.list_item_consultation);
         }
 
         @Override
         public void bindView(@NotNull Сonsultation item, @NotNull List<Object> list) {
-
+            lastName.setText(item.mCreatedUser.getLastName());
+            firstName.setText(item.mCreatedUser.getFirstName());
+            middleName.setText(item.mCreatedUser.getPatronymic());
+            email.setText(item.mCreatedUser.getEmail());
+            room.setText("Aud: " + item.idRoom.getName());
+            list_item_consultation.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(v.getContext(), "asdf", Toast.LENGTH_SHORT).show();
+                }
+            });
         }
 
         @Override
         public void unbindView(@NotNull Сonsultation item) {
-
+            lastName.setText(null);
+            firstName.setText(null);
+            middleName.setText(null);
+            email.setText(null);
         }
     }
 }

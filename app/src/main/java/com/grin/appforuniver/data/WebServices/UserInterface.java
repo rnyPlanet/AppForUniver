@@ -15,6 +15,5 @@ public interface UserInterface {
     @GET("users/me")
     Call<User> getMe(@Header("Authorization") String token);
 
-    @GET("users/consultation/all")
-    Call<List<Сonsultation>> getcConsultation(@Header("Authorization") String token);
+
 }
