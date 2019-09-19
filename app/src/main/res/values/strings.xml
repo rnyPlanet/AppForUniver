@@ -1,35 +1,27 @@
 <resources>
-    <string name="app_name">AppForUniver</string>
+    <string name="app_name">CHMNU</string>
 
     <string name="activity_main_username">Username</string>
     <string name="activity_main_password">Password</string>
     <string name="log_in_btn">Log in</string>
     <string name="sign_in_btn">Sign in</string>
-    <string name="title_activity_navigation_drawer">Univer</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
-    <string name="nav_header_desc">Navigation header</string>
+    <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
+    <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
+    <string name="nav_header_desc" translatable="false">Navigation header</string>
     <string name="action_settings">Settings</string>
 
     <string name="menu_home">Home</string>
-    <string name="menu_schedule">Расписание</string>
-    <string name="menu_admin">Админ</string>
-    <string name="menu_personal_area">Личный кабинет</string>
-    <string name="menu_consultation">Консультации</string>
-    <string name="title_activity_login">LoginActivity</string>
+    <string name="menu_schedule">Schedule</string>
+    <string name="menu_admin">Admin</string>
+    <string name="menu_personal_area">User account</string>
+    <string name="menu_consultation">Consultations</string>
     <string name="action_logout">Logout</string>
-
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string name="error_network">Oops.</string>
     <string name="error_network_subtitle">There seems to be a problem with your internet</string>
-    <string name="try_to_login_with_192_168_0_1">Try to login with 192.168.0.1</string>
-    <string name="_192_168_0_1">192.168.0.1</string>
-    <string name="mainPageOfUniversity">Главная</string>
+    <string name="try_to_login_with_192_168_0_1" translatable="false">Try to login with 192.168.0.1</string>
+    <string name="_192_168_0_1" translatable="false">192.168.0.1</string>
+
     <string name="monday">Monday</string>
     <string name="tuesday">Tuesday</string>
     <string name="wednesday">Wednesday</string>
@@ -37,6 +29,5 @@
     <string name="friday">Friday</string>
     <string name="saturday">Saturday</string>
     <string name="weekend">Weekend</string>
-
 
 </resources>

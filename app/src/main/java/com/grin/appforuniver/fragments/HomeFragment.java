@@ -27,7 +27,7 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_home, container, false);
 
-        getActivity().setTitle(R.string.mainPageOfUniversity);
+        getActivity().setTitle(R.string.menu_home);
 
         WebView webView = mView.findViewById(R.id.fragment_home_wv);
         webView.getSettings().setJavaScriptEnabled(true);

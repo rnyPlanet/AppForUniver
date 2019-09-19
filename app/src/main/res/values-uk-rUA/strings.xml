@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ЧНУ ім. П. Могили</string>
+    <string name="activity_main_password">Пароль</string>
+    <string name="activity_main_username">Ім\'я користувача</string>
+    <string name="action_settings">Налаштування</string>
+    <string name="action_logout">Вихід</string>
+    <string name="friday">П\'ятниця</string>
+    <string name="log_in_btn">Увійти</string>
+    <string name="menu_admin">Адмін</string>
+    <string name="menu_consultation">Консультації</string>
+    <string name="menu_personal_area">Кабінет користувача</string>
+    <string name="menu_schedule">Розклад</string>
+    <string name="monday">Понеділок</string>
+    <string name="saturday">Субота</string>
+    <string name="thursday">Четвер</string>
+    <string name="tuesday">Вівторок</string>
+    <string name="wednesday">Середа</string>
+    <string name="weekend">Вихідний</string>
+    <string name="error_network_subtitle">Проблеми з інтернет-з\'єднанням</string>
+    <string name="sign_in_btn">Вхід</string>
+    <string name="menu_home">Головна</string>
+    <string name="error_network" translatable="false">Упс(</string>
+</resources>
