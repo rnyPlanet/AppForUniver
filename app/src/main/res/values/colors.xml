@@ -4,11 +4,10 @@
     <color name="colorPrimary">#FFFFFF</color>
     <!--<color name="colorPrimaryDark">#00574B</color>-->
     <color name="colorPrimaryDark">#F8F8F8</color>
-    <color name="colorAccent">#000</color>
-    <color name="colorBlack">#000</color>
-    <color name="colorWhite">#fff</color>
+    <color name="colorAccent">#0D47A1</color>
     <color name="colorTransparent">#00000000</color>
     <color name="colorPrimaryBtn">#3B008577</color>
 
 
+    <color name="colorLoginSignUpBtn">#0D47A1</color>
 </resources>

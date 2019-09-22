@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/network_error_view"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -41,6 +42,7 @@
             android:lineSpacingMultiplier="0.6"
             android:text="@string/error_network_subtitle"
             android:textSize="14sp" />
+
 
 
     </LinearLayout>

@@ -2,6 +2,9 @@ package com.grin.appforuniver.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.graphics.Color;
+import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -12,6 +15,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.grin.appforuniver.R;
@@ -20,6 +24,7 @@ import com.grin.appforuniver.data.WebServices.ServiceGenerator;
 import com.grin.appforuniver.data.WebServices.UserInterface;
 import com.grin.appforuniver.data.model.dto.AuthenticationRequestDto;
 import com.grin.appforuniver.data.model.user.User;
+import com.grin.appforuniver.data.utils.CheckInternetBroadcast;
 import com.grin.appforuniver.data.utils.Constants;
 import com.grin.appforuniver.data.utils.PreferenceUtils;
 
@@ -43,7 +48,8 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.activity_login_password_et)
     TextInputLayout passwordTIL;
 
-    private Boolean mIfFirstLoad = true;
+    @BindView(R.id.network_error_view)
+    ConstraintLayout networkErrorView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +64,7 @@ public class LoginActivity extends AppCompatActivity {
             Window window = this.getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            window.setStatusBarColor(this.getResources().getColor(R.color.colorWhite));
+            window.setStatusBarColor(this.getResources().getColor(android.R.color.white));
         }
 
         if(savedInstanceState != null) {
@@ -103,27 +109,6 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-
-        outState.putString(Constants.USERNAME_KEY, Objects.requireNonNull(usernameTIL.getEditText()).getText().toString());
-        outState.putString(Constants.PASSWORD_KEY, Objects.requireNonNull(passwordTIL.getEditText()).getText().toString());
-
-        super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        if(!mIfFirstLoad) {
-            logIn();
-        }
-
-        mIfFirstLoad = false;
-
-    }
-
     public void loginUser(String username, String password) {
 
         Context context = getApplicationContext();
@@ -132,11 +117,6 @@ public class LoginActivity extends AppCompatActivity {
 
         AuthenticationRequestDto authenticationRequestDto = new AuthenticationRequestDto(username, password);
         Call<Map<Object, Object>> call = authInterface.loginUser(authenticationRequestDto);
-
-        findViewById(R.id.network_error_view).setVisibility(View.GONE);
-//        findViewById(R.id.activity_login_ll).setVisibility(View.VISIBLE);
-        findViewById(R.id.activity_login_login_btn).setVisibility(View.VISIBLE);
-        findViewById(R.id.activity_login_sign_in_btn).setVisibility(View.VISIBLE);
 
         call.enqueue(new Callback<Map<Object, Object>>() {
             @Override
@@ -165,10 +145,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Call<Map<Object, Object>> call, @NonNull Throwable t) {
                 if (t.getMessage().contains("Failed to connect to /194.9.70.244:8075")) {
-                    findViewById(R.id.network_error_view).setVisibility(View.VISIBLE);
-//                    findViewById(R.id.activity_login_ll).setVisibility(View.GONE);
-                    findViewById(R.id.activity_login_login_btn).setVisibility(View.GONE);
-                    findViewById(R.id.activity_login_sign_in_btn).setVisibility(View.GONE);
+                    Toasty.error(context, "Check your internet connection!", Toasty.LENGTH_LONG, true).show();
                 }
             }
         });
@@ -203,5 +180,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
 
 }

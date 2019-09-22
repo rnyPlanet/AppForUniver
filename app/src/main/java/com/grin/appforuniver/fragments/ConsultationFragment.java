@@ -66,8 +66,19 @@ public class ConsultationFragment extends Fragment {
 
         getConsultation();
 
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy > 0 && floatingActionButton.getVisibility() == View.VISIBLE) {
+                    floatingActionButton.hide();
+                } else if (dy < 0 && floatingActionButton.getVisibility() != View.VISIBLE) {
+                    floatingActionButton.show();
+                }
+            }
+        });
+
         if(PreferenceUtils.getUserRoles(getContext()).contains("ROLE_TEACHER")) {
-            Toast.makeText(getContext(), "", Toast.LENGTH_SHORT).show();
             floatingActionButton.setVisibility(View.VISIBLE);
         }
 
@@ -79,7 +90,7 @@ public class ConsultationFragment extends Fragment {
 
         ConsultationInterface consultationInterface = ServiceGenerator.createService(ConsultationInterface.class);
 
-        Call<List<Сonsultation>> call = consultationInterface.getcConsultation(PreferenceUtils.getUserToken(getContext()));
+        Call<List<Сonsultation>> call = consultationInterface.getMyConsultation(PreferenceUtils.getUserToken(getContext()));
         call.enqueue(new Callback<List<Сonsultation>>() {
             @Override
             public void onResponse(Call<List<Сonsultation>> call, Response<List<Сonsultation>> response) {

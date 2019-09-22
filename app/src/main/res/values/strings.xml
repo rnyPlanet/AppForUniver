@@ -29,5 +29,8 @@
     <string name="friday">Friday</string>
     <string name="saturday">Saturday</string>
     <string name="weekend">Weekend</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="consultation_activity_room">Room:</string>
+    <string name="edit_consultation">Edit consultation</string>
 
 </resources>

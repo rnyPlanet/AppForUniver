@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package com.grin.appforuniver.data.model.consultation;
+import android.content.Intent;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -11,6 +12,8 @@ import android.widget.Toast;
 
 import com.google.gson.annotations.SerializedName;
 import com.grin.appforuniver.R;
+import com.grin.appforuniver.activity.ConsultationActivity;
+import com.grin.appforuniver.activity.LoginActivity;
 import com.grin.appforuniver.data.model.schedule.Rooms;
 import com.grin.appforuniver.data.model.user.User;
 import com.mikepenz.fastadapter.AbstractAdapter;
@@ -79,11 +82,14 @@ public class Сonsultation extends AbstractItem<Сonsultation.ViewHolder> {
             firstName.setText(item.mCreatedUser.getFirstName());
             middleName.setText(item.mCreatedUser.getPatronymic());
             email.setText(item.mCreatedUser.getEmail());
-            room.setText("Aud: " + item.idRoom.getName());
+            String roomName = itemView.getResources().getString(R.string.consultation_activity_room) + " " + item.idRoom.getName();
+            room.setText(roomName);
             list_item_consultation.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(v.getContext(), "asdf", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(v.getContext(), "asdf", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(itemView.getContext(), ConsultationActivity.class);
+                    itemView.getContext().startActivity(intent);
                 }
             });
         }

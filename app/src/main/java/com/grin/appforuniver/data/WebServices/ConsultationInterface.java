@@ -12,6 +12,9 @@ import retrofit2.http.Header;
 public interface ConsultationInterface {
 
     @GET("consultation/all")
-    Call<List<Сonsultation>> getcConsultation(@Header("Authorization") String token);
+    Call<List<Сonsultation>> getConsultation(@Header("Authorization") String token);
+
+    @GET("consultation/myConsultation")
+    Call<List<Сonsultation>> getMyConsultation(@Header("Authorization") String token);
 
 }

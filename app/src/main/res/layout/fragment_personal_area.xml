@@ -48,7 +48,7 @@
         android:id="@+id/fragment_personal_area_userinfo_rl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorWhite"
+        android:background="@android:color/white"
         android:padding="16dp">
 
         <LinearLayout
@@ -69,7 +69,7 @@
                 android:id="@+id/fragment_personal_area_username_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorBlack" />
+                android:textColor="@android:color/black" />
         </LinearLayout>
 
         <LinearLayout
@@ -92,7 +92,7 @@
                 android:id="@+id/fragment_personal_area_email_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorBlack" />
+                android:textColor="@android:color/black"  />
         </LinearLayout>
 
         <LinearLayout
@@ -115,7 +115,7 @@
                 android:id="@+id/fragment_personal_area_department_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorBlack" />
+                android:textColor="@android:color/black"  />
         </LinearLayout>
 
         <LinearLayout
@@ -138,7 +138,7 @@
                 android:id="@+id/fragment_personal_area_posada_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorBlack" />
+                android:textColor="@android:color/black"  />
         </LinearLayout>
 
         <LinearLayout
@@ -161,7 +161,7 @@
                 android:id="@+id/fragment_personal_area_telefon1_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorBlack" />
+                android:textColor="@android:color/black"  />
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
