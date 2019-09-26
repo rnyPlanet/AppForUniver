@@ -42,7 +42,6 @@ public class ScheduleFragment extends Fragment {
     }
 
     private void getSchedule(Context context, LayoutInflater inflater) {
-
         ScheduleInterface scheduleInterface = ServiceGenerator.createService(ScheduleInterface.class);
         int[] idContainers = new int[]{
                 R.id.containerMonday,
@@ -56,7 +55,7 @@ public class ScheduleFragment extends Fragment {
         for (Classes.Place place : Classes.Place.values()) {
             if (place == Classes.Place.POOL)
                 break;
-            Call<List<Classes>> call = scheduleInterface.getSchedulePlace(PreferenceUtils.getUserToken(context), place);
+            Call<List<Classes>> call = scheduleInterface.getSchedulePlace(PreferenceUtils.getUserToken(), place);
             int finalCounter = counter;
             call.enqueue(new Callback<List<Classes>>() {
                 @Override

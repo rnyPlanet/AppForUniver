@@ -24,16 +24,10 @@ import com.grin.appforuniver.fragments.HomeFragment;
 import com.grin.appforuniver.fragments.PersonalAreaFragment;
 import com.grin.appforuniver.fragments.ScheduleFragment;
 
-import es.dmoral.toasty.Toasty;
-
 public class NavigationDrawer extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     public final String TAG = NavigationDrawer.class.getSimpleName();
-
-    public NavigationView getNavigationView() {
-        return mNavigationView;
-    }
 
     private DrawerLayout mDrawer;
     private NavigationView mNavigationView;
@@ -47,7 +41,7 @@ public class NavigationDrawer extends AppCompatActivity
 
         navigationDrawer();
 
-        mUser = PreferenceUtils.getSaveUser(this);
+        mUser = PreferenceUtils.getSaveUser();
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
@@ -62,7 +56,7 @@ public class NavigationDrawer extends AppCompatActivity
             }
         }
 
-        if (PreferenceUtils.getUserRoles(this).contains("ROLE_ADMIN")) {
+        if (PreferenceUtils.getUserRoles().contains("ROLE_ADMIN")) {
             mNavigationView.getMenu().findItem(R.id.nav_admin).setVisible(true);
         }
 

@@ -13,22 +13,20 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.ConsultationActivity"
-            android:parentActivityName=".activity.ConsultationActivity"/>
         <activity
-            android:name=".activity.LaunchActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
+            android:name=".activity.ConsultationActivity"
+            android:parentActivityName=".activity.ConsultationActivity" />
+        <activity
+            android:name=".activity.NavigationDrawer"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".activity.NavigationDrawer"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activity.LoginActivity" />
 
         <receiver
             android:name=".data.utils.CheckInternetBroadcast"

@@ -78,7 +78,7 @@ public class ConsultationFragment extends Fragment {
             }
         });
 
-        if(PreferenceUtils.getUserRoles(getContext()).contains("ROLE_TEACHER")) {
+        if(PreferenceUtils.getUserRoles().contains("ROLE_TEACHER")) {
             floatingActionButton.setVisibility(View.VISIBLE);
         }
 
@@ -90,7 +90,7 @@ public class ConsultationFragment extends Fragment {
 
         ConsultationInterface consultationInterface = ServiceGenerator.createService(ConsultationInterface.class);
 
-        Call<List<Сonsultation>> call = consultationInterface.getMyConsultation(PreferenceUtils.getUserToken(getContext()));
+        Call<List<Сonsultation>> call = consultationInterface.getMyConsultation(PreferenceUtils.getUserToken());
         call.enqueue(new Callback<List<Сonsultation>>() {
             @Override
             public void onResponse(Call<List<Сonsultation>> call, Response<List<Сonsultation>> response) {

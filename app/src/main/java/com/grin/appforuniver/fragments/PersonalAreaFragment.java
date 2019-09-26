@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,26 +40,39 @@ public class PersonalAreaFragment extends Fragment {
 
     public final String TAG = PersonalAreaFragment.class.getSimpleName();
 
-    @BindView(R.id.fragment_personal_area_detail_progress) ProgressBar detail_progress;
+    @BindView(R.id.fragment_personal_area_detail_progress)
+    ProgressBar detail_progress;
 
-    @BindView(R.id.fragment_personal_area_userinfo_rl) ConstraintLayout userinfo_rl;
+    @BindView(R.id.fragment_personal_area_userinfo_rl)
+    ConstraintLayout userinfo_rl;
 
-    @BindView(R.id.fragment_personal_area_username_ll) LinearLayout username_ll;
-    @BindView(R.id.fragment_personal_area_username_tv) TextView username_tv;
+    @BindView(R.id.fragment_personal_area_username_ll)
+    LinearLayout username_ll;
+    @BindView(R.id.fragment_personal_area_username_tv)
+    TextView username_tv;
 
-    @BindView(R.id.fragment_personal_area_email_ll) LinearLayout email_ll;
-    @BindView(R.id.fragment_personal_area_email_tv) TextView email_tv;
+    @BindView(R.id.fragment_personal_area_email_ll)
+    LinearLayout email_ll;
+    @BindView(R.id.fragment_personal_area_email_tv)
+    TextView email_tv;
 
-    @BindView(R.id.fragment_personal_area_department_ll) LinearLayout department_ll;
-    @BindView(R.id.fragment_personal_area_department_tv) TextView department_tv;
+    @BindView(R.id.fragment_personal_area_department_ll)
+    LinearLayout department_ll;
+    @BindView(R.id.fragment_personal_area_department_tv)
+    TextView department_tv;
 
-    @BindView(R.id.fragment_personal_area_posada_ll) LinearLayout posada_ll;
-    @BindView(R.id.fragment_personal_area_posada_tv) TextView posada_tv;
+    @BindView(R.id.fragment_personal_area_posada_ll)
+    LinearLayout posada_ll;
+    @BindView(R.id.fragment_personal_area_posada_tv)
+    TextView posada_tv;
 
-    @BindView(R.id.fragment_personal_area_telefon1_ll) LinearLayout telefon1_ll;
-    @BindView(R.id.fragment_personal_area_telefon1_tv) TextView telefon1_tv;
+    @BindView(R.id.fragment_personal_area_telefon1_ll)
+    LinearLayout telefon1_ll;
+    @BindView(R.id.fragment_personal_area_telefon1_tv)
+    TextView telefon1_tv;
 
-    @BindView(R.id.fragment_personal_area_logout_ll) LinearLayout logout_ll;
+    @BindView(R.id.fragment_personal_area_logout_ll)
+    LinearLayout logout_ll;
 
     private View mView;
     private Unbinder mUnbinder;
@@ -80,13 +94,13 @@ public class PersonalAreaFragment extends Fragment {
     private void getMe(Context context) {
         UserInterface userInterface = ServiceGenerator.createService(UserInterface.class);
 
-        Call<User> call = userInterface.getMe(PreferenceUtils.getUserToken(context));
+        Call<User> call = userInterface.getMe(PreferenceUtils.getUserToken());
 
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
                 if (response.isSuccessful()) {
-                    if (response.body() != null && !PreferenceUtils.getUserToken(context).isEmpty()) {
+                    if (response.body() != null && !PreferenceUtils.getUserToken().isEmpty()) {
                         mUser = response.body();
 
                         if (mUser.getFirstName() != null && !mUser.getFirstName().isEmpty()) {
@@ -137,10 +151,9 @@ public class PersonalAreaFragment extends Fragment {
 
     @OnClick(R.id.fragment_personal_area_logout_ll)
     void onClickLogout() {
-        ((NavigationDrawer) mView.getContext()).getNavigationView().getMenu().findItem(R.id.nav_admin).setVisible(false);
-        PreferenceUtils.saveUsername(null, mView.getContext());
-        PreferenceUtils.savePassword(null, mView.getContext());
-        PreferenceUtils.saveUser(null, mView.getContext());
+        PreferenceUtils.saveUsername(null);
+        PreferenceUtils.savePassword(null);
+        PreferenceUtils.saveUser(null);
         Intent intent = new Intent(mView.getContext(), LoginActivity.class);
         startActivity(intent);
         ((Activity) mView.getContext()).finish();
