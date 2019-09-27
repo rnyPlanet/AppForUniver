@@ -1,7 +1,7 @@
 package com.grin.appforuniver.data.model.user;
 
 import com.google.gson.annotations.SerializedName;
-import com.grin.appforuniver.data.model.consultation.Сonsultation;
+import com.grin.appforuniver.data.model.consultation.Consultation;
 
 import java.util.Collection;
 import java.util.List;
@@ -88,10 +88,10 @@ public class User {
 
 
     @SerializedName("subscribe")
-    private Collection<Сonsultation> subscribe;
+    private Collection<Consultation> subscribe;
 
     @SerializedName("created")
-    private Collection<Сonsultation> created;
+    private Collection<Consultation> created;
 
 
     public User () {}

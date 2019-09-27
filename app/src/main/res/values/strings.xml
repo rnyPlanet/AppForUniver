@@ -13,7 +13,7 @@
     <string name="menu_home">Home</string>
     <string name="menu_schedule">Schedule</string>
     <string name="menu_admin">Admin</string>
-    <string name="menu_personal_area">User account</string>
+    <string name="menu_user_account">User account</string>
     <string name="menu_consultation">Consultations</string>
     <string name="action_logout">Logout</string>
 
@@ -29,8 +29,13 @@
     <string name="friday">Friday</string>
     <string name="saturday">Saturday</string>
     <string name="weekend">Weekend</string>
-    <string name="title_activity_main">MainActivity</string>
     <string name="consultation_activity_room">Room:</string>
     <string name="edit_consultation">Edit consultation</string>
+    <string name="user_account_logout">Logout</string>
+    <string name="user_account_name">Name</string>
+    <string name="user_account_email">Email</string>
+    <string name="user_account_department">Department</string>
+    <string name="user_account_phone">Phone</string>
+    <string name="user_account_posada">Посада</string>
 
 </resources>

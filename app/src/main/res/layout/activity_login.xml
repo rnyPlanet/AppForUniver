@@ -20,7 +20,7 @@
         android:text="@string/log_in_btn"
         android:textAllCaps="false"
         android:textSize="20sp"
-        android:background="@color/colorLoginSignUpBtn"
+        android:background="@color/colorPrimary"
         android:textColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -37,7 +37,7 @@
         android:layout_marginBottom="8dp"
         android:text="@string/sign_in_btn"
         android:textSize="20sp"
-        android:textColor="@color/colorLoginSignUpBtn"
+        android:textColor="@color/colorSecondaryDark"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -109,6 +109,17 @@
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:src="@drawable/logo"
+        android:tint="@color/colorPrimaryDark"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

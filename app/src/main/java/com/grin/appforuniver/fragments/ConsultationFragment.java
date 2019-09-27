@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -17,14 +16,11 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.grin.appforuniver.R;
 import com.grin.appforuniver.data.WebServices.ConsultationInterface;
 import com.grin.appforuniver.data.WebServices.ServiceGenerator;
-import com.grin.appforuniver.data.WebServices.UserInterface;
-import com.grin.appforuniver.data.model.consultation.Сonsultation;
+import com.grin.appforuniver.data.model.consultation.Consultation;
 import com.grin.appforuniver.data.utils.PreferenceUtils;
 import com.mikepenz.fastadapter.FastAdapter;
-import com.mikepenz.fastadapter.adapters.FastItemAdapter;
 import com.mikepenz.fastadapter.adapters.ItemAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -32,7 +28,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import es.dmoral.toasty.Toasty;
-import kotlin.jvm.functions.Function4;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -44,7 +39,7 @@ public class ConsultationFragment extends Fragment {
     private View mView;
     private Unbinder mUnbinder;
 
-    private ItemAdapter<Сonsultation> mItemAdapter = new ItemAdapter<>();
+    private ItemAdapter<Consultation> mItemAdapter = new ItemAdapter<>();
     private FastAdapter mFastAdapter = null;
 
     @BindView(R.id.fragment_consultation_rv) RecyclerView recyclerView;
@@ -90,10 +85,10 @@ public class ConsultationFragment extends Fragment {
 
         ConsultationInterface consultationInterface = ServiceGenerator.createService(ConsultationInterface.class);
 
-        Call<List<Сonsultation>> call = consultationInterface.getMyConsultation(PreferenceUtils.getUserToken());
-        call.enqueue(new Callback<List<Сonsultation>>() {
+        Call<List<Consultation>> call = consultationInterface.getMyConsultation(PreferenceUtils.getUserToken());
+        call.enqueue(new Callback<List<Consultation>>() {
             @Override
-            public void onResponse(Call<List<Сonsultation>> call, Response<List<Сonsultation>> response) {
+            public void onResponse(Call<List<Consultation>> call, Response<List<Consultation>> response) {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
                         mItemAdapter.add(response.body());
@@ -102,7 +97,7 @@ public class ConsultationFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<List<Сonsultation>> call, Throwable t) {
+            public void onFailure(Call<List<Consultation>> call, Throwable t) {
                 Toasty.error(getContext(), Objects.requireNonNull(t.getMessage()), Toast.LENGTH_SHORT, true).show();
             }
         });

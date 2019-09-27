@@ -8,27 +8,21 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.annotations.SerializedName;
 import com.grin.appforuniver.R;
 import com.grin.appforuniver.activity.ConsultationActivity;
-import com.grin.appforuniver.activity.LoginActivity;
 import com.grin.appforuniver.data.model.schedule.Rooms;
 import com.grin.appforuniver.data.model.user.User;
-import com.mikepenz.fastadapter.AbstractAdapter;
 import com.mikepenz.fastadapter.FastAdapter;
 import com.mikepenz.fastadapter.items.AbstractItem;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
-import lombok.Data;
-
-public class Сonsultation extends AbstractItem<Сonsultation.ViewHolder> {
+public class Consultation extends AbstractItem<Consultation.ViewHolder> {
 
     @SerializedName("id")
     private Integer mId;
@@ -48,7 +42,7 @@ public class Сonsultation extends AbstractItem<Сonsultation.ViewHolder> {
 
     @Override
     public int getLayoutRes() {
-        return R.layout.list_item_consultation;
+        return R.layout.item_consultation;
     }
 
     @Override
@@ -56,9 +50,9 @@ public class Сonsultation extends AbstractItem<Сonsultation.ViewHolder> {
         return R.id.list_item_consultation;
     }
 
-    public class ViewHolder extends FastAdapter.ViewHolder<Сonsultation> {
+    public class ViewHolder extends FastAdapter.ViewHolder<Consultation> {
 
-        RelativeLayout list_item_consultation;
+        RelativeLayout item_consultation;
         TextView lastName;
         TextView firstName;
         TextView middleName;
@@ -73,18 +67,18 @@ public class Сonsultation extends AbstractItem<Сonsultation.ViewHolder> {
             middleName = itemView.findViewById(R.id.list_item_consultation_middleName_tv);
             email = itemView.findViewById(R.id.list_item_consultation_email_tv);
             room = itemView.findViewById(R.id.list_item_consultation_roomNum_tv);
-            list_item_consultation = itemView.findViewById(R.id.list_item_consultation);
+            item_consultation = itemView.findViewById(R.id.list_item_consultation);
         }
 
         @Override
-        public void bindView(@NotNull Сonsultation item, @NotNull List<Object> list) {
+        public void bindView(@NotNull Consultation item, @NotNull List<Object> list) {
             lastName.setText(item.mCreatedUser.getLastName());
             firstName.setText(item.mCreatedUser.getFirstName());
             middleName.setText(item.mCreatedUser.getPatronymic());
             email.setText(item.mCreatedUser.getEmail());
             String roomName = itemView.getResources().getString(R.string.consultation_activity_room) + " " + item.idRoom.getName();
             room.setText(roomName);
-            list_item_consultation.setOnClickListener(new View.OnClickListener() {
+            item_consultation.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     //Toast.makeText(v.getContext(), "asdf", Toast.LENGTH_SHORT).show();
@@ -95,7 +89,7 @@ public class Сonsultation extends AbstractItem<Сonsultation.ViewHolder> {
         }
 
         @Override
-        public void unbindView(@NotNull Сonsultation item) {
+        public void unbindView(@NotNull Consultation item) {
             lastName.setText(null);
             firstName.setText(null);
             middleName.setText(null);

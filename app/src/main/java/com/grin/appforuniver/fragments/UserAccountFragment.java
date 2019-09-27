@@ -4,10 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -19,7 +19,6 @@ import androidx.fragment.app.Fragment;
 
 import com.grin.appforuniver.R;
 import com.grin.appforuniver.activity.LoginActivity;
-import com.grin.appforuniver.activity.NavigationDrawer;
 import com.grin.appforuniver.data.WebServices.ServiceGenerator;
 import com.grin.appforuniver.data.WebServices.UserInterface;
 import com.grin.appforuniver.data.model.user.User;
@@ -36,53 +35,53 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class PersonalAreaFragment extends Fragment {
+public class UserAccountFragment extends Fragment {
 
-    public final String TAG = PersonalAreaFragment.class.getSimpleName();
+    public final String TAG = UserAccountFragment.class.getSimpleName();
 
-    @BindView(R.id.fragment_personal_area_detail_progress)
+    @BindView(R.id.user_account_detail_progress)
     ProgressBar detail_progress;
 
-    @BindView(R.id.fragment_personal_area_userinfo_rl)
+    @BindView(R.id.user_account_userinfo_rl)
     ConstraintLayout userinfo_rl;
 
-    @BindView(R.id.fragment_personal_area_username_ll)
+    @BindView(R.id.user_account_username_ll)
     LinearLayout username_ll;
-    @BindView(R.id.fragment_personal_area_username_tv)
+    @BindView(R.id.user_account_username_tv)
     TextView username_tv;
 
-    @BindView(R.id.fragment_personal_area_email_ll)
+    @BindView(R.id.user_account_email_ll)
     LinearLayout email_ll;
-    @BindView(R.id.fragment_personal_area_email_tv)
+    @BindView(R.id.user_account_email_tv)
     TextView email_tv;
 
-    @BindView(R.id.fragment_personal_area_department_ll)
+    @BindView(R.id.user_account_department_ll)
     LinearLayout department_ll;
-    @BindView(R.id.fragment_personal_area_department_tv)
+    @BindView(R.id.user_account_department_tv)
     TextView department_tv;
 
-    @BindView(R.id.fragment_personal_area_posada_ll)
+    @BindView(R.id.user_account_posada_ll)
     LinearLayout posada_ll;
-    @BindView(R.id.fragment_personal_area_posada_tv)
+    @BindView(R.id.user_account_posada_tv)
     TextView posada_tv;
 
-    @BindView(R.id.fragment_personal_area_telefon1_ll)
+    @BindView(R.id.user_account_phone1_ll)
     LinearLayout telefon1_ll;
-    @BindView(R.id.fragment_personal_area_telefon1_tv)
+    @BindView(R.id.user_account_phone1_tv)
     TextView telefon1_tv;
 
-    @BindView(R.id.fragment_personal_area_logout_ll)
-    LinearLayout logout_ll;
-
+    @BindView(R.id.material_text_button)
+    Button logout_ll;
+    //    LinearLayout logout_ll;
     private View mView;
     private Unbinder mUnbinder;
     private User mUser;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.fragment_personal_area, container, false);
+        mView = inflater.inflate(R.layout.fragment_user_account, container, false);
 
-        getActivity().setTitle(R.string.menu_personal_area);
+        getActivity().setTitle(R.string.menu_user_account);
 
         mUnbinder = ButterKnife.bind(this, mView);
 
@@ -149,7 +148,7 @@ public class PersonalAreaFragment extends Fragment {
         });
     }
 
-    @OnClick(R.id.fragment_personal_area_logout_ll)
+    @OnClick(R.id.material_text_button)
     void onClickLogout() {
         PreferenceUtils.saveUsername(null);
         PreferenceUtils.savePassword(null);

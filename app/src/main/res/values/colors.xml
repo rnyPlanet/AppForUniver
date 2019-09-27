@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--<color name="colorPrimary">#008577</color>-->
-    <color name="colorPrimary">#FFFFFF</color>
-    <!--<color name="colorPrimaryDark">#00574B</color>-->
-    <color name="colorPrimaryDark">#F8F8F8</color>
+    <color name="colorPrimary">#b71c1c</color>
+    <color name="colorPrimaryLight">#f05545</color>
+    <color name="colorPrimaryDark">#7f0000</color>
+    <color name="colorSecondary">#0b0bff</color>
+    <color name="colorSecondaryLight">#7346ff</color>
+    <color name="colorSecondaryDark">#0000ca</color>
+    <color name="colorPrimaryText">#ffffff</color>
+    <color name="colorSecondaryText">#ffffff</color>
+
     <color name="colorAccent">#0D47A1</color>
-    <color name="colorTransparent">#00000000</color>
-    <color name="colorPrimaryBtn">#3B008577</color>
-
-
-    <color name="colorLoginSignUpBtn">#0D47A1</color>
 </resources>

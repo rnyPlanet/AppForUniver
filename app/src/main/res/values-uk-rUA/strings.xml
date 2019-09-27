@@ -9,7 +9,7 @@
     <string name="log_in_btn">Увійти</string>
     <string name="menu_admin">Адмін</string>
     <string name="menu_consultation">Консультації</string>
-    <string name="menu_personal_area">Кабінет користувача</string>
+    <string name="menu_user_account">Кабінет користувача</string>
     <string name="menu_schedule">Розклад</string>
     <string name="monday">Понеділок</string>
     <string name="saturday">Субота</string>
@@ -21,4 +21,11 @@
     <string name="sign_in_btn">Вхід</string>
     <string name="menu_home">Головна</string>
     <string name="error_network" translatable="false">Упс(</string>
+    <string name="consultation_activity_room">Аудиторія:</string>
+    <string name="edit_consultation">Редагувати консультацію</string>
+    <string name="user_account_department">Факультет</string>
+    <string name="user_account_email">Електрона пошта</string>
+    <string name="user_account_logout">Вихід</string>
+    <string name="user_account_phone">Телефон</string>
+    <string name="user_account_name">Ім\'я</string>
 </resources>

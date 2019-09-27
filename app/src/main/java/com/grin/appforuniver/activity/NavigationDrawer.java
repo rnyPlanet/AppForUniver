@@ -2,7 +2,6 @@ package com.grin.appforuniver.activity;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -21,7 +20,7 @@ import com.grin.appforuniver.data.utils.PreferenceUtils;
 import com.grin.appforuniver.fragments.AdminFragment;
 import com.grin.appforuniver.fragments.ConsultationFragment;
 import com.grin.appforuniver.fragments.HomeFragment;
-import com.grin.appforuniver.fragments.PersonalAreaFragment;
+import com.grin.appforuniver.fragments.UserAccountFragment;
 import com.grin.appforuniver.fragments.ScheduleFragment;
 
 public class NavigationDrawer extends AppCompatActivity
@@ -159,7 +158,7 @@ public class NavigationDrawer extends AppCompatActivity
             case R.id.nav_personal_area:
                 getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.fragment_container, new PersonalAreaFragment())
+                        .replace(R.id.fragment_container, new UserAccountFragment())
                         .commit();
                 break;
 
