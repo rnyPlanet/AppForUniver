@@ -31,11 +31,12 @@
     <string name="weekend">Weekend</string>
     <string name="consultation_activity_room">Room:</string>
     <string name="edit_consultation">Edit consultation</string>
-    <string name="user_account_logout">Logout</string>
+    <string name="user_account_logout">Log out</string>
     <string name="user_account_name">Name</string>
     <string name="user_account_email">Email</string>
     <string name="user_account_department">Department</string>
     <string name="user_account_phone">Phone</string>
     <string name="user_account_posada">Посада</string>
+    <string name="login_register">Login | Register</string>
 
 </resources>

@@ -55,7 +55,8 @@
         android:padding="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone">
 
         <LinearLayout
             android:id="@+id/user_account_username_ll"
@@ -180,6 +181,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="8dp"
         android:text="@string/user_account_logout"
+        android:background="@android:color/transparent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

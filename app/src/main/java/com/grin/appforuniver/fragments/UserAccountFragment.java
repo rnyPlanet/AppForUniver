@@ -1,5 +1,6 @@
 package com.grin.appforuniver.fragments;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -19,11 +20,15 @@ import androidx.fragment.app.Fragment;
 
 import com.grin.appforuniver.R;
 import com.grin.appforuniver.activity.LoginActivity;
+import com.grin.appforuniver.activity.NavigationDrawer;
 import com.grin.appforuniver.data.WebServices.ServiceGenerator;
 import com.grin.appforuniver.data.WebServices.UserInterface;
+import com.grin.appforuniver.data.model.user.Role;
 import com.grin.appforuniver.data.model.user.User;
 import com.grin.appforuniver.data.utils.PreferenceUtils;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -72,7 +77,7 @@ public class UserAccountFragment extends Fragment {
 
     @BindView(R.id.material_text_button)
     Button logout_ll;
-    //    LinearLayout logout_ll;
+
     private View mView;
     private Unbinder mUnbinder;
     private User mUser;
@@ -81,7 +86,7 @@ public class UserAccountFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_user_account, container, false);
 
-        getActivity().setTitle(R.string.menu_user_account);
+        Objects.requireNonNull(getActivity()).setTitle(R.string.menu_user_account);
 
         mUnbinder = ButterKnife.bind(this, mView);
 
@@ -96,6 +101,7 @@ public class UserAccountFragment extends Fragment {
         Call<User> call = userInterface.getMe(PreferenceUtils.getUserToken());
 
         call.enqueue(new Callback<User>() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
                 if (response.isSuccessful()) {
@@ -153,9 +159,15 @@ public class UserAccountFragment extends Fragment {
         PreferenceUtils.saveUsername(null);
         PreferenceUtils.savePassword(null);
         PreferenceUtils.saveUser(null);
-        Intent intent = new Intent(mView.getContext(), LoginActivity.class);
-        startActivity(intent);
-        ((Activity) mView.getContext()).finish();
+        PreferenceUtils.saveUserRoles(new ArrayList<>());
+        PreferenceUtils.saveUserToken(null);
+
+        Objects.requireNonNull(getActivity()).startActivity(new Intent(getContext(), NavigationDrawer.class));
+        getActivity().finish();
+
+//        Intent intent = new Intent(mView.getContext(), LoginActivity.class);
+//        startActivity(intent);
+//        ((Activity) mView.getContext()).finish();
     }
 
     @Override

@@ -1,178 +1,74 @@
 package com.grin.appforuniver.activity;
 
-import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
-import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.tabs.TabLayout;
 import com.grin.appforuniver.R;
-import com.grin.appforuniver.data.WebServices.AuthInterface;
-import com.grin.appforuniver.data.WebServices.ServiceGenerator;
-import com.grin.appforuniver.data.WebServices.UserInterface;
-import com.grin.appforuniver.data.model.dto.AuthenticationRequestDto;
-import com.grin.appforuniver.data.model.user.User;
-import com.grin.appforuniver.data.utils.CheckInternetBroadcast;
-import com.grin.appforuniver.data.utils.Constants;
-import com.grin.appforuniver.data.utils.PreferenceUtils;
+import com.grin.appforuniver.fragments.AdminFragment;
+import com.grin.appforuniver.fragments.auth.LoginFragment;
 
-import java.util.Map;
 import java.util.Objects;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import es.dmoral.toasty.Toasty;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-public class LoginActivity extends AppCompatActivity implements CheckInternetBroadcast.ConnectivityReceiverListener {
-
-    public final String TAG = LoginActivity.class.getSimpleName();
-    @BindView(R.id.activity_login_username_et)
-    TextInputLayout usernameTIL;
-    @BindView(R.id.activity_login_password_et)
-    TextInputLayout passwordTIL;
-    @BindView(R.id.network_error_view)
-    ConstraintLayout networkErrorView;
+public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        PreferenceUtils.context = getApplicationContext();
-        if (PreferenceUtils.getUsername() == null) {
-            setContentView(R.layout.activity_login);
-            ButterKnife.bind(this);
-            if (Build.VERSION.SDK_INT >= 21) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-                }
-                Window window = this.getWindow();
-                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-                window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-                window.setStatusBarColor(this.getResources().getColor(android.R.color.white));
-            }
-            if (savedInstanceState != null) {
-                usernameTIL.getEditText().setText(savedInstanceState.getString(Constants.USERNAME_KEY));
-                passwordTIL.getEditText().setText(savedInstanceState.getString(Constants.PASSWORD_KEY));
-            }
-        } else {
-            String sharedUsername = PreferenceUtils.getUsername();
-            String sharedUserPassword = PreferenceUtils.getPassword();
-            if (sharedUsername != null && !sharedUsername.isEmpty() && sharedUserPassword != null && !sharedUserPassword.isEmpty()) {
-                    loginUser(sharedUsername, sharedUserPassword);
-            }
+        setContentView(R.layout.activity_log_reg);
+
+        TabLayout tabLayout = findViewById(R.id.tabs_log_reg_activity);
+        ViewPager viewPager = findViewById(R.id.view_pager);
+
+        viewPager.setAdapter(new Adapter(getSupportFragmentManager()));
+        tabLayout.setupWithViewPager(viewPager);
+
+        Toolbar toolbar = findViewById(R.id.toolbar_log_reg);
+        setSupportActionBar(toolbar);
+
+        Objects.requireNonNull(getSupportActionBar()).setHomeAsUpIndicator(R.drawable.ic_arrow_back_black_24dp);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    public static class Adapter extends FragmentPagerAdapter {
+        int items = 2;
+
+        Adapter(androidx.fragment.app.FragmentManager supportFragmentManager) {
+            super(supportFragmentManager);
         }
 
-    }
-
-    public void loginUser(String username, String password) {
-        AuthInterface authInterface = ServiceGenerator.createService(AuthInterface.class);
-        AuthenticationRequestDto authenticationRequestDto = new AuthenticationRequestDto(username, password);
-
-        Call<Map<Object, Object>> call = authInterface.loginUser(authenticationRequestDto);
-        call.enqueue(new Callback<Map<Object, Object>>() {
-            @Override
-            public void onResponse(@NonNull Call<Map<Object, Object>> call, @NonNull Response<Map<Object, Object>> response) {
-                if (response.isSuccessful()) {
-                    if (response.body() != null) {
-                        for (Map.Entry<Object, Object> item : response.body().entrySet()) {
-                            if (item.getKey().equals("token")) {
-                                PreferenceUtils.saveUserToken(item.getValue().toString());
-                            }
-                        }
-
-                        if (PreferenceUtils.getUsername() == null) {
-                            PreferenceUtils.saveUsername(username);
-                            PreferenceUtils.savePassword(password);
-                        }
-
-                        getMe();
-                    }
-                } else {
-                    Toasty.error(LoginActivity.this, "Fail username OR acc is NOT ACTIVE", Toast.LENGTH_SHORT, true).show();
-                }
+        @NonNull
+        @Override
+        public Fragment getItem(int position) {
+            switch (position) {
+                case 0:
+                    return new LoginFragment();
+                case 1:
+                    return new AdminFragment();
             }
-
-            @Override
-            public void onFailure(@NonNull Call<Map<Object, Object>> call, @NonNull Throwable t) {
-                if (t.getMessage().contains("Failed to connect to /194.9.70.244:8075")) {
-                    Toasty.error(LoginActivity.this, "Check your internet connection!", Toasty.LENGTH_LONG, true).show();
-                }
-            }
-        });
-
-    }
-
-    private void getMe() {
-        UserInterface userInterface = ServiceGenerator.createService(UserInterface.class);
-
-        Call<User> call = userInterface.getMe(PreferenceUtils.getUserToken());
-        call.enqueue(new Callback<User>() {
-            @Override
-            public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
-                if (response.isSuccessful()) {
-                    if (response.body() != null && !PreferenceUtils.getUserToken().isEmpty()) {
-                        PreferenceUtils.saveUser(response.body());
-                        PreferenceUtils.saveUserRoles(response.body().getRoles());
-
-                        startActivity(new Intent(LoginActivity.this, NavigationDrawer.class));
-                        finish();
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<User> call, @NonNull Throwable t) {
-                Toasty.error(LoginActivity.this, Objects.requireNonNull(t.getMessage()), Toast.LENGTH_SHORT, true).show();
-            }
-        });
-    }
-
-    private boolean validateLoginInput() {
-        String loginInput = Objects.requireNonNull(usernameTIL.getEditText()).getText().toString().trim();
-
-        if (loginInput.isEmpty()) {
-            usernameTIL.setError("Field can't be empty");
-            return false;
-        } else {
-            usernameTIL.setError(null);
-            return true;
+            return null;
         }
 
-    }
-
-    private boolean validatePasswordInput() {
-        String passwordInput = Objects.requireNonNull(passwordTIL.getEditText()).getText().toString().trim();
-
-        if (passwordInput.isEmpty()) {
-            passwordTIL.setError("Field can't be empty");
-            return false;
-        } else {
-            passwordTIL.setError(null);
-            return true;
+        @Override
+        public int getCount() {
+            return items;
         }
 
-    }
-
-    @OnClick(R.id.activity_login_login_btn)
-    public void logIn() {
-        if (validateLoginInput() & validatePasswordInput()) {
-            loginUser(Objects.requireNonNull(usernameTIL.getEditText()).getText().toString(),
-                    Objects.requireNonNull(passwordTIL.getEditText()).getText().toString());
+        @Override
+        public CharSequence getPageTitle(int position) {
+            switch (position) {
+                case 0:
+                    return "Login";
+                case 1:
+                    return "Registr";
+            }
+            return null;
         }
-    }
-
-    @Override
-    public void onNetworkConnectionChanged(boolean isConnected) {
     }
 }

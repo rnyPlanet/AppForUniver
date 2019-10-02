@@ -1,5 +1,7 @@
 package com.grin.appforuniver.activity;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -7,6 +9,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -23,8 +26,12 @@ import com.grin.appforuniver.fragments.HomeFragment;
 import com.grin.appforuniver.fragments.UserAccountFragment;
 import com.grin.appforuniver.fragments.ScheduleFragment;
 
+import java.io.Serializable;
+
+import butterknife.BindView;
+
 public class NavigationDrawer extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     public final String TAG = NavigationDrawer.class.getSimpleName();
 
@@ -38,7 +45,15 @@ public class NavigationDrawer extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation_drawer);
 
+        if (Build.VERSION.SDK_INT >= 21) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            }
+        }
+
         navigationDrawer();
+
+        PreferenceUtils.context = this;
 
         mUser = PreferenceUtils.getSaveUser();
 
@@ -49,15 +64,7 @@ public class NavigationDrawer extends AppCompatActivity
 
         userInfo();
 
-        if (Build.VERSION.SDK_INT >= 21) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-            }
-        }
-
-        if (PreferenceUtils.getUserRoles().contains("ROLE_ADMIN")) {
-            mNavigationView.getMenu().findItem(R.id.nav_admin).setVisible(true);
-        }
+        mNavigationView.getHeaderView(0).findViewById(R.id.nav_log_or_registr).setOnClickListener(this);
 
     }
 
@@ -77,13 +84,27 @@ public class NavigationDrawer extends AppCompatActivity
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.black));
     }
 
-    private void userInfo() {
-        TextView nvHeaderFirstLastNameTv = mNavigationView.getHeaderView(0).findViewById(R.id.nv_header_firstName_lastName_tv);
-        nvHeaderFirstLastNameTv.setText(mUser.getFirstName() + " " + mUser.getLastName());
+    @SuppressLint("SetTextI18n")
+    public void userInfo() {
+        if(mUser != null) {
+            TextView nvHeaderFirstLastNameTv = mNavigationView.getHeaderView(0).findViewById(R.id.nav_header_firstName_lastName);
+            nvHeaderFirstLastNameTv.setVisibility(View.VISIBLE);
+            nvHeaderFirstLastNameTv.setText(mUser.getFirstName() + " " + mUser.getLastName());
 
-        TextView nvHeaderUserEmailTv = mNavigationView.getHeaderView(0).findViewById(R.id.nv_header_user_email_tv);
-        nvHeaderUserEmailTv.setText(mUser.getEmail());
+            TextView nvHeaderUserEmailTv = mNavigationView.getHeaderView(0).findViewById(R.id.nav_header_email);
+            nvHeaderUserEmailTv.setVisibility(View.VISIBLE);
+            nvHeaderUserEmailTv.setText(mUser.getEmail());
 
+            if (PreferenceUtils.getUserRoles().contains("ROLE_ADMIN")) { mNavigationView.getMenu().findItem(R.id.nav_admin).setVisible(true); }
+
+            mNavigationView.getHeaderView(0).findViewById(R.id.nav_log_or_registr).setVisibility(View.GONE);
+            mNavigationView.getMenu().findItem(R.id.nav_personal_area).setVisible(true);
+        } else {
+            mNavigationView.getHeaderView(0).findViewById(R.id.nav_header_firstName_lastName).setVisibility(View.GONE);
+            mNavigationView.getHeaderView(0).findViewById(R.id.nav_header_email).setVisibility(View.GONE);
+            mNavigationView.getHeaderView(0).findViewById(R.id.nav_log_or_registr).setVisibility(View.VISIBLE);
+            mNavigationView.getMenu().findItem(R.id.nav_personal_area).setVisible(false);
+        }
     }
 
     @Override
@@ -95,34 +116,8 @@ public class NavigationDrawer extends AppCompatActivity
         }
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.navigation_drawer, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//
-//        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
-//        if (id == R.id.action_logout) {
-//            return true;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
-
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        // Handle navigation view item clicks here.
 
         switch (item.getItemId()) {
             case R.id.nav_home:
@@ -169,4 +164,29 @@ public class NavigationDrawer extends AppCompatActivity
         return true;
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.nav_log_or_registr:
+                startActivityForResult(new Intent(this, LoginActivity.class), 1);
+                break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (data == null) return;
+
+        if (resultCode == RESULT_OK) {
+            if(requestCode == 1) {
+                mUser = PreferenceUtils.getSaveUser();
+                userInfo();
+//                Serializable serializableData = data.getSerializableExtra("person");
+//                User person = (User) serializableData;
+//                checkLogin(person);
+            }
+        }
+    }
 }
