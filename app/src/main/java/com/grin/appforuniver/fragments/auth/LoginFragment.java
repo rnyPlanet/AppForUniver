@@ -92,7 +92,6 @@ public class LoginFragment extends Fragment {
             public void onFailure(@NonNull Call<Map<Object, Object>> call, @NonNull Throwable t) {
                 mProgressBar.dismiss();
                 if (Objects.requireNonNull(t.getMessage()).contains("Failed to connect to /194.9.70.244:8075")) {
-
                     Toasty.error(Objects.requireNonNull(getContext()), "Check your internet connection!", Toasty.LENGTH_LONG, true).show();
                 }
             }
@@ -176,12 +175,13 @@ public class LoginFragment extends Fragment {
     @OnClick(R.id.activity_login_login_btn)
     void logIn() {
         if (validateLoginInput() & validatePasswordInput()) {
+            mProgressBar.setMessage("Checking...");
+            mProgressBar.show();
+
             loginUser(Objects.requireNonNull(usernameTIL.getEditText()).getText().toString(),
                     Objects.requireNonNull(passwordTIL.getEditText()).getText().toString());
 
-            mProgressBar.setMessage("Checking...");
-            mProgressBar.show();
-            mProgressBar.setCancelable(false);
+
         }
     }
 

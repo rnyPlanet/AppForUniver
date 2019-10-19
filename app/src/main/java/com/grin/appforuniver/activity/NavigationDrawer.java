@@ -1,12 +1,14 @@
 package com.grin.appforuniver.activity;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,6 +20,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
 import com.grin.appforuniver.R;
+import com.grin.appforuniver.data.WebServices.ServiceGenerator;
+import com.grin.appforuniver.data.WebServices.UserInterface;
 import com.grin.appforuniver.data.model.user.User;
 import com.grin.appforuniver.data.utils.PreferenceUtils;
 import com.grin.appforuniver.fragments.AdminFragment;
@@ -27,8 +31,13 @@ import com.grin.appforuniver.fragments.UserAccountFragment;
 import com.grin.appforuniver.fragments.ScheduleFragment;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import butterknife.BindView;
+import es.dmoral.toasty.Toasty;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class NavigationDrawer extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
@@ -55,7 +64,8 @@ public class NavigationDrawer extends AppCompatActivity
 
         PreferenceUtils.context = this;
 
-        mUser = PreferenceUtils.getSaveUser();
+        getMe();
+//        mUser = PreferenceUtils.getSaveUser();
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
@@ -66,6 +76,29 @@ public class NavigationDrawer extends AppCompatActivity
 
         mNavigationView.getHeaderView(0).findViewById(R.id.nav_log_or_registr).setOnClickListener(this);
 
+    }
+
+    private void getMe() {
+        UserInterface userInterface = ServiceGenerator.createService(UserInterface.class);
+
+        Call<User> call = userInterface.getMe(PreferenceUtils.getUserToken());
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
+                if (response.isSuccessful()) {
+                    if (response.body() != null && !PreferenceUtils.getUserToken().isEmpty()) {
+                        PreferenceUtils.saveUser(response.body());
+                        PreferenceUtils.saveUserRoles(response.body().getRoles());
+                        mUser = response.body();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<User> call, @NonNull Throwable t) {
+                Toasty.error(Objects.requireNonNull(getApplicationContext()), Objects.requireNonNull(t.getMessage()), Toast.LENGTH_SHORT, true).show();
+            }
+        });
     }
 
     private void navigationDrawer() {

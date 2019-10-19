@@ -38,5 +38,10 @@
     <string name="user_account_phone">Phone</string>
     <string name="user_account_posada">Посада</string>
     <string name="login_register">Login | Register</string>
+    <string name="fragment_reg_middle_name">Middle name</string>
+    <string name="fragment_reg_first_name">First name</string>
+    <string name="fragment_reg_lastname">Last Name</string>
+    <string name="fragment_reg_sign_up">Sign up</string>
+    <string name="fragment_reg_email">Email</string>
 
 </resources>

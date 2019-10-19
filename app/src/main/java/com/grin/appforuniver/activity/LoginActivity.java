@@ -13,6 +13,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.grin.appforuniver.R;
 import com.grin.appforuniver.fragments.AdminFragment;
 import com.grin.appforuniver.fragments.auth.LoginFragment;
+import com.grin.appforuniver.fragments.auth.RegFragment;
 
 import java.util.Objects;
 
@@ -50,7 +51,7 @@ public class LoginActivity extends AppCompatActivity {
                 case 0:
                     return new LoginFragment();
                 case 1:
-                    return new AdminFragment();
+                    return new RegFragment();
             }
             return null;
         }

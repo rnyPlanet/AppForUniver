@@ -1,6 +1,8 @@
 package com.grin.appforuniver.data.WebServices;
 
 import com.grin.appforuniver.data.model.dto.AuthenticationRequestDto;
+import com.grin.appforuniver.data.model.dto.RegisterRequestDto;
+import com.grin.appforuniver.data.model.user.User;
 
 import java.util.Map;
 
@@ -14,4 +16,6 @@ public interface AuthInterface {
     @POST("auth/login")
     Call<Map<Object, Object>> loginUser(@Body AuthenticationRequestDto authenticationRequestDto);
 
+    @POST("auth/reg")
+    Call<User> regUser(@Body RegisterRequestDto registerRequestDto);
 }
