@@ -20,8 +20,10 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
 import com.grin.appforuniver.R;
+import com.grin.appforuniver.data.WebServices.AuthInterface;
 import com.grin.appforuniver.data.WebServices.ServiceGenerator;
 import com.grin.appforuniver.data.WebServices.UserInterface;
+import com.grin.appforuniver.data.model.dto.AuthenticationRequestDto;
 import com.grin.appforuniver.data.model.user.User;
 import com.grin.appforuniver.data.utils.PreferenceUtils;
 import com.grin.appforuniver.fragments.AdminFragment;
@@ -31,6 +33,7 @@ import com.grin.appforuniver.fragments.UserAccountFragment;
 import com.grin.appforuniver.fragments.ScheduleFragment;
 
 import java.io.Serializable;
+import java.util.Map;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -63,19 +66,57 @@ public class NavigationDrawer extends AppCompatActivity
         navigationDrawer();
 
         PreferenceUtils.context = this;
-        PreferenceUtils.saveUserToken(null);
-
-        getMe();
-//        mUser = PreferenceUtils.getSaveUser();
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
             mNavigationView.setCheckedItem(R.id.nav_home);
         }
 
-        userInfo();
+        loginUser();
+        mUser = PreferenceUtils.getSaveUser();
 
+        userInfo();
         mNavigationView.getHeaderView(0).findViewById(R.id.nav_log_or_registr).setOnClickListener(this);
+
+    }
+
+    private void loginUser() {
+        AuthInterface authInterface = ServiceGenerator.createService(AuthInterface.class);
+        String username = PreferenceUtils.getUsername();
+        String password = PreferenceUtils.getPassword();
+        AuthenticationRequestDto authenticationRequestDto = new AuthenticationRequestDto(username, password);
+
+        Call<Map<Object, Object>> call = authInterface.loginUser(authenticationRequestDto);
+        call.enqueue(new Callback<Map<Object, Object>>() {
+            @Override
+            public void onResponse(@NonNull Call<Map<Object, Object>> call, @NonNull Response<Map<Object, Object>> response) {
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        for (Map.Entry<Object, Object> item : response.body().entrySet()) {
+                            if (item.getKey().equals("token")) {
+                                PreferenceUtils.saveUserToken(item.getValue().toString());
+                            }
+                        }
+
+                        if (PreferenceUtils.getUsername() == null) {
+                            PreferenceUtils.saveUsername(username);
+                            PreferenceUtils.savePassword(password);
+                        }
+
+                        getMe();
+                        userInfo();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Map<Object, Object>> call, @NonNull Throwable t) {
+                if (Objects.requireNonNull(t.getMessage()).contains("Failed to connect to /194.9.70.244:8075")) {
+                    PreferenceUtils.saveUserToken(null);
+                    Toasty.error(getApplicationContext(), "Check your internet connection!", Toasty.LENGTH_LONG, true).show();
+                }
+            }
+        });
 
     }
 
@@ -84,6 +125,7 @@ public class NavigationDrawer extends AppCompatActivity
 
 //        Call<User> call = userInterface.getMe(PreferenceUtils.getUserToken());
         Call<User> call = userInterface.getMe();
+
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
@@ -91,7 +133,6 @@ public class NavigationDrawer extends AppCompatActivity
                     if (response.body() != null && !PreferenceUtils.getUserToken().isEmpty()) {
                         PreferenceUtils.saveUser(response.body());
                         PreferenceUtils.saveUserRoles(response.body().getRoles());
-                        mUser = response.body();
                     }
                 }
             }
@@ -121,6 +162,7 @@ public class NavigationDrawer extends AppCompatActivity
 
     @SuppressLint("SetTextI18n")
     public void userInfo() {
+
         if(mUser != null) {
             TextView nvHeaderFirstLastNameTv = mNavigationView.getHeaderView(0).findViewById(R.id.nav_header_firstName_lastName);
             nvHeaderFirstLastNameTv.setVisibility(View.VISIBLE);

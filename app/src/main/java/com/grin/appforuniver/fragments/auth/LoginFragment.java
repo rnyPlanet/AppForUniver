@@ -81,9 +81,11 @@ public class LoginFragment extends Fragment {
                         }
 
                         getMe();
+
                     }
                 } else {
                     mProgressBar.dismiss();
+                    PreferenceUtils.saveUserToken(null);
                     Toasty.error(Objects.requireNonNull(getContext()), "Fail username OR acc is NOT ACTIVE", Toast.LENGTH_SHORT, true).show();
                 }
             }
@@ -92,6 +94,7 @@ public class LoginFragment extends Fragment {
             public void onFailure(@NonNull Call<Map<Object, Object>> call, @NonNull Throwable t) {
                 mProgressBar.dismiss();
                 if (Objects.requireNonNull(t.getMessage()).contains("Failed to connect to /194.9.70.244:8075")) {
+                    PreferenceUtils.saveUserToken(null);
                     Toasty.error(Objects.requireNonNull(getContext()), "Check your internet connection!", Toasty.LENGTH_LONG, true).show();
                 }
             }
