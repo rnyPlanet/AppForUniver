@@ -63,6 +63,7 @@ public class NavigationDrawer extends AppCompatActivity
         navigationDrawer();
 
         PreferenceUtils.context = this;
+        PreferenceUtils.saveUserToken(null);
 
         getMe();
 //        mUser = PreferenceUtils.getSaveUser();
@@ -81,7 +82,8 @@ public class NavigationDrawer extends AppCompatActivity
     private void getMe() {
         UserInterface userInterface = ServiceGenerator.createService(UserInterface.class);
 
-        Call<User> call = userInterface.getMe(PreferenceUtils.getUserToken());
+//        Call<User> call = userInterface.getMe(PreferenceUtils.getUserToken());
+        Call<User> call = userInterface.getMe();
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {

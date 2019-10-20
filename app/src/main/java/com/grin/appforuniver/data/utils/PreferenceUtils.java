@@ -59,15 +59,14 @@ public class PreferenceUtils {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         Gson gson = new Gson();
         String strUser = prefs.getString(Constants.SAVE_USER_KEY, null);
-        User user = gson.fromJson(strUser, User.class);
 
-        return user;
+        return gson.fromJson(strUser, User.class);
     }
 
     public static boolean saveUserToken(String token ) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor prefsEditor = prefs.edit();
-        prefsEditor.putString(Constants.USER_TOKEN_KEY, "Bearer_" + token);
+        prefsEditor.putString(Constants.USER_TOKEN_KEY, token == null || token.isEmpty() ? "" : "Bearer_" + token );
         prefsEditor.apply();
         return true;
     }

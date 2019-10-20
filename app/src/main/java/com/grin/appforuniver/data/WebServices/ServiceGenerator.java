@@ -3,6 +3,9 @@ package com.grin.appforuniver.data.WebServices;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.grin.appforuniver.data.utils.Constants;
+import com.grin.appforuniver.data.utils.PreferenceUtils;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 
@@ -19,9 +22,32 @@ public class ServiceGenerator {
     private static Retrofit retrofit = null;
     private static Gson gson = new GsonBuilder().create();
 
-    public static  <T> T createService(Class<T> serviceClass) {
-        if(retrofit == null) {
+//    public static  <T> T createService(Class<T> serviceClass) {
+//        if(retrofit == null) {
+//            retrofit = new Retrofit.Builder()
+//                    .baseUrl(Constants.BASE_URL)
+//                    .addConverterFactory(GsonConverterFactory.create(gson))
+//                    .build();
+//        }
+//        return retrofit.create(serviceClass);
+//    }
+
+    private static HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY);
+
+    private static OkHttpClient.Builder okHttpClientBuilder = new OkHttpClient.Builder()
+            .addInterceptor(httpLoggingInterceptor)
+            .addInterceptor(chain -> {
+                Request request = chain.request().newBuilder()
+                        .addHeader("Authorization", PreferenceUtils.getUserToken())
+                        .build();
+                return chain.proceed(request);
+            });
+    private static OkHttpClient okHttpClient = okHttpClientBuilder.build();
+
+    public static <T> T createService(Class<T> serviceClass){
+        if(retrofit == null){
             retrofit = new Retrofit.Builder()
+                    .client(okHttpClient)
                     .baseUrl(Constants.BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .build();

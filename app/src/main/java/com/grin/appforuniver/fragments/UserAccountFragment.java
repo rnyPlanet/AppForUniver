@@ -98,7 +98,8 @@ public class UserAccountFragment extends Fragment {
     private void getMe(Context context) {
         UserInterface userInterface = ServiceGenerator.createService(UserInterface.class);
 
-        Call<User> call = userInterface.getMe(PreferenceUtils.getUserToken());
+//        Call<User> call = userInterface.getMe(PreferenceUtils.getUserToken());
+        Call<User> call = userInterface.getMe();
 
         call.enqueue(new Callback<User>() {
             @SuppressLint("SetTextI18n")
@@ -165,9 +166,6 @@ public class UserAccountFragment extends Fragment {
         Objects.requireNonNull(getActivity()).startActivity(new Intent(getContext(), NavigationDrawer.class));
         getActivity().finish();
 
-//        Intent intent = new Intent(mView.getContext(), LoginActivity.class);
-//        startActivity(intent);
-//        ((Activity) mView.getContext()).finish();
     }
 
     @Override
