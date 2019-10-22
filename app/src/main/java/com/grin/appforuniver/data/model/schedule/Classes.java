@@ -6,6 +6,7 @@
 package com.grin.appforuniver.data.model.schedule;
 
 import com.google.gson.annotations.SerializedName;
+import com.grin.appforuniver.data.utils.Constants;
 
 import lombok.Data;
 
@@ -24,11 +25,8 @@ public class Classes {
     @SerializedName("type")
     private String mType;
 
-
-    public enum Place {MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, POOL}
-
     @SerializedName("place")
-    private Place mPlace;
+    private Constants.Place mPlace;
 
     @SerializedName("indexInDay")
     private int mIndexInDay;
@@ -36,10 +34,8 @@ public class Classes {
     @SerializedName("additionalRequirements")
     private String mAdditionalRequirements;
 
-    public enum Week {FIRST, SECOND, BOTH}
-
     @SerializedName("week")
-    private Week mWeek;
+    private Constants.Week mWeek;
 
     @SerializedName("assignedGroupID")
     private Groups mAssignedGroupID;
@@ -50,10 +46,8 @@ public class Classes {
     @SerializedName("roomID")
     private Rooms mRoomID;
 
-    public enum Subgroup {FIRST, SECOND, BOTH}
-
     @SerializedName("subgroup")
-    private Subgroup mSubgroup;
+    private Constants.Subgroup mSubgroup;
 
     public Integer getId() {
         return mId;
@@ -67,7 +61,7 @@ public class Classes {
         return mType;
     }
 
-    public Place getPlace() {
+    public Constants.Place getPlace() {
         return mPlace;
     }
 
@@ -79,7 +73,7 @@ public class Classes {
         return mAdditionalRequirements;
     }
 
-    public Week getWeek() {
+    public Constants.Week getWeek() {
         return mWeek;
     }
 
@@ -95,7 +89,7 @@ public class Classes {
         return mRoomID;
     }
 
-    public Subgroup getSubgroup() {
+    public Constants.Subgroup getSubgroup() {
         return mSubgroup;
     }
 

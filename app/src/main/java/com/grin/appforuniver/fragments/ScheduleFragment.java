@@ -16,6 +16,7 @@ import com.grin.appforuniver.R;
 import com.grin.appforuniver.data.WebServices.ScheduleInterface;
 import com.grin.appforuniver.data.WebServices.ServiceGenerator;
 import com.grin.appforuniver.data.model.schedule.Classes;
+import com.grin.appforuniver.data.utils.Constants;
 import com.grin.appforuniver.data.utils.PreferenceUtils;
 import com.grin.appforuniver.fragments.schedule.ScheduleDayFragment;
 
@@ -52,8 +53,8 @@ public class ScheduleFragment extends Fragment {
                 R.id.containerSaturday
         };
         int counter = 0;
-        for (Classes.Place place : Classes.Place.values()) {
-            if (place == Classes.Place.POOL)
+        for (Constants.Place place : Constants.Place.values()) {
+            if (place == Constants.Place.POOL)
                 break;
             Call<List<Classes>> call = scheduleInterface.getSchedulePlace(PreferenceUtils.getUserToken(), place);
             int finalCounter = counter;
@@ -79,13 +80,13 @@ public class ScheduleFragment extends Fragment {
         }
     }
 
-    private void logcatListClasses(List<Classes> list, Classes.Place place) {
+    private void logcatListClasses(List<Classes> list, Constants.Place place) {
         for (Classes classes : list) {
             Log.d(TAG, place.toString() + '\t' + classes.toString());
         }
     }
 
-    private void logcatFailureGetClasses(Classes.Place place, Context context, Throwable t) {
+    private void logcatFailureGetClasses(Constants.Place place, Context context, Throwable t) {
         String message = "ERROR: " + place.toString() + '\t' + Objects.requireNonNull(t.getMessage());
         Log.d(TAG, message);
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show();

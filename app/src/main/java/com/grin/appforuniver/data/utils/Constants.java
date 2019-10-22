@@ -10,4 +10,9 @@ public class Constants {
 
     public static final String BASE_URL = "http://194.9.70.244:8075/api/v1/";
 
+    public enum Place {MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, POOL}
+
+    public enum Week {FIRST, SECOND, BOTH}
+
+    public enum Subgroup {FIRST, SECOND, BOTH}
 }

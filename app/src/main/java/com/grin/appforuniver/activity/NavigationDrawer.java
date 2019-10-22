@@ -65,7 +65,7 @@ public class NavigationDrawer extends AppCompatActivity
 
         navigationDrawer();
 
-        PreferenceUtils.context = this;
+        PreferenceUtils.context = getApplicationContext();
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();

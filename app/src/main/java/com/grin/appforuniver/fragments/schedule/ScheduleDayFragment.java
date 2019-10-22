@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 
 import com.grin.appforuniver.R;
 import com.grin.appforuniver.data.model.schedule.Classes;
+import com.grin.appforuniver.data.utils.Constants;
 
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class ScheduleDayFragment extends Fragment {
     private static final String TAG = "ScheduleDayFragment";
     private View mView;
     private List<Classes> mListClasses;
-    private Classes.Place place;
+    private Constants.Place place;
     private ConstraintLayout[] mContainerClasses;
 
     private boolean bothSubgroup_firstWeek;
@@ -44,7 +45,7 @@ public class ScheduleDayFragment extends Fragment {
     private String secondSubgroup_secondWeekStr;
     private String secondSubgroup_bothWeekStr;
 
-    public ScheduleDayFragment(Classes.Place place, List<Classes> mListClasses) {
+    public ScheduleDayFragment(Constants.Place place, List<Classes> mListClasses) {
         this.place = place;
         this.mListClasses = mListClasses;
         Log.d(TAG, "ScheduleDayFragment: " + place.toString() + "\tCreated");
@@ -84,39 +85,39 @@ public class ScheduleDayFragment extends Fragment {
             bothSubgroup_bothWeek = false;
             for (Classes classes : mListClasses) {
                 if (classes.getIndexInDay() == indexDay) {
-                    if (classes.getSubgroup() == Classes.Subgroup.FIRST && classes.getWeek() == Classes.Week.FIRST) {
+                    if (classes.getSubgroup() == Constants.Subgroup.FIRST && classes.getWeek() == Constants.Week.FIRST) {
                         firstSubgroup_firstWeek = true;
                         firstSubgroup_firstWeekStr = classes.getSubject();
                     }
-                    if (classes.getSubgroup() == Classes.Subgroup.FIRST && classes.getWeek() == Classes.Week.SECOND) {
+                    if (classes.getSubgroup() == Constants.Subgroup.FIRST && classes.getWeek() == Constants.Week.SECOND) {
                         firstSubgroup_secondWeek = true;
                         firstSubgroup_secondWeekStr = classes.getSubject();
                     }
-                    if (classes.getSubgroup() == Classes.Subgroup.FIRST && classes.getWeek() == Classes.Week.BOTH) {
+                    if (classes.getSubgroup() == Constants.Subgroup.FIRST && classes.getWeek() == Constants.Week.BOTH) {
                         firstSubgroup_bothWeek = true;
                         firstSubgroup_bothWeekStr = classes.getSubject();
                     }
-                    if (classes.getSubgroup() == Classes.Subgroup.SECOND && classes.getWeek() == Classes.Week.FIRST) {
+                    if (classes.getSubgroup() == Constants.Subgroup.SECOND && classes.getWeek() == Constants.Week.FIRST) {
                         secondSubgroup_firstWeek = true;
                         secondSubgroup_firstWeekStr = classes.getSubject();
                     }
-                    if (classes.getSubgroup() == Classes.Subgroup.SECOND && classes.getWeek() == Classes.Week.SECOND) {
+                    if (classes.getSubgroup() == Constants.Subgroup.SECOND && classes.getWeek() == Constants.Week.SECOND) {
                         secondSubgroup_secondWeek = true;
                         secondSubgroup_secondWeekStr = classes.getSubject();
                     }
-                    if (classes.getSubgroup() == Classes.Subgroup.SECOND && classes.getWeek() == Classes.Week.BOTH) {
+                    if (classes.getSubgroup() == Constants.Subgroup.SECOND && classes.getWeek() == Constants.Week.BOTH) {
                         secondSubgroup_bothWeek = true;
                         secondSubgroup_bothWeekStr = classes.getSubject();
                     }
-                    if (classes.getSubgroup() == Classes.Subgroup.BOTH && classes.getWeek() == Classes.Week.FIRST) {
+                    if (classes.getSubgroup() == Constants.Subgroup.BOTH && classes.getWeek() == Constants.Week.FIRST) {
                         bothSubgroup_firstWeek = true;
                         bothSubgroup_firstWeekStr = classes.getSubject();
                     }
-                    if (classes.getSubgroup() == Classes.Subgroup.BOTH && classes.getWeek() == Classes.Week.SECOND) {
+                    if (classes.getSubgroup() == Constants.Subgroup.BOTH && classes.getWeek() == Constants.Week.SECOND) {
                         bothSubgroup_secondWeek = true;
                         bothSubgroup_secondWeekStr = classes.getSubject();
                     }
-                    if (classes.getSubgroup() == Classes.Subgroup.BOTH && classes.getWeek() == Classes.Week.BOTH) {
+                    if (classes.getSubgroup() == Constants.Subgroup.BOTH && classes.getWeek() == Constants.Week.BOTH) {
                         bothSubgroup_bothWeek = true;
                         bothSubgroup_bothWeekStr = classes.getSubject();
                     }
