@@ -1,7 +1,5 @@
 package com.grin.appforuniver.fragments;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,15 +18,12 @@ import androidx.fragment.app.Fragment;
 
 import com.grin.appforuniver.R;
 import com.grin.appforuniver.activity.LoginActivity;
-import com.grin.appforuniver.activity.NavigationDrawer;
 import com.grin.appforuniver.data.WebServices.ServiceGenerator;
 import com.grin.appforuniver.data.WebServices.UserInterface;
-import com.grin.appforuniver.data.model.user.Role;
 import com.grin.appforuniver.data.model.user.User;
 import com.grin.appforuniver.data.utils.PreferenceUtils;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -75,8 +70,8 @@ public class UserAccountFragment extends Fragment {
     @BindView(R.id.user_account_phone1_tv)
     TextView telefon1_tv;
 
-    @BindView(R.id.material_text_button)
-    Button logout_ll;
+    @BindView(R.id.user_account_detail_log_out_button)
+    Button logout_btn;
 
     private View mView;
     private Unbinder mUnbinder;
@@ -98,11 +93,9 @@ public class UserAccountFragment extends Fragment {
     private void getMe(Context context) {
         UserInterface userInterface = ServiceGenerator.createService(UserInterface.class);
 
-//        Call<User> call = userInterface.getMe(PreferenceUtils.getUserToken());
         Call<User> call = userInterface.getMe();
 
         call.enqueue(new Callback<User>() {
-            @SuppressLint("SetTextI18n")
             @Override
             public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
                 if (response.isSuccessful()) {
@@ -142,7 +135,7 @@ public class UserAccountFragment extends Fragment {
 
                         detail_progress.setVisibility(View.GONE);
                         userinfo_rl.setVisibility(View.VISIBLE);
-                        logout_ll.setVisibility(View.VISIBLE);
+                        logout_btn.setVisibility(View.VISIBLE);
 
                     }
                 }
@@ -155,15 +148,11 @@ public class UserAccountFragment extends Fragment {
         });
     }
 
-    @OnClick(R.id.material_text_button)
+    @OnClick(R.id.user_account_detail_log_out_button)
     void onClickLogout() {
-        PreferenceUtils.saveUsername(null);
-        PreferenceUtils.savePassword(null);
-        PreferenceUtils.saveUser(null);
-        PreferenceUtils.saveUserRoles(new ArrayList<>());
-        PreferenceUtils.saveUserToken(null);
+        logOut();
 
-        Objects.requireNonNull(getActivity()).startActivity(new Intent(getContext(), NavigationDrawer.class));
+        Objects.requireNonNull(getActivity()).startActivity(new Intent(getContext(), LoginActivity.class));
         getActivity().finish();
 
     }
@@ -172,6 +161,14 @@ public class UserAccountFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         mUnbinder.unbind();
+    }
+
+    private void logOut() {
+        PreferenceUtils.saveUsername(null);
+        PreferenceUtils.savePassword(null);
+        PreferenceUtils.saveUser(null);
+        PreferenceUtils.saveUserRoles(new ArrayList<>());
+        PreferenceUtils.saveUserToken(null);
     }
 
 }

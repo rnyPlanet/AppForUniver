@@ -9,10 +9,7 @@ import com.google.gson.annotations.SerializedName;
 
 import lombok.Data;
 
-/**
- *
- * @author Йцукен
- */
+
 @Data
 public class Rooms {
 
@@ -33,7 +30,7 @@ public class Rooms {
 
     @SerializedName("type")
     private String mType;
-    
+
     @Override
     public String toString() {
         return "newModel.Rooms[ id= ]";

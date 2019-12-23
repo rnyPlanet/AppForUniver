@@ -2,19 +2,50 @@ package com.grin.appforuniver.data.WebServices;
 
 
 import com.grin.appforuniver.data.model.consultation.Consultation;
+import com.grin.appforuniver.data.model.dto.ConsultationUpdateRequestDto;
 
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.POST;
+import retrofit2.http.PUT;
+import retrofit2.http.Path;
 
 public interface ConsultationInterface {
 
     @GET("consultation/all")
-    Call<List<Consultation>> getConsultation(@Header("Authorization") String token);
+    Call<List<Consultation>> getAllConsultations(@Header("Authorization") String token);
 
     @GET("consultation/myConsultation")
     Call<List<Consultation>> getMyConsultation(@Header("Authorization") String token);
+
+    @GET("consultation/subscribe")
+    Call<List<Consultation>> getSubscribeConsultations(@Header("Authorization") String token);
+
+    @GET("consultation/isCanUpdate/{id}")
+    Call<Boolean> isCanUpdateConsultation(@Header("Authorization") String token, @Path("id") int id);
+
+    @GET("consultation/{id}")
+    Call<Consultation> getConsultationById(@Header("Authorization") String token, @Path("id") int id);
+
+    @GET("consultation/isCanSubscribe/{id}")
+    Call<Boolean> isCanSubscribe(@Header("Authorization") String token, @Path("id") int id);
+
+
+    @PUT("consultation/update")
+    Call<Consultation> updateConsultation(@Header("Authorization") String token, @Body ConsultationUpdateRequestDto consultationUpdateRequestDto);
+
+    @POST("consultation/addСonsultation")
+    Call<Consultation> createConsultation(@Header("Authorization") String token, @Body ConsultationUpdateRequestDto consultationUpdateRequestDto);
+
+    @POST("consultation/follow/{id}")
+    Call<Boolean> subscribeOnConsultationById(@Header("Authorization") String token, @Path("id") int id);
+
+    @PUT("consultation/unfollow/{id}")
+    Call<Boolean> unsubscribeOnConsultationById(@Header("Authorization") String token, @Path("id") int id);
+
 
 }

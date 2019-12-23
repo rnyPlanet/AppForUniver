@@ -1,36 +1,29 @@
 package com.grin.appforuniver.fragments;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.tabs.TabLayout;
 import com.grin.appforuniver.R;
-import com.grin.appforuniver.data.WebServices.ConsultationInterface;
-import com.grin.appforuniver.data.WebServices.ServiceGenerator;
-import com.grin.appforuniver.data.model.consultation.Consultation;
 import com.grin.appforuniver.data.utils.PreferenceUtils;
-import com.mikepenz.fastadapter.FastAdapter;
-import com.mikepenz.fastadapter.adapters.ItemAdapter;
+import com.grin.appforuniver.fragments.consultations.ConsultationsAllFragment;
+import com.grin.appforuniver.fragments.consultations.ConsultationsMyFragment;
+import com.grin.appforuniver.fragments.consultations.ConsultationsSubscribeFragment;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import es.dmoral.toasty.Toasty;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class ConsultationFragment extends Fragment {
 
@@ -39,68 +32,64 @@ public class ConsultationFragment extends Fragment {
     private View mView;
     private Unbinder mUnbinder;
 
-    private ItemAdapter<Consultation> mItemAdapter = new ItemAdapter<>();
-    private FastAdapter mFastAdapter = null;
+    @BindView(R.id.fragment_consultation_viewpager)
+    ViewPager viewPager;
+    @BindView(R.id.fragment_consultation_tabLayout)
+    TabLayout tabLayout;
 
-    @BindView(R.id.fragment_consultation_rv) RecyclerView recyclerView;
-    @BindView(R.id.fragment_consultation_fab) FloatingActionButton floatingActionButton;
-
-    @SuppressLint("RestrictedApi")
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_consultation, container, false);
         getActivity().setTitle(R.string.menu_consultation);
         mUnbinder = ButterKnife.bind(this, mView);
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mView.getContext());
-        recyclerView.setLayoutManager(linearLayoutManager);
+        PagerAdapter mFragmentAdapter = new PagerAdapter(getChildFragmentManager());
+        viewPager.setAdapter(mFragmentAdapter);
 
-        mFastAdapter = FastAdapter.with(mItemAdapter);
-
-        recyclerView.setAdapter(mFastAdapter);
-
-        getConsultation();
-
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                if (dy > 0 && floatingActionButton.getVisibility() == View.VISIBLE) {
-                    floatingActionButton.hide();
-                } else if (dy < 0 && floatingActionButton.getVisibility() != View.VISIBLE) {
-                    floatingActionButton.show();
-                }
-            }
-        });
-
-        if(PreferenceUtils.getUserRoles().contains("ROLE_TEACHER")) {
-            floatingActionButton.setVisibility(View.VISIBLE);
-        }
-
+        tabLayout.setVisibility(View.VISIBLE);
+        tabLayout.setupWithViewPager(viewPager);
 
         return mView;
     }
 
-    private void getConsultation() {
+    private class PagerAdapter extends FragmentPagerAdapter {
 
-        ConsultationInterface consultationInterface = ServiceGenerator.createService(ConsultationInterface.class);
+        private List<String> titlePages;
+        private List<Fragment> fragmentPages;
 
-        Call<List<Consultation>> call = consultationInterface.getMyConsultation(PreferenceUtils.getUserToken());
-        call.enqueue(new Callback<List<Consultation>>() {
-            @Override
-            public void onResponse(Call<List<Consultation>> call, Response<List<Consultation>> response) {
-                if (response.isSuccessful()) {
-                    if (response.body() != null) {
-                        mItemAdapter.add(response.body());
-                    }
-                }
+        public PagerAdapter(FragmentManager supportFragmentManager) {
+            super(supportFragmentManager);
+
+            titlePages = new ArrayList<>();
+            fragmentPages = new ArrayList<>();
+
+            titlePages.add("All");
+            fragmentPages.add(new ConsultationsAllFragment());
+
+            if (PreferenceUtils.getUserRoles().contains("ROLE_TEACHER")) {
+                titlePages.add("My");
+                fragmentPages.add(new ConsultationsMyFragment());
             }
 
-            @Override
-            public void onFailure(Call<List<Consultation>> call, Throwable t) {
-                Toasty.error(getContext(), Objects.requireNonNull(t.getMessage()), Toast.LENGTH_SHORT, true).show();
-            }
-        });
+            titlePages.add("Subscribe");
+            fragmentPages.add(new ConsultationsSubscribeFragment());
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return fragmentPages.get(position);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return titlePages.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return fragmentPages.size();
+        }
+
     }
 
 
