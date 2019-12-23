@@ -19,7 +19,6 @@ import com.grin.appforuniver.data.WebServices.ScheduleInterface;
 import com.grin.appforuniver.data.WebServices.ServiceGenerator;
 import com.grin.appforuniver.data.model.schedule.Classes;
 import com.grin.appforuniver.data.utils.Constants;
-import com.grin.appforuniver.data.utils.PreferenceUtils;
 import com.grin.appforuniver.fragments.schedule.ScheduleBothSubgroupClassesModel;
 
 import java.util.ArrayList;
@@ -52,7 +51,7 @@ public class ScheduleFragment extends Fragment {
 
     private void getSchedule(Context context, LayoutInflater inflater) {
         ScheduleInterface scheduleInterface = ServiceGenerator.createService(ScheduleInterface.class);
-        Call<List<Classes>> list = scheduleInterface.getScheduleAll(PreferenceUtils.getUserToken());
+        Call<List<Classes>> list = scheduleInterface.getScheduleAll();
         list.enqueue(new Callback<List<Classes>>() {
             @Override
             public void onResponse(Call<List<Classes>> call, Response<List<Classes>> response) {

@@ -20,7 +20,6 @@ import com.grin.appforuniver.activity.ConsultationActivity;
 import com.grin.appforuniver.data.WebServices.ConsultationInterface;
 import com.grin.appforuniver.data.WebServices.ServiceGenerator;
 import com.grin.appforuniver.data.model.consultation.Consultation;
-import com.grin.appforuniver.data.utils.PreferenceUtils;
 import com.mikepenz.fastadapter.FastAdapter;
 import com.mikepenz.fastadapter.adapters.ItemAdapter;
 
@@ -81,7 +80,7 @@ public class ConsultationsSubscribeFragment extends Fragment {
 
         ConsultationInterface consultationInterface = ServiceGenerator.createService(ConsultationInterface.class);
 
-        Call<List<Consultation>> call = consultationInterface.getSubscribeConsultations(PreferenceUtils.getUserToken());
+        Call<List<Consultation>> call = consultationInterface.getSubscribeConsultations();
         call.enqueue(new Callback<List<Consultation>>() {
             @Override
             public void onResponse(Call<List<Consultation>> call, Response<List<Consultation>> response) {

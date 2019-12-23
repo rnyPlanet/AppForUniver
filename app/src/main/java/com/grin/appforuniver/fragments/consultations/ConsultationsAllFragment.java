@@ -14,14 +14,12 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.grin.appforuniver.R;
 import com.grin.appforuniver.activity.ConsultationActivity;
 import com.grin.appforuniver.data.WebServices.ConsultationInterface;
 import com.grin.appforuniver.data.WebServices.ServiceGenerator;
 import com.grin.appforuniver.data.model.consultation.Consultation;
-import com.grin.appforuniver.data.utils.PreferenceUtils;
 import com.mikepenz.fastadapter.FastAdapter;
 import com.mikepenz.fastadapter.adapters.ItemAdapter;
 
@@ -80,7 +78,7 @@ public class ConsultationsAllFragment extends Fragment {
 
         ConsultationInterface consultationInterface = ServiceGenerator.createService(ConsultationInterface.class);
 
-        Call<List<Consultation>> call = consultationInterface.getAllConsultations(PreferenceUtils.getUserToken());
+        Call<List<Consultation>> call = consultationInterface.getAllConsultations();
         call.enqueue(new Callback<List<Consultation>>() {
             @Override
             public void onResponse(Call<List<Consultation>> call, Response<List<Consultation>> response) {
