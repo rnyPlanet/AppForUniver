@@ -67,7 +67,7 @@ public class LoginActivity extends AppCompatActivity {
                 case 0:
                     return "Login";
                 case 1:
-                    return "Registr";
+                    return "Register";
             }
             return null;
         }

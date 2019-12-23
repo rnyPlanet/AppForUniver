@@ -18,13 +18,17 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:title="SDFSDFDSF"
+            app:title="@string/auth_title"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabs_log_reg_activity"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            app:tabIndicatorGravity="bottom"
+            app:tabInlineLabel="false"
+            app:tabTextColor="@color/colorSecondaryDark" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

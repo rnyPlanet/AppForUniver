@@ -19,20 +19,22 @@
         android:id="@+id/nav_header_is_loggin">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:id="@+id/nav_header_firstName_lastName"
-            android:textSize="17sp"
-            android:textColor="#fff"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:drawableStart="@drawable/ic_person"/>
-        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/nav_header_email"
-            android:textSize="17sp"
+            android:drawableStart="@drawable/ic_person"
+            android:drawablePadding="12dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="#fff"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/nav_header_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="#fff"
+            android:textSize="17sp" />
 
     </LinearLayout>
 
