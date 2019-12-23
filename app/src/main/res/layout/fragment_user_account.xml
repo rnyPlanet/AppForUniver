@@ -7,40 +7,12 @@
     android:orientation="vertical"
     tools:context=".fragments.AdminFragment">
 
-<!--    <LinearLayout-->
-<!--        android:id="@+id/fragment_user_account_logout_ll"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="70dp"-->
-<!--        android:layout_alignParentBottom="true"-->
-<!--        android:background="#86D6D6D6"-->
-<!--        android:clickable="true"-->
-<!--        android:focusable="true"-->
-<!--        android:orientation="horizontal">-->
-
-<!--        <TextView-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:gravity="center_horizontal|center_vertical"-->
-<!--            android:shadowColor="@android:color/darker_gray"-->
-<!--            android:shadowDx="1"-->
-<!--            android:shadowDy="1"-->
-<!--            android:shadowRadius="2"-->
-
-<!--            android:text="@string/user_account_logout"-->
-<!--            android:textColor="@android:color/black"-->
-<!--            android:textSize="25sp"-->
-<!--            android:textStyle="bold" />-->
-
-<!--    </LinearLayout>-->
-
     <ProgressBar
         android:id="@+id/user_account_detail_progress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_gravity="center"
-        android:scaleX="2"
-        android:scaleY="2"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -53,10 +25,10 @@
         android:layout_height="wrap_content"
         android:background="@android:color/white"
         android:padding="16dp"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:visibility="gone">
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:id="@+id/user_account_username_ll"
@@ -174,14 +146,14 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
-        android:id="@+id/material_text_button"
+        android:id="@+id/user_account_detail_log_out_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="8dp"
-        android:text="@string/user_account_logout"
         android:background="@android:color/transparent"
+        android:text="@string/user_account_logout"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

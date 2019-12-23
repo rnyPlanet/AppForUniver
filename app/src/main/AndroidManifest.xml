@@ -14,11 +14,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+
         <activity
             android:name=".activity.ConsultationActivity"
             android:parentActivityName=".activity.ConsultationActivity" />
         <activity
             android:name=".activity.NavigationDrawer"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+
+        <activity
+            android:name=".activity.LoginActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -27,10 +32,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".activity.LoginActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName=".activity.NavigationDrawer"/>
 
         <receiver
             android:name=".data.utils.CheckInternetBroadcast"

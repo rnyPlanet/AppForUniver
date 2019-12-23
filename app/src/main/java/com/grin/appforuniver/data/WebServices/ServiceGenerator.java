@@ -22,7 +22,7 @@ public class ServiceGenerator {
             .addInterceptor(httpLoggingInterceptor)
             .addInterceptor(chain -> {
                 Request request = chain.request().newBuilder()
-                        .addHeader("Authorization", PreferenceUtils.getUserToken())
+                        .addHeader("Authorization", (PreferenceUtils.getUserToken() == null) ? "" : PreferenceUtils.getUserToken() )
                         .build();
                 return chain.proceed(request);
             });

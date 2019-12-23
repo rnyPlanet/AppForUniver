@@ -5,6 +5,6 @@
         android:id="@+id/edit_consultation"
         android:icon="@drawable/ic_edit_black_24dp"
         android:title="@string/edit_consultation"
-        app:showAsAction="always"
-        />
+        android:visible="false"
+        app:showAsAction="always" />
 </menu>

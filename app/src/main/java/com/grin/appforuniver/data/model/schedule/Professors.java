@@ -8,14 +8,7 @@ package com.grin.appforuniver.data.model.schedule;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.Collection;
-
 import lombok.Data;
-
-/**
- *
- * @author Йцукен
- */
 
 @Data
 public class Professors {
@@ -31,5 +24,5 @@ public class Professors {
     public String toString() {
         return "newModel.Professors[ id= ]";
     }
-    
+
 }

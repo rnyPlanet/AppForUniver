@@ -45,7 +45,7 @@ public class PreferenceUtils {
         return prefs.getString(Constants.PASSWORD_KEY, null);
     }
 
-    public static boolean saveUser(User user ) {
+    public static boolean saveUser(User user) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor prefsEditor = prefs.edit();
         Gson gson = new Gson();
@@ -63,10 +63,10 @@ public class PreferenceUtils {
         return gson.fromJson(strUser, User.class);
     }
 
-    public static boolean saveUserToken(String token ) {
+    public static boolean saveUserToken(String token) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor prefsEditor = prefs.edit();
-        prefsEditor.putString(Constants.USER_TOKEN_KEY, token == null || token.isEmpty() ? "" : "Bearer_" + token );
+        prefsEditor.putString(Constants.USER_TOKEN_KEY, token == null || token.isEmpty() ? "" : "Bearer_" + token);
         prefsEditor.apply();
         return true;
     }

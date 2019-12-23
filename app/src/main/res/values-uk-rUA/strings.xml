@@ -21,7 +21,7 @@
     <string name="sign_in_btn">Вхід</string>
     <string name="menu_home">Головна</string>
     <string name="error_network" translatable="false">Упс(</string>
-    <string name="consultation_activity_room">Аудиторія:</string>
+    <string name="consultation_activity_room">Аудиторія: </string>
     <string name="edit_consultation">Редагувати консультацію</string>
     <string name="user_account_department">Факультет</string>
     <string name="user_account_email">Електрона пошта</string>
