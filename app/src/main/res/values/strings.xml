@@ -44,5 +44,8 @@
     <string name="fragment_reg_sign_up">Sign up</string>
     <string name="fragment_reg_email">Email</string>
     <string name="activity_login_loginTV">Login</string>
+    <string name="account_header">account_header</string>
+    <string name="logo">Logo</string>
+    <string name="univ_name">Чорноморський національний університет імені Петра Могили</string>
 
 </resources>

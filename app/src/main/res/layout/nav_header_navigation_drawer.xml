@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/nav_header_height"
-    android:background="@drawable/side_nav_bar"
-    android:gravity="bottom"
+    android:background="@drawable/drawer_background"
+    android:gravity="center"
     android:orientation="vertical"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
@@ -13,40 +12,48 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <LinearLayout
+        android:id="@+id/nav_header_is_loggin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:id="@+id/nav_header_is_loggin">
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/nav_header_firstName_lastName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
             android:drawableStart="@drawable/ic_person"
-            android:drawablePadding="12dp"
+            android:drawablePadding="26dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="#fff"
-            android:textSize="17sp" />
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/nav_header_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_email"
+            android:drawablePadding="28dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="#fff"
+            android:textColor="#737373"
             android:textSize="17sp" />
 
     </LinearLayout>
 
     <Button
         android:id="@+id/nav_log_or_registr"
-        android:text="@string/login_register"
-        android:textColor="@android:color/black"
-        android:background="@null"
-        android:textSize="17sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@null"
+        android:text="@string/login_register"
         android:textAllCaps="false"
-        android:visibility="gone"/>
+        android:textColor="@android:color/black"
+        android:textSize="17sp"
+        android:visibility="gone" />
 
 </LinearLayout>

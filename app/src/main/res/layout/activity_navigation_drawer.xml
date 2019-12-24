@@ -11,7 +11,8 @@
     <include
         layout="@layout/app_bar_navigation_drawer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true" />
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
