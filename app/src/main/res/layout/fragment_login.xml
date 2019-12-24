@@ -10,22 +10,12 @@
     android:padding="8dp"
     tools:context=".activity.LoginActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="@string/activity_login_loginTV"
-        android:textSize="50sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.38" />
+        app:layout_constraintGuide_percent="0.5" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/activity_login_username_et"
@@ -44,6 +34,7 @@
             android:layout_height="wrap_content"
             android:digits="0123456789AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz"
             android:drawableStart="@drawable/ic_person_black_24dp"
+            android:drawablePadding="12dp"
             android:hint="@string/activity_main_username"
             android:imeOptions="actionNext"
             android:inputType="text"
@@ -57,7 +48,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         app:errorEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
@@ -70,6 +60,7 @@
             android:layout_height="wrap_content"
             android:digits="0123456789AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz"
             android:drawableStart="@drawable/ic_lock_black_24dp"
+            android:drawablePadding="12dp"
             android:hint="@string/activity_main_password"
             android:imeOptions="actionDone"
             android:inputType="textPassword"
@@ -84,7 +75,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:background="@color/colorPrimary"
+        android:background="@drawable/btn_style"
         android:text="@string/log_in_btn"
         android:textAllCaps="false"
         android:textColor="@android:color/white"
@@ -93,15 +84,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/activity_login_password_et" />
 
-    <!--    <ImageView-->
-    <!--        android:id="@+id/imageView2"-->
-    <!--        android:layout_width="160dp"-->
-    <!--        android:layout_height="160dp"-->
-    <!--        android:src="@drawable/logo"-->
-    <!--        android:tint="@color/colorPrimaryDark"-->
-    <!--        app:layout_constraintBottom_toTopOf="@+id/guideline"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toTopOf="parent" />-->
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="338dp"
+        android:layout_height="196dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logo_main" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

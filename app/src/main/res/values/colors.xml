@@ -10,4 +10,5 @@
     <color name="colorSecondaryText">#ffffff</color>
 
     <color name="colorAccent">#0D47A1</color>
+    <color name="background">#F2F2F2</color>
 </resources>

@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -44,6 +45,9 @@ public class UserAccountFragment extends Fragment {
 
     @BindView(R.id.user_account_userinfo_rl)
     ConstraintLayout userinfo_rl;
+
+    @BindView(R.id.user_account_header)
+    ImageView user_account_header;
 
     @BindView(R.id.user_account_username_ll)
     LinearLayout username_ll;
@@ -136,6 +140,7 @@ public class UserAccountFragment extends Fragment {
                         detail_progress.setVisibility(View.GONE);
                         userinfo_rl.setVisibility(View.VISIBLE);
                         logout_btn.setVisibility(View.VISIBLE);
+                        user_account_header.setVisibility(View.VISIBLE);
 
                     }
                 }

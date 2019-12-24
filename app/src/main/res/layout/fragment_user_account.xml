@@ -4,8 +4,58 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
     android:orientation="vertical"
     tools:context=".fragments.AdminFragment">
+
+    <Button
+        android:id="@+id/user_account_detail_log_out_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/outline_btn"
+        android:text="@string/user_account_logout"
+        android:textColor="@android:color/white"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/user_account_username_ll" />
+
+    <ImageView
+        android:id="@+id/user_account_header"
+        android:layout_width="0dp"
+        android:layout_height="220dp"
+        android:src="@drawable/side_nav_bar"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/user_account_username_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@id/user_account_detail_log_out_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/user_account_username_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+    </LinearLayout>
 
     <ProgressBar
         android:id="@+id/user_account_detail_progress"
@@ -23,18 +73,22 @@
         android:id="@+id/user_account_userinfo_rl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/white"
+        android:layout_marginTop="80dp"
+        android:background="@android:color/transparent"
         android:padding="16dp"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="@id/user_account_detail_log_out_button">
 
         <LinearLayout
-            android:id="@+id/user_account_username_ll"
-            android:layout_width="match_parent"
+            android:id="@+id/user_account_email_ll"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:background="@drawable/card"
             android:orientation="vertical"
+            android:padding="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -42,30 +96,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/user_account_name" />
-
-            <TextView
-                android:id="@+id/user_account_username_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@android:color/black" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/user_account_email_ll"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/user_account_username_ll"
-            android:layout_marginTop="8dp"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/user_account_username_ll">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/user_account_email" />
+                android:layout_marginBottom="8dp"
+                android:text="@string/user_account_email"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/user_account_email_tv"
@@ -80,7 +115,9 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/user_account_email_ll"
             android:layout_marginTop="8dp"
+            android:background="@drawable/card"
             android:orientation="vertical"
+            android:padding="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/user_account_email_ll">
@@ -88,7 +125,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/user_account_department" />
+                android:layout_marginBottom="8dp"
+                android:text="@string/user_account_department"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/user_account_department_tv"
@@ -103,7 +144,9 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/user_account_department_ll"
             android:layout_marginTop="8dp"
+            android:background="@drawable/card"
             android:orientation="vertical"
+            android:padding="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/user_account_department_ll">
@@ -111,7 +154,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/user_account_posada" />
+                android:layout_marginBottom="8dp"
+                android:text="@string/user_account_posada"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/user_account_posada_tv"
@@ -126,7 +173,9 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/user_account_posada_ll"
             android:layout_marginTop="8dp"
+            android:background="@drawable/card"
             android:orientation="vertical"
+            android:padding="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/user_account_posada_ll">
@@ -134,7 +183,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/user_account_phone" />
+                android:layout_marginBottom="8dp"
+                android:text="@string/user_account_phone"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/user_account_phone1_tv"
@@ -144,18 +197,5 @@
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <Button
-        android:id="@+id/user_account_detail_log_out_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="8dp"
-        android:background="@android:color/transparent"
-        android:text="@string/user_account_logout"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
