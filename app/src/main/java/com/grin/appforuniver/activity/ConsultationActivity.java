@@ -82,7 +82,7 @@ public class ConsultationActivity extends AppCompatActivity {
             description.setText(mConsultation.getDescription());
         }
 
-        Call<Boolean> callConsultaion = consultationInterface.isCanSubscribe(PreferenceUtils.getUserToken(), mConsultation.getId());
+        Call<Boolean> callConsultaion = consultationInterface.isCanSubscribe(mConsultation.getId());
         callConsultaion.enqueue(new Callback<Boolean>() {
             @Override
             public void onResponse(Call<Boolean> call, Response<Boolean> response) {
@@ -105,7 +105,7 @@ public class ConsultationActivity extends AppCompatActivity {
 
     private void getConsultation() {
 
-        Call<Boolean> call = consultationInterface.isCanUpdateConsultation(PreferenceUtils.getUserToken(), mConsultation.getId());
+        Call<Boolean> call = consultationInterface.isCanUpdateConsultation(mConsultation.getId());
         call.enqueue(new Callback<Boolean>() {
             @Override
             public void onResponse(Call<Boolean> call, Response<Boolean> response) {
@@ -122,7 +122,7 @@ public class ConsultationActivity extends AppCompatActivity {
             }
         });
 
-        Call<Consultation> callConsultaion = consultationInterface.getConsultationById(PreferenceUtils.getUserToken(), mConsultation.getId());
+        Call<Consultation> callConsultaion = consultationInterface.getConsultationById(mConsultation.getId());
         callConsultaion.enqueue(new Callback<Consultation>() {
             @Override
             public void onResponse(Call<Consultation> call, Response<Consultation> response) {
@@ -142,7 +142,7 @@ public class ConsultationActivity extends AppCompatActivity {
 
     @OnClick(R.id.activity_consultation_subscribe_btn)
     void subscribe() {
-        Call<Boolean> call = consultationInterface.subscribeOnConsultationById(PreferenceUtils.getUserToken(), mConsultation.getId());
+        Call<Boolean> call = consultationInterface.subscribeOnConsultationById(mConsultation.getId());
         call.enqueue(new Callback<Boolean>() {
             @Override
             public void onResponse(Call<Boolean> call, Response<Boolean> response) {
