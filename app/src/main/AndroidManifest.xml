@@ -21,17 +21,18 @@
         <activity
             android:name=".activity.NavigationDrawer"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".activity.LoginActivity"
+            android:parentActivityName=".activity.NavigationDrawer"
+            android:theme="@style/LoginPage">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".activity.LoginActivity"
-            android:theme="@style/LoginPage"
-            android:parentActivityName=".activity.NavigationDrawer"/>
 
         <receiver
             android:name=".data.utils.CheckInternetBroadcast"

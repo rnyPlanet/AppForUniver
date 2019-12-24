@@ -42,7 +42,6 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_log_reg);
 
         PreferenceUtils.context = getApplicationContext();
         PreferenceUtils.saveUserToken(null);
