@@ -34,7 +34,7 @@ public class ScheduleFragment extends Fragment {
 
 
     private RecyclerView recyclerView;
-    private ScheduleAdapter adapter;
+    private ScheduleGroupAdapter adapter;
 
     @Nullable
     @Override
@@ -44,12 +44,12 @@ public class ScheduleFragment extends Fragment {
         getActivity().setTitle(R.string.menu_schedule);
         recyclerView = mView.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new ScheduleAdapter(getContext());
-        getSchedule(mView.getContext(), inflater);
+        adapter = new ScheduleGroupAdapter(getContext());
+        getSchedule();
         return mView;
     }
 
-    private void getSchedule(Context context, LayoutInflater inflater) {
+    private void getSchedule() {
         ScheduleInterface scheduleInterface = ServiceGenerator.createService(ScheduleInterface.class);
         Call<List<Classes>> list = scheduleInterface.getScheduleAll();
         list.enqueue(new Callback<List<Classes>>() {
@@ -95,12 +95,11 @@ public class ScheduleFragment extends Fragment {
 
     }
 
-
-    public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    public class ScheduleGroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         private List<ScheduleBothSubgroupClassesModel> itemList = new ArrayList<>();
         private Context context;
 
-        public ScheduleAdapter(Context context) {
+        public ScheduleGroupAdapter(Context context) {
             this.context = context;
         }
 
@@ -197,179 +196,178 @@ public class ScheduleFragment extends Fragment {
             this.itemList.addAll(itemList);
             notifyDataSetChanged();
         }
-    }
 
-    public class ScheduleSingleType1Holder extends ClassesHolder {
+        class ScheduleSingleType1Holder extends ClassesHolder {
 
-        ScheduleSingleType1Holder(@NonNull View itemView) {
-            super(itemView);
-            numberPair = itemView.findViewById(R.id.number_pair);
-            bothSubgroup_bothWeek = itemView.findViewById(R.id.both_subgroup_both_week);
-        }
-    }
-
-    public class ScheduleSingleType2Holder extends ClassesHolder {
-
-        ScheduleSingleType2Holder(@NonNull View itemView) {
-            super(itemView);
-            numberPair = itemView.findViewById(R.id.number_pair);
-            firstSubgroup_bothWeek = itemView.findViewById(R.id.first_subgroup_both_week);
-            secondSubgroup_bothWeek = itemView.findViewById(R.id.second_subgroup_both_week);
-
-        }
-    }
-
-    public class ScheduleSingleType3Holder extends ClassesHolder {
-
-        ScheduleSingleType3Holder(@NonNull View itemView) {
-            super(itemView);
-            numberPair = itemView.findViewById(R.id.number_pair);
-            firstSubgroup_firstWeek = itemView.findViewById(R.id.first_subgroup_first_week);
-            secondSubgroup_firstWeek = itemView.findViewById(R.id.second_subgroup_first_week);
-            firstSubgroup_secondWeek = itemView.findViewById(R.id.first_subgroup_second_week);
-            secondSubgroup_secondWeek = itemView.findViewById(R.id.second_subgroup_second_week);
-        }
-    }
-
-    public class ScheduleSingleType4Holder extends ClassesHolder {
-
-        ScheduleSingleType4Holder(@NonNull View itemView) {
-            super(itemView);
-            numberPair = itemView.findViewById(R.id.number_pair);
-            bothSubgroup_firstWeek = itemView.findViewById(R.id.both_subgroup_first_week);
-            bothSubgroup_secondWeek = itemView.findViewById(R.id.both_subgroup_second_week);
-        }
-    }
-
-    public class ScheduleSingleType5Holder extends ClassesHolder {
-
-        ScheduleSingleType5Holder(@NonNull View itemView) {
-            super(itemView);
-            numberPair = itemView.findViewById(R.id.number_pair);
-            firstSubgroup_bothWeek = itemView.findViewById(R.id.first_subgroup_both_week);
-            secondSubgroup_firstWeek = itemView.findViewById(R.id.second_subgroup_first_week);
-            secondSubgroup_secondWeek = itemView.findViewById(R.id.second_subgroup_second_week);
-        }
-    }
-
-    public class ScheduleSingleType6Holder extends ClassesHolder {
-
-        ScheduleSingleType6Holder(@NonNull View itemView) {
-            super(itemView);
-            numberPair = itemView.findViewById(R.id.number_pair);
-            firstSubgroup_firstWeek = itemView.findViewById(R.id.first_subgroup_first_week);
-            firstSubgroup_secondWeek = itemView.findViewById(R.id.first_subgroup_second_week);
-            secondSubgroup_bothWeek = itemView.findViewById(R.id.second_subgroup_both_week);
-        }
-    }
-
-    public class ScheduleSingleType7Holder extends ClassesHolder {
-
-        ScheduleSingleType7Holder(@NonNull View itemView) {
-            super(itemView);
-            numberPair = itemView.findViewById(R.id.number_pair);
-            bothSubgroup_firstWeek = itemView.findViewById(R.id.both_subgroup_first_week);
-            firstSubgroup_secondWeek = itemView.findViewById(R.id.first_subgroup_second_week);
-            secondSubgroup_secondWeek = itemView.findViewById(R.id.second_subgroup_second_week);
-        }
-    }
-
-    public class ScheduleSingleType8Holder extends ClassesHolder {
-
-        ScheduleSingleType8Holder(@NonNull View itemView) {
-            super(itemView);
-            numberPair = itemView.findViewById(R.id.number_pair);
-            firstSubgroup_firstWeek = itemView.findViewById(R.id.first_subgroup_first_week);
-            secondSubgroup_firstWeek = itemView.findViewById(R.id.second_subgroup_first_week);
-            bothSubgroup_secondWeek = itemView.findViewById(R.id.both_subgroup_second_week);
-        }
-    }
-
-    public class ScheduleSingleType9Holder extends ClassesHolder {
-
-        ScheduleSingleType9Holder(@NonNull View itemView) {
-            super(itemView);
-            numberPair = itemView.findViewById(R.id.number_pair);
-        }
-    }
-
-    public class ScheduleSingleTypeDaySeparatorHolder extends ClassesHolder {
-        TextView day;
-
-        ScheduleSingleTypeDaySeparatorHolder(@NonNull View itemView) {
-            super(itemView);
-            numberPair = itemView.findViewById(R.id.number_pair);
-            day = itemView.findViewById(R.id.text_day);
+            ScheduleSingleType1Holder(@NonNull View itemView) {
+                super(itemView);
+                numberPair = itemView.findViewById(R.id.number_pair);
+                bothSubgroup_bothWeek = itemView.findViewById(R.id.both_subgroup_both_week);
+            }
         }
 
-        void bind(ScheduleBothSubgroupClassesModel schedulePair) {
-            day.setText(schedulePair.place.toString());
-        }
-    }
+        class ScheduleSingleType2Holder extends ClassesHolder {
 
-    public class ScheduleSingleTypeWeekendHolder extends ClassesHolder {
+            ScheduleSingleType2Holder(@NonNull View itemView) {
+                super(itemView);
+                numberPair = itemView.findViewById(R.id.number_pair);
+                firstSubgroup_bothWeek = itemView.findViewById(R.id.first_subgroup_both_week);
+                secondSubgroup_bothWeek = itemView.findViewById(R.id.second_subgroup_both_week);
+
+            }
+        }
+
+        class ScheduleSingleType3Holder extends ClassesHolder {
+
+            ScheduleSingleType3Holder(@NonNull View itemView) {
+                super(itemView);
+                numberPair = itemView.findViewById(R.id.number_pair);
+                firstSubgroup_firstWeek = itemView.findViewById(R.id.first_subgroup_first_week);
+                secondSubgroup_firstWeek = itemView.findViewById(R.id.second_subgroup_first_week);
+                firstSubgroup_secondWeek = itemView.findViewById(R.id.first_subgroup_second_week);
+                secondSubgroup_secondWeek = itemView.findViewById(R.id.second_subgroup_second_week);
+            }
+        }
+
+        class ScheduleSingleType4Holder extends ClassesHolder {
+
+            ScheduleSingleType4Holder(@NonNull View itemView) {
+                super(itemView);
+                numberPair = itemView.findViewById(R.id.number_pair);
+                bothSubgroup_firstWeek = itemView.findViewById(R.id.both_subgroup_first_week);
+                bothSubgroup_secondWeek = itemView.findViewById(R.id.both_subgroup_second_week);
+            }
+        }
+
+        class ScheduleSingleType5Holder extends ClassesHolder {
+
+            ScheduleSingleType5Holder(@NonNull View itemView) {
+                super(itemView);
+                numberPair = itemView.findViewById(R.id.number_pair);
+                firstSubgroup_bothWeek = itemView.findViewById(R.id.first_subgroup_both_week);
+                secondSubgroup_firstWeek = itemView.findViewById(R.id.second_subgroup_first_week);
+                secondSubgroup_secondWeek = itemView.findViewById(R.id.second_subgroup_second_week);
+            }
+        }
+
+        class ScheduleSingleType6Holder extends ClassesHolder {
+
+            ScheduleSingleType6Holder(@NonNull View itemView) {
+                super(itemView);
+                numberPair = itemView.findViewById(R.id.number_pair);
+                firstSubgroup_firstWeek = itemView.findViewById(R.id.first_subgroup_first_week);
+                firstSubgroup_secondWeek = itemView.findViewById(R.id.first_subgroup_second_week);
+                secondSubgroup_bothWeek = itemView.findViewById(R.id.second_subgroup_both_week);
+            }
+        }
+
+        class ScheduleSingleType7Holder extends ClassesHolder {
+
+            ScheduleSingleType7Holder(@NonNull View itemView) {
+                super(itemView);
+                numberPair = itemView.findViewById(R.id.number_pair);
+                bothSubgroup_firstWeek = itemView.findViewById(R.id.both_subgroup_first_week);
+                firstSubgroup_secondWeek = itemView.findViewById(R.id.first_subgroup_second_week);
+                secondSubgroup_secondWeek = itemView.findViewById(R.id.second_subgroup_second_week);
+            }
+        }
+
+        class ScheduleSingleType8Holder extends ClassesHolder {
+
+            ScheduleSingleType8Holder(@NonNull View itemView) {
+                super(itemView);
+                numberPair = itemView.findViewById(R.id.number_pair);
+                firstSubgroup_firstWeek = itemView.findViewById(R.id.first_subgroup_first_week);
+                secondSubgroup_firstWeek = itemView.findViewById(R.id.second_subgroup_first_week);
+                bothSubgroup_secondWeek = itemView.findViewById(R.id.both_subgroup_second_week);
+            }
+        }
+
+        class ScheduleSingleType9Holder extends ClassesHolder {
+
+            ScheduleSingleType9Holder(@NonNull View itemView) {
+                super(itemView);
+                numberPair = itemView.findViewById(R.id.number_pair);
+            }
+        }
+
+        class ScheduleSingleTypeDaySeparatorHolder extends ClassesHolder {
+            TextView day;
+
+            ScheduleSingleTypeDaySeparatorHolder(@NonNull View itemView) {
+                super(itemView);
+                numberPair = itemView.findViewById(R.id.number_pair);
+                day = itemView.findViewById(R.id.text_day);
+            }
+
+            void bind(ScheduleBothSubgroupClassesModel schedulePair) {
+                day.setText(schedulePair.place.toString());
+            }
+        }
+
+        class ScheduleSingleTypeWeekendHolder extends ClassesHolder {
 //        TextView day;
 
-        ScheduleSingleTypeWeekendHolder(@NonNull View itemView) {
-            super(itemView);
+            ScheduleSingleTypeWeekendHolder(@NonNull View itemView) {
+                super(itemView);
 //            numberPair = itemView.findViewById(R.id.number_pair);
 //            day = itemView.findViewById(R.id.text_day);
-        }
-
-
-    }
-
-
-    public class ClassesHolder extends RecyclerView.ViewHolder {
-        public TextView numberPair;
-        public TextView firstSubgroup_firstWeek;
-        public TextView firstSubgroup_secondWeek;
-        public TextView firstSubgroup_bothWeek;
-        public TextView secondSubgroup_firstWeek;
-        public TextView secondSubgroup_secondWeek;
-        public TextView secondSubgroup_bothWeek;
-        public TextView bothSubgroup_firstWeek;
-        public TextView bothSubgroup_secondWeek;
-        public TextView bothSubgroup_bothWeek;
-
-        public ClassesHolder(@NonNull View itemView) {
-            super(itemView);
-        }
-
-        void bind(ScheduleBothSubgroupClassesModel schedulePair) {
-            List<Classes> mListClasses = schedulePair.classes;
-            try {
-                numberPair.setText(String.valueOf(schedulePair.positionInDay));
-            } catch (Exception e) {
-                Log.d(TAG, "EXCEPTION TYPE 5 " + schedulePair);
             }
-            for (Classes classes : mListClasses) {
-                if (classes.getSubgroup() == Constants.Subgroup.FIRST && classes.getWeek() == Constants.Week.FIRST) {
-                    firstSubgroup_firstWeek.setText(classes.getSubject());
+
+
+        }
+
+        class ClassesHolder extends RecyclerView.ViewHolder {
+            public TextView numberPair;
+            public TextView firstSubgroup_firstWeek;
+            public TextView firstSubgroup_secondWeek;
+            public TextView firstSubgroup_bothWeek;
+            public TextView secondSubgroup_firstWeek;
+            public TextView secondSubgroup_secondWeek;
+            public TextView secondSubgroup_bothWeek;
+            public TextView bothSubgroup_firstWeek;
+            public TextView bothSubgroup_secondWeek;
+            public TextView bothSubgroup_bothWeek;
+
+            public ClassesHolder(@NonNull View itemView) {
+                super(itemView);
+            }
+
+            void bind(ScheduleBothSubgroupClassesModel schedulePair) {
+                List<Classes> mListClasses = schedulePair.classes;
+                try {
+                    numberPair.setText(String.valueOf(schedulePair.positionInDay));
+                } catch (Exception e) {
+                    Log.d(TAG, "EXCEPTION TYPE 5 " + schedulePair);
                 }
-                if (classes.getSubgroup() == Constants.Subgroup.FIRST && classes.getWeek() == Constants.Week.SECOND) {
-                    firstSubgroup_secondWeek.setText(classes.getSubject());
-                }
-                if (classes.getSubgroup() == Constants.Subgroup.FIRST && classes.getWeek() == Constants.Week.BOTH) {
-                    firstSubgroup_bothWeek.setText(classes.getSubject());
-                }
-                if (classes.getSubgroup() == Constants.Subgroup.SECOND && classes.getWeek() == Constants.Week.FIRST) {
-                    secondSubgroup_firstWeek.setText(classes.getSubject());
-                }
-                if (classes.getSubgroup() == Constants.Subgroup.SECOND && classes.getWeek() == Constants.Week.SECOND) {
-                    secondSubgroup_secondWeek.setText(classes.getSubject());
-                }
-                if (classes.getSubgroup() == Constants.Subgroup.SECOND && classes.getWeek() == Constants.Week.BOTH) {
-                    secondSubgroup_bothWeek.setText(classes.getSubject());
-                }
-                if (classes.getSubgroup() == Constants.Subgroup.BOTH && classes.getWeek() == Constants.Week.FIRST) {
-                    bothSubgroup_firstWeek.setText(classes.getSubject());
-                }
-                if (classes.getSubgroup() == Constants.Subgroup.BOTH && classes.getWeek() == Constants.Week.SECOND) {
-                    bothSubgroup_secondWeek.setText(classes.getSubject());
-                }
-                if (classes.getSubgroup() == Constants.Subgroup.BOTH && classes.getWeek() == Constants.Week.BOTH) {
-                    bothSubgroup_bothWeek.setText(classes.getSubject());
+                for (Classes classes : mListClasses) {
+                    if (classes.getSubgroup() == Constants.Subgroup.FIRST && classes.getWeek() == Constants.Week.FIRST) {
+                        firstSubgroup_firstWeek.setText(classes.getSubject());
+                    }
+                    if (classes.getSubgroup() == Constants.Subgroup.FIRST && classes.getWeek() == Constants.Week.SECOND) {
+                        firstSubgroup_secondWeek.setText(classes.getSubject());
+                    }
+                    if (classes.getSubgroup() == Constants.Subgroup.FIRST && classes.getWeek() == Constants.Week.BOTH) {
+                        firstSubgroup_bothWeek.setText(classes.getSubject());
+                    }
+                    if (classes.getSubgroup() == Constants.Subgroup.SECOND && classes.getWeek() == Constants.Week.FIRST) {
+                        secondSubgroup_firstWeek.setText(classes.getSubject());
+                    }
+                    if (classes.getSubgroup() == Constants.Subgroup.SECOND && classes.getWeek() == Constants.Week.SECOND) {
+                        secondSubgroup_secondWeek.setText(classes.getSubject());
+                    }
+                    if (classes.getSubgroup() == Constants.Subgroup.SECOND && classes.getWeek() == Constants.Week.BOTH) {
+                        secondSubgroup_bothWeek.setText(classes.getSubject());
+                    }
+                    if (classes.getSubgroup() == Constants.Subgroup.BOTH && classes.getWeek() == Constants.Week.FIRST) {
+                        bothSubgroup_firstWeek.setText(classes.getSubject());
+                    }
+                    if (classes.getSubgroup() == Constants.Subgroup.BOTH && classes.getWeek() == Constants.Week.SECOND) {
+                        bothSubgroup_secondWeek.setText(classes.getSubject());
+                    }
+                    if (classes.getSubgroup() == Constants.Subgroup.BOTH && classes.getWeek() == Constants.Week.BOTH) {
+                        bothSubgroup_bothWeek.setText(classes.getSubject());
+                    }
                 }
             }
         }
