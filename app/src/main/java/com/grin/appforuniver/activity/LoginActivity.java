@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.grin.appforuniver.R;
@@ -53,6 +54,8 @@ public class LoginActivity extends AppCompatActivity {
     TextView universityName;
     @BindView(R.id.login_header_layout)
     LinearLayout loginHeaderActivity;
+    @BindView(R.id.login_activity_constraint)
+    ConstraintLayout loginPageActivity;
 
     private ProgressDialog mProgressBar;
 
@@ -70,27 +73,23 @@ public class LoginActivity extends AppCompatActivity {
             loginUser(PreferenceUtils.getUsername(), PreferenceUtils.getPassword());
         } else {
             setContentView(R.layout.activity_login);
-
             ButterKnife.bind(this);
-        }
-
-        //
-        // Change header visibility
-        //
-        final ConstraintLayout loginPageActivity = findViewById(R.id.login_activity_constraint);
-        loginPageActivity.post(() -> {
-            int height = loginPageActivity.getHeight();
-            loginPageActivity.addOnLayoutChangeListener((v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) -> {
-                final int startHeight = loginPageActivity.getHeight();
-                Log.d("ActivityHeight", "Start result = " + height);
-                if ((bottom - top) == height) {
-                    changeHeaderVisible("visible");
-                } else {
-                    changeHeaderVisible("gone");
-                }
+            //
+            // Change header visibility
+            //
+            loginPageActivity.post(() -> {
+                int height = loginPageActivity.getHeight();
+                loginPageActivity.addOnLayoutChangeListener((v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) -> {
+                    final int startHeight = loginPageActivity.getHeight();
+                    Log.d("ActivityHeight", "Start result = " + height);
+                    if ((bottom - top) == height) {
+                        changeHeaderVisible("visible");
+                    } else {
+                        changeHeaderVisible("gone");
+                    }
+                });
             });
-        });
-
+        }
     }
 
     private void loginUser(String username, String password) {
@@ -202,20 +201,25 @@ public class LoginActivity extends AppCompatActivity {
             loginUser(Objects.requireNonNull(usernameTIL.getEditText()).getText().toString(),
                     Objects.requireNonNull(passwordTIL.getEditText()).getText().toString());
 
-
         }
     }
 
     // Visual settings
     private void changeHeaderVisible(String visibility) {
+        ConstraintSet constraintSet = new ConstraintSet();
+        constraintSet.clone(loginPageActivity);
         switch (visibility) {
             case "gone":
                 logo.setVisibility(View.GONE);
                 universityName.setVisibility(View.GONE);
+                constraintSet.connect(R.id.activity_login_login_btn, ConstraintSet.TOP, R.id.activity_login_password_et, ConstraintSet.BOTTOM, 300);
+                constraintSet.applyTo(loginPageActivity);
                 break;
             case "visible":
                 logo.setVisibility(View.VISIBLE);
                 universityName.setVisibility(View.VISIBLE);
+                constraintSet.connect(R.id.activity_login_login_btn, ConstraintSet.TOP, R.id.activity_login_password_et, ConstraintSet.BOTTOM, 0);
+                constraintSet.applyTo(loginPageActivity);
                 break;
         }
     }
