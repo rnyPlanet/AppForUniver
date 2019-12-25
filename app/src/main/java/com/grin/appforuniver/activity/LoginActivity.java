@@ -166,24 +166,6 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    private void checkConnection(boolean isConnected) {
-        if (!isConnected) {
-//            try_to_login_with_192_168_0_1.setVisibility(View.VISIBLE);
-//            networkErrorView.setVisibility(View.VISIBLE);
-        } else {
-//            try_to_login_with_192_168_0_1.setVisibility(View.GONE);
-//            networkErrorView.setVisibility(View.GONE);
-
-            String sharedUsername = PreferenceUtils.getUsername();
-            String sharedUserPassword = PreferenceUtils.getPassword();
-
-            if (sharedUsername != null && !sharedUsername.isEmpty() && sharedUserPassword != null && !sharedUserPassword.isEmpty()) {
-                loginUser(sharedUsername, sharedUserPassword);
-            }
-        }
-
-    }
-
     @OnClick(R.id.activity_login_login_btn)
     void logIn() {
         if (validateLoginInput() & validatePasswordInput()) {
