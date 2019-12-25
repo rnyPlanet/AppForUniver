@@ -3,10 +3,16 @@ package com.grin.appforuniver.activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.grin.appforuniver.R;
@@ -32,10 +38,21 @@ public class LoginActivity extends AppCompatActivity {
 
     public final String TAG = LoginActivity.class.getSimpleName();
 
+
     @BindView(R.id.activity_login_username_et)
     TextInputLayout usernameTIL;
     @BindView(R.id.activity_login_password_et)
     TextInputLayout passwordTIL;
+
+    //
+    // Variables for visual settings
+    //
+    @BindView(R.id.logo)
+    ImageView logo;
+    @BindView(R.id.university_name)
+    TextView universityName;
+    @BindView(R.id.login_header_layout)
+    LinearLayout loginHeaderActivity;
 
     private ProgressDialog mProgressBar;
 
@@ -48,13 +65,6 @@ public class LoginActivity extends AppCompatActivity {
 
         mProgressBar = new ProgressDialog(LoginActivity.this);
 
-//        if (Build.VERSION.SDK_INT >= 21) {
-//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//                getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-//            }
-//        }
-
-
         if (PreferenceUtils.getUsername() != null & PreferenceUtils.getPassword() != null) {
             mProgressBar.show();
             loginUser(PreferenceUtils.getUsername(), PreferenceUtils.getPassword());
@@ -63,6 +73,23 @@ public class LoginActivity extends AppCompatActivity {
 
             ButterKnife.bind(this);
         }
+
+        //
+        // Change header visibility
+        //
+        final ConstraintLayout loginPageActivity = findViewById(R.id.login_activity_constraint);
+        loginPageActivity.post(() -> {
+            int height = loginPageActivity.getHeight();
+            loginPageActivity.addOnLayoutChangeListener((v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) -> {
+                final int startHeight = loginPageActivity.getHeight();
+                Log.d("ActivityHeight", "Start result = " + height);
+                if ((bottom - top) == height) {
+                    changeHeaderVisible("visible");
+                } else {
+                    changeHeaderVisible("gone");
+                }
+            });
+        });
 
     }
 
@@ -179,5 +206,18 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    // Visual settings
+    private void changeHeaderVisible(String visibility) {
+        switch (visibility) {
+            case "gone":
+                logo.setVisibility(View.GONE);
+                universityName.setVisibility(View.GONE);
+                break;
+            case "visible":
+                logo.setVisibility(View.VISIBLE);
+                universityName.setVisibility(View.VISIBLE);
+                break;
+        }
+    }
 
 }

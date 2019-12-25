@@ -26,7 +26,8 @@
         <activity
             android:name=".activity.LoginActivity"
             android:parentActivityName=".activity.NavigationDrawer"
-            android:theme="@style/LoginPage">
+            android:theme="@style/LoginPage"
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
