@@ -8,6 +8,7 @@ package com.grin.appforuniver.data.model.schedule;
 import com.google.gson.annotations.SerializedName;
 
 import lombok.Data;
+import lombok.NonNull;
 
 
 @Data
@@ -33,7 +34,7 @@ public class Rooms {
 
     @Override
     public String toString() {
-        return "newModel.Rooms[ id= ]";
+        return mName;
     }
 
     public Integer getId() {

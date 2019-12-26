@@ -81,11 +81,12 @@ public class ConsultationsAllFragment extends Fragment {
         Call<List<Consultation>> call = consultationInterface.getAllConsultations();
         call.enqueue(new Callback<List<Consultation>>() {
             @Override
-            public void onResponse(Call<List<Consultation>> call, Response<List<Consultation>> response) {
+            public void onResponse(@NonNull Call<List<Consultation>> call, @NonNull Response<List<Consultation>> response) {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
+                        mItemAdapter.clear();
                         mItemAdapter.add(response.body());
-                        progressBar.setVisibility(View.GONE);
+                        if(progressBar != null) progressBar.setVisibility(View.GONE);
                     } else {
                         progressBar.setVisibility(View.GONE);
                     }
@@ -95,7 +96,7 @@ public class ConsultationsAllFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<List<Consultation>> call, Throwable t) {
+            public void onFailure(@NonNull Call<List<Consultation>> call, @NonNull Throwable t) {
                 Toasty.error(getContext(), Objects.requireNonNull(t.getMessage()), Toast.LENGTH_SHORT, true).show();
                 progressBar.setVisibility(View.GONE);
             }
@@ -107,4 +108,5 @@ public class ConsultationsAllFragment extends Fragment {
         super.onDestroyView();
         mUnbinder.unbind();
     }
+
 }

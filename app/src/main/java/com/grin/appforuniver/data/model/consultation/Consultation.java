@@ -47,6 +47,13 @@ public class Consultation extends AbstractItem<Consultation.ViewHolder> {
     }
 
     public Date getDateOfPassage() {
+
+
+//        String pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+//        SimpleDateFormat simpleFormatter = new SimpleDateFormat(pattern);
+
+//        Date parsedDate = simpleFormatter.parse(text, new ParsePosition(0));
+
         return dateOfPassage;
     }
 
@@ -77,7 +84,7 @@ public class Consultation extends AbstractItem<Consultation.ViewHolder> {
         TextView dateOfPassage;
         TextView room;
 
-        public ViewHolder(@NotNull View itemView) {
+        private ViewHolder(@NotNull View itemView) {
             super(itemView);
 
             fio = itemView.findViewById(R.id.list_item_consultation_FIO_tv);

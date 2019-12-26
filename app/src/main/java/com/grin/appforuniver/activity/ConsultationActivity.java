@@ -20,6 +20,8 @@ import com.grin.appforuniver.data.WebServices.ServiceGenerator;
 import com.grin.appforuniver.data.model.consultation.Consultation;
 import com.grin.appforuniver.data.utils.PreferenceUtils;
 
+import java.util.Objects;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -30,6 +32,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ConsultationActivity extends AppCompatActivity {
+
+    public final String TAG = ConsultationActivity.class.getSimpleName();
 
     private Menu mMenuList;
 
@@ -51,6 +55,8 @@ public class ConsultationActivity extends AppCompatActivity {
     Button unSubscribeBTN;
 
     ConsultationInterface consultationInterface = ServiceGenerator.createService(ConsultationInterface.class);
+
+    private boolean isCreatedConsultationByUser = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,23 +88,25 @@ public class ConsultationActivity extends AppCompatActivity {
             description.setText(mConsultation.getDescription());
         }
 
-        Call<Boolean> callConsultaion = consultationInterface.isCanSubscribe(mConsultation.getId());
-        callConsultaion.enqueue(new Callback<Boolean>() {
+        Call<Boolean> call = consultationInterface.isCanSubscribe(mConsultation.getId());
+        call.enqueue(new Callback<Boolean>() {
             @Override
-            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+            public void onResponse(@NonNull Call<Boolean> call, @NonNull Response<Boolean> response) {
                 if (response.isSuccessful()) {
-                    if (response.body() != null & response.body() == true) {
+                    if (response.body() != null & response.body()) {
                         subscribeBTN.setVisibility(View.VISIBLE);
-                    } else {
-                        subscribeBTN.setVisibility(View.INVISIBLE);
-                        unSubscribeBTN.setVisibility(View.VISIBLE);
                     }
+                } else if(isCreatedConsultationByUser) {
+                    unSubscribeBTN.setVisibility(View.INVISIBLE);
+                } else {
+                    subscribeBTN.setVisibility(View.INVISIBLE);
+                    unSubscribeBTN.setVisibility(View.VISIBLE);
                 }
             }
 
             @Override
-            public void onFailure(Call<Boolean> call, Throwable t) {
-                Toasty.error(ConsultationActivity.this, t.getMessage(), Toast.LENGTH_SHORT, true).show();
+            public void onFailure(@NonNull Call<Boolean> call, @NonNull Throwable t) {
+                Toasty.error(ConsultationActivity.this, Objects.requireNonNull(t.getMessage()), Toast.LENGTH_SHORT, true).show();
             }
         });
     }
@@ -108,24 +116,27 @@ public class ConsultationActivity extends AppCompatActivity {
         Call<Boolean> call = consultationInterface.isCanUpdateConsultation(mConsultation.getId());
         call.enqueue(new Callback<Boolean>() {
             @Override
-            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+            public void onResponse(@NonNull Call<Boolean> call, @NonNull Response<Boolean> response) {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
+                        isCreatedConsultationByUser = true;
                         mMenuList.findItem(R.id.edit_consultation).setVisible(true);
+                        subscribeBTN.setVisibility(View.INVISIBLE);
+                        unSubscribeBTN.setVisibility(View.INVISIBLE);
                     }
                 }
             }
 
             @Override
-            public void onFailure(Call<Boolean> call, Throwable t) {
-                Toasty.error(ConsultationActivity.this, t.getMessage(), Toast.LENGTH_SHORT, true).show();
+            public void onFailure(@NonNull Call<Boolean> call, @NonNull Throwable t) {
+                Toasty.error(ConsultationActivity.this, Objects.requireNonNull(t.getMessage()), Toast.LENGTH_SHORT, true).show();
             }
         });
 
         Call<Consultation> callConsultaion = consultationInterface.getConsultationById(mConsultation.getId());
         callConsultaion.enqueue(new Callback<Consultation>() {
             @Override
-            public void onResponse(Call<Consultation> call, Response<Consultation> response) {
+            public void onResponse(@NonNull Call<Consultation> call, @NonNull Response<Consultation> response) {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
                         mConsultation = response.body();
@@ -134,30 +145,49 @@ public class ConsultationActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<Consultation> call, Throwable t) {
-                Toasty.error(ConsultationActivity.this, t.getMessage(), Toast.LENGTH_SHORT, true).show();
+            public void onFailure(@NonNull Call<Consultation> call, @NonNull Throwable t) {
+                Toasty.error(ConsultationActivity.this, Objects.requireNonNull(t.getMessage()), Toast.LENGTH_SHORT, true).show();
             }
         });
     }
 
     @OnClick(R.id.activity_consultation_subscribe_btn)
     void subscribe() {
-        Call<Boolean> call = consultationInterface.subscribeOnConsultationById(mConsultation.getId());
-        call.enqueue(new Callback<Boolean>() {
+        Call<Void> call = consultationInterface.subscribeOnConsultationById(mConsultation.getId());
+        call.enqueue(new Callback<Void>() {
             @Override
-            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-                if (response.isSuccessful()) {
-                    Toasty.success(ConsultationActivity.this, "Successful subscribe on consultation", Toast.LENGTH_SHORT, true).show();
+            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                Toasty.success(ConsultationActivity.this, "Successful subscribe on consultation", Toast.LENGTH_SHORT, true).show();
 
-                    unSubscribeBTN.setVisibility(View.VISIBLE);
-                    subscribeBTN.setVisibility(View.INVISIBLE);
+                unSubscribeBTN.setVisibility(View.VISIBLE);
+                subscribeBTN.setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                Toasty.error(ConsultationActivity.this, Objects.requireNonNull(t.getMessage()), Toast.LENGTH_SHORT, true).show();
+            }
+        });
+    }
+
+    @OnClick(R.id.activity_consultation_unsubscribe_btn)
+    void unSubscribe() {
+        Call<Void> call = consultationInterface.unsubscribeOnConsultationById(mConsultation.getId());
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                if (response.isSuccessful()) {
+                    Toasty.info(ConsultationActivity.this, "Successful unsubscribe on consultation", Toast.LENGTH_SHORT, true).show();
+
+                    unSubscribeBTN.setVisibility(View.INVISIBLE);
+                    subscribeBTN.setVisibility(View.VISIBLE);
 
                 }
             }
 
             @Override
-            public void onFailure(Call<Boolean> call, Throwable t) {
-                Toasty.error(ConsultationActivity.this, t.getMessage(), Toast.LENGTH_SHORT, true).show();
+            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                Toasty.error(ConsultationActivity.this, Objects.requireNonNull(t.getMessage()), Toast.LENGTH_SHORT, true).show();
             }
         });
     }
@@ -186,4 +216,5 @@ public class ConsultationActivity extends AppCompatActivity {
         super.onDestroy();
         mUnbinder.unbind();
     }
+
 }

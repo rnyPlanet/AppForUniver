@@ -1,8 +1,7 @@
 package com.grin.appforuniver.data.WebServices;
 
-
 import com.grin.appforuniver.data.model.consultation.Consultation;
-import com.grin.appforuniver.data.model.dto.ConsultationUpdateRequestDto;
+import com.grin.appforuniver.data.model.dto.ConsultationRequestDto;
 
 import java.util.List;
 
@@ -18,11 +17,11 @@ public interface ConsultationInterface {
     @GET("consultation/all")
     Call<List<Consultation>> getAllConsultations();
 
-    @GET("consultation/myConsultation")
+    @GET("consultation/my")
     Call<List<Consultation>> getMyConsultation();
 
-    @GET("consultation/subscribe")
-    Call<List<Consultation>> getSubscribeConsultations();
+    @GET("consultation/mySubscriptions")
+    Call<List<Consultation>> mySubscriptions();
 
     @GET("consultation/isCanUpdate/{id}")
     Call<Boolean> isCanUpdateConsultation(@Path("id") int id);
@@ -33,18 +32,20 @@ public interface ConsultationInterface {
     @GET("consultation/isCanSubscribe/{id}")
     Call<Boolean> isCanSubscribe(@Path("id") int id);
 
+    @POST("consultation/subscribe/{id}")
+    Call<Void> subscribeOnConsultationById(@Path("id") int id);
 
-    @PUT("consultation/update")
-    Call<Consultation> updateConsultation(@Body ConsultationUpdateRequestDto consultationUpdateRequestDto);
+    @PUT("consultation/unsubscribe/{id}")
+    Call<Void> unsubscribeOnConsultationById(@Path("id") int id);
 
-    @POST("consultation/addСonsultation")
-    Call<Consultation> createConsultation(@Body ConsultationUpdateRequestDto consultationUpdateRequestDto);
 
-    @POST("consultation/follow/{id}")
-    Call<Boolean> subscribeOnConsultationById(@Path("id") int id);
+    @PUT("consultation/update/{id}")
+    Call<Consultation> updateConsultation(@Path("id") int id, @Body ConsultationRequestDto consultationRequestDto);
 
-    @PUT("consultation/unfollow/{id}")
-    Call<Boolean> unsubscribeOnConsultationById(@Path("id") int id);
+    @POST("consultation/create")
+    Call<Consultation> createConsultation(@Body ConsultationRequestDto consultationRequestDto);
+
+
 
 
 }
