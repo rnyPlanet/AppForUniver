@@ -7,7 +7,9 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="text_pair_subject">14sp</dimen>
 
+    <!-- Custom elements size-->
     <dimen name="title_padding">8dp</dimen>
-    <dimen name="border">2dp</dimen>
+    <dimen name="border">1dp</dimen>
     <dimen name="radius">4dp</dimen>
+    <dimen name="page_padding">16dp</dimen>
 </resources>

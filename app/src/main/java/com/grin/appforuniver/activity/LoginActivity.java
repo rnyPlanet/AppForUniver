@@ -45,9 +45,7 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.activity_login_password_et)
     TextInputLayout passwordTIL;
 
-    //
     // Variables for visual settings
-    //
     @BindView(R.id.logo)
     ImageView logo;
     @BindView(R.id.university_name)
@@ -80,7 +78,6 @@ public class LoginActivity extends AppCompatActivity {
             loginPageActivity.post(() -> {
                 int height = loginPageActivity.getHeight();
                 loginPageActivity.addOnLayoutChangeListener((v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) -> {
-                    final int startHeight = loginPageActivity.getHeight();
                     Log.d("ActivityHeight", "Start result = " + height);
                     if ((bottom - top) == height) {
                         changeHeaderVisible("visible");

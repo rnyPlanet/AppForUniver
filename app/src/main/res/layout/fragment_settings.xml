@@ -1,0 +1,125 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/settings"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:foregroundGravity="center">
+
+        <LinearLayout
+            android:id="@+id/general_settings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bottom_border"
+            android:orientation="vertical"
+            android:padding="@dimen/page_padding"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/general_block_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/page_padding"
+                android:layout_weight="1"
+                android:paddingLeft="56dp"
+                android:paddingRight="56dp"
+                android:text="@string/general_title"
+                android:textColor="@color/colorPrimary"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <Switch
+                android:id="@+id/dark_mode_switch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableStart="@drawable/ic_theme"
+                android:drawablePadding="32dp"
+                android:paddingTop="@dimen/page_padding"
+                android:paddingBottom="@dimen/page_padding"
+                android:text="@string/dark_mode"
+                android:textSize="14sp" />
+
+            <LinearLayout
+                android:id="@+id/language_block"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:paddingTop="@dimen/page_padding"
+                android:paddingBottom="@dimen/page_padding">
+
+                <TextView
+                    android:id="@+id/textView6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:drawableStart="@drawable/ic_language"
+                    android:drawablePadding="32dp"
+                    android:text="@string/lang_title"
+                    android:textColor="@android:color/black"
+                    android:textSize="14sp" />
+
+                <Spinner
+                    android:id="@+id/lang_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/information_block"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:padding="@dimen/page_padding"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/general_settings">
+
+            <TextView
+                android:id="@+id/info_block_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/page_padding"
+                android:paddingStart="56dp"
+                android:paddingEnd="56dp"
+                android:text="@string/info_title"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/app_version_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_info"
+                    android:drawablePadding="32dp"
+                    android:paddingTop="@dimen/page_padding"
+                    android:paddingBottom="@dimen/page_padding"
+                    android:text="@string/app_version"
+                    android:textColor="@android:color/black" />
+
+                <TextView
+                    android:id="@+id/app_version"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|end" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

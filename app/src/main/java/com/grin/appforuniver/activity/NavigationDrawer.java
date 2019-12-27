@@ -22,6 +22,7 @@ import com.grin.appforuniver.fragments.AdminFragment;
 import com.grin.appforuniver.fragments.ConsultationFragment;
 import com.grin.appforuniver.fragments.HomeFragment;
 import com.grin.appforuniver.fragments.ScheduleFragment;
+import com.grin.appforuniver.fragments.SettingsFragment;
 import com.grin.appforuniver.fragments.UserAccountFragment;
 
 public class NavigationDrawer extends AppCompatActivity
@@ -167,6 +168,12 @@ public class NavigationDrawer extends AppCompatActivity
                         .commit();
                 break;
 
+            case R.id.nav_settings:
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new SettingsFragment())
+                        .commit();
+                break;
 
         }
 

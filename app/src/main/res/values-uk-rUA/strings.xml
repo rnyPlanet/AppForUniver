@@ -20,6 +20,7 @@
     <string name="error_network_subtitle">Проблеми з інтернет-з\'єднанням</string>
     <string name="sign_in_btn">Вхід</string>
     <string name="menu_home">Головна</string>
+    <string name="menu_settings">Налаштування</string>
     <string name="error_network" translatable="false">Упс(</string>
     <string name="consultation_activity_room">Аудиторія: </string>
     <string name="edit_consultation">Редагувати консультацію</string>

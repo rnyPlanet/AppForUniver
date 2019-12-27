@@ -1,5 +1,6 @@
 package com.grin.appforuniver.activity;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -67,7 +68,7 @@ public class ConsultationActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar_consultation);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_black_24dp);
+        Objects.requireNonNull(getSupportActionBar()).setHomeAsUpIndicator(R.drawable.ic_arrow_back_black_24dp);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         PreferenceUtils.context = this;
@@ -79,6 +80,7 @@ public class ConsultationActivity extends AppCompatActivity {
 
     }
 
+    @SuppressLint("SetTextI18n")
     private void init() {
         fioTV.setText(mConsultation.getCreatedUser().getLastName() + " " + mConsultation.getCreatedUser().getFirstName() + " " + mConsultation.getCreatedUser().getPatronymic());
         roomTV.setText(getResources().getString(R.string.consultation_activity_room) + mConsultation.getRoom().getName());
