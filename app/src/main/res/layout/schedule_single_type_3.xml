@@ -36,7 +36,7 @@
             android:layout_marginTop="4dp"
             android:layout_marginBottom="4dp"
             android:padding="@dimen/title_padding"
-            app:layout_constraintBottom_toTopOf="@+id/center_horizontal_line"
+            app:layout_constraintBottom_toBottomOf="@+id/center_top_vertical_line"
             app:layout_constraintEnd_toStartOf="@+id/second_subgroup_first_week"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/left_vertical_line"
@@ -103,11 +103,10 @@
             android:id="@+id/center_horizontal_line"
             android:layout_width="0dp"
             android:layout_height="@dimen/border"
-            android:layout_marginTop="4dp"
             android:background="@color/background"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/left_vertical_line"
-            app:layout_constraintTop_toBottomOf="@+id/first_subgroup_first_week" />
+            app:layout_constraintTop_toBottomOf="@+id/center_top_vertical_line" />
 
         <View
             android:id="@+id/center_top_vertical_line"

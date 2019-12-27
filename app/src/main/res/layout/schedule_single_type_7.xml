@@ -53,8 +53,7 @@
             app:layout_constraintEnd_toStartOf="@+id/second_subgroup_second_week"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/left_vertical_line"
-            app:layout_constraintTop_toBottomOf="@+id/center_horizontal_line"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintTop_toBottomOf="@+id/center_horizontal_line" />
 
         <TextView
             android:id="@+id/second_subgroup_second_week"
