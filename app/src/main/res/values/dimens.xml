@@ -6,4 +6,8 @@
     <dimen name="nav_header_height">135dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="text_pair_subject">14sp</dimen>
+
+    <dimen name="title_padding">8dp</dimen>
+    <dimen name="border">2dp</dimen>
+    <dimen name="radius">4dp</dimen>
 </resources>

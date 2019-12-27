@@ -79,6 +79,7 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:4.2.1'
     implementation 'com.squareup.okhttp3:okhttp:4.2.1'
 
+    implementation 'com.shreyaspatil:MaterialNavigationView:1.1'
     implementation 'com.google.android.material:material:1.0.0'
 
     implementation 'com.github.GrenderG:Toasty:1.4.2'

@@ -1,6 +1,8 @@
 package com.grin.appforuniver.activity;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -83,11 +85,15 @@ public class NavigationDrawer extends AppCompatActivity
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
     }
 
+    @SuppressLint("SetTextI18n")
     public void userInfo() {
         if (mUser != null) {
             TextView nvHeaderFirstLastNameTv = mNavigationView.getHeaderView(0).findViewById(R.id.nav_header_firstName_lastName);
             nvHeaderFirstLastNameTv.setVisibility(View.VISIBLE);
             nvHeaderFirstLastNameTv.setText(mUser.getFirstName() + " " + mUser.getLastName());
+
+            // Set user icon data
+            setUserIconData(mUser.getFirstName(), mUser.getLastName());
 
             TextView nvHeaderUserEmailTv = mNavigationView.getHeaderView(0).findViewById(R.id.nav_header_email);
             nvHeaderUserEmailTv.setVisibility(View.VISIBLE);
@@ -98,6 +104,17 @@ public class NavigationDrawer extends AppCompatActivity
             mNavigationView.getHeaderView(0).findViewById(R.id.nav_log_or_registr).setVisibility(View.GONE);
             mNavigationView.getMenu().findItem(R.id.nav_personal_area).setVisible(true);
         }
+    }
+
+    @SuppressLint("SetTextI18n")
+    public void setUserIconData(String firstName, String secondName){
+        char userFirstNameLetter = firstName.charAt(0);
+        char userSecondNameLetter = secondName.charAt(0);
+        TextView userIcon = mNavigationView.getHeaderView(0).findViewById(R.id.user_name_icon);
+
+        // Set up new data
+        userIcon.setText(userFirstNameLetter + "" + userSecondNameLetter);
+
     }
 
     @Override

@@ -47,6 +47,7 @@
     <string name="account_header">account_header</string>
     <string name="logo">Logo</string>
     <string name="univ_name">Чорноморський національний університет імені Петра Могили</string>
+    <string name="university_logo">university_logo</string>
     <string name="dialog_consultation_create_choose_room">Room</string>
     <string name="dialog_consultation_create_select_date_and_time">Select date and time</string>
     <string name="dialog_consultation_create_description">Description</string>

@@ -10,5 +10,7 @@
     <color name="colorSecondaryText">#737373</color>
 
     <color name="colorAccent">#3F3C30</color><!--#0D47A1-->
-    <color name="background">#F2F2F2</color>
+    <color name="background">#E5E5E5</color>
+
+    <color name="icon_color">#737373</color>
 </resources>

@@ -4,9 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="8dp"
-    android:layout_marginTop="4dp" android:layout_marginBottom="4dp"
-    android:layout_marginEnd="8dp">
+    android:layout_marginStart="@dimen/title_padding"
+    android:layout_marginTop="4dp"
+    android:layout_marginEnd="@dimen/title_padding"
+    android:layout_marginBottom="4dp"
+    app:cardElevation="0dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -33,6 +35,7 @@
             android:layout_marginStart="4dp"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="4dp"
+            android:padding="@dimen/title_padding"
             app:layout_constraintBottom_toTopOf="@+id/center_horizontal_line"
             app:layout_constraintEnd_toStartOf="@+id/second_subgroup_first_week"
             app:layout_constraintHorizontal_bias="0.5"
@@ -48,6 +51,7 @@
             android:layout_marginTop="4dp"
             android:layout_marginEnd="4dp"
             android:layout_marginBottom="4dp"
+            android:padding="@dimen/title_padding"
             app:layout_constraintBottom_toTopOf="@+id/center_horizontal_line"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -62,6 +66,7 @@
             android:layout_marginStart="4dp"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="4dp"
+            android:padding="@dimen/title_padding"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/second_subgroup_second_week"
             app:layout_constraintHorizontal_bias="0.5"
@@ -77,6 +82,7 @@
             android:layout_marginTop="4dp"
             android:layout_marginEnd="4dp"
             android:layout_marginBottom="4dp"
+            android:padding="@dimen/title_padding"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -85,10 +91,10 @@
 
         <View
             android:id="@+id/left_vertical_line"
-            android:layout_width="1dp"
+            android:layout_width="@dimen/border"
             android:layout_height="0dp"
             android:layout_marginStart="4dp"
-            android:background="@android:color/black"
+            android:background="@color/background"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/barrier"
             app:layout_constraintTop_toTopOf="parent" />
@@ -96,21 +102,21 @@
         <View
             android:id="@+id/center_horizontal_line"
             android:layout_width="0dp"
-            android:layout_height="1dp"
+            android:layout_height="@dimen/border"
             android:layout_marginTop="4dp"
-            android:background="@android:color/black"
+            android:background="@color/background"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/left_vertical_line"
             app:layout_constraintTop_toBottomOf="@+id/first_subgroup_first_week" />
 
         <View
             android:id="@+id/center_top_vertical_line"
-            android:layout_width="1dp"
+            android:layout_width="@dimen/border"
             android:layout_height="0dp"
 
             android:layout_marginStart="4dp"
             android:layout_marginEnd="4dp"
-            android:background="@android:color/black"
+            android:background="@color/background"
             app:layout_constraintBottom_toTopOf="@+id/center_horizontal_line"
             app:layout_constraintEnd_toStartOf="@+id/second_subgroup_first_week"
             app:layout_constraintStart_toEndOf="@+id/first_subgroup_first_week"
@@ -118,11 +124,11 @@
 
         <View
             android:id="@+id/center_bottom_vertical_line"
-            android:layout_width="1dp"
+            android:layout_width="@dimen/border"
             android:layout_height="0dp"
             android:layout_marginStart="4dp"
             android:layout_marginEnd="4dp"
-            android:background="@android:color/black"
+            android:background="@color/background"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/center_top_vertical_line"
             app:layout_constraintStart_toStartOf="@+id/center_top_vertical_line"
