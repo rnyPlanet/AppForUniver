@@ -13,6 +13,8 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -24,6 +26,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.grin.appforuniver.R;
+import com.grin.appforuniver.activity.ConsultationActivity;
 import com.grin.appforuniver.data.WebServices.ConsultationInterface;
 import com.grin.appforuniver.data.WebServices.RoomInterface;
 import com.grin.appforuniver.data.WebServices.ServiceGenerator;
@@ -40,14 +43,13 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.OnFocusChange;
 import butterknife.Unbinder;
 import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ConsultationCreateDialog extends DialogFragment implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+public class ConsultationUpdateDialog extends DialogFragment implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
     public final String TAG = ConsultationCreateDialog.class.getSimpleName();
     private Unbinder mUnbinder;
@@ -77,12 +79,18 @@ public class ConsultationCreateDialog extends DialogFragment implements DatePick
 
     private boolean isDateAndTimeChoosed;
 
+    private int mIdConsultation;
+    private Consultation mConsultation;
+
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         super.onCreateDialog(savedInstanceState);
 
         PreferenceUtils.context = getContext();
+
+        mIdConsultation = getArguments().getInt(ConsultationActivity.key, 0);
+        if(mIdConsultation != 0) getConsultationById();
 
         LayoutInflater inflater = Objects.requireNonNull(getActivity()).getLayoutInflater();
         View view = inflater.inflate(R.layout.dialog_consultation_create, null);
@@ -92,7 +100,7 @@ public class ConsultationCreateDialog extends DialogFragment implements DatePick
         mUnbinder = ButterKnife.bind(this, view);
 
         isDateAndTimeChoosed = false;
-        builder.setTitle("Create consultation");
+        builder.setTitle("Update consultation");
         builder.setView(view);
         builder.setPositiveButton("Ok", null);
         builder.setNegativeButton("Сancel", (dialogInterface, i) -> {
@@ -104,7 +112,8 @@ public class ConsultationCreateDialog extends DialogFragment implements DatePick
                 getActivity(), android.R.layout.simple_dropdown_item_1line,
                 mArrayRooms);
 
-        roomField.setOnItemClickListener((adapterView, view1, i, l) -> {});
+        roomField.setOnItemClickListener((adapterView, view1, i, l) -> {
+        });
         roomField.setAdapter(arrayAdapter);
         roomField.setOnFocusChangeListener((v, hasFocus) -> {
             if (hasFocus) roomField.showDropDown();
@@ -142,6 +151,7 @@ public class ConsultationCreateDialog extends DialogFragment implements DatePick
                 positiveButton.setOnClickListener(view12 -> cteateConsultation());
             }
         });
+
         return dialog;
 
     }
@@ -157,6 +167,7 @@ public class ConsultationCreateDialog extends DialogFragment implements DatePick
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
                         mArrayRooms.addAll(response.body());
+                        setSelectionRoomField();
                     }
                 }
             }
@@ -168,6 +179,37 @@ public class ConsultationCreateDialog extends DialogFragment implements DatePick
         });
     }
 
+    private void getConsultationById() {
+        ConsultationInterface consultationInterface = ServiceGenerator.createService(ConsultationInterface.class);
+
+        Call<Consultation> call = consultationInterface.getConsultationById(mIdConsultation);
+        call.enqueue(new Callback<Consultation>() {
+            @Override
+            public void onResponse(@NonNull Call<Consultation> call, @NonNull Response<Consultation> response) {
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        mConsultation = response.body();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Consultation> call, @NonNull Throwable t) {
+                Toasty.error(Objects.requireNonNull(getContext()), Objects.requireNonNull(t.getMessage()), Toast.LENGTH_SHORT, true).show();
+            }
+        });
+
+    }
+
+    private void setSelectionRoomField() {
+        Rooms room;
+        for (int i = 0; i < mArrayRooms.size(); i++) {
+            room = (Rooms) mArrayRooms.get(i);
+            if(mConsultation.getRoom().getName().equals(room.getName())){
+                roomField.setText(mConsultation.getRoom().getName());
+            }
+        }
+    }
 
     private void cteateConsultation() {
 
@@ -190,7 +232,7 @@ public class ConsultationCreateDialog extends DialogFragment implements DatePick
             return;
         }
 
-        String date = yearFinal + "-" + monthFinal + "-" + dayFinal + "T" + hourFinal + ":" + ((minuteFinal < 10) ? "0" + minuteFinal : minuteFinal ) + ":" + "00.000+02:00";
+        String date = yearFinal + "-" + monthFinal + "-" + dayFinal + "T" + hourFinal + ":" + ((minuteFinal < 10) ? "0" + minuteFinal : minuteFinal) + ":" + "00.000+02:00";
         ConsultationRequestDto consultationRequestDto = new ConsultationRequestDto(
                 PreferenceUtils.getSaveUser().getId(),
                 idSelectedRoom,
@@ -224,7 +266,6 @@ public class ConsultationCreateDialog extends DialogFragment implements DatePick
         });
     }
 
-
     private DatePickerDialog datePickerDialog;
     private TimePickerDialog timePickerDialog;
 
@@ -235,7 +276,7 @@ public class ConsultationCreateDialog extends DialogFragment implements DatePick
         month = c.get(Calendar.MONTH);
         day = c.get(Calendar.DAY_OF_MONTH);
 
-        datePickerDialog = new DatePickerDialog(Objects.requireNonNull(getContext()), ConsultationCreateDialog.this, year, month, day);
+        datePickerDialog = new DatePickerDialog(Objects.requireNonNull(getContext()), ConsultationUpdateDialog.this, year, month, day);
         datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
         datePickerDialog.show();
     }
@@ -250,7 +291,7 @@ public class ConsultationCreateDialog extends DialogFragment implements DatePick
         hour = c.get(Calendar.HOUR_OF_DAY);
         minute = c.get(Calendar.MINUTE);
 
-        timePickerDialog = new TimePickerDialog(getContext(), ConsultationCreateDialog.this, hour, minute, true);
+        timePickerDialog = new TimePickerDialog(getContext(), ConsultationUpdateDialog.this, hour, minute, true);
         timePickerDialog.show();
     }
 
@@ -275,7 +316,7 @@ public class ConsultationCreateDialog extends DialogFragment implements DatePick
             int currentHour = c.get(Calendar.HOUR_OF_DAY);
             int currentMinute = c.get(Calendar.MINUTE);
             timePickerDialog = new TimePickerDialog(getContext(),
-                    ConsultationCreateDialog.this, currentHour, currentMinute, true);
+                    ConsultationUpdateDialog.this, currentHour, currentMinute, true);
             timePickerDialog.show();
         } else {
             hourFinal = hourOfDay;
@@ -284,7 +325,7 @@ public class ConsultationCreateDialog extends DialogFragment implements DatePick
             selectDateTimeTIL.setError(null);
             selectDateTimeET.setText(
                     dayFinal + "." + monthFinal + "." + yearFinal + "\n" +
-                            hourFinal + ":" + ((minuteFinal < 10) ? "0" + minuteFinal : minuteFinal )
+                            hourFinal + ":" + ((minuteFinal < 10) ? "0" + minuteFinal : minuteFinal)
             );
             isDateAndTimeChoosed = true;
         }

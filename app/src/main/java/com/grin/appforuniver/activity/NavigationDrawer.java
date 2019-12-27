@@ -53,20 +53,6 @@ public class NavigationDrawer extends AppCompatActivity
 
         userInfo();
 
-//        Handler mainHandler = new Handler(getMainLooper());
-//        mainHandler.post(() -> {
-//            // Hash a password for the first time
-//            String hashed = BCrypt.hashpw("123", BCrypt.gensalt());
-//
-//            // Check that an unencrypted password matches one that has
-//            // previously been hashed
-//            if (BCrypt.checkpw("123", hashed))
-//                Toasty.success(getApplicationContext(), "It matches", Toast.LENGTH_SHORT).show();
-//            else
-//                Toasty.error(getApplicationContext(), "It does not matches", Toast.LENGTH_SHORT).show();
-//        });
-
-
     }
 
 
@@ -99,8 +85,6 @@ public class NavigationDrawer extends AppCompatActivity
             TextView nvHeaderUserEmailTv = mNavigationView.getHeaderView(0).findViewById(R.id.nav_header_email);
             nvHeaderUserEmailTv.setVisibility(View.VISIBLE);
             nvHeaderUserEmailTv.setText(mUser.getEmail());
-
-//            if (PreferenceUtils.getUserRoles().contains("ROLE_ADMIN")) { mNavigationView.getMenu().findItem(R.id.nav_admin).setVisible(true); }
 
             mNavigationView.getHeaderView(0).findViewById(R.id.nav_log_or_registr).setVisibility(View.GONE);
             mNavigationView.getMenu().findItem(R.id.nav_personal_area).setVisible(true);

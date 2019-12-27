@@ -111,4 +111,9 @@ public class ConsultationsSubscribeFragment extends Fragment {
         mUnbinder.unbind();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getSubscribeConsultations();
+    }
 }

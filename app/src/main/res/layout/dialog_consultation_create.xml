@@ -4,10 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:fitsSystemWindows="true"
     android:padding="16dp">
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/dialog_consultation_create_til"
+        android:id="@+id/dialog_consultation_create_spinner_til"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,13 +19,13 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <AutoCompleteTextView
-            android:id="@+id/dialog_consultation_create_spinner"
+            android:id="@+id/dialog_consultation_create_spinner_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:cursorVisible="false"
             android:completionHint="Select room"
-            android:inputType="textNoSuggestions"
             android:completionThreshold="1"
+            android:cursorVisible="false"
+            android:inputType="textNoSuggestions"
             android:paddingStart="10dp"
             android:paddingEnd="10dp"
             android:singleLine="true"
@@ -32,36 +33,57 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <Button
-        android:id="@+id/dialog_consultation_create_select_date_time_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="@string/dialog_consultation_create_select_date_and_time"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dialog_consultation_create_til" />
-
-    <TextView
-        android:id="@+id/dialog_consultation_create_date_time_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:visibility="gone"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dialog_consultation_create_select_date_time_btn" />
-
-    <EditText
-        android:id="@+id/dialog_consultation_create_description_et"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/dialog_consultation_create_select_date_time_til"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp"
-        android:hint="@string/dialog_consultation_create_description"
+
+        android:hint="@string/dialog_consultation_create_select_date_and_time"
+        app:errorEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dialog_consultation_create_date_time_tv" />
+        app:layout_constraintTop_toBottomOf="@+id/dialog_consultation_create_spinner_til">
+
+        <AutoCompleteTextView
+            android:id="@+id/dialog_consultation_create_select_date_time_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:completionHint="@string/dialog_consultation_create_select_date_and_time"
+            android:completionThreshold="1"
+            android:cursorVisible="false"
+            android:focusableInTouchMode="false"
+            android:inputType="textNoSuggestions"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:singleLine="true"
+            tools:ignore="LabelFor" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/dialog_consultation_create_description_til"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/dialog_consultation_create_description"
+        app:errorEnabled="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dialog_consultation_create_select_date_time_til">
+
+        <AutoCompleteTextView
+            android:id="@+id/dialog_consultation_create_description_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:completionHint="@string/dialog_consultation_create_description"
+            android:inputType="textMultiLine"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </com.google.android.material.textfield.TextInputLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

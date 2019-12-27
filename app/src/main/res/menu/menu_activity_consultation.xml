@@ -7,4 +7,11 @@
         android:title="@string/edit_consultation"
         android:visible="false"
         app:showAsAction="always" />
+
+    <item
+        android:id="@+id/delete_consultation"
+        android:icon="@drawable/ic_delete_black_24dp"
+        android:title="@string/edit_consultation"
+        android:visible="false"
+        app:showAsAction="always" />
 </menu>

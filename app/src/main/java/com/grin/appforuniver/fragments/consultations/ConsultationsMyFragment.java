@@ -139,4 +139,9 @@ public class ConsultationsMyFragment extends Fragment {
         mUnbinder.unbind();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getMyConsultation();
+    }
 }

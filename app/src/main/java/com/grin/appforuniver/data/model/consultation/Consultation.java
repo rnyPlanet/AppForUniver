@@ -14,8 +14,14 @@ import com.mikepenz.fastadapter.items.AbstractItem;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class Consultation extends AbstractItem<Consultation.ViewHolder> {
 
@@ -46,15 +52,16 @@ public class Consultation extends AbstractItem<Consultation.ViewHolder> {
         return mRoom;
     }
 
-    public Date getDateOfPassage() {
+    public String getDateOfPassage() {
 
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH);
+        SimpleDateFormat output = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+        Date d = null;
+        try {
+            d = sdf.parse(dateOfPassage.toString());
+        } catch (ParseException e) { e.printStackTrace(); }
 
-//        String pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
-//        SimpleDateFormat simpleFormatter = new SimpleDateFormat(pattern);
-
-//        Date parsedDate = simpleFormatter.parse(text, new ParsePosition(0));
-
-        return dateOfPassage;
+        return output.format(d);
     }
 
     public String getDescription() {
@@ -97,7 +104,7 @@ public class Consultation extends AbstractItem<Consultation.ViewHolder> {
         public void bindView(@NotNull Consultation item, @NotNull List<Object> list) {
             fio.setText(item.mCreatedUser.getLastName() + " " + item.mCreatedUser.getFirstName() + " " + item.mCreatedUser.getPatronymic());
             room.setText(itemView.getResources().getString(R.string.consultation_activity_room) + item.mRoom.getName());
-            dateOfPassage.setText(item.dateOfPassage.toString());
+            dateOfPassage.setText(item.getDateOfPassage());
         }
 
         @Override

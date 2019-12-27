@@ -1,5 +1,6 @@
 package com.grin.appforuniver.activity;
 
+import android.app.Dialog;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.Menu;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.DialogFragment;
 
 import com.google.gson.Gson;
 import com.grin.appforuniver.R;
@@ -20,6 +22,7 @@ import com.grin.appforuniver.data.WebServices.ConsultationInterface;
 import com.grin.appforuniver.data.WebServices.ServiceGenerator;
 import com.grin.appforuniver.data.model.consultation.Consultation;
 import com.grin.appforuniver.data.utils.PreferenceUtils;
+import com.grin.appforuniver.fragments.dialogs.ConsultationUpdateDialog;
 
 import java.util.Objects;
 
@@ -59,6 +62,8 @@ public class ConsultationActivity extends AppCompatActivity {
 
     private boolean isCreatedConsultationByUser = false;
 
+    public static String key = "idConsultation";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,8 +79,7 @@ public class ConsultationActivity extends AppCompatActivity {
         PreferenceUtils.context = this;
         mConsultation = new Gson().fromJson(getIntent().getStringExtra("Consultation"), Consultation.class);
 
-        getConsultation();
-
+        isCanUpdateConsultation();
         init();
 
     }
@@ -113,7 +117,7 @@ public class ConsultationActivity extends AppCompatActivity {
         });
     }
 
-    private void getConsultation() {
+    private void isCanUpdateConsultation() {
 
         Call<Boolean> call = consultationInterface.isCanUpdateConsultation(mConsultation.getId());
         call.enqueue(new Callback<Boolean>() {
@@ -123,8 +127,9 @@ public class ConsultationActivity extends AppCompatActivity {
                     if (response.body() != null) {
                         isCreatedConsultationByUser = true;
                         mMenuList.findItem(R.id.edit_consultation).setVisible(true);
-                        subscribeBTN.setVisibility(View.INVISIBLE);
-                        unSubscribeBTN.setVisibility(View.INVISIBLE);
+                        mMenuList.findItem(R.id.delete_consultation).setVisible(true);
+                        if(subscribeBTN != null) subscribeBTN.setVisibility(View.INVISIBLE);
+                        if(unSubscribeBTN != null) unSubscribeBTN.setVisibility(View.INVISIBLE);
                     }
                 }
             }
@@ -205,7 +210,16 @@ public class ConsultationActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.edit_consultation:
+            case R.id.edit_consultation: {
+                DialogFragment dialogFragment = new ConsultationUpdateDialog();
+                Bundle bundle = new Bundle();
+                bundle.putInt(key, mConsultation.getId());
+                dialogFragment.setArguments(bundle);
+                dialogFragment.show(getSupportFragmentManager(),"consultationUpdateDialog");
+
+            }
+                return true;
+            case R.id.delete_consultation:
                 Toasty.info(this, "sdf", Toasty.LENGTH_SHORT).show();
                 return true;
             default:
