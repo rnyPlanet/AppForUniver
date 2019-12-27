@@ -1,8 +1,8 @@
 package com.grin.appforuniver.activity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -22,7 +22,6 @@ import com.grin.appforuniver.fragments.AdminFragment;
 import com.grin.appforuniver.fragments.ConsultationFragment;
 import com.grin.appforuniver.fragments.HomeFragment;
 import com.grin.appforuniver.fragments.ScheduleFragment;
-import com.grin.appforuniver.fragments.SettingsFragment;
 import com.grin.appforuniver.fragments.UserAccountFragment;
 
 public class NavigationDrawer extends AppCompatActivity
@@ -169,10 +168,8 @@ public class NavigationDrawer extends AppCompatActivity
                 break;
 
             case R.id.nav_settings:
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.fragment_container, new SettingsFragment())
-                        .commit();
+                Intent settings = new Intent(this, SettingsActivity.class);
+                startActivity(settings);
                 break;
 
         }
