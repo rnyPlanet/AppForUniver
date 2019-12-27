@@ -72,10 +72,6 @@
     <string name="title_activity_settings" translatable="false">Settings</string>
     <string name="_192_168_0_1" translatable="false">192.168.0.1</string>
 
-    <!-- Preference Titles -->
-    <string name="messages_header" translatable="false">Messages</string>
-    <string name="sync_header" translatable="false">Sync</string>
-
     <!-- Messages Preferences -->
     <string name="signature_title" translatable="false">Your signature</string>
     <string name="reply_title" translatable="false">Default reply action</string>
@@ -88,11 +84,15 @@
     <string name="attachment_summary_off" translatable="false">Only download attachments when manually requested</string>
 
     <!-- Settings page -->
-    <string name="general_title" translatable="false">General settings</string>
-    <string name="dark_mode" translatable="false">Dark mode</string>
+    <string name="general_header" translatable="false">General settings</string>
+    <string name="theme_mode" translatable="false">Dark mode</string>
     <string name="lang_title" translatable="false">Choose language</string>
-    <string name="info_title" translatable="false">Information</string>
+    <string name="info_header" translatable="false">Information</string>
     <string name="app_version" translatable="false">App version</string>
 
+    <!-- Languages -->
+    <string name="ukr" translatable="false">Ukrainian</string>
+    <string name="eng" translatable="false">English</string>
+    <string name="rus" translatable="false">Russian</string>
 
 </resources>
