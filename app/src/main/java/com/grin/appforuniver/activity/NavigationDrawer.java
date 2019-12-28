@@ -41,7 +41,7 @@ public class NavigationDrawer extends AppCompatActivity
 
         navigationDrawer();
 
-        PreferenceUtils.context = getApplicationContext();
+        PreferenceUtils.setContext(getApplicationContext());
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
@@ -91,7 +91,7 @@ public class NavigationDrawer extends AppCompatActivity
     }
 
     @SuppressLint("SetTextI18n")
-    public void setUserIconData(String firstName, String secondName){
+    public void setUserIconData(String firstName, String secondName) {
         char userFirstNameLetter = firstName.charAt(0);
         char userSecondNameLetter = secondName.charAt(0);
         TextView userIcon = mNavigationView.getHeaderView(0).findViewById(R.id.user_name_icon);

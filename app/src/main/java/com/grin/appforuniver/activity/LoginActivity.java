@@ -61,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        PreferenceUtils.context = getApplicationContext();
+        PreferenceUtils.setContext(getApplicationContext());
         PreferenceUtils.saveUserToken(null);
 
         mProgressBar = new ProgressDialog(LoginActivity.this);

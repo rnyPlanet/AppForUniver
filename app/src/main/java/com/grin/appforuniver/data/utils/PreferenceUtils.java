@@ -14,9 +14,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PreferenceUtils {
-    public static Context context;
+    private static Context context;
 
     public PreferenceUtils() {
+    }
+
+    public static void setContext(Context context) {
+        PreferenceUtils.context = context;
     }
 
     public static boolean saveUsername(String username) {
