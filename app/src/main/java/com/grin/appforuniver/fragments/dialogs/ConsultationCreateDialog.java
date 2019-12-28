@@ -81,8 +81,6 @@ public class ConsultationCreateDialog extends DialogFragment implements DatePick
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         super.onCreateDialog(savedInstanceState);
 
-        PreferenceUtils.context = getContext();
-
         LayoutInflater inflater = Objects.requireNonNull(getActivity()).getLayoutInflater();
         View view = inflater.inflate(R.layout.dialog_consultation_create, null);
 

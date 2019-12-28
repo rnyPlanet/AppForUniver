@@ -2,6 +2,7 @@ package com.grin.appforuniver.activity;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -9,6 +10,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,7 +42,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ConsultationActivity extends AppCompatActivity {
+public class ConsultationActivity extends AppCompatActivity implements ConsultationUpdateDialog.OnUpdateConsultation {
 
     public final String TAG = ConsultationActivity.class.getSimpleName();
 
@@ -63,6 +65,9 @@ public class ConsultationActivity extends AppCompatActivity {
     @BindView(R.id.activity_consultation_unsubscribe_btn)
     Button unSubscribeBTN;
 
+    @BindView(R.id.activity_consultation_pb)
+    ProgressBar progressBar;
+
     ConsultationInterface consultationInterface = ServiceGenerator.createService(ConsultationInterface.class);
 
     private boolean isCreatedConsultationByUser = false;
@@ -79,23 +84,21 @@ public class ConsultationActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setHomeAsUpIndicator(R.drawable.ic_arrow_back_black_24dp);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        PreferenceUtils.context = this;
         mConsultation = new Gson().fromJson(getIntent().getStringExtra("Consultation"), Consultation.class);
 
-        getConsultationById();
+        getConsultationById(mConsultation.getId());
         isCanUpdateConsultation();
-        init();
-
     }
 
-    private void getConsultationById() {
-        Call<Consultation> callConsultaion = consultationInterface.getConsultationById(mConsultation.getId());
+    private void getConsultationById(int id) {
+        Call<Consultation> callConsultaion = consultationInterface.getConsultationById(id);
         callConsultaion.enqueue(new Callback<Consultation>() {
             @Override
             public void onResponse(@NonNull Call<Consultation> call, @NonNull Response<Consultation> response) {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
                         mConsultation = response.body();
+                        init();
                     }
                 }
             }
@@ -105,6 +108,8 @@ public class ConsultationActivity extends AppCompatActivity {
                 Toasty.error(ConsultationActivity.this, Objects.requireNonNull(t.getMessage()), Toast.LENGTH_SHORT, true).show();
             }
         });
+
+
     }
     private void isCanUpdateConsultation() {
         Call<Boolean> call = consultationInterface.isCanUpdateConsultation(mConsultation.getId());
@@ -124,16 +129,19 @@ public class ConsultationActivity extends AppCompatActivity {
                 Toasty.error(ConsultationActivity.this, Objects.requireNonNull(t.getMessage()), Toast.LENGTH_SHORT, true).show();
             }
         });
+
+
     }
     private void initMenu() {
         mMenuList.findItem(R.id.edit_consultation).setVisible(true);
         mMenuList.findItem(R.id.delete_consultation).setVisible(true);
-        subscribeBTN.setVisibility(View.INVISIBLE);
-        unSubscribeBTN.setVisibility(View.INVISIBLE);
+        subscribeBTN.setVisibility(View.GONE);
+        unSubscribeBTN.setVisibility(View.GONE);
     }
 
     @SuppressLint("SetTextI18n")
     private void init() {
+
         fioTV.setText(mConsultation.getCreatedUser().getLastName() + " " + mConsultation.getCreatedUser().getFirstName() + " " + mConsultation.getCreatedUser().getPatronymic());
         roomTV.setText(getResources().getString(R.string.consultation_activity_room) + mConsultation.getRoom().getName());
         dateOfPassage.setText(mConsultation.getDateOfPassage());
@@ -156,6 +164,13 @@ public class ConsultationActivity extends AppCompatActivity {
                     subscribeBTN.setVisibility(View.INVISIBLE);
                     unSubscribeBTN.setVisibility(View.VISIBLE);
                 }
+
+                progressBar.setVisibility(View.GONE);
+                fioTV.setVisibility(View.VISIBLE);
+                roomTV.setVisibility(View.VISIBLE);
+                dateOfPassage.setVisibility(View.VISIBLE);
+                description.setVisibility(View.VISIBLE);
+
             }
 
             @Override
@@ -172,7 +187,6 @@ public class ConsultationActivity extends AppCompatActivity {
             @Override
             public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
                 Toasty.success(ConsultationActivity.this, "Successful subscribe on consultation", Toast.LENGTH_SHORT, true).show();
-
                 unSubscribeBTN.setVisibility(View.VISIBLE);
                 subscribeBTN.setVisibility(View.INVISIBLE);
             }
@@ -192,10 +206,8 @@ public class ConsultationActivity extends AppCompatActivity {
             public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
                 if (response.isSuccessful()) {
                     Toasty.info(ConsultationActivity.this, "Successful unsubscribe on consultation", Toast.LENGTH_SHORT, true).show();
-
                     unSubscribeBTN.setVisibility(View.INVISIBLE);
                     subscribeBTN.setVisibility(View.VISIBLE);
-
                 }
             }
 
@@ -209,8 +221,8 @@ public class ConsultationActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        this.mMenuList = menu;
         inflater.inflate(R.menu.menu_activity_consultation, menu);
+        this.mMenuList = menu;
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -239,6 +251,11 @@ public class ConsultationActivity extends AppCompatActivity {
     public void onDestroy() {
         super.onDestroy();
         mUnbinder.unbind();
+    }
+
+    @Override
+    public void onUpdateConsultation(int id) {
+        getConsultationById(id);
     }
 
 }

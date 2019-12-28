@@ -44,20 +44,22 @@ public class ConsultationsSubscribeFragment extends Fragment {
     private ItemAdapter<Consultation> mItemAdapter = new ItemAdapter<>();
     private FastAdapter mFastAdapter = null;
 
-    @BindView(R.id.fragment_consultations_subscribe_rv)
-    RecyclerView recyclerView;
-    @BindView(R.id.fragment_consultations_subscribe_pb)
-    ProgressBar progressBar;
+    private RecyclerView recyclerView;
+    private ProgressBar progressBar;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_consultations_subscribe, container, false);
 
+        recyclerView = mView.findViewById(R.id.fragment_consultations_subscribe_rv);
+        progressBar = mView.findViewById(R.id.fragment_consultations_subscribe_pb);
+
         mUnbinder = ButterKnife.bind(this, mView);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mView.getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setVisibility(View.INVISIBLE);
 
         mFastAdapter = FastAdapter.with(mItemAdapter);
 
@@ -70,9 +72,6 @@ public class ConsultationsSubscribeFragment extends Fragment {
         );
 
         recyclerView.setAdapter(mFastAdapter);
-
-        getSubscribeConsultations();
-
         return mView;
     }
 
@@ -85,21 +84,24 @@ public class ConsultationsSubscribeFragment extends Fragment {
             @Override
             public void onResponse(@NonNull Call<List<Consultation>> call, @NonNull Response<List<Consultation>> response) {
                 if (response.isSuccessful()) {
+                    mItemAdapter.clear();
                     if (response.body() != null) {
-                        mItemAdapter.clear();
                         mItemAdapter.add(response.body());
-                        if(progressBar != null) progressBar.setVisibility(View.GONE);
+                        progressBar.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
                     } else {
                         progressBar.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
                     }
                 } else {
                     progressBar.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.VISIBLE);
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<List<Consultation>> call, @NonNull Throwable t) {
-                Toasty.error(getContext(), Objects.requireNonNull(t.getMessage()), Toast.LENGTH_SHORT, true).show();
+                Toasty.error(Objects.requireNonNull(getContext()), Objects.requireNonNull(t.getMessage()), Toast.LENGTH_SHORT, true).show();
                 progressBar.setVisibility(View.GONE);
             }
         });
@@ -116,4 +118,5 @@ public class ConsultationsSubscribeFragment extends Fragment {
         super.onResume();
         getSubscribeConsultations();
     }
+
 }

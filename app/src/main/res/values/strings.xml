@@ -62,7 +62,7 @@
 
     <!-- Auxiliary strings -->
     <string name="login_register" translatable="false">Login | Register</string>
-    <string name="consultation_activity_room">Room: </string>
+    <string name="consultation_activity_room">Room: </string>
     <string name="edit_consultation">Edit consultation</string>
     <string name="account_header" translatable="false">account_header</string>
     <string name="logo" translatable="false">Logo</string>

@@ -49,9 +49,9 @@ public class ConsultationsMyFragment extends Fragment {
     private ItemAdapter<Consultation> mItemAdapter = new ItemAdapter<>();
     private FastAdapter mFastAdapter = null;
 
-    @BindView(R.id.fragment_consultations_my_rv) RecyclerView recyclerView;
-    @BindView(R.id.fragment_consultations_my_fab) FloatingActionButton floatingActionButton;
-    @BindView(R.id.fragment_consultations_my_pb) ProgressBar progressBar;
+    private RecyclerView recyclerView;
+    private FloatingActionButton floatingActionButton;
+    private ProgressBar progressBar;
 
     private DialogFragment consultationCreateDialog;
 
@@ -62,9 +62,13 @@ public class ConsultationsMyFragment extends Fragment {
 
         mUnbinder = ButterKnife.bind(this, mView);
 
+        recyclerView = mView.findViewById(R.id.fragment_consultations_my_rv);
+        floatingActionButton = mView.findViewById(R.id.fragment_consultations_my_fab);
+        progressBar = mView.findViewById(R.id.fragment_consultations_my_pb);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mView.getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setVisibility(View.INVISIBLE);
 
         mFastAdapter = FastAdapter.with(mItemAdapter);
 
@@ -77,8 +81,6 @@ public class ConsultationsMyFragment extends Fragment {
         );
 
         recyclerView.setAdapter(mFastAdapter);
-
-        getMyConsultation();
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -108,15 +110,19 @@ public class ConsultationsMyFragment extends Fragment {
             @Override
             public void onResponse(@NonNull Call<List<Consultation>> call, @NonNull Response<List<Consultation>> response) {
                 if (response.isSuccessful()) {
+                    mItemAdapter.clear();
                     if (response.body() != null) {
-                        mItemAdapter.clear();
+
                         mItemAdapter.add(response.body());
-                        if(progressBar != null) progressBar.setVisibility(View.GONE);
+                        progressBar.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
                     } else {
                         progressBar.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
                     }
                 } else {
                     progressBar.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.VISIBLE);
                 }
             }
 

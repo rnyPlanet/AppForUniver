@@ -22,6 +22,7 @@
             android:textColor="@android:color/black"
             android:textSize="20sp"
             android:textStyle="bold"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -32,6 +33,7 @@
             android:layout_below="@+id/activity_consultation_FIO_tv"
             android:layout_alignParentStart="true"
             android:textSize="20sp"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/activity_consultation_FIO_tv" />
 
@@ -42,6 +44,7 @@
             android:layout_below="@+id/activity_consultation_roomNum_tv"
             android:layout_alignParentStart="true"
             android:textSize="20sp"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/activity_consultation_roomNum_tv" />
 
@@ -54,7 +57,6 @@
             android:text="@string/activity_consultation_description"
             android:textColor="@android:color/black"
             android:textSize="20sp"
-
             android:textStyle="bold"
             android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
@@ -67,6 +69,7 @@
             android:layout_below="@+id/activity_consultation_descriptionText_tv"
             android:layout_alignParentStart="true"
             android:textSize="20sp"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/activity_consultation_descriptionText_tv" />
 
@@ -89,6 +92,15 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <ProgressBar
+            android:id="@+id/activity_consultation_pb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

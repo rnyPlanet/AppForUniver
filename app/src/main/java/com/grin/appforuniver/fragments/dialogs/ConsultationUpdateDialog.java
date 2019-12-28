@@ -83,12 +83,14 @@ public class ConsultationUpdateDialog extends DialogFragment implements DatePick
     private int mIdConsultation;
     private Consultation mConsultation;
 
+    public interface OnUpdateConsultation {
+        void onUpdateConsultation(int id);
+    }
+
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         super.onCreateDialog(savedInstanceState);
-
-        PreferenceUtils.context = getContext();
 
         mIdConsultation = getArguments().getInt(ConsultationActivity.key, 0);
         if(mIdConsultation != 0) getConsultationById();
@@ -193,6 +195,7 @@ public class ConsultationUpdateDialog extends DialogFragment implements DatePick
                     if (response.body() != null) {
                         mConsultation = response.body();
                         selectDateTimeET.setText(mConsultation.getDateOfPassage());
+                        descriptionET.setText(mConsultation.getDescription());
                     }
                 }
             }
@@ -250,6 +253,10 @@ public class ConsultationUpdateDialog extends DialogFragment implements DatePick
             public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
                 if (response.isSuccessful()) {
                     Toasty.success(Objects.requireNonNull(getContext()), "Successful updated", Toast.LENGTH_SHORT, true).show();
+
+                    OnUpdateConsultation activity = (OnUpdateConsultation) getActivity();
+                    activity.onUpdateConsultation(mConsultation.getId());
+
                     dialog.dismiss();
                 }
             }
