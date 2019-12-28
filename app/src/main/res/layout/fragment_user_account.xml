@@ -4,8 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@android:color/white">
+    android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -25,7 +24,7 @@
             android:background="@drawable/outline_btn"
             android:text="@string/user_account_logout"
             android:textColor="@android:color/white"
-            android:visibility="visible"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@+id/user_account_header"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -39,7 +38,7 @@
             android:background="@color/colorPrimary"
             android:contentDescription="@string/account_header"
 
-            android:visibility="visible"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -119,10 +118,10 @@
                 android:id="@+id/user_account_email_ll"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:orientation="vertical"
                 android:paddingTop="8dp"
                 android:paddingBottom="8dp"
+                android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@+id/user_account_phone1_ll"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -135,7 +134,7 @@
                     android:drawableStart="@drawable/ic_email"
                     android:drawablePadding="12dp"
                     android:text="@string/user_account_email"
-                    android:textColor="@android:color/black"
+                    android:textColor="?android:attr/textColorPrimary"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -145,7 +144,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/card"
                     android:padding="16dp"
-                    android:textColor="@color/colorSecondaryText" />
+                    android:textColor="?android:attr/textColorPrimary" />
             </LinearLayout>
 
             <LinearLayout
@@ -156,6 +155,7 @@
                 android:orientation="vertical"
                 android:paddingTop="8dp"
                 android:paddingBottom="8dp"
+                android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@+id/user_account_email_ll"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.218"
@@ -169,7 +169,7 @@
                     android:drawableStart="@drawable/ic_department"
                     android:drawablePadding="12dp"
                     android:text="@string/user_account_department"
-                    android:textColor="@android:color/black"
+                    android:textColor="?android:attr/textColorPrimary"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -179,7 +179,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/card"
                     android:padding="16dp"
-                    android:textColor="@color/colorSecondaryText" />
+                    android:textColor="?android:attr/textColorPrimary" />
 
             </LinearLayout>
 
@@ -187,7 +187,6 @@
                 android:id="@+id/user_account_phone1_ll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
                 android:orientation="vertical"
                 android:paddingTop="8dp"
@@ -195,7 +194,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/user_account_email_ll">
+                app:layout_constraintTop_toBottomOf="@+id/user_account_email_ll"
+                tools:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -204,7 +204,7 @@
                     android:drawableStart="@drawable/ic_phone"
                     android:drawablePadding="12dp"
                     android:text="@string/user_account_phone"
-                    android:textColor="@android:color/black"
+                    android:textColor="?android:attr/textColorPrimary"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -214,7 +214,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/card"
                     android:padding="16dp"
-                    android:textColor="@color/colorSecondaryText" />
+                    android:textColor="?android:attr/textColorPrimary" />
             </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

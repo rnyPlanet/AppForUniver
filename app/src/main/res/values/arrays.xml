@@ -1,8 +1,8 @@
 <resources>
-    <!-- Reply Preference -->
+    <!-- Language Preference -->
     <string-array name="lang_entries">
-        <item>@string/ukr</item>
         <item>@string/eng</item>
+        <item>@string/ukr</item>
         <item>@string/rus</item>
     </string-array>
 
@@ -10,5 +10,18 @@
         <item>ukr_lang</item>
         <item>eng_lang</item>
         <item>rus_lang</item>
+    </string-array>
+
+    <!-- Theme Preference -->
+    <string-array name="theme_entries">
+        <item>@string/sys</item>
+        <item>@string/lth</item>
+        <item>@string/drk</item>
+    </string-array>
+
+    <string-array name="theme_values">
+        <item>system_theme</item>
+        <item>light_theme</item>
+        <item>dark_theme</item>
     </string-array>
 </resources>

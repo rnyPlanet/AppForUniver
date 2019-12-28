@@ -1,5 +1,6 @@
 package com.grin.appforuniver.fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -100,6 +101,7 @@ public class UserAccountFragment extends Fragment {
         Call<User> call = userInterface.getMe();
 
         call.enqueue(new Callback<User>() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
                 if (response.isSuccessful()) {
@@ -141,6 +143,8 @@ public class UserAccountFragment extends Fragment {
                         userinfo_rl.setVisibility(View.VISIBLE);
                         logout_btn.setVisibility(View.VISIBLE);
                         user_account_header.setVisibility(View.VISIBLE);
+                        email_ll.setVisibility(View.VISIBLE);
+                        telefon1_ll.setVisibility(View.VISIBLE);
 
                     }
                 }

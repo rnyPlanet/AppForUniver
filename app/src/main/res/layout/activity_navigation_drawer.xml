@@ -19,7 +19,6 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_navigation_drawer"
         app:itemStyle="rounded_right"
         app:menu="@menu/activity_navigation_drawer_drawer" />

@@ -1,16 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Primary -->
     <color name="colorPrimary">#b71c1c</color>
-    <color name="colorPrimaryLight">#f05545</color>
-    <color name="colorPrimaryDark">#b71c1c</color> <!--#7f0000-->
-    <color name="colorSecondary">#3F3C30</color>
-    <color name="colorSecondaryLight">#6A6659</color>
-    <color name="colorSecondaryDark">#191607</color>
+    <color name="colorPrimaryLight">#C2493C</color>
+    <color name="colorPrimaryDark">#8c1515</color>
+    <!-- Secondary -->
+    <color name="colorSecondary">#607d8b</color>
+    <color name="colorSecondaryLight">#8eacbb</color>
+    <color name="colorSecondaryDark">#34515e</color>
     <color name="colorPrimaryText">#ffffff</color>
-    <color name="colorSecondaryText">#737373</color>
+    <color name="colorSecondaryText">#000000</color>
 
-    <color name="colorAccent">#3F3C30</color><!--#0D47A1-->
+
+    <color name="colorAccent">#C2493C</color>
     <color name="background">#E5E5E5</color>
 
+    <!-- Theme elements -->
     <color name="icon_color">#737373</color>
+    <color name="text_color">#737373</color>
+    <color name="border_color">?attr/colorButtonNormal</color>
+
 </resources>

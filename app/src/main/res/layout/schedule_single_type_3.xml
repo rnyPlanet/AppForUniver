@@ -94,7 +94,7 @@
             android:layout_width="@dimen/border"
             android:layout_height="0dp"
             android:layout_marginStart="4dp"
-            android:background="@color/background"
+            android:background="?attr/colorButtonNormal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/barrier"
             app:layout_constraintTop_toTopOf="parent" />
@@ -103,7 +103,7 @@
             android:id="@+id/center_horizontal_line"
             android:layout_width="0dp"
             android:layout_height="@dimen/border"
-            android:background="@color/background"
+            android:background="?attr/colorButtonNormal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/left_vertical_line"
             app:layout_constraintTop_toBottomOf="@+id/center_top_vertical_line" />
@@ -115,7 +115,7 @@
 
             android:layout_marginStart="4dp"
             android:layout_marginEnd="4dp"
-            android:background="@color/background"
+            android:background="?attr/colorButtonNormal"
             app:layout_constraintBottom_toTopOf="@+id/center_horizontal_line"
             app:layout_constraintEnd_toStartOf="@+id/second_subgroup_first_week"
             app:layout_constraintStart_toEndOf="@+id/first_subgroup_first_week"
@@ -127,7 +127,7 @@
             android:layout_height="0dp"
             android:layout_marginStart="4dp"
             android:layout_marginEnd="4dp"
-            android:background="@color/background"
+            android:background="?attr/colorButtonNormal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/center_top_vertical_line"
             app:layout_constraintStart_toStartOf="@+id/center_top_vertical_line"
