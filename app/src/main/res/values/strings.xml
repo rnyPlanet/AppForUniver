@@ -76,14 +76,7 @@
     <string name="signature_title" translatable="false">Your signature</string>
     <string name="reply_title" translatable="false">Default reply action</string>
 
-    <!-- Sync Preferences -->
-    <string name="sync_title" translatable="false">Sync email periodically</string>
-    <string name="attachment_title" translatable="false">Download incoming attachments</string>
-    <string name="attachment_summary_on" translatable="false">Automatically download attachments for incoming emails
-    </string>
-    <string name="attachment_summary_off" translatable="false">Only download attachments when manually requested</string>
-
-    <!-- Settings page -->
+    <!-- SettingsActivity page -->
     <string name="general_header" translatable="false">General settings</string>
     <string name="theme_mode" translatable="false">Dark mode</string>
     <string name="lang_title" translatable="false">Choose language</string>
@@ -94,8 +87,9 @@
     <string name="ukr" translatable="false">Ukrainian</string>
     <string name="eng" translatable="false">English</string>
     <string name="rus" translatable="false">Russian</string>
-    <string name="activity_consultation_description">Description:</string>
-    <string name="activity_consultation_subscribe">Subscribe</string>
-    <string name="activity_consultation_unsubscribe">Unsubscribe</string>
+    <string name="activity_consultation_description" translatable="false">Description:</string>
+    <string name="activity_consultation_subscribe" translatable="false">Subscribe</string>
+    <string name="activity_consultation_unsubscribe" translatable="false">Unsubscribe</string>
+
 
 </resources>
