@@ -40,7 +40,6 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.OnFocusChange;
 import butterknife.Unbinder;
 import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
@@ -95,8 +94,7 @@ public class ConsultationCreateDialog extends DialogFragment implements DatePick
         builder.setTitle("Create consultation");
         builder.setView(view);
         builder.setPositiveButton("Ok", null);
-        builder.setNegativeButton("Сancel", (dialogInterface, i) -> {
-        });
+        builder.setNegativeButton("Сancel", (dialogInterface, i) -> {});
 
         getRooms();
 
@@ -116,12 +114,10 @@ public class ConsultationCreateDialog extends DialogFragment implements DatePick
 
         roomField.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
 
             @Override
             public void afterTextChanged(Editable s) {
@@ -190,7 +186,7 @@ public class ConsultationCreateDialog extends DialogFragment implements DatePick
             return;
         }
 
-        String date = yearFinal + "-" + monthFinal + "-" + dayFinal + "T" + hourFinal + ":" + ((minuteFinal < 10) ? "0" + minuteFinal : minuteFinal ) + ":" + "00.000+02:00";
+        String date = yearFinal + "-" + monthFinal + "-" + dayFinal + "T" + hourFinal + ":" + ((minuteFinal < 10) ? "0" + minuteFinal : minuteFinal ) + ":" + "00.000+00:00";
         ConsultationRequestDto consultationRequestDto = new ConsultationRequestDto(
                 PreferenceUtils.getSaveUser().getId(),
                 idSelectedRoom,

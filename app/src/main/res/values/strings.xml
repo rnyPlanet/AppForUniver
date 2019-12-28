@@ -94,5 +94,8 @@
     <string name="ukr" translatable="false">Ukrainian</string>
     <string name="eng" translatable="false">English</string>
     <string name="rus" translatable="false">Russian</string>
+    <string name="activity_consultation_description">Description:</string>
+    <string name="activity_consultation_subscribe">Subscribe</string>
+    <string name="activity_consultation_unsubscribe">Unsubscribe</string>
 
 </resources>

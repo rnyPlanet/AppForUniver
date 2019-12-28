@@ -40,7 +40,7 @@ public interface ConsultationInterface {
 
 
     @PUT("consultation/update/{id}")
-    Call<Consultation> updateConsultation(@Path("id") int id, @Body ConsultationRequestDto consultationRequestDto);
+    Call<Void> updateConsultation(@Path("id") int id, @Body ConsultationRequestDto consultationRequestDto);
 
     @POST("consultation/create")
     Call<Consultation> createConsultation(@Body ConsultationRequestDto consultationRequestDto);

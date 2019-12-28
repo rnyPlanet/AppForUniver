@@ -1,9 +1,11 @@
 package com.grin.appforuniver.fragments.dialogs;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -13,16 +15,12 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.grin.appforuniver.R;
@@ -35,10 +33,15 @@ import com.grin.appforuniver.data.model.dto.ConsultationRequestDto;
 import com.grin.appforuniver.data.model.schedule.Rooms;
 import com.grin.appforuniver.data.utils.PreferenceUtils;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
+import java.util.TimeZone;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -51,7 +54,7 @@ import retrofit2.Response;
 
 public class ConsultationUpdateDialog extends DialogFragment implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
-    public final String TAG = ConsultationCreateDialog.class.getSimpleName();
+    public final String TAG = ConsultationUpdateDialog.class.getSimpleName();
     private Unbinder mUnbinder;
 
     @BindView(R.id.dialog_consultation_create_spinner_til)
@@ -77,8 +80,6 @@ public class ConsultationUpdateDialog extends DialogFragment implements DatePick
 
     private ArrayList mArrayRooms = new ArrayList();
 
-    private boolean isDateAndTimeChoosed;
-
     private int mIdConsultation;
     private Consultation mConsultation;
 
@@ -99,12 +100,10 @@ public class ConsultationUpdateDialog extends DialogFragment implements DatePick
 
         mUnbinder = ButterKnife.bind(this, view);
 
-        isDateAndTimeChoosed = false;
         builder.setTitle("Update consultation");
         builder.setView(view);
         builder.setPositiveButton("Ok", null);
-        builder.setNegativeButton("Сancel", (dialogInterface, i) -> {
-        });
+        builder.setNegativeButton("Сancel", (dialogInterface, i) -> {});
 
         getRooms();
 
@@ -112,8 +111,7 @@ public class ConsultationUpdateDialog extends DialogFragment implements DatePick
                 getActivity(), android.R.layout.simple_dropdown_item_1line,
                 mArrayRooms);
 
-        roomField.setOnItemClickListener((adapterView, view1, i, l) -> {
-        });
+        roomField.setOnItemClickListener((adapterView, view1, i, l) -> {});
         roomField.setAdapter(arrayAdapter);
         roomField.setOnFocusChangeListener((v, hasFocus) -> {
             if (hasFocus) roomField.showDropDown();
@@ -125,12 +123,10 @@ public class ConsultationUpdateDialog extends DialogFragment implements DatePick
 
         roomField.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
 
             @Override
             public void afterTextChanged(Editable s) {
@@ -142,13 +138,12 @@ public class ConsultationUpdateDialog extends DialogFragment implements DatePick
             }
         });
 
-
         dialog = builder.create();
         dialog.setOnShowListener(dialogInner -> {
             Button button = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
             if (button != null) {
                 positiveButton = button;
-                positiveButton.setOnClickListener(view12 -> cteateConsultation());
+                positiveButton.setOnClickListener(view12 -> updateConsultation());
             }
         });
 
@@ -157,7 +152,6 @@ public class ConsultationUpdateDialog extends DialogFragment implements DatePick
     }
 
     private void getRooms() {
-
         RoomInterface roomInterface = ServiceGenerator.createService(RoomInterface.class);
 
         Call<List<Rooms>> call = roomInterface.getRooms();
@@ -178,6 +172,15 @@ public class ConsultationUpdateDialog extends DialogFragment implements DatePick
             }
         });
     }
+    private void setSelectionRoomField() {
+        Rooms room;
+        for (int i = 0; i < mArrayRooms.size(); i++) {
+            room = (Rooms) mArrayRooms.get(i);
+            if(mConsultation.getRoom().getName().equals(room.getName())){
+                roomField.setText(mConsultation.getRoom().getName());
+            }
+        }
+    }
 
     private void getConsultationById() {
         ConsultationInterface consultationInterface = ServiceGenerator.createService(ConsultationInterface.class);
@@ -189,6 +192,7 @@ public class ConsultationUpdateDialog extends DialogFragment implements DatePick
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
                         mConsultation = response.body();
+                        selectDateTimeET.setText(mConsultation.getDateOfPassage());
                     }
                 }
             }
@@ -198,20 +202,25 @@ public class ConsultationUpdateDialog extends DialogFragment implements DatePick
                 Toasty.error(Objects.requireNonNull(getContext()), Objects.requireNonNull(t.getMessage()), Toast.LENGTH_SHORT, true).show();
             }
         });
-
     }
 
-    private void setSelectionRoomField() {
-        Rooms room;
-        for (int i = 0; i < mArrayRooms.size(); i++) {
-            room = (Rooms) mArrayRooms.get(i);
-            if(mConsultation.getRoom().getName().equals(room.getName())){
-                roomField.setText(mConsultation.getRoom().getName());
-            }
+    private String parseSelectedDate() {
+        SimpleDateFormat output = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.ENGLISH);
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+        output.setTimeZone(TimeZone.getTimeZone("GMT"));
+        sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+        Date d = null;
+        try {
+            String date = selectDateTimeET.getText().toString().replace("\n", " ");
+            d = sdf.parse( date );
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
+
+        return output.format(d);
     }
 
-    private void cteateConsultation() {
+    private void updateConsultation() {
 
         int idSelectedRoom = 0;
         Rooms room;
@@ -227,40 +236,26 @@ public class ConsultationUpdateDialog extends DialogFragment implements DatePick
             return;
         }
 
-        if (!isDateAndTimeChoosed) {
-            selectDateTimeTIL.setError(getResources().getString(R.string.dialog_consultation_create_select_date_and_time));
-            return;
-        }
-
-        String date = yearFinal + "-" + monthFinal + "-" + dayFinal + "T" + hourFinal + ":" + ((minuteFinal < 10) ? "0" + minuteFinal : minuteFinal) + ":" + "00.000+02:00";
         ConsultationRequestDto consultationRequestDto = new ConsultationRequestDto(
                 PreferenceUtils.getSaveUser().getId(),
                 idSelectedRoom,
-                date,
+                parseSelectedDate(),
                 (descriptionET.getText().toString().length() == 0) ? null : descriptionET.getText().toString());
 
         ConsultationInterface consultationInterface = ServiceGenerator.createService(ConsultationInterface.class);
 
-        Call<Consultation> call = consultationInterface.createConsultation(consultationRequestDto);
-        call.enqueue(new Callback<Consultation>() {
+        Call<Void> call = consultationInterface.updateConsultation(mConsultation.getId(), consultationRequestDto);
+        call.enqueue(new Callback<Void>() {
             @Override
-            public void onResponse(@NonNull Call<Consultation> call, @NonNull Response<Consultation> response) {
+            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
                 if (response.isSuccessful()) {
-                    Toasty.success(Objects.requireNonNull(getContext()), "Successful created", Toast.LENGTH_SHORT, true).show();
+                    Toasty.success(Objects.requireNonNull(getContext()), "Successful updated", Toast.LENGTH_SHORT, true).show();
                     dialog.dismiss();
-
-                    List<Fragment> fragments = getFragmentManager().getFragments();
-                    FragmentTransaction ft = getFragmentManager().beginTransaction();
-                    for (Fragment fragment : fragments) {
-                        ft.detach(fragment).attach(fragment);
-                    }
-                    ft.commit();
-
                 }
             }
 
             @Override
-            public void onFailure(@NonNull Call<Consultation> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
                 Toasty.error(Objects.requireNonNull(getContext()), Objects.requireNonNull(t.getMessage()), Toast.LENGTH_SHORT, true).show();
             }
         });
@@ -327,7 +322,6 @@ public class ConsultationUpdateDialog extends DialogFragment implements DatePick
                     dayFinal + "." + monthFinal + "." + yearFinal + "\n" +
                             hourFinal + ":" + ((minuteFinal < 10) ? "0" + minuteFinal : minuteFinal)
             );
-            isDateAndTimeChoosed = true;
         }
     }
 

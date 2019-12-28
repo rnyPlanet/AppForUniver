@@ -18,10 +18,13 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.TimeZone;
 
 public class Consultation extends AbstractItem<Consultation.ViewHolder> {
 
@@ -56,6 +59,7 @@ public class Consultation extends AbstractItem<Consultation.ViewHolder> {
 
         SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH);
         SimpleDateFormat output = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+        output.setTimeZone(TimeZone.getTimeZone("GMT"));
         Date d = null;
         try {
             d = sdf.parse(dateOfPassage.toString());

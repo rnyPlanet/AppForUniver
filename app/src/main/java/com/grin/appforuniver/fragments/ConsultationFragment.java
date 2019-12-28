@@ -20,6 +20,7 @@ import com.grin.appforuniver.fragments.consultations.ConsultationsSubscribeFragm
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,8 +40,8 @@ public class ConsultationFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.fragment_consultation, container, false);
-        getActivity().setTitle(R.string.menu_consultation);
+        mView = inflater.inflate(R.layout.fragment_consultations, container, false);
+        Objects.requireNonNull(getActivity()).setTitle(R.string.menu_consultation);
         mUnbinder = ButterKnife.bind(this, mView);
 
         PagerAdapter mFragmentAdapter = new PagerAdapter(getChildFragmentManager());
@@ -57,7 +58,7 @@ public class ConsultationFragment extends Fragment {
         private List<String> titlePages;
         private List<Fragment> fragmentPages;
 
-        public PagerAdapter(FragmentManager supportFragmentManager) {
+        private PagerAdapter(FragmentManager supportFragmentManager) {
             super(supportFragmentManager);
 
             titlePages = new ArrayList<>();
@@ -75,6 +76,7 @@ public class ConsultationFragment extends Fragment {
             fragmentPages.add(new ConsultationsSubscribeFragment());
         }
 
+        @NonNull
         @Override
         public Fragment getItem(int position) {
             return fragmentPages.get(position);
