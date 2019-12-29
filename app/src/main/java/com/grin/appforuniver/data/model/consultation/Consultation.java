@@ -70,6 +70,20 @@ public class Consultation extends AbstractItem<Consultation.ViewHolder> {
         return output.format(d);
     }
 
+    public String getDateAndTimeOfPassage() {
+
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH);
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat output = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+        output.setTimeZone(TimeZone.getTimeZone("GMT"));
+        Date d = null;
+        try {
+            d = sdf.parse(dateOfPassage.toString());
+        } catch (ParseException e) { e.printStackTrace(); }
+
+        assert d != null;
+        return output.format(d);
+    }
+
     // Return only time
     public String getTimeOfPassage(){
         SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH);

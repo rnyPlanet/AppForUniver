@@ -1,5 +1,6 @@
 package com.grin.appforuniver.fragments.dialogs;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -92,11 +93,11 @@ public class ConsultationUpdateDialog extends DialogFragment implements DatePick
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         super.onCreateDialog(savedInstanceState);
 
-        mIdConsultation = getArguments().getInt(ConsultationActivity.key, 0);
+        mIdConsultation = Objects.requireNonNull(getArguments()).getInt(ConsultationActivity.key, 0);
         if(mIdConsultation != 0) getConsultationById();
 
         LayoutInflater inflater = Objects.requireNonNull(getActivity()).getLayoutInflater();
-        View view = inflater.inflate(R.layout.dialog_consultation_create, null);
+        @SuppressLint("InflateParams") View view = inflater.inflate(R.layout.dialog_consultation_create, null);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
@@ -194,7 +195,7 @@ public class ConsultationUpdateDialog extends DialogFragment implements DatePick
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
                         mConsultation = response.body();
-                        selectDateTimeET.setText(mConsultation.getDateOfPassage());
+                        selectDateTimeET.setText(mConsultation.getDateAndTimeOfPassage());
                         descriptionET.setText(mConsultation.getDescription());
                     }
                 }
@@ -209,7 +210,7 @@ public class ConsultationUpdateDialog extends DialogFragment implements DatePick
 
     private String parseSelectedDate() {
         SimpleDateFormat output = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.ENGLISH);
-        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm");
         output.setTimeZone(TimeZone.getTimeZone("GMT"));
         sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
         Date d = null;
@@ -220,7 +221,7 @@ public class ConsultationUpdateDialog extends DialogFragment implements DatePick
             e.printStackTrace();
         }
 
-        return output.format(d);
+        return output.format(Objects.requireNonNull(d));
     }
 
     private void updateConsultation() {
@@ -255,7 +256,7 @@ public class ConsultationUpdateDialog extends DialogFragment implements DatePick
                     Toasty.success(Objects.requireNonNull(getContext()), "Successful updated", Toast.LENGTH_SHORT, true).show();
 
                     OnUpdateConsultation activity = (OnUpdateConsultation) getActivity();
-                    activity.onUpdateConsultation(mConsultation.getId());
+                    Objects.requireNonNull(activity).onUpdateConsultation(mConsultation.getId());
 
                     dialog.dismiss();
                 }
@@ -310,6 +311,7 @@ public class ConsultationUpdateDialog extends DialogFragment implements DatePick
 
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         if (!isValidTime(hourOfDay, minute)) {
