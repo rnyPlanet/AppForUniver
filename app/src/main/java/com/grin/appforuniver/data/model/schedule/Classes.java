@@ -37,7 +37,7 @@ public class Classes {
     @SerializedName("week")
     private Constants.Week mWeek;
 
-    @SerializedName("assignedGroupID")
+    @SerializedName("group")
     private Groups mAssignedGroupID;
 
     @SerializedName("professorID")

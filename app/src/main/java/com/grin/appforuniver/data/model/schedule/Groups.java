@@ -7,9 +7,6 @@ package com.grin.appforuniver.data.model.schedule;
 
 
 import com.google.gson.annotations.SerializedName;
-import com.grin.appforuniver.data.model.user.User;
-
-import java.util.Collection;
 
 import lombok.Data;
 /**
@@ -35,5 +32,20 @@ public class Groups {
     public String toString() {
         return " name = " + mName + ", excludedDay: " + mExcludedDay + ", size: " + mSize;
     }
-    
+
+    public Integer getmId() {
+        return mId;
+    }
+
+    public String getmName() {
+        return mName;
+    }
+
+    public String getmExcludedDay() {
+        return mExcludedDay;
+    }
+
+    public Short getmSize() {
+        return mSize;
+    }
 }

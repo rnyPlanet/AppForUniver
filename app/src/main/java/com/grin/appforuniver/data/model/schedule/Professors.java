@@ -22,7 +22,14 @@ public class Professors {
 
     @Override
     public String toString() {
-        return "newModel.Professors[ id= ]";
+        return mName;
     }
 
+    public Integer getmId() {
+        return mId;
+    }
+
+    public String getmName() {
+        return mName;
+    }
 }
