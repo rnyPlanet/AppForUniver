@@ -10,6 +10,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -58,12 +59,16 @@ public class ConsultationActivity extends AppCompatActivity implements Consultat
     TextView roomTV;
     @BindView(R.id.activity_consultation_dateOfPassage_tv)
     TextView dateOfPassage;
+    @BindView(R.id.activity_consultation_timeOfPassage_tv)
+    TextView timeOfPassage;
     @BindView(R.id.activity_consultation_description_tv)
     TextView description;
     @BindView(R.id.activity_consultation_subscribe_btn)
     Button subscribeBTN;
     @BindView(R.id.activity_consultation_unsubscribe_btn)
     Button unSubscribeBTN;
+    @BindView(R.id.consultattion_header)
+    LinearLayout consultattionHeader;
 
     @BindView(R.id.activity_consultation_pb)
     ProgressBar progressBar;
@@ -143,10 +148,12 @@ public class ConsultationActivity extends AppCompatActivity implements Consultat
     private void init() {
 
         fioTV.setText(mConsultation.getCreatedUser().getLastName() + " " + mConsultation.getCreatedUser().getFirstName() + " " + mConsultation.getCreatedUser().getPatronymic());
-        roomTV.setText(getResources().getString(R.string.consultation_activity_room) + mConsultation.getRoom().getName());
+        roomTV.setText(mConsultation.getRoom().getName());
         dateOfPassage.setText(mConsultation.getDateOfPassage());
+        timeOfPassage.setText(mConsultation.getTimeOfPassage());
         if (mConsultation.getDescription() != null) {
             findViewById(R.id.activity_consultation_descriptionText_tv).setVisibility(View.VISIBLE);
+            findViewById(R.id.consultation_description).setVisibility(View.VISIBLE);
             description.setText(mConsultation.getDescription());
         }
 
@@ -159,9 +166,9 @@ public class ConsultationActivity extends AppCompatActivity implements Consultat
                         subscribeBTN.setVisibility(View.VISIBLE);
                     }
                 } else if(isCreatedConsultationByUser) {
-                    unSubscribeBTN.setVisibility(View.INVISIBLE);
+                    unSubscribeBTN.setVisibility(View.GONE);
                 } else {
-                    subscribeBTN.setVisibility(View.INVISIBLE);
+                    subscribeBTN.setVisibility(View.GONE);
                     unSubscribeBTN.setVisibility(View.VISIBLE);
                 }
 
@@ -169,7 +176,9 @@ public class ConsultationActivity extends AppCompatActivity implements Consultat
                 fioTV.setVisibility(View.VISIBLE);
                 roomTV.setVisibility(View.VISIBLE);
                 dateOfPassage.setVisibility(View.VISIBLE);
+                timeOfPassage.setVisibility(View.VISIBLE);
                 description.setVisibility(View.VISIBLE);
+                consultattionHeader.setVisibility(View.VISIBLE);
 
             }
 
@@ -188,7 +197,7 @@ public class ConsultationActivity extends AppCompatActivity implements Consultat
             public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
                 Toasty.success(ConsultationActivity.this, "Successful subscribe on consultation", Toast.LENGTH_SHORT, true).show();
                 unSubscribeBTN.setVisibility(View.VISIBLE);
-                subscribeBTN.setVisibility(View.INVISIBLE);
+                subscribeBTN.setVisibility(View.GONE);
             }
 
             @Override
@@ -206,7 +215,7 @@ public class ConsultationActivity extends AppCompatActivity implements Consultat
             public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
                 if (response.isSuccessful()) {
                     Toasty.info(ConsultationActivity.this, "Successful unsubscribe on consultation", Toast.LENGTH_SHORT, true).show();
-                    unSubscribeBTN.setVisibility(View.INVISIBLE);
+                    unSubscribeBTN.setVisibility(View.GONE);
                     subscribeBTN.setVisibility(View.VISIBLE);
                 }
             }

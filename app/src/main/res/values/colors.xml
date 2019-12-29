@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Primary -->
     <color name="colorPrimary">#b71c1c</color>
-    <color name="colorPrimaryLight">#C2493C</color>
+    <color name="colorPrimaryLight">#b71c1c</color>
     <color name="colorPrimaryDark">#8c1515</color>
     <!-- Secondary -->
     <color name="colorSecondary">#607d8b</color>
@@ -12,12 +12,15 @@
     <color name="colorSecondaryText">#000000</color>
 
 
-    <color name="colorAccent">#C2493C</color>
+    <color name="colorAccent">#3F3C30</color>
     <color name="background">#E5E5E5</color>
 
     <!-- Theme elements -->
     <color name="icon_color">#737373</color>
     <color name="text_color">#737373</color>
     <color name="border_color">?attr/colorButtonNormal</color>
+
+    <!-- Override TextInput style -->
+    <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">#AA757575</color>
 
 </resources>

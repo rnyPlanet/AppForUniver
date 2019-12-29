@@ -97,7 +97,8 @@
     <string name="activity_consultation_description" translatable="false">Description:</string>
     <string name="activity_consultation_subscribe" translatable="false">Subscribe</string>
     <string name="activity_consultation_unsubscribe" translatable="false">Unsubscribe</string>
-    <string name="filter_panel">Filter panel</string>
+    <string name="filter_panel" translatable="false">Filter panel</string>
+    <string name="consultation_title" translatable="false">Consultation</string>
 
 
 </resources>

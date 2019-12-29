@@ -1,6 +1,7 @@
 
 package com.grin.appforuniver.data.model.consultation;
 
+import android.annotation.SuppressLint;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -58,13 +59,27 @@ public class Consultation extends AbstractItem<Consultation.ViewHolder> {
     public String getDateOfPassage() {
 
         SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH);
-        SimpleDateFormat output = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat output = new SimpleDateFormat("dd.MM.yyyy");
         output.setTimeZone(TimeZone.getTimeZone("GMT"));
         Date d = null;
         try {
             d = sdf.parse(dateOfPassage.toString());
         } catch (ParseException e) { e.printStackTrace(); }
 
+        assert d != null;
+        return output.format(d);
+    }
+
+    // Return only time
+    public String getTimeOfPassage(){
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH);
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat output = new SimpleDateFormat("HH:mm");
+        output.setTimeZone(TimeZone.getTimeZone("GMT"));
+        Date d = null;
+        try {
+            d = sdf.parse(dateOfPassage.toString());
+        } catch (ParseException e) { e.printStackTrace(); }
+        assert d != null;
         return output.format(d);
     }
 
@@ -94,6 +109,7 @@ public class Consultation extends AbstractItem<Consultation.ViewHolder> {
         TextView fio;
         TextView dateOfPassage;
         TextView room;
+        TextView time;
 
         private ViewHolder(@NotNull View itemView) {
             super(itemView);
@@ -102,13 +118,16 @@ public class Consultation extends AbstractItem<Consultation.ViewHolder> {
             room = itemView.findViewById(R.id.list_item_consultation_roomNum_tv);
             dateOfPassage = itemView.findViewById(R.id.list_item_consultation_dateOfPassage_tv);
             item_consultation = itemView.findViewById(R.id.list_item_consultation);
+            time = itemView.findViewById(R.id.list_item_consultation_time_tv);
         }
 
+        @SuppressLint("SetTextI18n")
         @Override
         public void bindView(@NotNull Consultation item, @NotNull List<Object> list) {
             fio.setText(item.mCreatedUser.getLastName() + " " + item.mCreatedUser.getFirstName() + " " + item.mCreatedUser.getPatronymic());
-            room.setText(itemView.getResources().getString(R.string.consultation_activity_room) + item.mRoom.getName());
+            room.setText(item.mRoom.getName());
             dateOfPassage.setText(item.getDateOfPassage());
+            time.setText(item.getTimeOfPassage());
         }
 
         @Override

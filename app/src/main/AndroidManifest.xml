@@ -26,6 +26,7 @@
             android:theme="@style/Basic" />
         <activity
             android:name=".activity.ConsultationActivity"
+            android:label="@string/consultation_title"
             android:parentActivityName=".activity.ConsultationActivity" />
         <activity
             android:name=".activity.NavigationDrawer"

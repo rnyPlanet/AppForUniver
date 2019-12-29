@@ -12,6 +12,19 @@
         android:orientation="vertical"
         tools:context=".fragments.AdminFragment">
 
+        <ProgressBar
+            android:id="@+id/user_account_detail_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:indeterminate="false"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/user_account_userinfo_rl" />
+
         <Button
             android:id="@+id/user_account_detail_log_out_button"
             android:layout_width="0dp"
@@ -21,7 +34,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
-            android:background="@drawable/outline_btn"
+            android:background="@drawable/outline"
             android:text="@string/user_account_logout"
             android:textColor="@android:color/white"
             android:visibility="gone"
@@ -35,7 +48,7 @@
             android:id="@+id/user_account_header"
             android:layout_width="0dp"
             android:layout_height="200dp"
-            android:background="@color/colorPrimary"
+            android:background="@drawable/page_header_background"
             android:contentDescription="@string/account_header"
 
             android:visibility="gone"
@@ -89,25 +102,12 @@
                 android:textStyle="bold" />
         </LinearLayout>
 
-        <ProgressBar
-            android:id="@+id/user_account_detail_progress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_gravity="center"
-            android:indeterminate="false"
-            android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/user_account_userinfo_rl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="16dp"
-            android:visibility="visible"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"

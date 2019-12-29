@@ -5,7 +5,6 @@
     android:id="@+id/login_activity_constraint"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fff"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
     tools:context=".activity.LoginActivity">
@@ -62,6 +61,8 @@
         android:layout_marginTop="32dp"
         android:layout_marginEnd="16dp"
         app:errorEnabled="true"
+        app:hintAnimationEnabled="true"
+        app:hintEnabled="true"
         app:layout_constraintBottom_toTopOf="@+id/activity_login_password_et"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

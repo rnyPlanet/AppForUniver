@@ -11,7 +11,10 @@
         android:id="@+id/fragment_consultation_appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark"
+        android:layout_margin="0dp"
+        android:background="@drawable/bottom_border"
+        android:padding="0dp"
+        app:elevation="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -20,7 +23,11 @@
             android:id="@+id/fragment_consultation_tabLayout"
             android:layout_width="match_parent"
             android:layout_height="?android:attr/actionBarSize"
-            app:tabGravity="fill" />
+            android:animateLayoutChanges="false"
+            app:tabGravity="fill"
+            app:tabIndicator="@drawable/tabs_rounded_line"
+            app:tabIndicatorColor="@color/colorPrimaryLight"
+            app:tabSelectedTextColor="@color/colorPrimaryLight" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
