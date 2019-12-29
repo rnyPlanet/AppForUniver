@@ -22,6 +22,7 @@ public class ScheduleBothSubgroupClassesModel {
     public String toString() {
         return "ScheduleBothSubgroupClassesModel{" +
                 "place=" + place +
+                ", typeItem=" + typeItem +
                 ", positionInDay=" + positionInDay +
                 ", classes=" + classes +
                 '}';
