@@ -99,6 +99,11 @@
     <string name="activity_consultation_unsubscribe" translatable="false">Unsubscribe</string>
     <string name="filter_panel" translatable="false">Filter panel</string>
     <string name="consultation_title" translatable="false">Consultation</string>
+    <string name="filter" translatable="false">Filter</string>
+    <string name="todo" translatable="false">TODO</string>
+    <string name="search_teacher" translatable="false">Search teacher</string>
+    <string name="date_title" translatable="false">Date:</string>
+    <string name="time_title" translatable="false">Time:</string>
 
 
 </resources>

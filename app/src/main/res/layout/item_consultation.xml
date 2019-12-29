@@ -61,8 +61,7 @@
             android:paddingTop="8dp"
             android:paddingEnd="@dimen/page_padding"
             android:paddingBottom="8dp"
-            android:textColor="@color/colorPrimary"
-            android:textStyle="bold" />
+            android:textColor="@color/colorPrimary" />
     </LinearLayout>
 
 </RelativeLayout>

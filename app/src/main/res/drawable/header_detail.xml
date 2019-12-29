@@ -9,5 +9,5 @@
     <solid android:color="@color/colorPrimaryDark"/>
     <stroke
         android:width="@dimen/border"
-        android:color="@color/colorPrimary" />
+        android:color="@android:color/transparent" />
 </shape>
