@@ -29,10 +29,10 @@ public class HomeFragment extends Fragment {
 
         getActivity().setTitle(R.string.menu_home);
 
-        WebView webView = mView.findViewById(R.id.fragment_home_wv);
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.setWebViewClient(new WebViewClient());
-        webView.loadUrl("https://chmnu.edu.ua/");
+//        WebView webView = mView.findViewById(R.id.fragment_home_wv);
+//        webView.getSettings().setJavaScriptEnabled(true);
+//        webView.setWebViewClient(new WebViewClient());
+//        webView.loadUrl("https://chmnu.edu.ua/");
 
         mUnbinder = ButterKnife.bind(this, mView);
 

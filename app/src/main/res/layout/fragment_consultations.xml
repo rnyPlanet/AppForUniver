@@ -11,10 +11,9 @@
         android:id="@+id/fragment_consultation_appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="0dp"
-        android:background="@drawable/bottom_border"
-        android:padding="0dp"
-        app:elevation="0dp"
+        android:clickable="true"
+        android:focusable="true"
+        app:expanded="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -23,21 +22,22 @@
             android:id="@+id/fragment_consultation_tabLayout"
             android:layout_width="match_parent"
             android:layout_height="?android:attr/actionBarSize"
-            android:animateLayoutChanges="false"
+            android:animateLayoutChanges="true"
             app:tabGravity="fill"
             app:tabIndicator="@drawable/tabs_rounded_line"
-            app:tabIndicatorColor="@color/colorPrimaryLight"
-            app:tabSelectedTextColor="@color/colorPrimaryLight" />
+            app:tabIndicatorColor="@android:color/white"
+            app:tabSelectedTextColor="@android:color/white"
+            app:tabUnboundedRipple="true" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/fragment_consultation_viewpager"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="?android:attr/actionBarSize"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_consultation_appBarLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

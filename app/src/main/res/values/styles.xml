@@ -1,6 +1,6 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="MaterialTheme.DarkToolbar.ActionBar.DayNight"> <!--MaterialTheme.Light.DarkToolbar.ActionBar-->
+    <style name="AppTheme" parent="MaterialTheme.DarkToolbar.ActionBar.DayNight">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimary</item>
