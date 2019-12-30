@@ -104,6 +104,9 @@
     <string name="search_teacher" translatable="false">Search teacher</string>
     <string name="date_title" translatable="false">Date:</string>
     <string name="time_title" translatable="false">Time:</string>
+    <string name="empty_state_icon" translatable="false">Empty state icon</string>
+    <string name="empty_state_text" translatable="false">Oooops! Nothing to show here</string>
+    <string name="empty_state_description">Empty State</string>
 
 
 </resources>

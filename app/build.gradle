@@ -7,6 +7,7 @@ android {
     def currentVersionMajor = 0
     def currentVersionMinor = 0
 
+    android.defaultConfig.vectorDrawables.useSupportLibrary = true
 
     if (versionPropsFile.canRead()) {
         Properties versionProps = new Properties()

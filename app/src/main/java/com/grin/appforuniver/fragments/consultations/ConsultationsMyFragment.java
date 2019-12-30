@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -102,6 +103,7 @@ public class ConsultationsMyFragment extends Fragment {
     }
 
     private void getMyConsultation() {
+        LinearLayout emptyState = mView.findViewById(R.id.consultation_my_empty_state_layout);
 
         ConsultationInterface consultationInterface = ServiceGenerator.createService(ConsultationInterface.class);
 
@@ -112,17 +114,19 @@ public class ConsultationsMyFragment extends Fragment {
                 if (response.isSuccessful()) {
                     mItemAdapter.clear();
                     if (response.body() != null) {
-
                         mItemAdapter.add(response.body());
                         progressBar.setVisibility(View.GONE);
                         recyclerView.setVisibility(View.VISIBLE);
+                        emptyState.setVisibility(View.GONE);
                     } else {
                         progressBar.setVisibility(View.GONE);
-                        recyclerView.setVisibility(View.VISIBLE);
+                        recyclerView.setVisibility(View.GONE);
+                        emptyState.setVisibility(View.VISIBLE);
                     }
                 } else {
                     progressBar.setVisibility(View.GONE);
-                    recyclerView.setVisibility(View.VISIBLE);
+                    recyclerView.setVisibility(View.GONE);
+                    emptyState.setVisibility(View.VISIBLE);
                 }
             }
 

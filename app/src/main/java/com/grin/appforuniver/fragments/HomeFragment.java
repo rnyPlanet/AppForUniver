@@ -6,9 +6,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Adapter;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.grin.appforuniver.R;
 
@@ -26,7 +29,6 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_home, container, false);
-
         getActivity().setTitle(R.string.menu_home);
 
 //        WebView webView = mView.findViewById(R.id.fragment_home_wv);
@@ -35,6 +37,8 @@ public class HomeFragment extends Fragment {
 //        webView.loadUrl("https://chmnu.edu.ua/");
 
         mUnbinder = ButterKnife.bind(this, mView);
+
+        showEmptyStateLayout();
 
         return mView;
     }
@@ -46,4 +50,9 @@ public class HomeFragment extends Fragment {
         mUnbinder.unbind();
     }
 
+
+    private void showEmptyStateLayout(){
+        ImageView image = mView.findViewById(R.id.empty_state_icon);
+        image.setImageDrawable(getResources().getDrawable(R.drawable.ic_thinking));
+    }
 }

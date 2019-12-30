@@ -155,6 +155,12 @@ public class ConsultationActivity extends AppCompatActivity implements Consultat
             findViewById(R.id.activity_consultation_descriptionText_tv).setVisibility(View.VISIBLE);
             findViewById(R.id.consultation_description).setVisibility(View.VISIBLE);
             description.setText(mConsultation.getDescription());
+        } else{
+            LinearLayout emptyState = findViewById(R.id.empty_consultation_activity);
+            LinearLayout consultationDescription = findViewById(R.id.consultation_description);
+
+            emptyState.setVisibility(View.VISIBLE);
+            consultationDescription.setVisibility(View.GONE);
         }
 
         Call<Boolean> call = consultationInterface.isCanSubscribe(mConsultation.getId());

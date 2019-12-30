@@ -49,7 +49,6 @@ public class ConsultationFragment extends Fragment {
 
         tabLayout.setVisibility(View.VISIBLE);
         tabLayout.setupWithViewPager(viewPager);
-
         return mView;
     }
 
