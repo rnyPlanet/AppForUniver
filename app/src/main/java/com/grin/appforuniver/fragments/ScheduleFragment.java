@@ -140,7 +140,7 @@ public class ScheduleFragment extends Fragment {
 
     private void getScheduleProfessor(Professors professors) {
         ProfessorInterface professorInterface = ServiceGenerator.createService(ProfessorInterface.class);
-        Call<List<Classes>> list = professorInterface.getProfessorSchedule(professors.getmName());
+        Call<List<Classes>> list = professorInterface.getProfessorSchedule(professors.getmId());
         list.enqueue(new Callback<List<Classes>>() {
 
             @Override

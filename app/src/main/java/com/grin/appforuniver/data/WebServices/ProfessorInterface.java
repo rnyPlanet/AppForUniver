@@ -7,12 +7,12 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
-import retrofit2.http.Query;
+import retrofit2.http.Path;
 
 public interface ProfessorInterface {
     @GET("professor/all")
     Call<List<Professors>> getProfessors();
 
-    @GET("professor/classes/")
-    Call<List<Classes>> getProfessorSchedule(@Query("name") String name);
+    @GET("professor/classes/{id}")
+    Call<List<Classes>> getProfessorSchedule(@Path("id") int id);
 }
