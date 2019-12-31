@@ -1,9 +1,6 @@
 package com.grin.appforuniver.activity;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,20 +13,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.google.gson.Gson;
 import com.grin.appforuniver.R;
 import com.grin.appforuniver.data.WebServices.ConsultationInterface;
 import com.grin.appforuniver.data.WebServices.ServiceGenerator;
 import com.grin.appforuniver.data.model.consultation.Consultation;
-import com.grin.appforuniver.data.utils.PreferenceUtils;
-import com.grin.appforuniver.fragments.ConsultationFragment;
+import com.grin.appforuniver.fragments.dialogs.ConsultationDeleteDialog;
 import com.grin.appforuniver.fragments.dialogs.ConsultationUpdateDialog;
 
 import java.util.Objects;
@@ -43,7 +35,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ConsultationActivity extends AppCompatActivity implements ConsultationUpdateDialog.OnUpdateConsultation {
+public class ConsultationActivity extends AppCompatActivity implements ConsultationUpdateDialog.OnUpdateConsultation, ConsultationDeleteDialog.OnDeleteConsultation {
 
     public final String TAG = ConsultationActivity.class.getSimpleName();
 
@@ -201,7 +193,7 @@ public class ConsultationActivity extends AppCompatActivity implements Consultat
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
-                Toasty.success(ConsultationActivity.this, "Successful subscribe on consultation", Toast.LENGTH_SHORT, true).show();
+                Toasty.success(ConsultationActivity.this, getString(R.string.subscribe_on_consultation), Toast.LENGTH_SHORT, true).show();
                 unSubscribeBTN.setVisibility(View.VISIBLE);
                 subscribeBTN.setVisibility(View.GONE);
             }
@@ -220,7 +212,7 @@ public class ConsultationActivity extends AppCompatActivity implements Consultat
             @Override
             public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
                 if (response.isSuccessful()) {
-                    Toasty.info(ConsultationActivity.this, "Successful unsubscribe on consultation", Toast.LENGTH_SHORT, true).show();
+                    Toasty.info(ConsultationActivity.this, getString(R.string.unsubscrib_from_consultation), Toast.LENGTH_SHORT, true).show();
                     unSubscribeBTN.setVisibility(View.GONE);
                     subscribeBTN.setVisibility(View.VISIBLE);
                 }
@@ -249,13 +241,16 @@ public class ConsultationActivity extends AppCompatActivity implements Consultat
                 Bundle bundle = new Bundle();
                 bundle.putInt(key, mConsultation.getId());
                 dialogFragment.setArguments(bundle);
-
                 dialogFragment.show(getSupportFragmentManager(),"consultationUpdateDialog");
-
             }
             return true;
-            case R.id.delete_consultation:
-                Toasty.info(this, "sdf", Toasty.LENGTH_SHORT).show();
+            case R.id.delete_consultation:{
+                DialogFragment dialogFragment = new ConsultationDeleteDialog();
+                Bundle bundle = new Bundle();
+                bundle.putInt(key, mConsultation.getId());
+                dialogFragment.setArguments(bundle);
+                dialogFragment.show(getSupportFragmentManager(),"consultationDeleteDialog");
+            }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -273,4 +268,8 @@ public class ConsultationActivity extends AppCompatActivity implements Consultat
         getConsultationById(id);
     }
 
+    @Override
+    public void onDeleteConsultation() {
+        finish();
+    }
 }

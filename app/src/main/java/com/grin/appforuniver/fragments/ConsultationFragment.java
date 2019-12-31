@@ -63,15 +63,15 @@ public class ConsultationFragment extends Fragment {
             titlePages = new ArrayList<>();
             fragmentPages = new ArrayList<>();
 
-            titlePages.add("All");
+            titlePages.add(getString(R.string.consultation_all));
             fragmentPages.add(new ConsultationsAllFragment());
 
             if (PreferenceUtils.getUserRoles().contains("ROLE_TEACHER")) {
-                titlePages.add("My");
+                titlePages.add(getString(R.string.consultation_my));
                 fragmentPages.add(new ConsultationsMyFragment());
             }
 
-            titlePages.add("Subscribe");
+            titlePages.add(getString(R.string.consultation_subscribe));
             fragmentPages.add(new ConsultationsSubscribeFragment());
         }
 

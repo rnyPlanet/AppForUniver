@@ -89,10 +89,10 @@ public class ConsultationCreateDialog extends DialogFragment implements DatePick
         mUnbinder = ButterKnife.bind(this, view);
 
         isDateAndTimeChoosed = false;
-        builder.setTitle("Create consultation");
+        builder.setTitle(R.string.сreate_сonsultation);
         builder.setView(view);
-        builder.setPositiveButton("Ok", null);
-        builder.setNegativeButton("Сancel", (dialogInterface, i) -> {});
+        builder.setPositiveButton(R.string.create, null);
+        builder.setNegativeButton(R.string.cancel, (dialogInterface, i) -> {});
 
         getRooms();
 
@@ -120,7 +120,7 @@ public class ConsultationCreateDialog extends DialogFragment implements DatePick
             @Override
             public void afterTextChanged(Editable s) {
                 if (s.length() <= 0) {
-                    roomTIL.setError("Select room");
+                    roomTIL.setError(getString(R.string.select_room));
                 } else {
                     roomTIL.setError(null);
                 }
@@ -175,7 +175,7 @@ public class ConsultationCreateDialog extends DialogFragment implements DatePick
             }
         }
         if (idSelectedRoom == 0) {
-            roomTIL.setError("Select correct room");
+            roomTIL.setError(getString(R.string.select_сorrect_room));
             return;
         }
 
@@ -198,7 +198,7 @@ public class ConsultationCreateDialog extends DialogFragment implements DatePick
             @Override
             public void onResponse(@NonNull Call<Consultation> call, @NonNull Response<Consultation> response) {
                 if (response.isSuccessful()) {
-                    Toasty.success(Objects.requireNonNull(getContext()), "Successful created", Toast.LENGTH_SHORT, true).show();
+                    Toasty.success(Objects.requireNonNull(getContext()), getString(R.string.successful_created), Toast.LENGTH_SHORT, true).show();
                     dialog.dismiss();
 
                     List<Fragment> fragments = getFragmentManager().getFragments();
@@ -264,7 +264,7 @@ public class ConsultationCreateDialog extends DialogFragment implements DatePick
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         if (!isValidTime(hourOfDay, minute)) {
-            Toasty.info(Objects.requireNonNull(getContext()), "You need choose the correct time", Toast.LENGTH_SHORT, true).show();
+            Toasty.info(Objects.requireNonNull(getContext()), getString(R.string.choose_correct_time), Toast.LENGTH_SHORT, true).show();
             Calendar c = Calendar.getInstance();
             int currentHour = c.get(Calendar.HOUR_OF_DAY);
             int currentMinute = c.get(Calendar.MINUTE);

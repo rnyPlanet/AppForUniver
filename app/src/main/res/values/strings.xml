@@ -107,6 +107,27 @@
     <string name="empty_state_icon" translatable="false">Empty state icon</string>
     <string name="empty_state_text" translatable="false">Oooops! Nothing to show here</string>
     <string name="empty_state_description">Empty State</string>
+    <string name="subscribe_on_consultation">Successful subscribe on consultation</string>
+    <string name="unsubscrib_from_consultation">Successful unsubscribe from consultation</string>
+    <string name="fail_username_OR_acc_is_NOTACTIVE">Fail username OR acc is NOT ACTIVE</string>
+    <string name="check_your_internet_connection">Check your internet connection!</string>
+    <string name="field_cant_be_empty">Field can\'t be empty</string>
+    <string name="checking">Checking</string>
+    <string name="сreate_сonsultation">Create consultation</string>
+    <string name="create">Create</string>
+    <string name="cancel">Сancel</string>
+    <string name="select_room">Select room</string>
+    <string name="select_сorrect_room">Select correct room</string>
+    <string name="successful_created">Successful created</string>
+    <string name="choose_correct_time">You need choose the correct time</string>
+    <string name="delete_consultation">Delete consultation</string>
+    <string name="delete">Delete</string>
+    <string name="update_consultation">Update consultation</string>
+    <string name="update">Update</string>
+    <string name="successful_updated">Successful updated</string>
+    <string name="consultation_all">All</string>
+    <string name="consultation_my">My</string>
+    <string name="consultation_subscribe">Subscribe</string>
 
 
 </resources>

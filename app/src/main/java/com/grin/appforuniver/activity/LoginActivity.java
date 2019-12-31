@@ -117,7 +117,7 @@ public class LoginActivity extends AppCompatActivity {
                 } else {
                     mProgressBar.dismiss();
                     PreferenceUtils.saveUserToken(null);
-                    Toasty.error(Objects.requireNonNull(getApplicationContext()), "Fail username OR acc is NOT ACTIVE", Toast.LENGTH_SHORT, true).show();
+                    Toasty.error(Objects.requireNonNull(getApplicationContext()), getString(R.string.fail_username_OR_acc_is_NOTACTIVE), Toast.LENGTH_SHORT, true).show();
                 }
             }
 
@@ -126,7 +126,7 @@ public class LoginActivity extends AppCompatActivity {
                 mProgressBar.dismiss();
                 if (Objects.requireNonNull(t.getMessage()).contains("Failed to connect to /194.9.70.244:8075")) {
                     PreferenceUtils.saveUserToken(null);
-                    Toasty.error(Objects.requireNonNull(getApplicationContext()), "Check your internet connection!", Toasty.LENGTH_LONG, true).show();
+                    Toasty.error(Objects.requireNonNull(getApplicationContext()), getString(R.string.check_your_internet_connection), Toasty.LENGTH_LONG, true).show();
                 }
             }
         });
@@ -167,7 +167,7 @@ public class LoginActivity extends AppCompatActivity {
         String loginInput = Objects.requireNonNull(usernameTIL.getEditText()).getText().toString().trim();
 
         if (loginInput.isEmpty()) {
-            usernameTIL.setError("Field can't be empty");
+            usernameTIL.setError(getString(R.string.field_cant_be_empty));
             return false;
         } else {
             usernameTIL.setError(null);
@@ -180,7 +180,7 @@ public class LoginActivity extends AppCompatActivity {
         String passwordInput = Objects.requireNonNull(passwordTIL.getEditText()).getText().toString().trim();
 
         if (passwordInput.isEmpty()) {
-            passwordTIL.setError("Field can't be empty");
+            passwordTIL.setError(getString(R.string.field_cant_be_empty));
             return false;
         } else {
             passwordTIL.setError(null);
@@ -192,7 +192,7 @@ public class LoginActivity extends AppCompatActivity {
     @OnClick(R.id.activity_login_login_btn)
     void logIn() {
         if (validateLoginInput() & validatePasswordInput()) {
-            mProgressBar.setMessage("Checking...");
+            mProgressBar.setMessage(getString(R.string.checking));
             mProgressBar.show();
 
             loginUser(Objects.requireNonNull(usernameTIL.getEditText()).getText().toString(),

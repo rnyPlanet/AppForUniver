@@ -45,7 +45,8 @@ public interface ConsultationInterface {
     @POST("consultation/create")
     Call<Consultation> createConsultation(@Body ConsultationRequestDto consultationRequestDto);
 
-
+    @PUT("consultation/delete/{id}")
+    Call<Void> delete(@Path("id") int id);
 
 
 }
