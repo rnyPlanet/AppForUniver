@@ -7,9 +7,9 @@ import java.util.List;
 
 import retrofit2.Call;
 
-public class ConsultationsSubscribeFragment extends ConsultationListFragment {
+public class SubscribeConsultationsFragment extends ConsultationListFragment {
 
-    public ConsultationsSubscribeFragment(OnRecyclerViewScrolled onRecyclerViewScrolled) {
+    public SubscribeConsultationsFragment(OnRecyclerViewScrolled onRecyclerViewScrolled) {
         this.onRecyclerViewScrolled = onRecyclerViewScrolled;
     }
 

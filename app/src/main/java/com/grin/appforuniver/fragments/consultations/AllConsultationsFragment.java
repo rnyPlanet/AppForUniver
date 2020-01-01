@@ -7,14 +7,14 @@ import java.util.List;
 
 import retrofit2.Call;
 
-public class ConsultationsMyFragment extends ConsultationListFragment {
+public class AllConsultationsFragment extends ConsultationListFragment {
 
-    public ConsultationsMyFragment(OnRecyclerViewScrolled onRecyclerViewScrolled) {
+    public AllConsultationsFragment(OnRecyclerViewScrolled onRecyclerViewScrolled) {
         this.onRecyclerViewScrolled = onRecyclerViewScrolled;
     }
 
     @Override
     public Call<List<Consultation>> getWhatConsultations(ConsultationInterface consultationInterface) {
-        return consultationInterface.getMyConsultation();
+        return consultationInterface.getAllConsultations();
     }
 }
