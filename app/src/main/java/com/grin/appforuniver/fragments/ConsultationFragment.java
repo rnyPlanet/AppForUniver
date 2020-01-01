@@ -16,8 +16,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.grin.appforuniver.R;
 import com.grin.appforuniver.data.utils.PreferenceUtils;
-import com.grin.appforuniver.fragments.consultations.ConsultationListFragment;
 import com.grin.appforuniver.fragments.consultations.AllConsultationsFragment;
+import com.grin.appforuniver.fragments.consultations.ConsultationListFragment;
 import com.grin.appforuniver.fragments.consultations.MyConsultationsFragment;
 import com.grin.appforuniver.fragments.consultations.SubscribeConsultationsFragment;
 import com.grin.appforuniver.fragments.dialogs.ConsultationCreateDialog;
@@ -85,11 +85,11 @@ public class ConsultationFragment extends Fragment implements ConsultationListFr
         private PagerAdapter(FragmentManager supportFragmentManager) {
             super(supportFragmentManager);
             items = new ArrayList<>();
-            items.add(new ItemViewPager(getString(R.string.consultation_all), new AllConsultationsFragment(ConsultationFragment.this::onScrolled)));
+            items.add(new ItemViewPager(getString(R.string.consultation_all), new AllConsultationsFragment(ConsultationFragment.this)));
             if (PreferenceUtils.getUserRoles().contains("ROLE_TEACHER")) {
-                items.add(new ItemViewPager(getString(R.string.consultation_my), new MyConsultationsFragment(ConsultationFragment.this::onScrolled)));
+                items.add(new ItemViewPager(getString(R.string.consultation_my), new MyConsultationsFragment(ConsultationFragment.this)));
             }
-            items.add(new ItemViewPager(getString(R.string.consultation_subscribe), new SubscribeConsultationsFragment(ConsultationFragment.this::onScrolled)));
+            items.add(new ItemViewPager(getString(R.string.consultation_subscribe), new SubscribeConsultationsFragment(ConsultationFragment.this)));
         }
 
         @NonNull
