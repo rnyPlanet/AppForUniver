@@ -9,14 +9,16 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.grin.appforuniver.R;
 import com.grin.appforuniver.data.utils.PreferenceUtils;
+import com.grin.appforuniver.fragments.consultations.ConsultationListFragment;
 import com.grin.appforuniver.fragments.consultations.ConsultationsAllFragment;
-import com.grin.appforuniver.fragments.consultations.ConsultationsMyFragment;
-import com.grin.appforuniver.fragments.consultations.ConsultationsSubscribeFragment;
+import com.grin.appforuniver.fragments.dialogs.ConsultationCreateDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,9 +26,10 @@ import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class ConsultationFragment extends Fragment {
+public class ConsultationFragment extends Fragment implements ConsultationListFragment.OnRecyclerViewScrolled {
 
     public final String TAG = ConsultationFragment.class.getSimpleName();
 
@@ -37,6 +40,9 @@ public class ConsultationFragment extends Fragment {
     ViewPager viewPager;
     @BindView(R.id.fragment_consultation_tabLayout)
     TabLayout tabLayout;
+    @BindView(R.id.fragment_consultations_fab)
+    FloatingActionButton floatingActionButton;
+
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -49,50 +55,57 @@ public class ConsultationFragment extends Fragment {
 
         tabLayout.setVisibility(View.VISIBLE);
         tabLayout.setupWithViewPager(viewPager);
+        if (PreferenceUtils.getUserRoles().contains("ROLE_TEACHER")) {
+            floatingActionButton.show();
+        }
         return mView;
     }
 
-    private class PagerAdapter extends FragmentPagerAdapter {
+    @OnClick(R.id.fragment_consultations_fab)
+    void create() {
+        ConsultationCreateDialog consultationCreateDialog = new ConsultationCreateDialog();
+        consultationCreateDialog.show(getFragmentManager(), "consultationCreateDialog");
+    }
 
-        private List<String> titlePages;
-        private List<Fragment> fragmentPages;
+    private class PagerAdapter extends FragmentPagerAdapter {
+        private class ItemViewPager {
+            String title;
+            Fragment fragment;
+
+            public ItemViewPager(String title, Fragment fragment) {
+                this.title = title;
+                this.fragment = fragment;
+            }
+        }
+
+        private List<ItemViewPager> items;
 
         private PagerAdapter(FragmentManager supportFragmentManager) {
             super(supportFragmentManager);
-
-            titlePages = new ArrayList<>();
-            fragmentPages = new ArrayList<>();
-
-            titlePages.add(getString(R.string.consultation_all));
-            fragmentPages.add(new ConsultationsAllFragment());
-
+            items = new ArrayList<>();
+            items.add(new ItemViewPager(getString(R.string.consultation_all), new ConsultationsAllFragment(ConsultationFragment.this::onScrolled)));
             if (PreferenceUtils.getUserRoles().contains("ROLE_TEACHER")) {
-                titlePages.add(getString(R.string.consultation_my));
-                fragmentPages.add(new ConsultationsMyFragment());
+                items.add(new ItemViewPager(getString(R.string.consultation_my), new ConsultationsAllFragment(ConsultationFragment.this::onScrolled)));
             }
-
-            titlePages.add(getString(R.string.consultation_subscribe));
-            fragmentPages.add(new ConsultationsSubscribeFragment());
+            items.add(new ItemViewPager(getString(R.string.consultation_subscribe), new ConsultationsAllFragment(ConsultationFragment.this::onScrolled)));
         }
 
         @NonNull
         @Override
         public Fragment getItem(int position) {
-            return fragmentPages.get(position);
+            return items.get(position).fragment;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
-            return titlePages.get(position);
+            return items.get(position).title;
         }
 
         @Override
         public int getCount() {
-            return fragmentPages.size();
+            return items.size();
         }
-
     }
-
 
     @Override
     public void onDestroyView() {
@@ -100,4 +113,12 @@ public class ConsultationFragment extends Fragment {
         mUnbinder.unbind();
     }
 
+    @Override
+    public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+        if (dy > 0 && floatingActionButton.getVisibility() == View.VISIBLE) {
+            floatingActionButton.hide();
+        } else if (dy < 0 && floatingActionButton.getVisibility() != View.VISIBLE) {
+            floatingActionButton.show();
+        }
+    }
 }
