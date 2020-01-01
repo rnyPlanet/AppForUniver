@@ -128,6 +128,7 @@
     <string name="consultation_all">All</string>
     <string name="consultation_my">My</string>
     <string name="consultation_subscribe">Subscribe</string>
+    <string name="warning_delete_counter">This consultation will be deleted!</string>
 
 
 </resources>

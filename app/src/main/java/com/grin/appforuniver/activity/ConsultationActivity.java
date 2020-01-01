@@ -1,6 +1,8 @@
 package com.grin.appforuniver.activity;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -13,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
@@ -21,7 +24,6 @@ import com.grin.appforuniver.R;
 import com.grin.appforuniver.data.WebServices.ConsultationInterface;
 import com.grin.appforuniver.data.WebServices.ServiceGenerator;
 import com.grin.appforuniver.data.model.consultation.Consultation;
-import com.grin.appforuniver.fragments.dialogs.ConsultationDeleteDialog;
 import com.grin.appforuniver.fragments.dialogs.ConsultationUpdateDialog;
 
 import java.util.Objects;
@@ -35,7 +37,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ConsultationActivity extends AppCompatActivity implements ConsultationUpdateDialog.OnUpdateConsultation, ConsultationDeleteDialog.OnDeleteConsultation {
+public class ConsultationActivity extends AppCompatActivity implements ConsultationUpdateDialog.OnUpdateConsultation {
 
     public final String TAG = ConsultationActivity.class.getSimpleName();
 
@@ -108,6 +110,7 @@ public class ConsultationActivity extends AppCompatActivity implements Consultat
 
 
     }
+
     private void isCanUpdateConsultation() {
         Call<Boolean> call = consultationInterface.isCanUpdateConsultation(mConsultation.getId());
         call.enqueue(new Callback<Boolean>() {
@@ -129,6 +132,7 @@ public class ConsultationActivity extends AppCompatActivity implements Consultat
 
 
     }
+
     private void initMenu() {
         mMenuList.findItem(R.id.edit_consultation).setVisible(true);
         mMenuList.findItem(R.id.delete_consultation).setVisible(true);
@@ -147,7 +151,7 @@ public class ConsultationActivity extends AppCompatActivity implements Consultat
             findViewById(R.id.activity_consultation_descriptionText_tv).setVisibility(View.VISIBLE);
             findViewById(R.id.consultation_description).setVisibility(View.VISIBLE);
             description.setText(mConsultation.getDescription());
-        } else{
+        } else {
             LinearLayout emptyState = findViewById(R.id.empty_consultation_activity);
             LinearLayout consultationDescription = findViewById(R.id.consultation_description);
 
@@ -163,7 +167,7 @@ public class ConsultationActivity extends AppCompatActivity implements Consultat
                     if (response.body() != null & response.body()) {
                         subscribeBTN.setVisibility(View.VISIBLE);
                     }
-                } else if(isCreatedConsultationByUser) {
+                } else if (isCreatedConsultationByUser) {
                     unSubscribeBTN.setVisibility(View.GONE);
                 } else {
                     subscribeBTN.setVisibility(View.GONE);
@@ -241,17 +245,45 @@ public class ConsultationActivity extends AppCompatActivity implements Consultat
                 Bundle bundle = new Bundle();
                 bundle.putInt(key, mConsultation.getId());
                 dialogFragment.setArguments(bundle);
-                dialogFragment.show(getSupportFragmentManager(),"consultationUpdateDialog");
+                dialogFragment.show(getSupportFragmentManager(), "consultationUpdateDialog");
             }
             return true;
-            case R.id.delete_consultation:{
-                DialogFragment dialogFragment = new ConsultationDeleteDialog();
-                Bundle bundle = new Bundle();
-                bundle.putInt(key, mConsultation.getId());
-                dialogFragment.setArguments(bundle);
-                dialogFragment.show(getSupportFragmentManager(),"consultationDeleteDialog");
+            case R.id.delete_consultation: {
+                AlertDialog.Builder builderDeleteCounter = new AlertDialog.Builder(this);
+                builderDeleteCounter.setTitle(R.string.delete_consultation);
+                builderDeleteCounter.setMessage(R.string.warning_delete_counter);
+                builderDeleteCounter.setIcon(R.drawable.ic_warning);
+                builderDeleteCounter.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        ConsultationInterface consultationInterface = ServiceGenerator.createService(ConsultationInterface.class);
+
+                        Call<Void> call = consultationInterface.delete(mConsultation.getId());
+                        call.enqueue(new Callback<Void>() {
+                            @Override
+                            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                                if (response.isSuccessful()) {
+                                    Toasty.success(getBaseContext(), "Successful deleted", Toast.LENGTH_SHORT, true).show();
+                                    finish();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                                Toasty.error(Objects.requireNonNull(getBaseContext()), Objects.requireNonNull(t.getMessage()), Toast.LENGTH_SHORT, true).show();
+                            }
+                        });
+                    }
+                });
+
+                builderDeleteCounter.setNegativeButton(R.string.cancel, null);
+
+                AlertDialog alert = builderDeleteCounter.create();
+
+                alert.show();
+                alert.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.RED);
             }
-                return true;
+            return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -266,10 +298,5 @@ public class ConsultationActivity extends AppCompatActivity implements Consultat
     @Override
     public void onUpdateConsultation(int id) {
         getConsultationById(id);
-    }
-
-    @Override
-    public void onDeleteConsultation() {
-        finish();
     }
 }
