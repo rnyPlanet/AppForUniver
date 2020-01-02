@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -20,7 +21,7 @@ import com.grin.appforuniver.fragments.consultations.AllConsultationsFragment;
 import com.grin.appforuniver.fragments.consultations.ConsultationListFragment;
 import com.grin.appforuniver.fragments.consultations.MyConsultationsFragment;
 import com.grin.appforuniver.fragments.consultations.SubscribeConsultationsFragment;
-import com.grin.appforuniver.fragments.dialogs.ConsultationCreateDialog;
+import com.grin.appforuniver.fragments.dialogs.ConsultationActionsDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,8 +31,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import es.dmoral.toasty.Toasty;
 
-public class ConsultationFragment extends Fragment implements ConsultationListFragment.OnRecyclerViewScrolled {
+public class ConsultationFragment extends Fragment implements ConsultationListFragment.OnRecyclerViewScrolled,
+        ConsultationActionsDialog.OnCreate {
 
     public final String TAG = ConsultationFragment.class.getSimpleName();
 
@@ -52,8 +55,7 @@ public class ConsultationFragment extends Fragment implements ConsultationListFr
         Objects.requireNonNull(getActivity()).setTitle(R.string.menu_consultation);
         mUnbinder = ButterKnife.bind(this, mView);
 
-        PagerAdapter mFragmentAdapter = new PagerAdapter(getChildFragmentManager());
-        viewPager.setAdapter(mFragmentAdapter);
+        viewPager.setAdapter(new PagerAdapter(getChildFragmentManager()));
 
         tabLayout.setVisibility(View.VISIBLE);
         tabLayout.setupWithViewPager(viewPager);
@@ -65,8 +67,14 @@ public class ConsultationFragment extends Fragment implements ConsultationListFr
 
     @OnClick(R.id.fragment_consultations_fab)
     void create() {
-        ConsultationCreateDialog consultationCreateDialog = new ConsultationCreateDialog();
+        ConsultationActionsDialog consultationCreateDialog = new ConsultationActionsDialog(getContext(), this);
         consultationCreateDialog.show(getFragmentManager(), "consultationCreateDialog");
+    }
+
+    @Override
+    public void onCreated() {
+        Toasty.success(getContext(), getString(R.string.successful_created), Toast.LENGTH_SHORT, true).show();
+        viewPager.setAdapter(new PagerAdapter(getChildFragmentManager()));
     }
 
     private class PagerAdapter extends FragmentPagerAdapter {

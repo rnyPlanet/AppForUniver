@@ -24,7 +24,7 @@ import com.grin.appforuniver.R;
 import com.grin.appforuniver.data.WebServices.ConsultationInterface;
 import com.grin.appforuniver.data.WebServices.ServiceGenerator;
 import com.grin.appforuniver.data.model.consultation.Consultation;
-import com.grin.appforuniver.fragments.dialogs.ConsultationUpdateDialog;
+import com.grin.appforuniver.fragments.dialogs.ConsultationActionsDialog;
 
 import java.util.Objects;
 
@@ -37,7 +37,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ConsultationActivity extends AppCompatActivity implements ConsultationUpdateDialog.OnUpdateConsultation {
+public class ConsultationActivity extends AppCompatActivity implements ConsultationActionsDialog.OnUpdate {
 
     public final String TAG = ConsultationActivity.class.getSimpleName();
 
@@ -241,7 +241,7 @@ public class ConsultationActivity extends AppCompatActivity implements Consultat
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.edit_consultation: {
-                DialogFragment dialogFragment = new ConsultationUpdateDialog();
+                DialogFragment dialogFragment = new ConsultationActionsDialog(this,this);
                 Bundle bundle = new Bundle();
                 bundle.putInt(key, mConsultation.getId());
                 dialogFragment.setArguments(bundle);
@@ -296,7 +296,8 @@ public class ConsultationActivity extends AppCompatActivity implements Consultat
     }
 
     @Override
-    public void onUpdateConsultation(int id) {
-        getConsultationById(id);
+    public void onUpdated(int idConsultation) {
+        Toasty.success(this, getString(R.string.successful_updated), Toast.LENGTH_SHORT, true).show();
+        getConsultationById(idConsultation);
     }
 }

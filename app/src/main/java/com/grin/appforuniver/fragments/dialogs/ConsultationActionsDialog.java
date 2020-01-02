@@ -1,12 +1,11 @@
 package com.grin.appforuniver.fragments.dialogs;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
-import android.content.Intent;
+import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -14,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -53,11 +51,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ConsultationUpdateDialog extends DialogFragment implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
-
-    public final String TAG = ConsultationUpdateDialog.class.getSimpleName();
+public class ConsultationActionsDialog extends DialogFragment implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+    private static final String TAG = "ConsultationActionsDialog";
+    private Bundle mBundleArguments;
+    private Context mContext;
     private Unbinder mUnbinder;
 
+    private View mRootView;
     @BindView(R.id.dialog_consultation_create_spinner_til)
     TextInputLayout roomTIL;
     @BindView(R.id.dialog_consultation_create_spinner_et)
@@ -74,39 +74,65 @@ public class ConsultationUpdateDialog extends DialogFragment implements DatePick
     AutoCompleteTextView descriptionET;
 
     private AlertDialog dialog;
-    private Button positiveButton;
 
-    private int day, month, year, hour, minute;
-    private int dayFinal, monthFinal, yearFinal, hourFinal, minuteFinal;
+    private DatePickerDialog datePickerDialog;
+    private TimePickerDialog timePickerDialog;
 
-    private ArrayList mArrayRooms = new ArrayList();
+    private int daySelected, monthSelected, yearSelected, hourSelected, minuteSelected;
 
-    private int mIdConsultation;
-    private Consultation mConsultation;
+    private ArrayList<Rooms> mArrayRooms = new ArrayList<>();
 
-    public interface OnUpdateConsultation {
-        void onUpdateConsultation(int id);
+    private boolean isDateAndTimeChoosed = false;
+    private Consultation mConsultation = null;
+
+    private OnCreate onCreate;
+    private OnUpdate onUpdate;
+
+    public ConsultationActionsDialog(Context context) {
+        this.mContext = context;
+    }
+
+    public ConsultationActionsDialog(Context context, OnCreate onCreate) {
+        this(context);
+        this.onCreate = onCreate;
+    }
+
+    public ConsultationActionsDialog(Context context, OnUpdate onUpdate) {
+        this(context);
+        this.onUpdate = onUpdate;
     }
 
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         super.onCreateDialog(savedInstanceState);
-
-        mIdConsultation = Objects.requireNonNull(getArguments()).getInt(ConsultationActivity.key, 0);
-        if(mIdConsultation != 0) getConsultationById();
-
-        LayoutInflater inflater = Objects.requireNonNull(getActivity()).getLayoutInflater();
-        @SuppressLint("InflateParams") View view = inflater.inflate(R.layout.dialog_consultation_create, null);
-
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        LayoutInflater inflater = Objects.requireNonNull(getActivity()).getLayoutInflater();
+        mRootView = inflater.inflate(R.layout.dialog_consultation_create, null);
+        mUnbinder = ButterKnife.bind(this, mRootView);
 
-        mUnbinder = ButterKnife.bind(this, view);
+        mBundleArguments = getArguments();
+        String titleDialog = null;
+        String titlePositiveButton = null;
+        if (mBundleArguments != null) {
+            int mIdConsultation = mBundleArguments.getInt(ConsultationActivity.key, -1);
+            if (mIdConsultation != -1) {
+                getConsultationById(mIdConsultation);
+                titleDialog = getString(R.string.update_consultation);
+                titlePositiveButton = getString(R.string.update);
+                isDateAndTimeChoosed = true;
+            }
+        } else {
+            titleDialog = getString(R.string.сreate_сonsultation);
+            titlePositiveButton = getString(R.string.create);
+        }
 
-        builder.setTitle(R.string.update_consultation);
-        builder.setView(view);
-        builder.setPositiveButton(R.string.update, null);
-        builder.setNegativeButton(R.string.cancel, (dialogInterface, i) -> {});
+        builder.setTitle(titleDialog);
+        builder.setView(mRootView);
+        builder.setPositiveButton(titlePositiveButton, (dialogInterface, i) -> {
+            submitConsultation();
+        });
+        builder.setNegativeButton(R.string.cancel, null);
 
         getRooms();
 
@@ -114,7 +140,8 @@ public class ConsultationUpdateDialog extends DialogFragment implements DatePick
                 getActivity(), android.R.layout.simple_dropdown_item_1line,
                 mArrayRooms);
 
-        roomField.setOnItemClickListener((adapterView, view1, i, l) -> {});
+//        roomField.setOnItemClickListener((adapterView, view1, i, l) -> {
+//        });
         roomField.setAdapter(arrayAdapter);
         roomField.setOnFocusChangeListener((v, hasFocus) -> {
             if (hasFocus) roomField.showDropDown();
@@ -126,10 +153,12 @@ public class ConsultationUpdateDialog extends DialogFragment implements DatePick
 
         roomField.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
 
             @Override
             public void afterTextChanged(Editable s) {
@@ -141,30 +170,24 @@ public class ConsultationUpdateDialog extends DialogFragment implements DatePick
             }
         });
 
+
         dialog = builder.create();
-        dialog.setOnShowListener(dialogInner -> {
-            Button button = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
-            if (button != null) {
-                positiveButton = button;
-                positiveButton.setOnClickListener(view12 -> updateConsultation());
-            }
-        });
-
         return dialog;
-
     }
 
     private void getRooms() {
         RoomInterface roomInterface = ServiceGenerator.createService(RoomInterface.class);
-
         Call<List<Rooms>> call = roomInterface.getRooms();
         call.enqueue(new Callback<List<Rooms>>() {
             @Override
             public void onResponse(@NonNull Call<List<Rooms>> call, @NonNull Response<List<Rooms>> response) {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
+                        mArrayRooms.clear();
                         mArrayRooms.addAll(response.body());
-                        setSelectionRoomField();
+                        if (mBundleArguments != null) {
+                            setSelectionRoomField();
+                        }
                     }
                 }
             }
@@ -175,20 +198,11 @@ public class ConsultationUpdateDialog extends DialogFragment implements DatePick
             }
         });
     }
-    private void setSelectionRoomField() {
-        Rooms room;
-        for (int i = 0; i < mArrayRooms.size(); i++) {
-            room = (Rooms) mArrayRooms.get(i);
-            if(mConsultation.getRoom().getName().equals(room.getName())){
-                roomField.setText(mConsultation.getRoom().getName());
-            }
-        }
-    }
 
-    private void getConsultationById() {
+    private void getConsultationById(int idConsultation) {
         ConsultationInterface consultationInterface = ServiceGenerator.createService(ConsultationInterface.class);
 
-        Call<Consultation> call = consultationInterface.getConsultationById(mIdConsultation);
+        Call<Consultation> call = consultationInterface.getConsultationById(idConsultation);
         call.enqueue(new Callback<Consultation>() {
             @Override
             public void onResponse(@NonNull Call<Consultation> call, @NonNull Response<Consultation> response) {
@@ -208,15 +222,25 @@ public class ConsultationUpdateDialog extends DialogFragment implements DatePick
         });
     }
 
+    private void setSelectionRoomField() {
+        Rooms room;
+        for (int i = 0; i < mArrayRooms.size(); i++) {
+            room = mArrayRooms.get(i);
+            if (mConsultation.getRoom().getName().equals(room.getName())) {
+                roomField.setText(mConsultation.getRoom().getName(), false);
+            }
+        }
+    }
+
     private String parseSelectedDate() {
         SimpleDateFormat output = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.ENGLISH);
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat input = new SimpleDateFormat("dd.MM.yyyy HH:mm");
         output.setTimeZone(TimeZone.getTimeZone("GMT"));
-        sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+        input.setTimeZone(TimeZone.getTimeZone("GMT"));
         Date d = null;
         try {
             String date = selectDateTimeET.getText().toString().replace("\n", " ");
-            d = sdf.parse( date );
+            d = input.parse(date);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -224,19 +248,19 @@ public class ConsultationUpdateDialog extends DialogFragment implements DatePick
         return output.format(Objects.requireNonNull(d));
     }
 
-    private void updateConsultation() {
-
-        int idSelectedRoom = 0;
-        Rooms room;
-        String nameRoom = roomField.getText().toString();
+    private void submitConsultation() {
+        int idSelectedRoom = -1;
         for (int i = 0; i < mArrayRooms.size(); i++) {
-            room = (Rooms) mArrayRooms.get(i);
+            String nameRoom = roomField.getText().toString();
+            Rooms room = mArrayRooms.get(i);
             if (nameRoom.equals(room.getName())) {
                 idSelectedRoom = room.getId();
             }
         }
-        if (idSelectedRoom == 0) {
-            roomTIL.setError(getString(R.string.select_сorrect_room));
+        if (idSelectedRoom == -1 || !isDateAndTimeChoosed) {
+            if (idSelectedRoom == -1) roomTIL.setError(getString(R.string.select_сorrect_room));
+            if (!isDateAndTimeChoosed)
+                selectDateTimeTIL.setError(getResources().getString(R.string.dialog_consultation_create_select_date_and_time));
             return;
         }
 
@@ -247,55 +271,87 @@ public class ConsultationUpdateDialog extends DialogFragment implements DatePick
                 (descriptionET.getText().toString().length() == 0) ? null : descriptionET.getText().toString());
 
         ConsultationInterface consultationInterface = ServiceGenerator.createService(ConsultationInterface.class);
-
-        Call<Void> call = consultationInterface.updateConsultation(mConsultation.getId(), consultationRequestDto);
-        call.enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
-                if (response.isSuccessful()) {
-                    Toasty.success(Objects.requireNonNull(getContext()), getString(R.string.successful_updated), Toast.LENGTH_SHORT, true).show();
-
-                    OnUpdateConsultation activity = (OnUpdateConsultation) getActivity();
-                    Objects.requireNonNull(activity).onUpdateConsultation(mConsultation.getId());
-
-                    dialog.dismiss();
+        if (mConsultation == null) {
+            Call<Consultation> call = consultationInterface.createConsultation(consultationRequestDto);
+            call.enqueue(new Callback<Consultation>() {
+                @Override
+                public void onResponse(@NonNull Call<Consultation> call, @NonNull Response<Consultation> response) {
+                    if (response.isSuccessful()) {
+                        if (onCreate != null) onCreate.onCreated();
+                        dialog.dismiss();
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
-                Toasty.error(Objects.requireNonNull(getContext()), Objects.requireNonNull(t.getMessage()), Toast.LENGTH_SHORT, true).show();
-            }
-        });
+                @Override
+                public void onFailure(@NonNull Call<Consultation> call, @NonNull Throwable t) {
+                    Toasty.error(Objects.requireNonNull(getContext()), Objects.requireNonNull(t.getMessage()), Toast.LENGTH_SHORT, true).show();
+                }
+            });
+        } else {
+            Call<Void> call = consultationInterface.updateConsultation(mConsultation.getId(), consultationRequestDto);
+            call.enqueue(new Callback<Void>() {
+                @Override
+                public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                    if (response.isSuccessful()) {
+                        if (onUpdate != null) onUpdate.onUpdated(mConsultation.getId());
+                        dialog.dismiss();
+                    }
+                }
+
+                @Override
+                public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                    Toasty.error(Objects.requireNonNull(getContext()), Objects.requireNonNull(t.getMessage()), Toast.LENGTH_SHORT, true).show();
+                }
+            });
+        }
+
     }
-
-    private DatePickerDialog datePickerDialog;
-    private TimePickerDialog timePickerDialog;
 
     @OnClick(R.id.dialog_consultation_create_select_date_time_et)
     void selectDateTime() {
         Calendar c = Calendar.getInstance();
-        year = c.get(Calendar.YEAR);
-        month = c.get(Calendar.MONTH);
-        day = c.get(Calendar.DAY_OF_MONTH);
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH);
+        int day = c.get(Calendar.DAY_OF_MONTH);
 
-        datePickerDialog = new DatePickerDialog(Objects.requireNonNull(getContext()), ConsultationUpdateDialog.this, year, month, day);
+        datePickerDialog = new DatePickerDialog(Objects.requireNonNull(getContext()), ConsultationActionsDialog.this, year, month, day);
         datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
         datePickerDialog.show();
     }
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        yearFinal = year;
-        monthFinal = month + 1;
-        dayFinal = dayOfMonth;
+        yearSelected = year;
+        monthSelected = month + 1;
+        daySelected = dayOfMonth;
 
         Calendar c = Calendar.getInstance();
-        hour = c.get(Calendar.HOUR_OF_DAY);
-        minute = c.get(Calendar.MINUTE);
+        int hour = c.get(Calendar.HOUR_OF_DAY);
+        int minute = c.get(Calendar.MINUTE);
 
-        timePickerDialog = new TimePickerDialog(getContext(), ConsultationUpdateDialog.this, hour, minute, true);
+        timePickerDialog = new TimePickerDialog(getContext(), ConsultationActionsDialog.this, hour, minute, true);
         timePickerDialog.show();
+    }
+
+    @Override
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+        if (!isValidTime(hourOfDay, minute)) {
+            Toasty.info(Objects.requireNonNull(getContext()), getString(R.string.choose_correct_time), Toast.LENGTH_SHORT, true).show();
+            Calendar c = Calendar.getInstance();
+            int currentHour = c.get(Calendar.HOUR_OF_DAY);
+            int currentMinute = c.get(Calendar.MINUTE);
+            timePickerDialog = new TimePickerDialog(getContext(),
+                    ConsultationActionsDialog.this, currentHour, currentMinute, true);
+            timePickerDialog.show();
+        } else {
+            hourSelected = hourOfDay;
+            minuteSelected = minute;
+
+            selectDateTimeTIL.setError(null);
+            selectDateTimeET.setText(
+                    returnStringOfDate(yearSelected, monthSelected, daySelected, hourSelected, minuteSelected));
+            isDateAndTimeChoosed = true;
+        }
     }
 
     private boolean isValidTime(int hourOfDay, int minute) {
@@ -311,32 +367,31 @@ public class ConsultationUpdateDialog extends DialogFragment implements DatePick
 
     }
 
-    @SuppressLint("SetTextI18n")
-    @Override
-    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        if (!isValidTime(hourOfDay, minute)) {
-            Toasty.info(Objects.requireNonNull(getContext()), getString(R.string.choose_correct_time), Toast.LENGTH_SHORT, true).show();
-            Calendar c = Calendar.getInstance();
-            int currentHour = c.get(Calendar.HOUR_OF_DAY);
-            int currentMinute = c.get(Calendar.MINUTE);
-            timePickerDialog = new TimePickerDialog(getContext(),
-                    ConsultationUpdateDialog.this, currentHour, currentMinute, true);
-            timePickerDialog.show();
-        } else {
-            hourFinal = hourOfDay;
-            minuteFinal = minute;
+    private String returnStringOfDate(int year, int month, int dayOfMonth, int hour,
+                                      int minute) {
+        return
+                validateValuesForStringDate(dayOfMonth) + "." +
+                        validateValuesForStringDate(month) + "." +
+                        validateValuesForStringDate(year) + " " +
+                        validateValuesForStringDate(hour) + ":" +
+                        validateValuesForStringDate(minute);
+    }
 
-            selectDateTimeTIL.setError(null);
-            selectDateTimeET.setText(
-                    dayFinal + "." + monthFinal + "." + yearFinal + "\n" +
-                            hourFinal + ":" + ((minuteFinal < 10) ? "0" + minuteFinal : minuteFinal)
-            );
-        }
+    private String validateValuesForStringDate(int value) {
+        return (value < 10) ? "0" + value : String.valueOf(value);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         mUnbinder.unbind();
+    }
+
+    public interface OnCreate {
+        void onCreated();
+    }
+
+    public interface OnUpdate {
+        void onUpdated(int idConsultation);
     }
 }
