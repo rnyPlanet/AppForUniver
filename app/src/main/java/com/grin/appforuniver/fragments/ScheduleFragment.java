@@ -157,6 +157,8 @@ public class ScheduleFragment extends Fragment {
                             List<Classes> classesInsidePairs = new ArrayList<>();
                             for (Classes classes : listProfessorsClasses) {
                                 if (classes.getPlace() == place && classes.getIndexInDay() == i) {
+                                    //Требуется для корректного отображения предметов преподавателя
+                                    classes.setSubgroup(Constants.Subgroup.BOTH);
                                     classesInsidePairs.add(classes);
                                     Log.d(TAG, "onResponse: " + classes);
                                 }

@@ -5,6 +5,8 @@
  */
 package com.grin.appforuniver.data.model.schedule;
 
+import androidx.annotation.NonNull;
+
 import com.google.gson.annotations.SerializedName;
 import com.grin.appforuniver.data.utils.Constants;
 
@@ -93,6 +95,11 @@ public class Classes {
         return mSubgroup;
     }
 
+    public void setSubgroup(Constants.Subgroup mSubgroup) {
+        this.mSubgroup = mSubgroup;
+    }
+
+    @NonNull
     @Override
     public String toString() {
         return "Classes{" +

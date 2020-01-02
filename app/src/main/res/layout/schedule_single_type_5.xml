@@ -17,7 +17,6 @@
 
         <TextView
             android:id="@+id/number_pair"
-            style="@style/TextViewPair"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
@@ -27,48 +26,35 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
+        <include
             android:id="@+id/first_subgroup_both_week"
-            style="@style/TextViewPair"
+            layout="@layout/schedule_card_classes"
             android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="4dp"
-            android:padding="@dimen/title_padding"
+            android:layout_height="wrap_content"
+
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/second_subgroup_first_week"
-            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintEnd_toStartOf="@+id/center_vertical_line"
             app:layout_constraintStart_toEndOf="@+id/left_vertical_line"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
+        <include
             android:id="@+id/second_subgroup_first_week"
-            style="@style/TextViewPair"
+            layout="@layout/schedule_card_classes"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="4dp"
-            android:padding="@dimen/title_padding"
+            app:layout_constraintBottom_toTopOf="@+id/center_right_horizontal_line"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/first_subgroup_both_week"
+            app:layout_constraintStart_toEndOf="@+id/center_vertical_line"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
+        <include
             android:id="@+id/second_subgroup_second_week"
-            style="@style/TextViewPair"
+            layout="@layout/schedule_card_classes"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="4dp"
-            android:layout_marginBottom="4dp"
-            android:padding="@dimen/title_padding"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/first_subgroup_both_week"
+            app:layout_constraintStart_toEndOf="@+id/center_vertical_line"
             app:layout_constraintTop_toBottomOf="@+id/second_subgroup_first_week" />
 
         <View
@@ -85,24 +71,20 @@
             android:id="@+id/center_right_horizontal_line"
             android:layout_width="0dp"
             android:layout_height="@dimen/border"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="4dp"
             android:background="?attr/colorButtonNormal"
-            app:layout_constraintBottom_toTopOf="@+id/second_subgroup_second_week"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/center_vertical_line"
-            app:layout_constraintTop_toBottomOf="@+id/second_subgroup_first_week" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <View
             android:id="@+id/center_vertical_line"
             android:layout_width="@dimen/border"
             android:layout_height="0dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginEnd="4dp"
             android:background="?attr/colorButtonNormal"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/second_subgroup_first_week"
-            app:layout_constraintStart_toEndOf="@+id/first_subgroup_both_week"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/left_vertical_line"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.Barrier
