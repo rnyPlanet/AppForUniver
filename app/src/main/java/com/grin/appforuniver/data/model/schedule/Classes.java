@@ -43,7 +43,7 @@ public class Classes {
     @SerializedName("professorID")
     private Professors mProfessorID;
 
-    @SerializedName("roomID")
+    @SerializedName("room")
     private Rooms mRoomID;
 
     @SerializedName("subgroup")
