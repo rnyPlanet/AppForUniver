@@ -1,5 +1,6 @@
 package com.grin.appforuniver.fragments.schedule.holders;
 
+import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
 
@@ -16,13 +17,15 @@ import static com.grin.appforuniver.data.utils.Constants.Week;
 import static com.grin.appforuniver.data.utils.Functions.Schedule.compareSubgroupAndWeek;
 
 public class ScheduleStandardType7Holder extends ScheduleStandardTypeParentHolder {
+    private Context context;
     private TextView numberPair;
     private View bothSubgroupFirstWeek;
     private View firstSubgroupSecondWeek;
     private View secondSubgroupSecondWeek;
 
-    public ScheduleStandardType7Holder(@NonNull View itemView) {
+    public ScheduleStandardType7Holder(@NonNull View itemView, Context context) {
         super(itemView);
+        this.context = context;
         numberPair = itemView.findViewById(R.id.number_pair);
         bothSubgroupFirstWeek = itemView.findViewById(R.id.both_subgroup_first_week);
         firstSubgroupSecondWeek = itemView.findViewById(R.id.first_subgroup_second_week);
@@ -35,13 +38,13 @@ public class ScheduleStandardType7Holder extends ScheduleStandardTypeParentHolde
 
         for (Classes classes : mListClasses) {
             if (compareSubgroupAndWeek(classes, Subgroup.BOTH, Week.FIRST)) {
-                initializeCardSubject(bothSubgroupFirstWeek, classes);
+                initializeCardSubject(bothSubgroupFirstWeek, classes, context);
             }
             if (compareSubgroupAndWeek(classes, Subgroup.FIRST, Week.SECOND)) {
-                initializeCardSubject(firstSubgroupSecondWeek, classes);
+                initializeCardSubject(firstSubgroupSecondWeek, classes, context);
             }
             if (compareSubgroupAndWeek(classes, Subgroup.SECOND, Week.SECOND)) {
-                initializeCardSubject(secondSubgroupSecondWeek, classes);
+                initializeCardSubject(secondSubgroupSecondWeek, classes, context);
             }
         }
     }

@@ -1,18 +1,14 @@
 package com.grin.appforuniver.fragments.schedule.adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.grin.appforuniver.R;
-import com.grin.appforuniver.data.model.schedule.Classes;
-import com.grin.appforuniver.data.utils.Constants;
 import com.grin.appforuniver.fragments.schedule.ScheduleStandardTypeModel;
 import com.grin.appforuniver.fragments.schedule.holders.ScheduleStandardType1Holder;
 import com.grin.appforuniver.fragments.schedule.holders.ScheduleStandardType2Holder;
@@ -50,31 +46,31 @@ public class ScheduleGroupAdapter extends RecyclerView.Adapter<RecyclerView.View
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         View view = layoutInflater.inflate(viewType, parent, false);
         if (viewType == R.layout.schedule_single_type_1) {
-            return new ScheduleStandardType1Holder(view);
+            return new ScheduleStandardType1Holder(view, context);
         }
         if (viewType == R.layout.schedule_single_type_2) {
-            return new ScheduleStandardType2Holder(view);
+            return new ScheduleStandardType2Holder(view, context);
         }
         if (viewType == R.layout.schedule_single_type_3) {
-            return new ScheduleStandardType3Holder(view);
+            return new ScheduleStandardType3Holder(view, context);
         }
         if (viewType == R.layout.schedule_single_type_4) {
-            return new ScheduleStandardType4Holder(view);
+            return new ScheduleStandardType4Holder(view, context);
         }
         if (viewType == R.layout.schedule_single_type_5) {
-            return new ScheduleStandardType5Holder(view);
+            return new ScheduleStandardType5Holder(view, context);
         }
         if (viewType == R.layout.schedule_single_type_6) {
-            return new ScheduleStandardType6Holder(view);
+            return new ScheduleStandardType6Holder(view, context);
         }
         if (viewType == R.layout.schedule_single_type_7) {
-            return new ScheduleStandardType7Holder(view);
+            return new ScheduleStandardType7Holder(view, context);
         }
         if (viewType == R.layout.schedule_single_type_8) {
-            return new ScheduleStandardType8Holder(view);
+            return new ScheduleStandardType8Holder(view, context);
         }
         if (viewType == R.layout.schedule_single_type_9) {
-            return new ScheduleStandardType9Holder(view);
+            return new ScheduleStandardType9Holder(view, context);
         }
         if (viewType == R.layout.item_day_separator) {
             return new ScheduleStandardTypeDaySeparatorHolder(view);
@@ -134,60 +130,5 @@ public class ScheduleGroupAdapter extends RecyclerView.Adapter<RecyclerView.View
         this.itemList.clear();
         this.itemList.addAll(itemList);
         notifyDataSetChanged();
-    }
-
-    class ClassesHolder extends RecyclerView.ViewHolder {
-        TextView numberPair;
-        TextView firstSubgroup_firstWeek;
-        TextView firstSubgroup_secondWeek;
-        TextView firstSubgroup_bothWeek;
-        TextView secondSubgroup_firstWeek;
-        TextView secondSubgroup_secondWeek;
-        TextView secondSubgroup_bothWeek;
-        TextView bothSubgroup_firstWeek;
-        TextView bothSubgroup_secondWeek;
-        TextView bothSubgroup_bothWeek;
-
-        ClassesHolder(@NonNull View itemView) {
-            super(itemView);
-        }
-
-        void bind(ScheduleStandardTypeModel schedulePair) {
-            List<Classes> mListClasses = schedulePair.classes;
-            try {
-                numberPair.setText(String.valueOf(schedulePair.positionInDay));
-            } catch (Exception e) {
-                Log.d(TAG, "EXCEPTION TYPE 5 " + schedulePair);
-            }
-            for (Classes classes : mListClasses) {
-                if (classes.getSubgroup() == Constants.Subgroup.FIRST && classes.getWeek() == Constants.Week.FIRST) {
-                    firstSubgroup_firstWeek.setText(classes.getSubject());
-                }
-                if (classes.getSubgroup() == Constants.Subgroup.FIRST && classes.getWeek() == Constants.Week.SECOND) {
-                    firstSubgroup_secondWeek.setText(classes.getSubject());
-                }
-                if (classes.getSubgroup() == Constants.Subgroup.FIRST && classes.getWeek() == Constants.Week.BOTH) {
-                    firstSubgroup_bothWeek.setText(classes.getSubject());
-                }
-                if (classes.getSubgroup() == Constants.Subgroup.SECOND && classes.getWeek() == Constants.Week.FIRST) {
-                    secondSubgroup_firstWeek.setText(classes.getSubject());
-                }
-                if (classes.getSubgroup() == Constants.Subgroup.SECOND && classes.getWeek() == Constants.Week.SECOND) {
-                    secondSubgroup_secondWeek.setText(classes.getSubject());
-                }
-                if (classes.getSubgroup() == Constants.Subgroup.SECOND && classes.getWeek() == Constants.Week.BOTH) {
-                    secondSubgroup_bothWeek.setText(classes.getSubject());
-                }
-                if (classes.getSubgroup() == Constants.Subgroup.BOTH && classes.getWeek() == Constants.Week.FIRST) {
-                    bothSubgroup_firstWeek.setText(classes.getSubject());
-                }
-                if (classes.getSubgroup() == Constants.Subgroup.BOTH && classes.getWeek() == Constants.Week.SECOND) {
-                    bothSubgroup_secondWeek.setText(classes.getSubject());
-                }
-                if (classes.getSubgroup() == Constants.Subgroup.BOTH && classes.getWeek() == Constants.Week.BOTH) {
-                    bothSubgroup_bothWeek.setText(classes.getSubject());
-                }
-            }
-        }
     }
 }

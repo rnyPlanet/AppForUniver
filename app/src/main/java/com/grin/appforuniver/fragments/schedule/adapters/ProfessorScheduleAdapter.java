@@ -38,10 +38,10 @@ public class ProfessorScheduleAdapter extends RecyclerView.Adapter<RecyclerView.
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         View view = layoutInflater.inflate(viewType, parent, false);
         if (viewType == R.layout.schedule_single_type_1) {
-            return new ScheduleStandardType1Holder(view);
+            return new ScheduleStandardType1Holder(view, context);
         }
         if (viewType == R.layout.schedule_single_type_4) {
-            return new ScheduleStandardType4Holder(view);
+            return new ScheduleStandardType4Holder(view, context);
         }
         if (viewType == R.layout.item_day_separator) {
             return new ScheduleStandardTypeDaySeparatorHolder(view);

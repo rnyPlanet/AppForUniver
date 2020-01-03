@@ -1,5 +1,6 @@
 package com.grin.appforuniver.fragments.schedule.holders;
 
+import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
 
@@ -9,11 +10,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.grin.appforuniver.R;
 
 public class ScheduleStandardType9Holder extends RecyclerView.ViewHolder {
+    private Context context;
     private TextView numberPair;
     private TextView message;
 
-    public ScheduleStandardType9Holder(@NonNull View itemView) {
+    public ScheduleStandardType9Holder(@NonNull View itemView, Context context) {
         super(itemView);
+        this.context = context;
         numberPair = itemView.findViewById(R.id.number_pair);
         message = itemView.findViewById(R.id.message);
     }

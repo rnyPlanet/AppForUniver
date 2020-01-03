@@ -1,5 +1,8 @@
 package com.grin.appforuniver.fragments.schedule.holders;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
@@ -14,7 +17,7 @@ class ScheduleStandardTypeParentHolder extends RecyclerView.ViewHolder {
         super(itemView);
     }
 
-    void initializeCardSubject(View parentView, Classes classes) {
+    void initializeCardSubject(View parentView, Classes classes, Context context) {
         //initialize subject
         ((TextView) parentView.findViewById(R.id.subject)).setText(classes.getSubject());
         //initialize audience room
@@ -24,5 +27,19 @@ class ScheduleStandardTypeParentHolder extends RecyclerView.ViewHolder {
                 + " " + classes.getProfessor().getUser().getShortFormFirstName()
                 + " " + classes.getProfessor().getUser().getShortFormPatronymic();
         ((TextView) parentView.findViewById(R.id.professor)).setText(professorsName);
+        parentView.setOnClickListener(view -> dialogNoreDetailsSchedule(classes, context).show());
+    }
+
+    private AlertDialog dialogNoreDetailsSchedule(Classes classes, Context context) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View rootView = inflater.inflate(R.layout.dialog_more_details_schedule, null);
+        TextView textClasses = rootView.findViewById(R.id.text_classes);
+        textClasses.setText(classes.toString());
+        builder.setTitle(classes.getSubject());
+        builder.setView(rootView);
+        builder.setPositiveButton("close", (dialogInterface, i) -> {
+        });
+        return builder.create();
     }
 }

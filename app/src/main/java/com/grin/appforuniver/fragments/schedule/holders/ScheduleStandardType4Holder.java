@@ -1,5 +1,6 @@
 package com.grin.appforuniver.fragments.schedule.holders;
 
+import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
 
@@ -16,12 +17,14 @@ import static com.grin.appforuniver.data.utils.Constants.Week;
 import static com.grin.appforuniver.data.utils.Functions.Schedule.compareSubgroupAndWeek;
 
 public class ScheduleStandardType4Holder extends ScheduleStandardTypeParentHolder {
+    private Context context;
     private TextView numberPair;
     private View bothSubgroupFirstWeek;
     private View bothSubgroupSecondWeek;
 
-    public ScheduleStandardType4Holder(@NonNull View itemView) {
+    public ScheduleStandardType4Holder(@NonNull View itemView, Context context) {
         super(itemView);
+        this.context = context;
         numberPair = itemView.findViewById(R.id.number_pair);
         bothSubgroupFirstWeek = itemView.findViewById(R.id.both_subgroup_first_week);
         bothSubgroupSecondWeek = itemView.findViewById(R.id.both_subgroup_second_week);
@@ -33,10 +36,10 @@ public class ScheduleStandardType4Holder extends ScheduleStandardTypeParentHolde
 
         for (Classes classes : mListClasses) {
             if (compareSubgroupAndWeek(classes, Subgroup.BOTH, Week.FIRST)) {
-                initializeCardSubject(bothSubgroupFirstWeek, classes);
+                initializeCardSubject(bothSubgroupFirstWeek, classes, context);
             }
             if (compareSubgroupAndWeek(classes, Subgroup.BOTH, Week.SECOND)) {
-                initializeCardSubject(bothSubgroupSecondWeek, classes);
+                initializeCardSubject(bothSubgroupSecondWeek, classes, context);
             }
         }
     }
