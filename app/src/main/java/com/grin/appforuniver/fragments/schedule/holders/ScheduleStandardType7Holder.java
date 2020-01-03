@@ -4,7 +4,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.grin.appforuniver.R;
 import com.grin.appforuniver.data.model.schedule.Classes;
@@ -16,7 +15,7 @@ import static com.grin.appforuniver.data.utils.Constants.Subgroup;
 import static com.grin.appforuniver.data.utils.Constants.Week;
 import static com.grin.appforuniver.data.utils.Functions.Schedule.compareSubgroupAndWeek;
 
-public class ScheduleStandardType7Holder extends RecyclerView.ViewHolder {
+public class ScheduleStandardType7Holder extends ScheduleStandardTypeParentHolder {
     private TextView numberPair;
     private View bothSubgroupFirstWeek;
     private View firstSubgroupSecondWeek;
@@ -35,24 +34,15 @@ public class ScheduleStandardType7Holder extends RecyclerView.ViewHolder {
         numberPair.setText(String.valueOf(schedulePair.positionInDay));
 
         for (Classes classes : mListClasses) {
-            TextView subject = null;
-            TextView audienceRoom = null;
             if (compareSubgroupAndWeek(classes, Subgroup.BOTH, Week.FIRST)) {
-                subject = bothSubgroupFirstWeek.findViewById(R.id.subject);
-                audienceRoom = bothSubgroupFirstWeek.findViewById(R.id.audience_room);
+                initializeCardSubject(bothSubgroupFirstWeek, classes);
             }
             if (compareSubgroupAndWeek(classes, Subgroup.FIRST, Week.SECOND)) {
-                subject = firstSubgroupSecondWeek.findViewById(R.id.subject);
-                audienceRoom = firstSubgroupSecondWeek.findViewById(R.id.audience_room);
+                initializeCardSubject(firstSubgroupSecondWeek, classes);
             }
             if (compareSubgroupAndWeek(classes, Subgroup.SECOND, Week.SECOND)) {
-                subject = secondSubgroupSecondWeek.findViewById(R.id.subject);
-                audienceRoom = secondSubgroupSecondWeek.findViewById(R.id.audience_room);
+                initializeCardSubject(secondSubgroupSecondWeek, classes);
             }
-
-            if (subject != null) subject.setText(classes.getSubject());
-            if (audienceRoom != null) audienceRoom.setText(classes.getRoomID().getName());
         }
     }
-
 }

@@ -16,7 +16,7 @@ import static com.grin.appforuniver.data.utils.Constants.Subgroup;
 import static com.grin.appforuniver.data.utils.Constants.Week;
 import static com.grin.appforuniver.data.utils.Functions.Schedule.compareSubgroupAndWeek;
 
-public class ScheduleStandardType1Holder extends RecyclerView.ViewHolder {
+public class ScheduleStandardType1Holder extends ScheduleStandardTypeParentHolder {
     private TextView numberPair;
     private View bothSubgroupBothWeek;
 
@@ -31,15 +31,9 @@ public class ScheduleStandardType1Holder extends RecyclerView.ViewHolder {
         numberPair.setText(String.valueOf(schedulePair.positionInDay));
 
         for (Classes classes : mListClasses) {
-            TextView subject = null;
-            TextView audienceRoom = null;
             if (compareSubgroupAndWeek(classes, Subgroup.BOTH, Week.BOTH)) {
-                subject = bothSubgroupBothWeek.findViewById(R.id.subject);
-                audienceRoom = bothSubgroupBothWeek.findViewById(R.id.audience_room);
+                initializeCardSubject(bothSubgroupBothWeek, classes);
             }
-
-            if (subject != null) subject.setText(classes.getSubject());
-            if (audienceRoom != null) audienceRoom.setText(classes.getRoomID().getName());
         }
     }
 }

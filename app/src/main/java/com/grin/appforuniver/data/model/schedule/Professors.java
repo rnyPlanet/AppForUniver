@@ -29,7 +29,7 @@ public class Professors {
         return mId;
     }
 
-    public String getmName() {
+    public String getName() {
         return mName;
     }
 }

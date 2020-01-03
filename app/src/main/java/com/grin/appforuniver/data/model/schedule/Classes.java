@@ -40,13 +40,13 @@ public class Classes {
     private Constants.Week mWeek;
 
     @SerializedName("group")
-    private Groups mAssignedGroupID;
+    private Groups mAssignedGroup;
 
-    @SerializedName("professorID")
-    private Professors mProfessorID;
+    @SerializedName("professor")
+    private Professors mProfessor;
 
     @SerializedName("room")
-    private Rooms mRoomID;
+    private Rooms mRoom;
 
     @SerializedName("subgroup")
     private Constants.Subgroup mSubgroup;
@@ -79,16 +79,16 @@ public class Classes {
         return mWeek;
     }
 
-    public Groups getAssignedGroupID() {
-        return mAssignedGroupID;
+    public Groups getAssignedGroup() {
+        return mAssignedGroup;
     }
 
-    public Professors getProfessorID() {
-        return mProfessorID;
+    public Professors getProfessor() {
+        return mProfessor;
     }
 
-    public Rooms getRoomID() {
-        return mRoomID;
+    public Rooms getRoom() {
+        return mRoom;
     }
 
     public Constants.Subgroup getSubgroup() {
@@ -110,9 +110,9 @@ public class Classes {
                 ", mIndexInDay=" + mIndexInDay + '\t' +
                 ", mAdditionalRequirements='" + mAdditionalRequirements + '\'' + '\t' +
                 ", mWeek=" + mWeek + '\t' +
-                ", mAssignedGroupID=" + mAssignedGroupID + '\t' +
-                ", mProfessorID=" + mProfessorID + '\t' +
-                ", mRoomID=" + mRoomID + '\t' +
+                ", mAssignedGroup=" + mAssignedGroup + '\t' +
+                ", mProfessor=" + mProfessor + '\t' +
+                ", mRoom=" + mRoom + '\t' +
                 ", mSubgroup=" + mSubgroup + '\t' +
                 "}\n";
     }
