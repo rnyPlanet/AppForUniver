@@ -104,7 +104,7 @@
             android:drawableStart="@drawable/ic_lock_black_24dp"
             android:drawablePadding="12dp"
             android:hint="@string/activity_main_password"
-            android:imeOptions="actionDone"
+            android:imeOptions="actionSend"
             android:inputType="textPassword"
             android:maxLines="1"
             android:singleLine="true" />

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatEditText;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 
@@ -44,6 +46,8 @@ public class LoginActivity extends AppCompatActivity {
     TextInputLayout usernameTIL;
     @BindView(R.id.activity_login_password_et)
     TextInputLayout passwordTIL;
+    @BindView(R.id.password_field)
+    AppCompatEditText passwordField;
 
     // Variables for visual settings
     @BindView(R.id.logo)
@@ -72,6 +76,10 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             setContentView(R.layout.activity_login);
             ButterKnife.bind(this);
+            passwordField.setOnEditorActionListener((textView, actionId, keyEvent) -> {
+                if (actionId == EditorInfo.IME_ACTION_SEND) logIn();
+                return false;
+            });
             //
             // Change header visibility
             //
