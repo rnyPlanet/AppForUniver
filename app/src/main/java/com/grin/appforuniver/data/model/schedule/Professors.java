@@ -7,6 +7,9 @@ package com.grin.appforuniver.data.model.schedule;
 
 
 import com.google.gson.annotations.SerializedName;
+import com.grin.appforuniver.data.model.user.Department;
+import com.grin.appforuniver.data.model.user.Posada;
+import com.grin.appforuniver.data.model.user.User;
 
 import lombok.Data;
 
@@ -16,20 +19,54 @@ public class Professors {
     @SerializedName("id")
     private Integer mId;
 
-    @SerializedName("name")
-    private String mName;
+    @SerializedName("posada")
+    private Posada mPosada;
 
+    @SerializedName("department")
+    private Department mDepartment;
 
-    @Override
-    public String toString() {
-        return mName;
-    }
+    @SerializedName("user")
+    private User mUser;
 
-    public Integer getmId() {
+    public Integer getId() {
         return mId;
     }
 
-    public String getName() {
-        return mName;
+    public void setId(Integer mId) {
+        this.mId = mId;
+    }
+
+    public Posada getPosada() {
+        return mPosada;
+    }
+
+    public void setPosada(Posada mPosada) {
+        this.mPosada = mPosada;
+    }
+
+    public Department getDepartment() {
+        return mDepartment;
+    }
+
+    public void setDepartment(Department mDepartment) {
+        this.mDepartment = mDepartment;
+    }
+
+    public User getUser() {
+        return mUser;
+    }
+
+    public void setUser(User mUser) {
+        this.mUser = mUser;
+    }
+
+    @Override
+    public String toString() {
+        return "Professors{" +
+                "mId=" + mId +
+                ", mPosada=" + mPosada +
+                ", mDepartment=" + mDepartment +
+                ", mUser=" + mUser +
+                '}';
     }
 }

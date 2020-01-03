@@ -118,19 +118,19 @@ public class UserAccountFragment extends Fragment {
                             email_tv.setText(mUser.getEmail());
                         }
 
-                        if (mUser.getDepartment() != null) {
-                            department_ll.setVisibility(View.VISIBLE);
-                            department_tv.setText(mUser.getDepartment().getName());
-                        } else {
-                            department_ll.setVisibility(View.GONE);
-                        }
-
-                        if (mUser.getPosada() != null) {
-                            posada_ll.setVisibility(View.VISIBLE);
-                            posada_tv.setText(mUser.getPosada().getPostVykl());
-                        } else {
-                            posada_ll.setVisibility(View.GONE);
-                        }
+//                        if (mUser.getDepartment() != null) {
+//                            department_ll.setVisibility(View.VISIBLE);
+//                            department_tv.setText(mUser.getDepartment().getName());
+//                        } else {
+//                            department_ll.setVisibility(View.GONE);
+//                        }
+//
+//                        if (mUser.getPosada() != null) {
+//                            posada_ll.setVisibility(View.VISIBLE);
+//                            posada_tv.setText(mUser.getPosada().getPostVykl());
+//                        } else {
+//                            posada_ll.setVisibility(View.GONE);
+//                        }
 
                         if (mUser.getTelefon1() != null && !mUser.getTelefon1().isEmpty()) {
                             telefon1_ll.setVisibility(View.VISIBLE);

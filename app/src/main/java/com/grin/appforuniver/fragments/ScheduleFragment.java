@@ -22,6 +22,7 @@ import com.grin.appforuniver.data.WebServices.ServiceGenerator;
 import com.grin.appforuniver.data.model.schedule.Classes;
 import com.grin.appforuniver.data.model.schedule.Professors;
 import com.grin.appforuniver.data.utils.Constants;
+import com.grin.appforuniver.data.utils.PreferenceUtils;
 import com.grin.appforuniver.fragments.dialogs.SearchableDialog;
 import com.grin.appforuniver.fragments.schedule.ScheduleStandardTypeModel;
 import com.grin.appforuniver.fragments.schedule.adapters.ProfessorScheduleAdapter;
@@ -54,13 +55,23 @@ public class ScheduleFragment extends Fragment {
         searchProf.setOnClickListener(view -> dialogSearchProfessor(getContext()));
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new ScheduleGroupAdapter(getContext());
-        getScheduleGroup();
+        getScheduleCurrentUser();
         return mView;
     }
 
-    private void getScheduleGroup() {
+    private void getScheduleCurrentUser() {
         ScheduleInterface scheduleInterface = ServiceGenerator.createService(ScheduleInterface.class);
-        Call<List<Classes>> list = scheduleInterface.getScheduleAll();
+        Call<List<Classes>> list = scheduleInterface.getScheduleCurrentUser();
+        getScheduleStandardType(list);
+    }
+
+    private void getScheduleProfessor(Professors professors) {
+        ProfessorInterface professorInterface = ServiceGenerator.createService(ProfessorInterface.class);
+        Call<List<Classes>> list = professorInterface.getProfessorSchedule(professors.getId());
+        getScheduleStandardType(list);
+    }
+
+    private void getScheduleStandardType(Call<List<Classes>> list) {
         list.enqueue(new Callback<List<Classes>>() {
             @Override
             public void onResponse(@NonNull Call<List<Classes>> call, @NonNull Response<List<Classes>> response) {
@@ -76,12 +87,22 @@ public class ScheduleFragment extends Fragment {
                             List<Classes> classesInsidePairs = new ArrayList<>();
                             for (Classes classes : listClasses) {
                                 if (classes.getPlace() == place && classes.getIndexInDay() == i) {
+                                    if (PreferenceUtils.getUserRoles().contains("ROLE_TEACHER")) {
+                                        //Требуется для корректного отображения предметов преподавателя
+                                        classes.setSubgroup(Constants.Subgroup.BOTH);
+                                    }
                                     classesInsidePairs.add(classes);
                                 }
                             }
                             if (classesInsidePairs.size() > 0) {
                                 isWeekendDay = true;
-                                schedulePairs.add(new ScheduleStandardTypeModel(setDataInLayout(classesInsidePairs),
+                                int typeView;
+                                if (PreferenceUtils.getUserRoles().contains("ROLE_TEACHER")) {
+                                    typeView = setDataInLayoutProfessors(classesInsidePairs);
+                                } else {
+                                    typeView = setDataInLayout(classesInsidePairs);
+                                }
+                                schedulePairs.add(new ScheduleStandardTypeModel(typeView,
                                         place, i + 1, classesInsidePairs));
                             }
                         }
@@ -90,9 +111,14 @@ public class ScheduleFragment extends Fragment {
                                     place, -1, null));
                         }
                     }
-
-                    adapter.setClasses(schedulePairs);
-                    recyclerView.setAdapter(adapter);
+                    if (PreferenceUtils.getUserRoles().contains("ROLE_TEACHER")) {
+                        ProfessorScheduleAdapter adapter = new ProfessorScheduleAdapter(getContext());
+                        adapter.setClasses(schedulePairs);
+                        recyclerView.setAdapter(adapter);
+                    } else {
+                        adapter.setClasses(schedulePairs);
+                        recyclerView.setAdapter(adapter);
+                    }
                 }
             }
 
@@ -101,7 +127,6 @@ public class ScheduleFragment extends Fragment {
 
             }
         });
-
     }
 
     private void dialogSearchProfessor(Context context) {
@@ -138,59 +163,6 @@ public class ScheduleFragment extends Fragment {
         });
     }
 
-    private void getScheduleProfessor(Professors professors) {
-        ProfessorInterface professorInterface = ServiceGenerator.createService(ProfessorInterface.class);
-        Call<List<Classes>> list = professorInterface.getProfessorSchedule(professors.getmId());
-        list.enqueue(new Callback<List<Classes>>() {
-
-            @Override
-            public void onResponse(@NonNull Call<List<Classes>> call, @NonNull Response<List<Classes>> response) {
-                if (response.body() != null) {
-                    List<Classes> listProfessorsClasses = new ArrayList<>(response.body());
-                    List<ScheduleStandardTypeModel> schedulePairs = new ArrayList<>();
-                    for (Constants.Place place : Constants.Place.values()) {
-                        if (place == Constants.Place.POOL) continue;
-                        schedulePairs.add(new ScheduleStandardTypeModel(R.layout.item_day_separator,
-                                place, -1, null));
-                        boolean isWeekendDay = false;
-                        for (int i = 0; i <= 6; i++) {
-                            List<Classes> classesInsidePairs = new ArrayList<>();
-                            for (Classes classes : listProfessorsClasses) {
-                                if (classes.getPlace() == place && classes.getIndexInDay() == i) {
-                                    //Требуется для корректного отображения предметов преподавателя
-                                    classes.setSubgroup(Constants.Subgroup.BOTH);
-                                    classesInsidePairs.add(classes);
-                                    Log.d(TAG, "onResponse: " + classes);
-                                }
-                            }
-
-                            if (classesInsidePairs.size() > 0) {
-                                isWeekendDay = true;
-                                schedulePairs.add(new ScheduleStandardTypeModel(setDataInLayoutProfessors(classesInsidePairs),
-                                        place, i + 1, classesInsidePairs));
-                            }
-                        }
-                        if (!isWeekendDay) {
-                            schedulePairs.add(new ScheduleStandardTypeModel(R.layout.schedule_weekend_day,
-                                    place, -1, null));
-                        }
-                    }
-                    for (ScheduleStandardTypeModel model : schedulePairs) {
-                        Log.d(TAG, "onResponse: " + model);
-                    }
-                    ProfessorScheduleAdapter adapter = new ProfessorScheduleAdapter(getContext());
-                    adapter.setClasses(schedulePairs);
-                    recyclerView.setAdapter(adapter);
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<List<Classes>> call, @NonNull Throwable t) {
-
-            }
-        });
-    }
-
     private SearchableDialog.OnSelectListener callback = new SearchableDialog.OnSelectListener<Professors>() {
         @Override
         public void onSelected(Professors selectedItem) {
@@ -199,7 +171,7 @@ public class ScheduleFragment extends Fragment {
                 getScheduleProfessor(selectedItem);
             } else {
                 labelSearchedProfessor.setText(null);
-                getScheduleGroup();
+                getScheduleCurrentUser();
             }
         }
     };

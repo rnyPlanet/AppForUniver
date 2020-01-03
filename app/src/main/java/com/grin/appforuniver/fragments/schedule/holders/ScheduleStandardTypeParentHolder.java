@@ -19,7 +19,10 @@ class ScheduleStandardTypeParentHolder extends RecyclerView.ViewHolder {
         ((TextView) parentView.findViewById(R.id.subject)).setText(classes.getSubject());
         //initialize audience room
         ((TextView) parentView.findViewById(R.id.audience_room)).setText(classes.getRoom().getName());
-        //initialize professor
-        ((TextView) parentView.findViewById(R.id.professor)).setText(classes.getProfessor().getName());
+        //initialize professor name
+        String professorsName = classes.getProfessor().getUser().getLastName()
+                + " " + classes.getProfessor().getUser().getShortFormFirstName()
+                + " " + classes.getProfessor().getUser().getShortFormPatronymic();
+        ((TextView) parentView.findViewById(R.id.professor)).setText(professorsName);
     }
 }

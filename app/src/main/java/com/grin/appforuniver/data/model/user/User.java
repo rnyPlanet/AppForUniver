@@ -5,46 +5,6 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class User {
-    /*
-     {
-        "id": 1,
-        "username": "test",
-        "patronymic": "Vik",
-        "firstName": "Stas",
-        "lastName": "Grin",
-        "email": "test@",
-        "password": "$2a$04$wGeMpt/3dXK410PUZfUKDe2d8f4weqjU/SrRpq/kHjZvG7E.dpH7O",
-        "roles": [
-            {
-                "id": 1,
-                "name": "ROLE_ADMIN"
-            },
-            {
-                "id": 3,
-                "name": "ROLE_USER"
-            }
-        ],
-        "status": "ACTIVE",
-        "department": {
-            "id": 2,
-            "pkeyTypeDepartment": null,
-            "pkeyBoss": null,
-            "name": "Деканат факультету компютерних наук",
-            "emeil": null,
-            "telefon": null
-        },
-        "photo": {
-            "id": 1,
-            "photo": null
-        },
-        "posada": {
-            "id": 2,
-            "postVykl": "в.о. професора, доктор наук"
-        },
-        "telefon1": "fsa",
-        "telefon2": "asdf"
-    }
-    */
 
     @SerializedName("id")
     private Integer mId;
@@ -70,14 +30,8 @@ public class User {
     @SerializedName("status")
     private Status mStatus;
 
-    @SerializedName("department")
-    private Department mDepartment;
-
     @SerializedName("photo")
     private Photo mPhoto;
-
-    @SerializedName("posada")
-    private Posada mPosada;
 
     @SerializedName("telefon1")
     private String mTelefon1;
@@ -99,9 +53,7 @@ public class User {
         this.mPassword = password;
         this.mRoles = roles;
         this.mStatus = status;
-        this.mDepartment = department;
         this.mPhoto = photo;
-        this.mPosada = posada;
         this.mTelefon1 = telefon1;
         this.mTelefon2 = telefon2;
     }
@@ -122,50 +74,41 @@ public class User {
         return mPatronymic;
     }
 
+    public String getShortFormPatronymic() {
+        return mPatronymic.charAt(0) + ".";
+    }
 
     public String getFirstName() {
         return mFirstName;
     }
 
+    public String getShortFormFirstName() {
+        return mFirstName.charAt(0) + ".";
+    }
 
     public String getLastName() {
         return mLastName;
     }
 
-
     public String getEmail() {
         return mEmail;
     }
-
 
     public String getPassword() {
         return mPassword;
     }
 
-
     public List<Role> getRoles() {
         return mRoles;
     }
-
 
     public Status getStatus() {
         return mStatus;
     }
 
-    public Department getDepartment() {
-        return mDepartment;
-    }
-
-
     public Photo getPhoto() {
         return mPhoto;
     }
-
-
-    public Posada getPosada() {
-        return mPosada;
-    }
-
 
     public String getTelefon1() {
         return mTelefon1;
@@ -180,9 +123,7 @@ public class User {
     public String toString() {
         return "User{" +
                 "id=" + mId +
-                ", department=" + mDepartment +
                 ", photo=" + mPhoto +
-                ", posada=" + mPosada +
                 ", status ='" + mStatus + '\'' +
                 ", prizvishe ='" + mPatronymic + '\'' +
                 ", name='" + mFirstName + '\'' +

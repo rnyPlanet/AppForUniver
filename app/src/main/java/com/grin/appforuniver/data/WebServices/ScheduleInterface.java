@@ -15,7 +15,5 @@ public interface ScheduleInterface {
     Call<List<Classes>> getSchedulePlace(@Query("place") Constants.Place place);
 
     @GET("schedule/classes/user/all")
-    Call<List<Classes>> getScheduleAll();
-
-
+    Call<List<Classes>> getScheduleCurrentUser();
 }

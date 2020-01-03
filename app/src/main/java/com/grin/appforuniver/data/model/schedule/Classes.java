@@ -5,16 +5,14 @@
  */
 package com.grin.appforuniver.data.model.schedule;
 
-import androidx.annotation.NonNull;
-
 import com.google.gson.annotations.SerializedName;
-import com.grin.appforuniver.data.utils.Constants;
 
 import lombok.Data;
 
-/**
- * @author Йцукен
- */
+import static com.grin.appforuniver.data.utils.Constants.Place;
+import static com.grin.appforuniver.data.utils.Constants.Subgroup;
+import static com.grin.appforuniver.data.utils.Constants.Week;
+
 @Data
 public class Classes {
 
@@ -28,7 +26,7 @@ public class Classes {
     private String mType;
 
     @SerializedName("place")
-    private Constants.Place mPlace;
+    private Place mPlace;
 
     @SerializedName("indexInDay")
     private int mIndexInDay;
@@ -37,7 +35,7 @@ public class Classes {
     private String mAdditionalRequirements;
 
     @SerializedName("week")
-    private Constants.Week mWeek;
+    private Week mWeek;
 
     @SerializedName("group")
     private Groups mAssignedGroup;
@@ -49,71 +47,110 @@ public class Classes {
     private Rooms mRoom;
 
     @SerializedName("subgroup")
-    private Constants.Subgroup mSubgroup;
+    private Subgroup mSubgroup;
 
     public Integer getId() {
         return mId;
+    }
+
+    public void setId(Integer mId) {
+        this.mId = mId;
     }
 
     public String getSubject() {
         return mSubject;
     }
 
+    public void setSubject(String mSubject) {
+        this.mSubject = mSubject;
+    }
+
     public String getType() {
         return mType;
     }
 
-    public Constants.Place getPlace() {
+    public void setType(String mType) {
+        this.mType = mType;
+    }
+
+    public Place getPlace() {
         return mPlace;
+    }
+
+    public void setPlace(Place mPlace) {
+        this.mPlace = mPlace;
     }
 
     public int getIndexInDay() {
         return mIndexInDay;
     }
 
+    public void setIndexInDay(int mIndexInDay) {
+        this.mIndexInDay = mIndexInDay;
+    }
+
     public String getAdditionalRequirements() {
         return mAdditionalRequirements;
     }
 
-    public Constants.Week getWeek() {
+    public void setAdditionalRequirements(String mAdditionalRequirements) {
+        this.mAdditionalRequirements = mAdditionalRequirements;
+    }
+
+    public Week getWeek() {
         return mWeek;
+    }
+
+    public void setWeek(Week mWeek) {
+        this.mWeek = mWeek;
     }
 
     public Groups getAssignedGroup() {
         return mAssignedGroup;
     }
 
+    public void setAssignedGroup(Groups mAssignedGroup) {
+        this.mAssignedGroup = mAssignedGroup;
+    }
+
     public Professors getProfessor() {
         return mProfessor;
+    }
+
+    public void setProfessor(Professors mProfessor) {
+        this.mProfessor = mProfessor;
     }
 
     public Rooms getRoom() {
         return mRoom;
     }
 
-    public Constants.Subgroup getSubgroup() {
+    public void setRoom(Rooms mRoom) {
+        this.mRoom = mRoom;
+    }
+
+    public Subgroup getSubgroup() {
         return mSubgroup;
     }
 
-    public void setSubgroup(Constants.Subgroup mSubgroup) {
+    public void setSubgroup(Subgroup mSubgroup) {
         this.mSubgroup = mSubgroup;
     }
 
-    @NonNull
     @Override
     public String toString() {
         return "Classes{" +
-                "mId=" + mId + '\t' +
-                ", mSubject='" + mSubject + '\'' + '\t' +
-                ", mType='" + mType + '\'' + '\t' +
-                ", mPlace=" + mPlace + '\t' +
-                ", mIndexInDay=" + mIndexInDay + '\t' +
-                ", mAdditionalRequirements='" + mAdditionalRequirements + '\'' + '\t' +
-                ", mWeek=" + mWeek + '\t' +
-                ", mAssignedGroup=" + mAssignedGroup + '\t' +
-                ", mProfessor=" + mProfessor + '\t' +
-                ", mRoom=" + mRoom + '\t' +
-                ", mSubgroup=" + mSubgroup + '\t' +
-                "}\n";
+                "mId=" + mId +
+                ", mSubject='" + mSubject + '\'' +
+                ", mType='" + mType + '\'' +
+                ", mPlace=" + mPlace +
+                ", mIndexInDay=" + mIndexInDay +
+                ", mAdditionalRequirements='" + mAdditionalRequirements + '\'' +
+                ", mWeek=" + mWeek +
+                ", mAssignedGroup=" + mAssignedGroup +
+                ", mProfessor=" + mProfessor +
+                ", mRoom=" + mRoom +
+                ", mSubgroup=" + mSubgroup +
+                '}';
     }
 }
