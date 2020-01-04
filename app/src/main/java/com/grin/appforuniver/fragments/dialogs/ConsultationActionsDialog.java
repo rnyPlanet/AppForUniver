@@ -125,6 +125,7 @@ public class ConsultationActionsDialog extends DialogFragment implements DatePic
         } else {
             titleDialog = getString(R.string.сreate_сonsultation);
             titlePositiveButton = getString(R.string.create);
+            getRooms();
         }
 
         builder.setTitle(titleDialog);
@@ -134,14 +135,10 @@ public class ConsultationActionsDialog extends DialogFragment implements DatePic
         });
         builder.setNegativeButton(R.string.cancel, null);
 
-        getRooms();
-
         ArrayAdapter arrayAdapter = new ArrayAdapter<>(
                 getActivity(), android.R.layout.simple_dropdown_item_1line,
                 mArrayRooms);
 
-//        roomField.setOnItemClickListener((adapterView, view1, i, l) -> {
-//        });
         roomField.setAdapter(arrayAdapter);
         roomField.setOnFocusChangeListener((v, hasFocus) -> {
             if (hasFocus) roomField.showDropDown();
@@ -211,6 +208,7 @@ public class ConsultationActionsDialog extends DialogFragment implements DatePic
                         mConsultation = response.body();
                         selectDateTimeET.setText(mConsultation.getDateAndTimeOfPassage());
                         descriptionET.setText(mConsultation.getDescription());
+                        getRooms();
                     }
                 }
             }

@@ -176,7 +176,7 @@ public class ScheduleFragment extends Fragment {
         @Override
         public void onSelected(Professors selectedItem) {
             if (selectedItem != null) {
-                labelSearchedProfessor.setText(selectedItem.toString());
+                labelSearchedProfessor.setText(selectedItem.getUser().getShortFIO());
                 getScheduleProfessor(selectedItem);
             } else {
                 labelSearchedProfessor.setText(null);
