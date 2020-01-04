@@ -13,6 +13,6 @@ public interface ProfessorInterface {
     @GET("professor/all")
     Call<List<Professors>> getProfessors();
 
-    @GET("professor/classes/{id}")
+    @GET("professor/{id}/classes")
     Call<List<Classes>> getProfessorSchedule(@Path("id") int id);
 }

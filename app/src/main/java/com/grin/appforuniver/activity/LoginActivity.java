@@ -144,7 +144,7 @@ public class LoginActivity extends AppCompatActivity {
     private void getMe() {
         UserInterface userInterface = ServiceGenerator.createService(UserInterface.class);
 
-        Call<User> call = userInterface.getMe();
+        Call<User> call = userInterface.getMyAccount();
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {

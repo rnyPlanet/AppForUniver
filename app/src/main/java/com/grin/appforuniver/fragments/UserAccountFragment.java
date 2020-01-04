@@ -98,7 +98,7 @@ public class UserAccountFragment extends Fragment {
     private void getMe(Context context) {
         UserInterface userInterface = ServiceGenerator.createService(UserInterface.class);
 
-        Call<User> call = userInterface.getMe();
+        Call<User> call = userInterface.getMyAccount();
 
         call.enqueue(new Callback<User>() {
             @SuppressLint("SetTextI18n")
