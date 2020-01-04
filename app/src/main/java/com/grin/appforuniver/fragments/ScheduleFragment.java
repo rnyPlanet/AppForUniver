@@ -21,7 +21,6 @@ import com.grin.appforuniver.data.WebServices.ScheduleInterface;
 import com.grin.appforuniver.data.WebServices.ServiceGenerator;
 import com.grin.appforuniver.data.model.schedule.Classes;
 import com.grin.appforuniver.data.model.schedule.Professors;
-import com.grin.appforuniver.data.utils.Constants;
 import com.grin.appforuniver.data.utils.PreferenceUtils;
 import com.grin.appforuniver.fragments.dialogs.SearchableDialog;
 import com.grin.appforuniver.fragments.schedule.ScheduleStandardTypeModel;
@@ -29,11 +28,17 @@ import com.grin.appforuniver.fragments.schedule.adapters.ProfessorScheduleAdapte
 import com.grin.appforuniver.fragments.schedule.adapters.ScheduleGroupAdapter;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.grin.appforuniver.data.utils.Constants.Place;
+import static com.grin.appforuniver.data.utils.Constants.Roles.ROLE_TEACHER;
+import static com.grin.appforuniver.data.utils.Constants.Subgroup;
+import static com.grin.appforuniver.data.utils.Constants.Week;
 
 public class ScheduleFragment extends Fragment {
     private static final String TAG = "ScheduleFragment";
@@ -62,24 +67,24 @@ public class ScheduleFragment extends Fragment {
     private void getScheduleCurrentUser() {
         ScheduleInterface scheduleInterface = ServiceGenerator.createService(ScheduleInterface.class);
         Call<List<Classes>> list = scheduleInterface.getScheduleCurrentUser();
-        getScheduleStandardType(list);
+        getScheduleStandardType(list, false);
     }
 
     private void getScheduleProfessor(Professors professors) {
         ProfessorInterface professorInterface = ServiceGenerator.createService(ProfessorInterface.class);
         Call<List<Classes>> list = professorInterface.getProfessorSchedule(professors.getId());
-        getScheduleStandardType(list);
+        getScheduleStandardType(list, true);
     }
 
-    private void getScheduleStandardType(Call<List<Classes>> list) {
+    private void getScheduleStandardType(Call<List<Classes>> list, boolean isProfessorsSchedule) {
         list.enqueue(new Callback<List<Classes>>() {
             @Override
             public void onResponse(@NonNull Call<List<Classes>> call, @NonNull Response<List<Classes>> response) {
                 if (response.body() != null) {
                     List<Classes> listClasses = new ArrayList<>(response.body());
                     List<ScheduleStandardTypeModel> schedulePairs = new ArrayList<>();
-                    for (Constants.Place place : Constants.Place.values()) {
-                        if (place == Constants.Place.POOL) continue;
+                    for (Place place : Place.values()) {
+                        if (place == Place.POOL) continue;
                         schedulePairs.add(new ScheduleStandardTypeModel(R.layout.item_day_separator,
                                 place, -1, null));
                         boolean isWeekendDay = false;
@@ -87,9 +92,9 @@ public class ScheduleFragment extends Fragment {
                             List<Classes> classesInsidePairs = new ArrayList<>();
                             for (Classes classes : listClasses) {
                                 if (classes.getPlace() == place && classes.getIndexInDay() == i) {
-                                    if (PreferenceUtils.getUserRoles().contains("ROLE_TEACHER")) {
+                                    if (PreferenceUtils.getUserRoles().contains(ROLE_TEACHER.toString()) | isProfessorsSchedule) {
                                         //Требуется для корректного отображения предметов преподавателя
-                                        classes.setSubgroup(Constants.Subgroup.BOTH);
+                                        classes.setSubgroup(Subgroup.BOTH);
                                     }
                                     classesInsidePairs.add(classes);
                                 }
@@ -97,7 +102,7 @@ public class ScheduleFragment extends Fragment {
                             if (classesInsidePairs.size() > 0) {
                                 isWeekendDay = true;
                                 int typeView;
-                                if (PreferenceUtils.getUserRoles().contains("ROLE_TEACHER")) {
+                                if (PreferenceUtils.getUserRoles().contains(ROLE_TEACHER.toString()) | isProfessorsSchedule) {
                                     typeView = setDataInLayoutProfessors(classesInsidePairs);
                                 } else {
                                     typeView = setDataInLayout(classesInsidePairs);
@@ -111,7 +116,7 @@ public class ScheduleFragment extends Fragment {
                                     place, -1, null));
                         }
                     }
-                    if (PreferenceUtils.getUserRoles().contains("ROLE_TEACHER")) {
+                    if (PreferenceUtils.getUserRoles().contains(ROLE_TEACHER.toString()) | isProfessorsSchedule) {
                         ProfessorScheduleAdapter adapter = new ProfessorScheduleAdapter(getContext());
                         adapter.setClasses(schedulePairs);
                         recyclerView.setAdapter(adapter);
@@ -138,9 +143,10 @@ public class ScheduleFragment extends Fragment {
                 if (response.body() != null) {
                     List<Professors> listProfessors = new ArrayList<>(response.body());
                     Log.d(TAG, "onResponseGroups: " + listProfessors);
+                    Collections.sort(listProfessors, (professors, t1) -> String.CASE_INSENSITIVE_ORDER.compare(professors.getUser().getShortFIO(), t1.getUser().getShortFIO()));
 
                     SearchableDialog dialogFragment = new SearchableDialog<>(context, listProfessors);
-                    SearchableDialog.OnFiltration filter = (SearchableDialog.OnFiltration<Professors>) (filter1, sourceList) -> {
+                    SearchableDialog.OnFiltration<Professors> filter = (filter1, sourceList) -> {
                         List<Professors> filteredList = new ArrayList<>();
                         for (Professors item : sourceList) {
                             if (item.toString().toLowerCase().contains(filter1.toLowerCase())) {
@@ -149,9 +155,12 @@ public class ScheduleFragment extends Fragment {
                         }
                         return filteredList;
                     };
+                    SearchableDialog.OnBindItem<Professors> binder = item -> item.getUser().getShortFIO();
+
 
                     dialogFragment.setOnSelectListener(callback);
                     dialogFragment.setOnFiltration(filter);
+                    dialogFragment.setOnBindItem(binder);
                     dialogFragment.show(getChildFragmentManager(), "select_group");
                 }
             }
@@ -197,31 +206,31 @@ public class ScheduleFragment extends Fragment {
         bothSubgroup_secondWeek = false;
         bothSubgroup_bothWeek = false;
         for (Classes classes : mListClasses) {
-            if (classes.getSubgroup() == Constants.Subgroup.FIRST && classes.getWeek() == Constants.Week.FIRST) {
+            if (classes.getSubgroup() == Subgroup.FIRST && classes.getWeek() == Week.FIRST) {
                 firstSubgroup_firstWeek = true;
             }
-            if (classes.getSubgroup() == Constants.Subgroup.FIRST && classes.getWeek() == Constants.Week.SECOND) {
+            if (classes.getSubgroup() == Subgroup.FIRST && classes.getWeek() == Week.SECOND) {
                 firstSubgroup_secondWeek = true;
             }
-            if (classes.getSubgroup() == Constants.Subgroup.FIRST && classes.getWeek() == Constants.Week.BOTH) {
+            if (classes.getSubgroup() == Subgroup.FIRST && classes.getWeek() == Week.BOTH) {
                 firstSubgroup_bothWeek = true;
             }
-            if (classes.getSubgroup() == Constants.Subgroup.SECOND && classes.getWeek() == Constants.Week.FIRST) {
+            if (classes.getSubgroup() == Subgroup.SECOND && classes.getWeek() == Week.FIRST) {
                 secondSubgroup_firstWeek = true;
             }
-            if (classes.getSubgroup() == Constants.Subgroup.SECOND && classes.getWeek() == Constants.Week.SECOND) {
+            if (classes.getSubgroup() == Subgroup.SECOND && classes.getWeek() == Week.SECOND) {
                 secondSubgroup_secondWeek = true;
             }
-            if (classes.getSubgroup() == Constants.Subgroup.SECOND && classes.getWeek() == Constants.Week.BOTH) {
+            if (classes.getSubgroup() == Subgroup.SECOND && classes.getWeek() == Week.BOTH) {
                 secondSubgroup_bothWeek = true;
             }
-            if (classes.getSubgroup() == Constants.Subgroup.BOTH && classes.getWeek() == Constants.Week.FIRST) {
+            if (classes.getSubgroup() == Subgroup.BOTH && classes.getWeek() == Week.FIRST) {
                 bothSubgroup_firstWeek = true;
             }
-            if (classes.getSubgroup() == Constants.Subgroup.BOTH && classes.getWeek() == Constants.Week.SECOND) {
+            if (classes.getSubgroup() == Subgroup.BOTH && classes.getWeek() == Week.SECOND) {
                 bothSubgroup_secondWeek = true;
             }
-            if (classes.getSubgroup() == Constants.Subgroup.BOTH && classes.getWeek() == Constants.Week.BOTH) {
+            if (classes.getSubgroup() == Subgroup.BOTH && classes.getWeek() == Week.BOTH) {
                 bothSubgroup_bothWeek = true;
             }
         }
@@ -241,11 +250,11 @@ public class ScheduleFragment extends Fragment {
         bothSubgroup_secondWeek = false;
         bothSubgroup_bothWeek = false;
         for (Classes classes : mListClasses) {
-            if (classes.getWeek() == Constants.Week.FIRST || classes.getWeek() == Constants.Week.SECOND) {
+            if (classes.getWeek() == Week.FIRST || classes.getWeek() == Week.SECOND) {
                 bothSubgroup_firstWeek = true;
                 bothSubgroup_secondWeek = true;
             }
-            if (classes.getWeek() == Constants.Week.BOTH) {
+            if (classes.getWeek() == Week.BOTH) {
                 bothSubgroup_bothWeek = true;
             }
         }

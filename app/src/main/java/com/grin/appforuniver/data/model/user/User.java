@@ -118,6 +118,13 @@ public class User {
         return mTelefon2;
     }
 
+    public String getFullFIO() {
+        return mLastName + " " + mFirstName + " " + mPatronymic;
+    }
+
+    public String getShortFIO() {
+        return mLastName + " " + getShortFormFirstName() + " " + getShortFormPatronymic();
+    }
 
     @Override
     public String toString() {

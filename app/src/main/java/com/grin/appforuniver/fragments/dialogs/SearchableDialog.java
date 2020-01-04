@@ -29,6 +29,7 @@ public class SearchableDialog<T> extends DialogFragment {
     private SearchAdapter mSearchAdapter;
     public OnSelectListener<T> onSelectListener;
     public OnFiltration<T> onFiltration;
+    public OnBindItem<T> onBindItem;
 
 
     public SearchableDialog(Context mContext, List<T> mList) {
@@ -142,7 +143,13 @@ public class SearchableDialog<T> extends DialogFragment {
         }
 
         public void bind(T object) {
-            textItem.setText(object.toString());
+            String text;
+            if (onBindItem != null) {
+                text = onBindItem.bind(object);
+            } else {
+                text = object.toString();
+            }
+            textItem.setText(text);
         }
     }
 
@@ -154,11 +161,19 @@ public class SearchableDialog<T> extends DialogFragment {
         this.onFiltration = onFiltration;
     }
 
+    public void setOnBindItem(OnBindItem<T> onBindItem) {
+        this.onBindItem = onBindItem;
+    }
+
     public interface OnSelectListener<T> {
         void onSelected(T selectedItem);
     }
 
     public interface OnFiltration<T> {
         List<T> filter(String filter, List<T> list);
+    }
+
+    public interface OnBindItem<T> {
+        String bind(T item);
     }
 }

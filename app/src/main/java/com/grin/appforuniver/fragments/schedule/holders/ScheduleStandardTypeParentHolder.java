@@ -23,14 +23,11 @@ class ScheduleStandardTypeParentHolder extends RecyclerView.ViewHolder {
         //initialize audience room
         ((TextView) parentView.findViewById(R.id.audience_room)).setText(classes.getRoom().getName());
         //initialize professor name
-        String professorsName = classes.getProfessor().getUser().getLastName()
-                + " " + classes.getProfessor().getUser().getShortFormFirstName()
-                + " " + classes.getProfessor().getUser().getShortFormPatronymic();
-        ((TextView) parentView.findViewById(R.id.professor)).setText(professorsName);
-        parentView.setOnClickListener(view -> dialogNoreDetailsSchedule(classes, context).show());
+        ((TextView) parentView.findViewById(R.id.professor)).setText(classes.getProfessor().getUser().getShortFIO());
+        parentView.setOnClickListener(view -> dialogMoreDetailsSchedule(classes, context).show());
     }
 
-    private AlertDialog dialogNoreDetailsSchedule(Classes classes, Context context) {
+    private AlertDialog dialogMoreDetailsSchedule(Classes classes, Context context) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         LayoutInflater inflater = LayoutInflater.from(context);
         View rootView = inflater.inflate(R.layout.dialog_more_details_schedule, null);

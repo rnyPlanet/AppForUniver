@@ -21,6 +21,7 @@ import com.grin.appforuniver.activity.ConsultationActivity;
 import com.grin.appforuniver.data.WebServices.ConsultationInterface;
 import com.grin.appforuniver.data.WebServices.ServiceGenerator;
 import com.grin.appforuniver.data.model.consultation.Consultation;
+import com.grin.appforuniver.data.utils.Constants;
 import com.grin.appforuniver.data.utils.PreferenceUtils;
 import com.mikepenz.fastadapter.FastAdapter;
 import com.mikepenz.fastadapter.adapters.ItemAdapter;
@@ -32,6 +33,8 @@ import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.grin.appforuniver.data.utils.Constants.Roles.ROLE_TEACHER;
 
 public abstract class ConsultationListFragment extends Fragment {
     private static final String TAG = "ConsultationListFragment";
@@ -66,7 +69,7 @@ public abstract class ConsultationListFragment extends Fragment {
                 }
         );
         recyclerView.setAdapter(mFastAdapter);
-        if (PreferenceUtils.getUserRoles().contains("ROLE_TEACHER")) {
+        if (PreferenceUtils.getUserRoles().contains(ROLE_TEACHER.toString())) {
             recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
                 @Override
                 public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {

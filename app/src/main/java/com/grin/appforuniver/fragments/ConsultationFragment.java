@@ -33,6 +33,8 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import es.dmoral.toasty.Toasty;
 
+import static com.grin.appforuniver.data.utils.Constants.Roles.ROLE_TEACHER;
+
 public class ConsultationFragment extends Fragment implements ConsultationListFragment.OnRecyclerViewScrolled,
         ConsultationActionsDialog.OnCreate {
 
@@ -59,7 +61,7 @@ public class ConsultationFragment extends Fragment implements ConsultationListFr
 
         tabLayout.setVisibility(View.VISIBLE);
         tabLayout.setupWithViewPager(viewPager);
-        if (PreferenceUtils.getUserRoles().contains("ROLE_TEACHER")) {
+        if (PreferenceUtils.getUserRoles().contains(ROLE_TEACHER.toString())) {
             floatingActionButton.show();
         }
         return mView;
@@ -94,7 +96,7 @@ public class ConsultationFragment extends Fragment implements ConsultationListFr
             super(supportFragmentManager);
             items = new ArrayList<>();
             items.add(new ItemViewPager(getString(R.string.consultation_all), new AllConsultationsFragment(ConsultationFragment.this)));
-            if (PreferenceUtils.getUserRoles().contains("ROLE_TEACHER")) {
+            if (PreferenceUtils.getUserRoles().contains(ROLE_TEACHER.toString())) {
                 items.add(new ItemViewPager(getString(R.string.consultation_my), new MyConsultationsFragment(ConsultationFragment.this)));
             }
             items.add(new ItemViewPager(getString(R.string.consultation_subscribe), new SubscribeConsultationsFragment(ConsultationFragment.this)));

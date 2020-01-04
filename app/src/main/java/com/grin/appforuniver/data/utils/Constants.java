@@ -15,4 +15,6 @@ public class Constants {
     public enum Week {FIRST, SECOND, BOTH}
 
     public enum Subgroup {FIRST, SECOND, BOTH}
+
+    public enum Roles{ROLE_ADMIN, ROLE_SCHEDULER, ROLE_USER, ROLE_TEACHER}
 }
