@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.gson.Gson;
 import com.grin.appforuniver.R;
@@ -21,7 +22,6 @@ import com.grin.appforuniver.activity.ConsultationActivity;
 import com.grin.appforuniver.data.WebServices.ConsultationInterface;
 import com.grin.appforuniver.data.WebServices.ServiceGenerator;
 import com.grin.appforuniver.data.model.consultation.Consultation;
-import com.grin.appforuniver.data.utils.Constants;
 import com.grin.appforuniver.data.utils.PreferenceUtils;
 import com.mikepenz.fastadapter.FastAdapter;
 import com.mikepenz.fastadapter.adapters.ItemAdapter;
@@ -36,9 +36,10 @@ import retrofit2.Response;
 
 import static com.grin.appforuniver.data.utils.Constants.Roles.ROLE_TEACHER;
 
-public abstract class ConsultationListFragment extends Fragment {
+public abstract class ConsultationListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     private static final String TAG = "ConsultationListFragment";
     private View mRootView;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
     private LinearLayout emptyState;
@@ -51,11 +52,12 @@ public abstract class ConsultationListFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mRootView = inflater.inflate(R.layout.fragment_consultations_all, container, false);
-
+        mSwipeRefreshLayout = mRootView.findViewById(R.id.swipe_to_refresh_consultations);
         recyclerView = mRootView.findViewById(R.id.fragment_consultations_all_rv);
         progressBar = mRootView.findViewById(R.id.fragment_consultations_all_pb);
         emptyState = mRootView.findViewById(R.id.consultation_all_empty_state_layout);
 
+        mSwipeRefreshLayout.setOnRefreshListener(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(mRootView.getContext()));
         recyclerView.setVisibility(View.INVISIBLE);
         mItemAdapter = new ItemAdapter<>();
@@ -105,6 +107,7 @@ public abstract class ConsultationListFragment extends Fragment {
                     recyclerView.setVisibility(View.GONE);
                     emptyState.setVisibility(View.VISIBLE);
                 }
+                mSwipeRefreshLayout.setRefreshing(false);
             }
 
             @Override
@@ -114,6 +117,11 @@ public abstract class ConsultationListFragment extends Fragment {
                 emptyState.setVisibility(View.VISIBLE);
             }
         });
+    }
+
+    @Override
+    public void onRefresh() {
+        getConsultations();
     }
 
     public abstract Call<List<Consultation>> getWhatConsultations(ConsultationInterface consultationInterface);
