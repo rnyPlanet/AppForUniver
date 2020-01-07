@@ -22,6 +22,7 @@ import com.grin.appforuniver.R;
 import com.grin.appforuniver.activity.LoginActivity;
 import com.grin.appforuniver.data.WebServices.ServiceGenerator;
 import com.grin.appforuniver.data.WebServices.UserInterface;
+import com.grin.appforuniver.data.model.schedule.Professors;
 import com.grin.appforuniver.data.model.user.User;
 import com.grin.appforuniver.data.utils.PreferenceUtils;
 
@@ -36,6 +37,8 @@ import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.grin.appforuniver.data.utils.Constants.Roles.ROLE_TEACHER;
 
 public class UserAccountFragment extends Fragment {
 
@@ -81,6 +84,7 @@ public class UserAccountFragment extends Fragment {
     private View mView;
     private Unbinder mUnbinder;
     private User mUser;
+    private Professors mProfessor;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -90,16 +94,15 @@ public class UserAccountFragment extends Fragment {
 
         mUnbinder = ButterKnife.bind(this, mView);
 
-        getMe(mView.getContext());
+        getMyAccount(mView.getContext());
 
         return mView;
     }
 
-    private void getMe(Context context) {
+    private void getMyAccount(Context context) {
         UserInterface userInterface = ServiceGenerator.createService(UserInterface.class);
 
         Call<User> call = userInterface.getMyAccount();
-
         call.enqueue(new Callback<User>() {
             @SuppressLint("SetTextI18n")
             @Override
@@ -118,19 +121,9 @@ public class UserAccountFragment extends Fragment {
                             email_tv.setText(mUser.getEmail());
                         }
 
-//                        if (mUser.getDepartment() != null) {
-//                            department_ll.setVisibility(View.VISIBLE);
-//                            department_tv.setText(mUser.getDepartment().getName());
-//                        } else {
-//                            department_ll.setVisibility(View.GONE);
-//                        }
-//
-//                        if (mUser.getPosada() != null) {
-//                            posada_ll.setVisibility(View.VISIBLE);
-//                            posada_tv.setText(mUser.getPosada().getPostVykl());
-//                        } else {
-//                            posada_ll.setVisibility(View.GONE);
-//                        }
+                        if (PreferenceUtils.getUserRoles().contains(ROLE_TEACHER.toString())) {
+                            getMyAccountProfessor(context);
+                        }
 
                         if (mUser.getTelefon1() != null && !mUser.getTelefon1().isEmpty()) {
                             telefon1_ll.setVisibility(View.VISIBLE);
@@ -155,6 +148,41 @@ public class UserAccountFragment extends Fragment {
                 Toasty.error(context, Objects.requireNonNull(t.getMessage()), Toast.LENGTH_SHORT, true).show();
             }
         });
+    }
+
+    private void getMyAccountProfessor(Context context) {
+        UserInterface userInterface = ServiceGenerator.createService(UserInterface.class);
+        Call<Professors> call = userInterface.getMyAccountProfessor();
+        call.enqueue(new Callback<Professors>() {
+            @Override
+            public void onResponse(Call<Professors> call, Response<Professors> response) {
+                if (response.body() != null && !PreferenceUtils.getUserToken().isEmpty()) {
+                    mProfessor = response.body();
+
+                    if (mProfessor.getPosada() != null) {
+                        posada_ll.setVisibility(View.VISIBLE);
+                        posada_tv.setText(mProfessor.getPosada().getPostVykl());
+                    } else {
+                        posada_ll.setVisibility(View.GONE);
+                    }
+
+                    if (mProfessor.getDepartment() != null) {
+                        department_ll.setVisibility(View.VISIBLE);
+                        department_tv.setText(mProfessor.getDepartment().getName());
+                    } else {
+                        department_ll.setVisibility(View.GONE);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Professors> call, Throwable t) {
+                Toasty.error(context, Objects.requireNonNull(t.getMessage()), Toast.LENGTH_SHORT, true).show();
+            }
+        });
+    }
+
+    private void getMyAccountStudent(Context context) {
     }
 
     @OnClick(R.id.user_account_detail_log_out_button)

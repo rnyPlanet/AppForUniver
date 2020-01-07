@@ -62,11 +62,6 @@ public class Professors {
 
     @Override
     public String toString() {
-        return "Professors{" +
-                "mId=" + mId +
-                ", mPosada=" + mPosada +
-                ", mDepartment=" + mDepartment +
-                ", mUser=" + mUser +
-                '}';
+        return mUser.getShortFIO();
     }
 }

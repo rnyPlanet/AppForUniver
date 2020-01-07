@@ -9,10 +9,7 @@ package com.grin.appforuniver.data.model.schedule;
 import com.google.gson.annotations.SerializedName;
 
 import lombok.Data;
-/**
- *
- * @author Йцукен
- */
+
 @Data
 public class Groups {
 
@@ -27,10 +24,10 @@ public class Groups {
 
     @SerializedName("size")
     private Short mSize;
-    
+
     @Override
     public String toString() {
-        return " name = " + mName + ", excludedDay: " + mExcludedDay + ", size: " + mSize;
+        return mName;
     }
 
     public Integer getmId() {

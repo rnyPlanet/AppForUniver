@@ -116,7 +116,9 @@
     <string name="сreate_сonsultation">Create consultation</string>
     <string name="create">Create</string>
     <string name="cancel">Сancel</string>
+    <string name="select_professor">Select professor</string>
     <string name="select_room">Select room</string>
+    <string name="select_group">Select group</string>
     <string name="select_сorrect_room">Select correct room</string>
     <string name="successful_created">Successful created</string>
     <string name="choose_correct_time">You need choose the correct time</string>

@@ -96,4 +96,6 @@
     <string name="fragment_reg_middle_name">По батькові</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="logo">Логотип</string>
+    <string name="select_group">Оберіть групу</string>
+    <string name="select_professor">Оберіть викладача</string>
 </resources>
