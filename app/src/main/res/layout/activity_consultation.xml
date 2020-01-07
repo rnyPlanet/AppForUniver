@@ -23,7 +23,7 @@
             android:background="@drawable/page_header_background"
             android:gravity="center"
             android:orientation="vertical"
-            android:visibility="gone"
+            android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -68,8 +68,8 @@
                         android:drawableStart="@drawable/ic_room"
                         android:drawablePadding="12dp"
                         android:gravity="center_vertical"
-                        android:paddingTop="8dp"
-                        android:paddingBottom="8dp"
+                        android:paddingTop="16dp"
+                        android:paddingBottom="16dp"
                         android:text="@string/consultation_activity_room"
                         android:textColor="@android:color/white" />
 
@@ -82,7 +82,7 @@
                         android:padding="@dimen/page_padding"
                         android:textColor="@android:color/white"
                         android:textStyle="bold"
-                        android:visibility="gone" />
+                        android:visibility="visible" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -98,8 +98,8 @@
                         android:drawableStart="@drawable/ic_calendar_white"
                         android:drawablePadding="12dp"
                         android:gravity="center_vertical"
-                        android:paddingTop="8dp"
-                        android:paddingBottom="8dp"
+                        android:paddingTop="16dp"
+                        android:paddingBottom="16dp"
                         android:text="@string/date_title"
                         android:textColor="@android:color/white" />
 
@@ -112,7 +112,7 @@
                         android:padding="@dimen/page_padding"
                         android:textColor="@android:color/white"
                         android:textStyle="bold"
-                        android:visibility="gone" />
+                        android:visibility="visible" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -128,8 +128,8 @@
                         android:drawableStart="@drawable/ic_time_white"
                         android:drawablePadding="12dp"
                         android:gravity="center_vertical"
-                        android:paddingTop="8dp"
-                        android:paddingBottom="8dp"
+                        android:paddingTop="16dp"
+                        android:paddingBottom="16dp"
                         android:text="@string/time_title"
                         android:textColor="@android:color/white" />
 
@@ -145,7 +145,7 @@
                         android:paddingEnd="@dimen/page_padding"
                         android:textColor="@android:color/white"
                         android:textStyle="bold"
-                        android:visibility="gone" />
+                        android:visibility="visible" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -160,7 +160,7 @@
                 android:hint="@string/activity_consultation_subscribe"
                 android:text="@string/activity_consultation_subscribe"
                 android:textColor="@color/colorPrimary"
-                android:visibility="gone" />
+                android:visibility="visible" />
 
             <Button
                 android:id="@+id/activity_consultation_unsubscribe_btn"

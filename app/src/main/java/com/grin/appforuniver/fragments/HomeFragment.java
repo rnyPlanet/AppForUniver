@@ -1,6 +1,7 @@
 package com.grin.appforuniver.fragments;
 
 import android.os.Bundle;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,12 +9,16 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Adapter;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.grin.appforuniver.R;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -31,14 +36,9 @@ public class HomeFragment extends Fragment {
         mView = inflater.inflate(R.layout.fragment_home, container, false);
         getActivity().setTitle(R.string.menu_home);
 
-//        WebView webView = mView.findViewById(R.id.fragment_home_wv);
-//        webView.getSettings().setJavaScriptEnabled(true);
-//        webView.setWebViewClient(new WebViewClient());
-//        webView.loadUrl("https://chmnu.edu.ua/");
-
         mUnbinder = ButterKnife.bind(this, mView);
 
-        showEmptyStateLayout();
+        parseUniversityMainPage();
 
         return mView;
     }
@@ -51,8 +51,7 @@ public class HomeFragment extends Fragment {
     }
 
 
-    private void showEmptyStateLayout(){
-        ImageView image = mView.findViewById(R.id.empty_state_icon);
-        image.setImageDrawable(getResources().getDrawable(R.drawable.ic_thinking));
+    private void parseUniversityMainPage(){
+        // Magic will be here 😊
     }
 }

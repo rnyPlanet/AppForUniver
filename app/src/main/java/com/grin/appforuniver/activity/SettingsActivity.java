@@ -7,13 +7,13 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 
 import com.grin.appforuniver.R;
+import com.grin.appforuniver.data.utils.LocaleUtils;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -32,7 +32,7 @@ public class SettingsActivity extends AppCompatActivity {
         // Add data about application version
         setAppVersion();
 
-        // Spinner function
+        // Change application theme
         Spinner appThemeSpinner = findViewById(R.id.theme_spinner);
 
         appThemeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -46,6 +46,9 @@ public class SettingsActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
+
+        // Change application language
+        LocaleUtils.updateConfig(this);
 
     }
 
@@ -65,8 +68,8 @@ public class SettingsActivity extends AppCompatActivity {
         appVersion.setText(version);
     }
 
-    public void activateTheme(String themeStatus) {
-        switch (themeStatus) {
+    public void activateTheme(String theme) {
+        switch (theme) {
             case "Dark":
                 AppCompatDelegate.setDefaultNightMode(
                         AppCompatDelegate.MODE_NIGHT_YES
@@ -84,4 +87,8 @@ public class SettingsActivity extends AppCompatActivity {
                 break;
         }
     }
+
 }
+
+
+

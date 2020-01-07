@@ -21,7 +21,7 @@
     <string name="sign_in_btn">Вхід</string>
     <string name="menu_home">Головна</string>
     <string name="menu_settings">Налаштування</string>
-    <string name="error_network" translatable="false">Упс(</string>
+    <string name="error_network" translatable="false">Щось пішло не зі планом</string>
     <string name="consultation_activity_room">Аудиторія: </string>
     <string name="edit_consultation">Редагувати консультацію</string>
     <string name="user_account_department">Факультет</string>
@@ -29,4 +29,71 @@
     <string name="user_account_logout">Вихід</string>
     <string name="user_account_phone">Телефон</string>
     <string name="user_account_name">Ім\'я</string>
+    <string name="rus">Російська</string>
+    <string name="search_teacher">Пошук викладача</string>
+    <string name="signature_title">Ваш підпис</string>
+    <string name="sys">Системна</string>
+    <string name="theme_mode">Нічний режим</string>
+    <string name="time_title">Час</string>
+    <string name="title_activity_settings">Налаштування</string>
+    <string name="todo">Задачі</string>
+    <string name="try_to_login_with_192_168_0_1">Спробуйте авторизуватися з 192.168.0.1</string>
+    <string name="ukr">Українська</string>
+    <string name="univ_name">Чорноморський національний університет імені Петра Могили</string>
+    <string name="user_account_posada">Посада</string>
+    <string name="activity_consultation_description">Опис:</string>
+    <string name="activity_consultation_subscribe">Підписатися</string>
+    <string name="activity_consultation_unsubscribe">Відписатиь</string>
+    <string name="activity_login_loginTV">Авторизуватись</string>
+    <string name="app_version">Версія застосунку</string>
+    <string name="cancel">Відмінити</string>
+    <string name="check_your_internet_connection">Перевірте з\'єднання з Інтернетом</string>
+    <string name="checking">Перевірка</string>
+    <string name="choose_correct_time">Необхідно обрати правильний час</string>
+    <string name="consultation_all">Усі</string>
+    <string name="consultation_my">Мої</string>
+    <string name="consultation_subscribe">Підписатись</string>
+    <string name="consultation_title">Консультації</string>
+    <string name="create">Створити</string>
+    <string name="date_title">Дата:</string>
+    <string name="delete">Видалити</string>
+    <string name="delete_consultation">Видалити консультацію</string>
+    <string name="dialog_consultation_create_choose_room">Аудиторія</string>
+    <string name="dialog_consultation_create_description">Опис</string>
+    <string name="dialog_consultation_create_select_date_and_time">Оберіть час та дату</string>
+    <string name="drk">Темний</string>
+    <string name="empty_state_description">Інформація відсутня</string>
+    <string name="empty_state_text">Вибачте! Інформація відсутня</string>
+    <string name="eng">Англійська</string>
+    <string name="fail_username_OR_acc_is_NOTACTIVE">Перевірте username, або профіль не активний</string>
+    <string name="field_cant_be_empty">Поле не може бути порожнім</string>
+    <string name="filter">Фільтування</string>
+    <string name="filter_panel">Панель фільтрування</string>
+    <string name="fragment_reg_email">Пошта</string>
+    <string name="fragment_reg_first_name">Ім\'я</string>
+    <string name="fragment_reg_sign_up">Зареєструватись</string>
+    <string name="general_header">Основні налаштування</string>
+    <string name="info_header">Інформація</string>
+    <string name="lang_title">Оберіть мову</string>
+    <string name="login_register">Авторизація | Реєстрація</string>
+    <string name="lth">Світла</string>
+    <string name="navigation_drawer_close">Закрити панель навігації</string>
+    <string name="navigation_drawer_open">Відкрити панель навігації</string>
+    <string name="select_room">Оберіть аудиторію</string>
+    <string name="select_сorrect_room">Оберіть вірну аудиторію</string>
+    <string name="subscribe_on_consultation">Ви підписались на консультацію</string>
+    <string name="successful_created">Ви створили запис</string>
+    <string name="successful_updated">Щось пішло не за планом!</string>
+    <string name="unsubscrib_from_consultation">Ви відписались від консультації</string>
+    <string name="update">Оновити</string>
+    <string name="update_consultation">Оновити консультацію</string>
+    <string name="сreate_сonsultation">Створити консультацію</string>
+    <string name="_192_168_0_1" translatable="false">192.168.0.1</string>
+    <string name="university_logo" translatable="false">university_logo</string>
+    <string name="account_header">account_header</string>
+    <string name="empty_state_icon" translatable="false">Інформація відсутня, зображення</string>
+    <string name="fragment_reg_lastname">Прізвище</string>
+    <string name="fragment_reg_middle_name">По батькові</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="logo">Логотип</string>
 </resources>
