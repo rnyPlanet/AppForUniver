@@ -31,17 +31,20 @@ class ScheduleStandardTypeParentHolder extends RecyclerView.ViewHolder {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         LayoutInflater inflater = LayoutInflater.from(context);
         View rootView = inflater.inflate(R.layout.dialog_more_details_schedule, null);
+
         TextView nameSubject = rootView.findViewById(R.id.name_subject);
         TextView nameProf = rootView.findViewById(R.id.name_prof);
         TextView nameProfPosada = rootView.findViewById(R.id.name_prof_posada);
         TextView nameGroup = rootView.findViewById(R.id.name_group);
+        TextView typeSubject = rootView.findViewById(R.id.name_subject_type);
+
         nameSubject.setText(classes.getSubject());
         nameProf.setText(classes.getProfessor().getUser().getFullFIO());
         nameProfPosada.setText(classes.getProfessor().getPosada().getPostVykl());
         nameGroup.setText(classes.getAssignedGroup().getmName());
-        builder.setTitle(classes.getSubject());
+        typeSubject.setText(classes.getType());
         builder.setView(rootView);
-        builder.setPositiveButton("close", (dialogInterface, i) -> {
+        builder.setPositiveButton("Hide description", (dialogInterface, i) -> {
         });
         return builder.create();
     }
