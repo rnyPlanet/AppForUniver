@@ -36,7 +36,7 @@ class ScheduleStandardTypeParentHolder extends RecyclerView.ViewHolder {
         TextView nameProfPosada = rootView.findViewById(R.id.name_prof_posada);
         TextView nameGroup = rootView.findViewById(R.id.name_group);
         nameSubject.setText(classes.getSubject());
-        nameProf.setText(classes.getProfessor().getUser().getShortFIO());
+        nameProf.setText(classes.getProfessor().getUser().getFullFIO());
         nameProfPosada.setText(classes.getProfessor().getPosada().getPostVykl());
         nameGroup.setText(classes.getAssignedGroup().getmName());
         builder.setTitle(classes.getSubject());

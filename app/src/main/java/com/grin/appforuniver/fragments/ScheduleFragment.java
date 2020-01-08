@@ -299,9 +299,9 @@ public class ScheduleFragment extends Fragment implements ScheduleFilterDialog.O
 
         if (firstSubgroup_firstWeek) {
             // layout 3,6,8
-            if (firstSubgroup_secondWeek || secondSubgroup_bothWeek) {
+            if (firstSubgroup_secondWeek & secondSubgroup_bothWeek) {
                 return R.layout.schedule_single_type_6;
-            } else if (secondSubgroup_firstWeek || bothSubgroup_secondWeek) {
+            } else if (secondSubgroup_firstWeek & bothSubgroup_secondWeek) {
                 return R.layout.schedule_single_type_8;
             } else {
                 return R.layout.schedule_single_type_3;
@@ -309,9 +309,9 @@ public class ScheduleFragment extends Fragment implements ScheduleFilterDialog.O
         }
         if (firstSubgroup_secondWeek) {
             // layout 3,6,7
-            if (firstSubgroup_firstWeek || secondSubgroup_bothWeek) {
+            if (firstSubgroup_firstWeek & secondSubgroup_bothWeek) {
                 return R.layout.schedule_single_type_6;
-            } else if (secondSubgroup_secondWeek || bothSubgroup_firstWeek) {
+            } else if (secondSubgroup_secondWeek & bothSubgroup_firstWeek) {
                 return R.layout.schedule_single_type_7;
             } else {
                 return R.layout.schedule_single_type_3;
@@ -320,9 +320,9 @@ public class ScheduleFragment extends Fragment implements ScheduleFilterDialog.O
 
         if (secondSubgroup_firstWeek) {
             // layout 3,5,8
-            if (secondSubgroup_secondWeek || firstSubgroup_bothWeek) {
+            if (secondSubgroup_secondWeek & firstSubgroup_bothWeek) {
                 return R.layout.schedule_single_type_5;
-            } else if (firstSubgroup_firstWeek || bothSubgroup_secondWeek) {
+            } else if (firstSubgroup_firstWeek & bothSubgroup_secondWeek) {
                 return R.layout.schedule_single_type_8;
             } else {
                 return R.layout.schedule_single_type_3;
@@ -330,9 +330,9 @@ public class ScheduleFragment extends Fragment implements ScheduleFilterDialog.O
         }
         if (secondSubgroup_secondWeek) {
             // layout 3,5,7
-            if (secondSubgroup_firstWeek || firstSubgroup_bothWeek) {
+            if (secondSubgroup_firstWeek & firstSubgroup_bothWeek) {
                 return R.layout.schedule_single_type_5;
-            } else if (firstSubgroup_secondWeek || bothSubgroup_firstWeek) {
+            } else if (firstSubgroup_secondWeek & bothSubgroup_firstWeek) {
                 return R.layout.schedule_single_type_7;
             } else {
                 return R.layout.schedule_single_type_3;
