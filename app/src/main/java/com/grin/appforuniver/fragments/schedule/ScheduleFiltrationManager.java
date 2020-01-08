@@ -52,6 +52,10 @@ public class ScheduleFiltrationManager {
                 this.roomId == -1 & this.groupId == -1 & this.place == null &
                 this.week == null) {
             call = scheduleInterface.getScheduleCurrentUser();
+            if (PreferenceUtils.getUserRoles().contains(ROLE_TEACHER.toString())){
+                //Fix for teacher schedule display normally
+                this.professorId=0;
+            }
         } else {
             call = scheduleInterface.getScheduleByCriteria(
                     this.subject,
@@ -67,7 +71,6 @@ public class ScheduleFiltrationManager {
     }
 
     public boolean isProfessorsSchedule() {
-        boolean isProfessorSearched = professorId != -1 & groupId == -1;
-        return PreferenceUtils.getUserRoles().contains(ROLE_TEACHER.toString()) | isProfessorSearched;
+        return professorId != -1 & groupId == -1;
     }
 }
