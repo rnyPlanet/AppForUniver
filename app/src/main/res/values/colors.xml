@@ -4,13 +4,13 @@
     <color name="colorPrimary">#b71c1c</color>
     <color name="colorPrimaryLight">#b71c1c</color>
     <color name="colorPrimaryDark">#8c1515</color>
+
     <!-- Secondary -->
     <color name="colorSecondary">#607d8b</color>
     <color name="colorSecondaryLight">#8eacbb</color>
     <color name="colorSecondaryDark">#34515e</color>
     <color name="colorPrimaryText">#ffffff</color>
     <color name="colorSecondaryText">#000000</color>
-
 
     <color name="colorAccent">#607d8b</color>
     <color name="background">#E5E5E5</color>

@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="@dimen/title_padding"
-    android:layout_marginTop="4dp"
-    android:layout_marginEnd="@dimen/title_padding"
-    android:layout_marginBottom="4dp"
+    android:layout_marginStart="@dimen/margin_start_end"
+    android:layout_marginTop="@dimen/padding_between_schedule_elements"
+    android:layout_marginEnd="@dimen/margin_start_end"
+    android:layout_marginBottom="@dimen/padding_between_schedule_elements"
     app:cardElevation="0dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,27 +19,26 @@
             android:id="@+id/number_pair"
             style="@style/TextViewPair"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="4dp"
+            android:layout_height="0dp"
+            android:background="?attr/colorButtonNormal"
+            android:padding="@dimen/padding"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <include
-            layout="@layout/schedule_card_classes"
             android:id="@+id/both_subgroup_first_week"
+            layout="@layout/schedule_card_classes"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/center_horizontal_line"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/left_vertical_line"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/center_horizontal_line"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <include
-            layout="@layout/schedule_card_classes"
             android:id="@+id/first_subgroup_second_week"
+            layout="@layout/schedule_card_classes"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -48,8 +47,8 @@
             app:layout_constraintTop_toBottomOf="@+id/center_horizontal_line" />
 
         <include
-            layout="@layout/schedule_card_classes"
             android:id="@+id/second_subgroup_second_week"
+            layout="@layout/schedule_card_classes"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -61,7 +60,6 @@
             android:id="@+id/left_vertical_line"
             android:layout_width="@dimen/border"
             android:layout_height="0dp"
-            android:layout_marginStart="4dp"
             android:background="?attr/colorButtonNormal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/barrier"

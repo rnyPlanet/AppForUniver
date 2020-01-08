@@ -122,7 +122,7 @@ public class ScheduleFragment extends Fragment implements ScheduleFilterDialog.O
                 List<ScheduleStandardTypeModel> schedulePairs = new ArrayList<>();
                 for (Place place : Place.values()) {
                     if (place == Place.POOL) continue;
-                    schedulePairs.add(new ScheduleStandardTypeModel(R.layout.item_day_separator,
+                    schedulePairs.add(new ScheduleStandardTypeModel(R.layout.schedule_day_separator,
                             place, -1, null));
                     boolean isWeekendDay = false;
                     for (int i = 0; i <= 6; i++) {

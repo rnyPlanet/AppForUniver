@@ -72,7 +72,7 @@ public class ScheduleGroupAdapter extends RecyclerView.Adapter<RecyclerView.View
         if (viewType == R.layout.schedule_single_type_9) {
             return new ScheduleStandardType9Holder(view, context);
         }
-        if (viewType == R.layout.item_day_separator) {
+        if (viewType == R.layout.schedule_day_separator) {
             return new ScheduleStandardTypeDaySeparatorHolder(view);
         }
         if (viewType == R.layout.schedule_weekend_day) {
@@ -113,7 +113,7 @@ public class ScheduleGroupAdapter extends RecyclerView.Adapter<RecyclerView.View
                     String.valueOf(itemList.get(holder.getAdapterPosition()).positionInDay),
                     "Message");
         }
-        if (getItemViewType(holder.getAdapterPosition()) == R.layout.item_day_separator) {
+        if (getItemViewType(holder.getAdapterPosition()) == R.layout.schedule_day_separator) {
             ((ScheduleStandardTypeDaySeparatorHolder) holder).bind(itemList.get(holder.getAdapterPosition()).place.toString());
         }
 //            if (getItemViewType(holder.getAdapterPosition()) == R.layout.schedule_weekend_day) {

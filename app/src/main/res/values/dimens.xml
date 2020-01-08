@@ -8,8 +8,11 @@
     <dimen name="text_pair_subject">14sp</dimen>
 
     <!-- Custom elements size-->
-    <dimen name="title_padding">8dp</dimen>
+    <dimen name="padding">8dp</dimen>
     <dimen name="border">1dp</dimen>
     <dimen name="radius">4dp</dimen>
     <dimen name="page_padding">16dp</dimen>
+    <dimen name="padding_between_schedule_elements">2dp</dimen>
+    <dimen name="margin_start_end">16dp</dimen>
+    <dimen name="card_padding">16dp</dimen>
 </resources>

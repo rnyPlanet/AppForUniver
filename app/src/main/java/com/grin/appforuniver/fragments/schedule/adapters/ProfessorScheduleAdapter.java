@@ -43,7 +43,7 @@ public class ProfessorScheduleAdapter extends RecyclerView.Adapter<RecyclerView.
         if (viewType == R.layout.schedule_single_type_4) {
             return new ScheduleStandardType4Holder(view, context);
         }
-        if (viewType == R.layout.item_day_separator) {
+        if (viewType == R.layout.schedule_day_separator) {
             return new ScheduleStandardTypeDaySeparatorHolder(view);
         }
         if (viewType == R.layout.schedule_weekend_day) {
@@ -61,7 +61,7 @@ public class ProfessorScheduleAdapter extends RecyclerView.Adapter<RecyclerView.
         if (getItemViewType(holder.getAdapterPosition()) == R.layout.schedule_single_type_4) {
             ((ScheduleStandardType4Holder) holder).bind(itemList.get(holder.getAdapterPosition()));
         }
-        if (getItemViewType(holder.getAdapterPosition()) == R.layout.item_day_separator) {
+        if (getItemViewType(holder.getAdapterPosition()) == R.layout.schedule_day_separator) {
             ((ScheduleStandardTypeDaySeparatorHolder) holder).bind(itemList.get(holder.getAdapterPosition()).place.toString());
         }
     }

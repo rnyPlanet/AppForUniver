@@ -1,24 +1,14 @@
 package com.grin.appforuniver.fragments;
 
 import android.os.Bundle;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
-import android.widget.Adapter;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.grin.appforuniver.R;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;

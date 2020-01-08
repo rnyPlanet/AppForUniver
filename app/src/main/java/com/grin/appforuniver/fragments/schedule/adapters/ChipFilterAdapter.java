@@ -105,7 +105,7 @@ public class ChipFilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         if (place != null) listFilters.add(place);
         if (week != null) listFilters.add(week);
         if (listFilters.size() == 0) {
-            listFilters.add("Schedule current user");
+            listFilters.add("Your schedule");
         }
         notifyDataSetChanged();
         getSchedule(subject, type, professor, room, group, place, week);
@@ -198,7 +198,7 @@ public class ChipFilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
 
         void bind(Groups group) {
-            String text = "Room: " + group.getmName();
+            String text = "Group: " + group.getmName();
             chip.setText(text);
             chip.setOnCloseIconClickListener(view -> deleteItemFilter(getAdapterPosition()));
         }

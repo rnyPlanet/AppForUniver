@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_filter"
         android:orderInCategory="100"
         android:title="@string/filter"
         android:icon="@drawable/ic_filter"
-        app:showAsAction="always" />
+        app:showAsAction="always"
+        tools:ignore="AlwaysShowAction" />
     <item
         android:id="@+id/action_search_professor"
         android:orderInCategory="100"
-        android:icon="@drawable/ic_search_people"
-        android:title="Search professor"
+        android:icon="@drawable/ic_search_professor"
+        android:title="@string/search_professor"
         app:showAsAction="always" />
 </menu>
