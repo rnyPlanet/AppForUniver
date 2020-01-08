@@ -27,6 +27,7 @@ import com.grin.appforuniver.data.model.schedule.Professors;
 import com.grin.appforuniver.data.model.schedule.Rooms;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -138,6 +139,7 @@ public class ScheduleFilterDialog extends DialogFragment {
                     if (response.body() != null) {
                         mArrayProfessors.clear();
                         mArrayProfessors.addAll(response.body());
+                        Collections.sort(mArrayProfessors, (professors, t1) -> String.CASE_INSENSITIVE_ORDER.compare(professors.getUser().getShortFIO(), t1.getUser().getShortFIO()));
                     }
                 }
             }
@@ -159,6 +161,7 @@ public class ScheduleFilterDialog extends DialogFragment {
                     if (response.body() != null) {
                         mArrayRooms.clear();
                         mArrayRooms.addAll(response.body());
+                        Collections.sort(mArrayRooms, (rooms, t1) -> String.CASE_INSENSITIVE_ORDER.compare(rooms.getName(), t1.getName()));
                     }
                 }
             }
@@ -180,6 +183,7 @@ public class ScheduleFilterDialog extends DialogFragment {
                     if (response.body() != null) {
                         mArrayGroups.clear();
                         mArrayGroups.addAll(response.body());
+                        Collections.sort(mArrayGroups, (groups, t1) -> String.CASE_INSENSITIVE_ORDER.compare(groups.getmName(), t1.getmName()));
                     }
                 }
             }
