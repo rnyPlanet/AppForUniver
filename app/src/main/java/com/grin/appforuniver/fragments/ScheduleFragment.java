@@ -23,6 +23,7 @@ import com.grin.appforuniver.data.model.schedule.Classes;
 import com.grin.appforuniver.data.model.schedule.Groups;
 import com.grin.appforuniver.data.model.schedule.Professors;
 import com.grin.appforuniver.data.model.schedule.Rooms;
+import com.grin.appforuniver.data.model.schedule.Subject;
 import com.grin.appforuniver.fragments.dialogs.ScheduleFilterDialog;
 import com.grin.appforuniver.fragments.dialogs.SearchableDialog;
 import com.grin.appforuniver.fragments.schedule.ScheduleStandardTypeModel;
@@ -362,7 +363,7 @@ public class ScheduleFragment extends Fragment implements ScheduleFilterDialog.O
     }
 
     @Override
-    public void onSelectedParameter(Classes subject, TypesOfClasses type, Professors professor, Rooms room, Groups group, Place place, Week week) {
+    public void onSelectedParameter(Subject subject, TypesOfClasses type, Professors professor, Rooms room, Groups group, Place place, Week week) {
         chipFilterAdapter.setItemsFilter(subject, type, professor, room, group, place, week);
     }
 }

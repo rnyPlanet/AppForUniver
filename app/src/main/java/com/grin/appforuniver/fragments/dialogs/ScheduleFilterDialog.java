@@ -25,6 +25,7 @@ import com.grin.appforuniver.data.model.schedule.Classes;
 import com.grin.appforuniver.data.model.schedule.Groups;
 import com.grin.appforuniver.data.model.schedule.Professors;
 import com.grin.appforuniver.data.model.schedule.Rooms;
+import com.grin.appforuniver.data.model.schedule.Subject;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -230,6 +231,6 @@ public class ScheduleFilterDialog extends DialogFragment {
     }
 
     public interface OnSelectListener {
-        void onSelectedParameter(Classes subject, TypesOfClasses type, Professors professor, Rooms room, Groups group, Place place, Week week);
+        void onSelectedParameter(Subject subject, TypesOfClasses type, Professors professor, Rooms room, Groups group, Place place, Week week);
     }
 }

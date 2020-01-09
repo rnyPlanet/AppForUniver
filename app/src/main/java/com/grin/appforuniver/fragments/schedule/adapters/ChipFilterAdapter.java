@@ -14,6 +14,7 @@ import com.grin.appforuniver.data.model.schedule.Classes;
 import com.grin.appforuniver.data.model.schedule.Groups;
 import com.grin.appforuniver.data.model.schedule.Professors;
 import com.grin.appforuniver.data.model.schedule.Rooms;
+import com.grin.appforuniver.data.model.schedule.Subject;
 import com.grin.appforuniver.fragments.schedule.ScheduleFiltrationManager;
 
 import java.util.ArrayList;
@@ -95,7 +96,7 @@ public class ChipFilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         return listFilters.size();
     }
 
-    public void setItemsFilter(Classes subject, TypesOfClasses type, Professors professor, Rooms room, Groups group, Place place, Week week) {
+    public void setItemsFilter(Subject subject, TypesOfClasses type, Professors professor, Rooms room, Groups group, Place place, Week week) {
         listFilters.clear();
         if (subject != null) listFilters.add(subject);
         if (type != null) listFilters.add(type);
@@ -113,7 +114,7 @@ public class ChipFilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     private void deleteItemFilter(int position) {
         listFilters.remove(position);
-        Classes subject = null;
+        Subject subject = null;
         TypesOfClasses type = null;
         Professors professor = null;
         Rooms room = null;
@@ -121,7 +122,7 @@ public class ChipFilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         Place place = null;
         Week week = null;
         for (Object object : listFilters) {
-            if (object instanceof Classes) subject = (Classes) object;
+            if (object instanceof Subject) subject = (Subject) object;
             if (object instanceof TypesOfClasses) type = (TypesOfClasses) object;
             if (object instanceof Professors) professor = (Professors) object;
             if (object instanceof Rooms) room = (Rooms) object;
@@ -136,7 +137,7 @@ public class ChipFilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         getSchedule(subject, type, professor, room, group, place, week);
     }
 
-    void getSchedule(Classes subject, TypesOfClasses type, Professors professor, Rooms room, Groups group, Place place, Week week) {
+    void getSchedule(Subject subject, TypesOfClasses type, Professors professor, Rooms room, Groups group, Place place, Week week) {
         scheduleFiltrationManager.getSchedule(subject, type, professor, room, group, place, week);
 
     }

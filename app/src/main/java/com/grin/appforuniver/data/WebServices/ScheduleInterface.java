@@ -11,7 +11,7 @@ import retrofit2.http.Query;
 public interface ScheduleInterface {
 
     @GET("schedule/classes/criteria")
-    Call<List<Classes>> getScheduleByCriteria(@Query("subject") String subject,
+    Call<List<Classes>> getScheduleByCriteria(@Query("subjectId") int subject,
                                               @Query("type") String type,
                                               @Query("professorId") int professorId,
                                               @Query("roomId") int roomId,

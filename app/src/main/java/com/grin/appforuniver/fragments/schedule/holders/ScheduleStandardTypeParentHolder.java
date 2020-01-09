@@ -20,7 +20,7 @@ class ScheduleStandardTypeParentHolder extends RecyclerView.ViewHolder {
     void initializeCardSubject(View parentView, Classes classes, Context context) {
         parentView.setVisibility(View.VISIBLE);
         //initialize subject
-        ((TextView) parentView.findViewById(R.id.subject)).setText(classes.getSubject());
+        ((TextView) parentView.findViewById(R.id.subject)).setText(classes.getSubject().getShortname());
         //initialize audience room
         ((TextView) parentView.findViewById(R.id.audience_room)).setText(classes.getRoom().getName());
         //initialize professor name
@@ -38,12 +38,12 @@ class ScheduleStandardTypeParentHolder extends RecyclerView.ViewHolder {
         TextView nameProfPosada = rootView.findViewById(R.id.name_prof_posada);
         TextView nameGroup = rootView.findViewById(R.id.name_group);
         TextView typeSubject = rootView.findViewById(R.id.name_subject_type);
-
-        nameSubject.setText(classes.getSubject());
+        nameSubject.setText(classes.getSubject().getFullName());
         nameProf.setText(classes.getProfessor().getUser().getFullFIO());
         nameProfPosada.setText(classes.getProfessor().getPosada().getPostVykl());
         nameGroup.setText(classes.getAssignedGroup().getmName());
         typeSubject.setText(classes.getType());
+        builder.setTitle(classes.getSubject().getShortname());
         builder.setView(rootView);
         builder.setPositiveButton("Hide description", (dialogInterface, i) -> {
         });

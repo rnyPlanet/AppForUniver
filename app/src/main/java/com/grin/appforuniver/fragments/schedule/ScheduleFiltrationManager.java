@@ -6,6 +6,7 @@ import com.grin.appforuniver.data.model.schedule.Classes;
 import com.grin.appforuniver.data.model.schedule.Groups;
 import com.grin.appforuniver.data.model.schedule.Professors;
 import com.grin.appforuniver.data.model.schedule.Rooms;
+import com.grin.appforuniver.data.model.schedule.Subject;
 import com.grin.appforuniver.data.utils.PreferenceUtils;
 
 import java.util.List;
@@ -19,7 +20,7 @@ import static com.grin.appforuniver.data.utils.Constants.TypesOfClasses;
 import static com.grin.appforuniver.data.utils.Constants.Week;
 
 public class ScheduleFiltrationManager {
-    private String subject;
+    private int subject;
     private String type;
     private int professorId;
     private int roomId;
@@ -32,8 +33,8 @@ public class ScheduleFiltrationManager {
         this.callbackRetrofitSchedule = callbackRetrofitSchedule;
     }
 
-    private void initializeParameters(Classes subject, TypesOfClasses type, Professors professor, Rooms room, Groups group, Place place, Week week) {
-        this.subject = (subject != null) ? subject.getSubject() : null;
+    private void initializeParameters(Subject subject, TypesOfClasses type, Professors professor, Rooms room, Groups group, Place place, Week week) {
+        this.subject = (subject != null) ? subject.getId() : -1;
         this.type = (type != null) ? type.toString() : null;
         this.professorId = (professor != null) ? professor.getId() : -1;
         this.roomId = (room != null) ? room.getId() : -1;
@@ -42,13 +43,13 @@ public class ScheduleFiltrationManager {
         this.week = (week != null) ? week.toString() : null;
     }
 
-    public void getSchedule(Classes subject, TypesOfClasses type, Professors professor, Rooms room, Groups group, Place place, Week week) {
+    public void getSchedule(Subject subject, TypesOfClasses type, Professors professor, Rooms room, Groups group, Place place, Week week) {
         initializeParameters(subject, type, professor, room, group, place, week);
 
         ScheduleInterface scheduleInterface = ServiceGenerator.createService(ScheduleInterface.class);
         Call<List<Classes>> call;
 
-        if (this.subject == null & this.type == null & this.professorId == -1 &
+        if (this.subject == -1 & this.type == null & this.professorId == -1 &
                 this.roomId == -1 & this.groupId == -1 & this.place == null &
                 this.week == null) {
             call = scheduleInterface.getScheduleCurrentUser();

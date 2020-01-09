@@ -20,7 +20,7 @@ public class Classes {
     private Integer mId;
 
     @SerializedName("subject")
-    private String mSubject;
+    private Subject mSubject;
 
     @SerializedName("type")
     private String mType;
@@ -57,11 +57,11 @@ public class Classes {
         this.mId = mId;
     }
 
-    public String getSubject() {
+    public Subject getSubject() {
         return mSubject;
     }
 
-    public void setSubject(String mSubject) {
+    public void setSubject(Subject mSubject) {
         this.mSubject = mSubject;
     }
 
