@@ -18,6 +18,7 @@ class ScheduleStandardTypeParentHolder extends RecyclerView.ViewHolder {
     }
 
     void initializeCardSubject(View parentView, Classes classes, Context context) {
+        parentView.setVisibility(View.VISIBLE);
         //initialize subject
         ((TextView) parentView.findViewById(R.id.subject)).setText(classes.getSubject());
         //initialize audience room
