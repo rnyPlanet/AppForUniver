@@ -17,6 +17,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 
 import com.google.gson.Gson;
@@ -30,7 +32,6 @@ import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import butterknife.Unbinder;
 import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
@@ -57,12 +58,8 @@ public class ConsultationActivity extends AppCompatActivity implements Consultat
     TextView timeOfPassage;
     @BindView(R.id.activity_consultation_description_tv)
     TextView description;
-    @BindView(R.id.activity_consultation_subscribe_btn)
-    Button subscribeBTN;
-    @BindView(R.id.activity_consultation_unsubscribe_btn)
-    Button unSubscribeBTN;
-    @BindView(R.id.consultattion_header)
-    LinearLayout consultattionHeader;
+    @BindView(R.id.activity_consultation_subscribe_manage)
+    Button subscribeManageBTN;
 
     @BindView(R.id.activity_consultation_pb)
     ProgressBar progressBar;
@@ -136,14 +133,13 @@ public class ConsultationActivity extends AppCompatActivity implements Consultat
     private void initMenu() {
         mMenuList.findItem(R.id.edit_consultation).setVisible(true);
         mMenuList.findItem(R.id.delete_consultation).setVisible(true);
-        subscribeBTN.setVisibility(View.GONE);
-        unSubscribeBTN.setVisibility(View.GONE);
+        subscribeManageBTN.setVisibility(View.GONE);
     }
 
     @SuppressLint("SetTextI18n")
     private void init() {
 
-        fioTV.setText(mConsultation.getCreatedUser().getLastName() + " " + mConsultation.getCreatedUser().getFirstName() + " " + mConsultation.getCreatedUser().getPatronymic());
+        fioTV.setText(mConsultation.getCreatedUser().getFullFIO());
         roomTV.setText(mConsultation.getRoom().getName());
         dateOfPassage.setText(mConsultation.getDateOfPassage());
         timeOfPassage.setText(mConsultation.getTimeOfPassage());
@@ -152,10 +148,10 @@ public class ConsultationActivity extends AppCompatActivity implements Consultat
             findViewById(R.id.consultation_description).setVisibility(View.VISIBLE);
             description.setText(mConsultation.getDescription());
         } else {
-            LinearLayout emptyState = findViewById(R.id.empty_consultation_activity);
+//            LinearLayout emptyState = findViewById(R.id.empty_consultation_activity);
             LinearLayout consultationDescription = findViewById(R.id.consultation_description);
 
-            emptyState.setVisibility(View.VISIBLE);
+//            emptyState.setVisibility(View.VISIBLE);
             consultationDescription.setVisibility(View.GONE);
         }
 
@@ -165,13 +161,15 @@ public class ConsultationActivity extends AppCompatActivity implements Consultat
             public void onResponse(@NonNull Call<Boolean> call, @NonNull Response<Boolean> response) {
                 if (response.isSuccessful()) {
                     if (response.body() != null & response.body()) {
-                        subscribeBTN.setVisibility(View.VISIBLE);
+                        manageSubscribeButton(false);
+//                        subscribeManageBTN.setVisibility(View.VISIBLE);
                     }
                 } else if (isCreatedConsultationByUser) {
-                    unSubscribeBTN.setVisibility(View.GONE);
+                    manageSubscribeButton(false);
+
+//                    subscribeManageBTN.setVisibility(View.GONE);
                 } else {
-                    subscribeBTN.setVisibility(View.GONE);
-                    unSubscribeBTN.setVisibility(View.VISIBLE);
+                    manageSubscribeButton(true);
                 }
 
                 progressBar.setVisibility(View.GONE);
@@ -180,7 +178,6 @@ public class ConsultationActivity extends AppCompatActivity implements Consultat
                 dateOfPassage.setVisibility(View.VISIBLE);
                 timeOfPassage.setVisibility(View.VISIBLE);
                 description.setVisibility(View.VISIBLE);
-                consultattionHeader.setVisibility(View.VISIBLE);
 
             }
 
@@ -191,15 +188,14 @@ public class ConsultationActivity extends AppCompatActivity implements Consultat
         });
     }
 
-    @OnClick(R.id.activity_consultation_subscribe_btn)
+    //    @OnClick(R.id.activity_consultation_subscribe_btn)
     void subscribe() {
         Call<Void> call = consultationInterface.subscribeOnConsultationById(mConsultation.getId());
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
                 Toasty.success(ConsultationActivity.this, getString(R.string.subscribe_on_consultation), Toast.LENGTH_SHORT, true).show();
-                unSubscribeBTN.setVisibility(View.VISIBLE);
-                subscribeBTN.setVisibility(View.GONE);
+                manageSubscribeButton(true);
             }
 
             @Override
@@ -209,7 +205,7 @@ public class ConsultationActivity extends AppCompatActivity implements Consultat
         });
     }
 
-    @OnClick(R.id.activity_consultation_unsubscribe_btn)
+    //    @OnClick(R.id.activity_consultation_unsubscribe_btn)
     void unSubscribe() {
         Call<Void> call = consultationInterface.unsubscribeOnConsultationById(mConsultation.getId());
         call.enqueue(new Callback<Void>() {
@@ -217,8 +213,7 @@ public class ConsultationActivity extends AppCompatActivity implements Consultat
             public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
                 if (response.isSuccessful()) {
                     Toasty.info(ConsultationActivity.this, getString(R.string.unsubscrib_from_consultation), Toast.LENGTH_SHORT, true).show();
-                    unSubscribeBTN.setVisibility(View.GONE);
-                    subscribeBTN.setVisibility(View.VISIBLE);
+                    manageSubscribeButton(false);
                 }
             }
 
@@ -227,6 +222,20 @@ public class ConsultationActivity extends AppCompatActivity implements Consultat
                 Toasty.error(ConsultationActivity.this, Objects.requireNonNull(t.getMessage()), Toast.LENGTH_SHORT, true).show();
             }
         });
+    }
+
+    void manageSubscribeButton(boolean isSubscribed) {
+        if (isSubscribed) {
+            subscribeManageBTN.setOnClickListener(view -> unSubscribe());
+            subscribeManageBTN.setBackground(ContextCompat.getDrawable(this, R.drawable.outline));
+            subscribeManageBTN.setTextColor(getResources().getColor(android.R.color.white));
+            subscribeManageBTN.setText(getResources().getString(R.string.activity_consultation_unsubscribe));
+        } else {
+            subscribeManageBTN.setOnClickListener(view -> subscribe());
+            subscribeManageBTN.setBackground(ContextCompat.getDrawable(this, R.drawable.btn));
+            subscribeManageBTN.setTextColor(getResources().getColor(R.color.colorPrimary));
+            subscribeManageBTN.setText(getResources().getString(R.string.activity_consultation_subscribe));
+        }
     }
 
     @Override
@@ -241,7 +250,7 @@ public class ConsultationActivity extends AppCompatActivity implements Consultat
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.edit_consultation: {
-                DialogFragment dialogFragment = new ConsultationActionsDialog(this,this);
+                DialogFragment dialogFragment = new ConsultationActionsDialog(this, this);
                 Bundle bundle = new Bundle();
                 bundle.putInt(key, mConsultation.getId());
                 dialogFragment.setArguments(bundle);

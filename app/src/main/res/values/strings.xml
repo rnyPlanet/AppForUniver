@@ -19,7 +19,7 @@
     <string name="action_logout">Logout</string>
 
     <!-- Menu items -->
-    <string name="menu_home">Home</string>
+    <string name="menu_home">University news</string>
     <string name="menu_schedule">Schedule</string>
     <string name="menu_admin">Admin</string>
     <string name="menu_user_account">User account</string>
@@ -137,5 +137,6 @@
     <string name="position">Position</string>
     <string name="group">Group</string>
     <string name="subject_type">Subject type</string>
+    <string name="students_sount_title">Записано студентів:</string>
 
 </resources>
