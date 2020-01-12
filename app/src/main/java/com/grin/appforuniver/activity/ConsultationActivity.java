@@ -44,6 +44,8 @@ public class ConsultationActivity extends AppCompatActivity implements Consultat
 
     private Menu mMenuList;
 
+    @BindView(R.id.students_count)
+    TextView countStudentTV;
     @BindView(R.id.activity_consultation_FIO_tv)
     TextView fioTV;
     @BindView(R.id.activity_consultation_roomNum_tv)
@@ -116,9 +118,7 @@ public class ConsultationActivity extends AppCompatActivity implements Consultat
                             }
                         }
                         if (map.containsKey("isSubscribed")) {
-                            if (map.get("isSubscribed")) {
-                                manageSubscribeButton(map.get("isSubscribed"));
-                            }
+                            manageSubscribeButton(map.get("isSubscribed"));
                         }
                     }
                 }
@@ -139,6 +139,7 @@ public class ConsultationActivity extends AppCompatActivity implements Consultat
 
     @SuppressLint("SetTextI18n")
     private void init() {
+        countStudentTV.setText(Integer.toString(mConsultation.getUsersCollection().size()));
         fioTV.setText(mConsultation.getCreatedUser().getFullFIO());
         roomTV.setText(mConsultation.getRoom().getName());
         dateOfPassage.setText(mConsultation.getDateOfPassage());

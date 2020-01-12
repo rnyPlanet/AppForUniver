@@ -15,13 +15,8 @@ import com.mikepenz.fastadapter.items.AbstractItem;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -43,6 +38,8 @@ public class Consultation extends AbstractItem<Consultation.ViewHolder> {
 
     @SerializedName("description")
     private String description;
+
+    private List<User> usersCollection;
 
     public Integer getId() {
         return mId;
@@ -101,6 +98,10 @@ public class Consultation extends AbstractItem<Consultation.ViewHolder> {
         return description;
     }
 
+    public List<User> getUsersCollection() {
+        return usersCollection;
+    }
+
     @NotNull
     @Override
     public ViewHolder getViewHolder(@NotNull View view) {
@@ -148,5 +149,17 @@ public class Consultation extends AbstractItem<Consultation.ViewHolder> {
         public void unbindView(@NotNull Consultation item) {
             fio.setText(null);
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Consultation{" +
+                "mId=" + mId +
+                ", mCreatedUser=" + mCreatedUser +
+                ", mRoom=" + mRoom +
+                ", dateOfPassage=" + dateOfPassage +
+                ", description='" + description + '\'' +
+                ", usersCollection=" + usersCollection +
+                '}';
     }
 }

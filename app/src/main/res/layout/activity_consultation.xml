@@ -49,8 +49,7 @@
                 android:paddingStart="@dimen/page_padding"
                 android:paddingEnd="@dimen/page_padding"
                 android:textColor="@android:color/white"
-                android:textStyle="bold"
-                android:visibility="visible" />
+                android:textStyle="bold" />
         </LinearLayout>
 
         <TextView
