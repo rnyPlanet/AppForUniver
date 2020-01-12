@@ -45,7 +45,7 @@ public abstract class ConsultationListFragment extends Fragment implements Swipe
     private LinearLayout emptyState;
 
     private ItemAdapter<Consultation> mItemAdapter;
-    private FastAdapter mFastAdapter;
+    private FastAdapter<Consultation> mFastAdapter;
     OnRecyclerViewScrolled onRecyclerViewScrolled;
 
     @Nullable
@@ -65,7 +65,7 @@ public abstract class ConsultationListFragment extends Fragment implements Swipe
 
         mFastAdapter.setOnClickListener((mView, adapter, item, position) -> {
                     Intent intent = new Intent(getContext(), ConsultationActivity.class);
-                    intent.putExtra("Consultation", new Gson().toJson(item));
+                    intent.putExtra("Consultation", item.getId());
                     startActivity(intent);
                     return false;
                 }

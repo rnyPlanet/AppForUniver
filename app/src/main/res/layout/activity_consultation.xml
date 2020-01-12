@@ -1,25 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/consultation_activity_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/consultation_activity_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:visibility="visible"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
 
     <LinearLayout
-        android:id="@+id/consultattion_header"
+        android:id="@+id/consultation_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/page_header_background"
         android:gravity="center"
         android:orientation="vertical"
-        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -69,8 +67,7 @@
             android:scrollHorizontally="false"
             android:textColor="@android:color/white"
             android:textSize="30sp"
-            android:textStyle="bold"
-            android:visibility="gone" />
+            android:textStyle="bold" />
 
         <LinearLayout
             android:id="@+id/details"
@@ -82,66 +79,47 @@
             android:baselineAligned="false"
             android:orientation="horizontal">
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/activity_consultation_roomNum_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_weight="1"
+                android:background="@drawable/header_detail"
+                android:drawableStart="@drawable/ic_room"
+                android:drawablePadding="12dp"
+                android:gravity="center"
+                android:padding="@dimen/page_padding"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/activity_consultation_roomNum_tv"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/header_detail"
-                    android:drawableStart="@drawable/ic_room"
-                    android:drawablePadding="12dp"
-                    android:gravity="center"
-                    android:padding="@dimen/page_padding"
-                    android:textColor="@android:color/white"
-                    android:textStyle="bold"
-                    android:visibility="visible" />
-            </LinearLayout>
-
-            <LinearLayout
+            <TextView
+                android:id="@+id/activity_consultation_timeOfPassage_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_weight="1"
+                android:background="@drawable/header_detail"
+                android:drawableStart="@drawable/ic_time_white"
+                android:drawablePadding="12dp"
+                android:gravity="center|center_vertical"
+                android:includeFontPadding="false"
+                android:padding="@dimen/page_padding"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/activity_consultation_timeOfPassage_tv"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/header_detail"
-                    android:drawableStart="@drawable/ic_time_white"
-                    android:drawablePadding="12dp"
-                    android:gravity="center|center_vertical"
-                    android:includeFontPadding="false"
-                    android:padding="@dimen/page_padding"
-                    android:textColor="@android:color/white"
-                    android:textStyle="bold"
-                    android:visibility="visible" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/activity_consultation_dateOfPassage_tv"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/activity_consultation_dateOfPassage_tv"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/header_detail"
-                    android:drawableStart="@drawable/ic_calendar_white"
-                    android:drawablePadding="12dp"
-                    android:gravity="center"
-                    android:padding="@dimen/page_padding"
-                    android:textColor="@android:color/white"
-                    android:textStyle="bold"
-                    android:visibility="visible" />
-            </LinearLayout>
+                android:layout_weight="1"
+                android:background="@drawable/header_detail"
+                android:drawableStart="@drawable/ic_calendar_white"
+                android:drawablePadding="12dp"
+                android:gravity="center"
+                android:padding="@dimen/page_padding"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
 
         </LinearLayout>
-
 
         <Button
             android:id="@+id/activity_consultation_subscribe_manage"
@@ -150,84 +128,63 @@
             android:layout_marginStart="@dimen/page_padding"
             android:layout_marginEnd="@dimen/page_padding"
             android:layout_marginBottom="@dimen/page_padding"
-            android:background="@drawable/btn"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
     </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/consultation_description"
-            android:layout_width="0dp"
+    <LinearLayout
+        android:id="@+id/consultation_description"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/page_padding"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/consultation_header">
+
+        <TextView
+            android:id="@+id/activity_consultation_descriptionText_tv"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="@dimen/page_padding"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/consultattion_header">
+            android:layout_marginBottom="8dp"
+            android:drawableStart="@drawable/ic_comment"
+            android:drawablePadding="12dp"
+            android:text="@string/activity_consultation_description"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/activity_consultation_descriptionText_tv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:drawableStart="@drawable/ic_comment"
-                android:drawablePadding="12dp"
-                android:text="@string/activity_consultation_description"
-                android:textColor="?android:attr/textColorPrimary"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:visibility="visible" />
-
-            <TextView
-                android:id="@+id/activity_consultation_description_tv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/card"
-                android:padding="@dimen/page_padding"
-                android:visibility="visible" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/empty_consultation_activity"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/consultation_description"
-            tools:ignore="UseCompoundDrawables">
-
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:layout_margin="@dimen/page_padding"
-                android:contentDescription="@string/empty_state_icon"
-                app:srcCompat="@drawable/ic_thinking" />
-
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/empty_state_text" />
-        </LinearLayout>
-
-        <ProgressBar
-            android:id="@+id/activity_consultation_pb"
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/activity_consultation_description_tv"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:background="@drawable/card"
+            android:padding="@dimen/page_padding" />
+    </LinearLayout>
 
+    <include
+        android:id="@+id/empty_consultation_activity"
+        layout="@layout/empty_state_layout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/consultation_header"
+        tools:ignore="UseCompoundDrawables" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <ProgressBar
+        android:id="@+id/activity_consultation_pb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

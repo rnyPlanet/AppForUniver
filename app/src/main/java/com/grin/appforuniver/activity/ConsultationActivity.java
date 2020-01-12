@@ -5,11 +5,9 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,17 +15,16 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 
-import com.google.gson.Gson;
 import com.grin.appforuniver.R;
 import com.grin.appforuniver.data.WebServices.ConsultationInterface;
 import com.grin.appforuniver.data.WebServices.ServiceGenerator;
 import com.grin.appforuniver.data.model.consultation.Consultation;
 import com.grin.appforuniver.fragments.dialogs.ConsultationActionsDialog;
 
+import java.util.Map;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -39,14 +36,13 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ConsultationActivity extends AppCompatActivity implements ConsultationActionsDialog.OnUpdate {
-
     public final String TAG = ConsultationActivity.class.getSimpleName();
 
-    private Menu mMenuList;
-
+    private Unbinder mUnbinder;
+    private int mIdConsultation;
     private Consultation mConsultation;
 
-    private Unbinder mUnbinder;
+    private Menu mMenuList;
 
     @BindView(R.id.activity_consultation_FIO_tv)
     TextView fioTV;
@@ -66,9 +62,7 @@ public class ConsultationActivity extends AppCompatActivity implements Consultat
 
     ConsultationInterface consultationInterface = ServiceGenerator.createService(ConsultationInterface.class);
 
-    private boolean isCreatedConsultationByUser = false;
-
-    public static String key = "idConsultation";
+    public static String KEY = "idConsultation";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,15 +74,15 @@ public class ConsultationActivity extends AppCompatActivity implements Consultat
         Objects.requireNonNull(getSupportActionBar()).setHomeAsUpIndicator(R.drawable.ic_arrow_back_black_24dp);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        mConsultation = new Gson().fromJson(getIntent().getStringExtra("Consultation"), Consultation.class);
+        mIdConsultation = getIntent().getIntExtra("Consultation", -1);
 
-        getConsultationById(mConsultation.getId());
-        isCanUpdateConsultation();
+        getConsultationById(mIdConsultation);
+        getStatusConsultation(mIdConsultation);
     }
 
     private void getConsultationById(int id) {
-        Call<Consultation> callConsultaion = consultationInterface.getConsultationById(id);
-        callConsultaion.enqueue(new Callback<Consultation>() {
+        Call<Consultation> callConsultation = consultationInterface.getConsultationById(id);
+        callConsultation.enqueue(new Callback<Consultation>() {
             @Override
             public void onResponse(@NonNull Call<Consultation> call, @NonNull Response<Consultation> response) {
                 if (response.isSuccessful()) {
@@ -108,26 +102,33 @@ public class ConsultationActivity extends AppCompatActivity implements Consultat
 
     }
 
-    private void isCanUpdateConsultation() {
-        Call<Boolean> call = consultationInterface.isCanUpdateConsultation(mConsultation.getId());
-        call.enqueue(new Callback<Boolean>() {
+    private void getStatusConsultation(int mIdConsultation) {
+        Call<Map<Object, Boolean>> call = consultationInterface.statusConsultation(mIdConsultation);
+        call.enqueue(new Callback<Map<Object, Boolean>>() {
             @Override
-            public void onResponse(@NonNull Call<Boolean> call, @NonNull Response<Boolean> response) {
+            public void onResponse(@NonNull Call<Map<Object, Boolean>> call, @NonNull Response<Map<Object, Boolean>> response) {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
-                        isCreatedConsultationByUser = true;
-                        initMenu();
+                        Map<Object, Boolean> map = response.body();
+                        if (map.containsKey("isCanManage")) {
+                            if (map.get("isCanManage")) {
+                                initMenu();
+                            }
+                        }
+                        if (map.containsKey("isSubscribed")) {
+                            if (map.get("isSubscribed")) {
+                                manageSubscribeButton(map.get("isSubscribed"));
+                            }
+                        }
                     }
                 }
             }
 
             @Override
-            public void onFailure(@NonNull Call<Boolean> call, @NonNull Throwable t) {
-                Toasty.error(ConsultationActivity.this, Objects.requireNonNull(t.getMessage()), Toast.LENGTH_SHORT, true).show();
+            public void onFailure(@NonNull Call<Map<Object, Boolean>> call, @NonNull Throwable t) {
+
             }
         });
-
-
     }
 
     private void initMenu() {
@@ -138,59 +139,23 @@ public class ConsultationActivity extends AppCompatActivity implements Consultat
 
     @SuppressLint("SetTextI18n")
     private void init() {
-
         fioTV.setText(mConsultation.getCreatedUser().getFullFIO());
         roomTV.setText(mConsultation.getRoom().getName());
         dateOfPassage.setText(mConsultation.getDateOfPassage());
         timeOfPassage.setText(mConsultation.getTimeOfPassage());
         if (mConsultation.getDescription() != null) {
-            findViewById(R.id.activity_consultation_descriptionText_tv).setVisibility(View.VISIBLE);
             findViewById(R.id.consultation_description).setVisibility(View.VISIBLE);
             description.setText(mConsultation.getDescription());
         } else {
-//            LinearLayout emptyState = findViewById(R.id.empty_consultation_activity);
-            LinearLayout consultationDescription = findViewById(R.id.consultation_description);
+            View emptyState = findViewById(R.id.empty_consultation_activity);
+            findViewById(R.id.consultation_description).setVisibility(View.GONE);
 
-//            emptyState.setVisibility(View.VISIBLE);
-            consultationDescription.setVisibility(View.GONE);
+            emptyState.setVisibility(View.VISIBLE);
         }
-
-        Call<Boolean> call = consultationInterface.isCanSubscribe(mConsultation.getId());
-        call.enqueue(new Callback<Boolean>() {
-            @Override
-            public void onResponse(@NonNull Call<Boolean> call, @NonNull Response<Boolean> response) {
-                if (response.isSuccessful()) {
-                    if (response.body() != null & response.body()) {
-                        manageSubscribeButton(false);
-//                        subscribeManageBTN.setVisibility(View.VISIBLE);
-                    }
-                } else if (isCreatedConsultationByUser) {
-                    manageSubscribeButton(false);
-
-//                    subscribeManageBTN.setVisibility(View.GONE);
-                } else {
-                    manageSubscribeButton(true);
-                }
-
-                progressBar.setVisibility(View.GONE);
-                fioTV.setVisibility(View.VISIBLE);
-                roomTV.setVisibility(View.VISIBLE);
-                dateOfPassage.setVisibility(View.VISIBLE);
-                timeOfPassage.setVisibility(View.VISIBLE);
-                description.setVisibility(View.VISIBLE);
-
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<Boolean> call, @NonNull Throwable t) {
-                Toasty.error(ConsultationActivity.this, Objects.requireNonNull(t.getMessage()), Toast.LENGTH_SHORT, true).show();
-            }
-        });
     }
 
-    //    @OnClick(R.id.activity_consultation_subscribe_btn)
     void subscribe() {
-        Call<Void> call = consultationInterface.subscribeOnConsultationById(mConsultation.getId());
+        Call<Void> call = consultationInterface.subscribeOnConsultationById(mIdConsultation);
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
@@ -205,9 +170,8 @@ public class ConsultationActivity extends AppCompatActivity implements Consultat
         });
     }
 
-    //    @OnClick(R.id.activity_consultation_unsubscribe_btn)
     void unSubscribe() {
-        Call<Void> call = consultationInterface.unsubscribeOnConsultationById(mConsultation.getId());
+        Call<Void> call = consultationInterface.unsubscribeOnConsultationById(mIdConsultation);
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
@@ -240,8 +204,7 @@ public class ConsultationActivity extends AppCompatActivity implements Consultat
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_activity_consultation, menu);
+        getMenuInflater().inflate(R.menu.menu_activity_consultation, menu);
         this.mMenuList = menu;
         return super.onCreateOptionsMenu(menu);
     }
@@ -252,7 +215,7 @@ public class ConsultationActivity extends AppCompatActivity implements Consultat
             case R.id.edit_consultation: {
                 DialogFragment dialogFragment = new ConsultationActionsDialog(this, this);
                 Bundle bundle = new Bundle();
-                bundle.putInt(key, mConsultation.getId());
+                bundle.putInt(KEY, mIdConsultation);
                 dialogFragment.setArguments(bundle);
                 dialogFragment.show(getSupportFragmentManager(), "consultationUpdateDialog");
             }
@@ -267,7 +230,7 @@ public class ConsultationActivity extends AppCompatActivity implements Consultat
                     public void onClick(DialogInterface dialogInterface, int i) {
                         ConsultationInterface consultationInterface = ServiceGenerator.createService(ConsultationInterface.class);
 
-                        Call<Void> call = consultationInterface.delete(mConsultation.getId());
+                        Call<Void> call = consultationInterface.delete(mIdConsultation);
                         call.enqueue(new Callback<Void>() {
                             @Override
                             public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {

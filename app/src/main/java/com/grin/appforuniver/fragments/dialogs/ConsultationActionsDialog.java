@@ -115,7 +115,7 @@ public class ConsultationActionsDialog extends DialogFragment implements DatePic
         String titleDialog = null;
         String titlePositiveButton = null;
         if (mBundleArguments != null) {
-            int mIdConsultation = mBundleArguments.getInt(ConsultationActivity.key, -1);
+            int mIdConsultation = mBundleArguments.getInt(ConsultationActivity.KEY, -1);
             if (mIdConsultation != -1) {
                 getConsultationById(mIdConsultation);
                 titleDialog = getString(R.string.update_consultation);
