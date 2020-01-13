@@ -1,7 +1,7 @@
 package com.grin.appforuniver.fragments.schedule;
 
 import com.grin.appforuniver.data.model.schedule.Classes;
-import com.grin.appforuniver.data.utils.Constants;
+import com.grin.appforuniver.utils.Constants;
 
 import java.util.List;
 

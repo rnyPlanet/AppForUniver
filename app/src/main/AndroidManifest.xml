@@ -21,20 +21,20 @@
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="m">
         <activity
-            android:name=".activity.SettingsActivity"
+            android:name=".activities.SettingsActivity"
             android:label="@string/title_activity_settings"
             android:theme="@style/Basic" />
         <activity
-            android:name=".activity.ConsultationActivity"
+            android:name=".activities.ConsultationActivity"
             android:label="@string/consultation_title"
-            android:parentActivityName=".activity.ConsultationActivity" />
+            android:parentActivityName=".activities.ConsultationActivity" />
         <activity
-            android:name=".activity.NavigationDrawer"
+            android:name=".activities.NavigationDrawer"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activity.LoginActivity"
-            android:parentActivityName=".activity.NavigationDrawer"
+            android:name=".activities.LoginActivity"
+            android:parentActivityName=".activities.NavigationDrawer"
             android:theme="@style/Basic"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
@@ -45,7 +45,7 @@
         </activity>
 
         <receiver
-            android:name=".data.utils.CheckInternetBroadcast"
+            android:name=".utils.CheckInternetBroadcast"
             android:enabled="true">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE"

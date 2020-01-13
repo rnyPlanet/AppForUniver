@@ -24,12 +24,12 @@ import com.grin.appforuniver.data.model.schedule.Groups;
 import com.grin.appforuniver.data.model.schedule.Professors;
 import com.grin.appforuniver.data.model.schedule.Rooms;
 import com.grin.appforuniver.data.model.schedule.Subject;
-import com.grin.appforuniver.fragments.dialogs.ScheduleFilterDialog;
-import com.grin.appforuniver.fragments.dialogs.SearchableDialog;
+import com.grin.appforuniver.dialogs.ScheduleFilterDialog;
+import com.grin.appforuniver.dialogs.SearchableDialog;
 import com.grin.appforuniver.fragments.schedule.ScheduleStandardTypeModel;
-import com.grin.appforuniver.fragments.schedule.adapters.ChipFilterAdapter;
-import com.grin.appforuniver.fragments.schedule.adapters.ProfessorScheduleAdapter;
-import com.grin.appforuniver.fragments.schedule.adapters.ScheduleGroupAdapter;
+import com.grin.appforuniver.adapters.ChipFilterAdapter;
+import com.grin.appforuniver.adapters.ProfessorScheduleAdapter;
+import com.grin.appforuniver.adapters.ScheduleGroupAdapter;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -39,10 +39,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.grin.appforuniver.data.utils.Constants.Place;
-import static com.grin.appforuniver.data.utils.Constants.Subgroup;
-import static com.grin.appforuniver.data.utils.Constants.TypesOfClasses;
-import static com.grin.appforuniver.data.utils.Constants.Week;
+import static com.grin.appforuniver.utils.Constants.Place;
+import static com.grin.appforuniver.utils.Constants.Subgroup;
+import static com.grin.appforuniver.utils.Constants.TypesOfClasses;
+import static com.grin.appforuniver.utils.Constants.Week;
 
 public class ScheduleFragment extends Fragment implements ScheduleFilterDialog.OnSelectListener {
     private static final String TAG = "ScheduleFragment";

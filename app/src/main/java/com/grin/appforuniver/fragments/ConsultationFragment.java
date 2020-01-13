@@ -16,12 +16,12 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.grin.appforuniver.R;
-import com.grin.appforuniver.data.utils.PreferenceUtils;
+import com.grin.appforuniver.utils.PreferenceUtils;
 import com.grin.appforuniver.fragments.consultations.AllConsultationsFragment;
 import com.grin.appforuniver.fragments.consultations.ConsultationListFragment;
 import com.grin.appforuniver.fragments.consultations.MyConsultationsFragment;
 import com.grin.appforuniver.fragments.consultations.SubscribeConsultationsFragment;
-import com.grin.appforuniver.fragments.dialogs.ConsultationActionsDialog;
+import com.grin.appforuniver.dialogs.ConsultationActionsDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +33,7 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import es.dmoral.toasty.Toasty;
 
-import static com.grin.appforuniver.data.utils.Constants.Roles.ROLE_TEACHER;
+import static com.grin.appforuniver.utils.Constants.Roles.ROLE_TEACHER;
 
 public class ConsultationFragment extends Fragment implements ConsultationListFragment.OnRecyclerViewScrolled,
         ConsultationActionsDialog.OnCreate {

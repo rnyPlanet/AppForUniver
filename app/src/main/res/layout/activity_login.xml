@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
-    tools:context=".activity.LoginActivity">
+    tools:context=".activities.LoginActivity">
 
     <LinearLayout
         android:id="@+id/login_header_layout"

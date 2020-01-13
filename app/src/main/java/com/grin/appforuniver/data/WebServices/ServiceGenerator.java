@@ -2,8 +2,8 @@ package com.grin.appforuniver.data.WebServices;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.grin.appforuniver.data.utils.Constants;
-import com.grin.appforuniver.data.utils.PreferenceUtils;
+import com.grin.appforuniver.utils.Constants;
+import com.grin.appforuniver.utils.PreferenceUtils;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;

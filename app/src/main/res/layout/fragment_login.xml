@@ -8,7 +8,7 @@
     android:background="#fff"
     android:orientation="vertical"
     android:padding="8dp"
-    tools:context=".activity.LoginActivity">
+    tools:context=".activities.LoginActivity">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"

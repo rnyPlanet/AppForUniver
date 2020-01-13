@@ -9,9 +9,9 @@ import com.google.gson.annotations.SerializedName;
 
 import lombok.Data;
 
-import static com.grin.appforuniver.data.utils.Constants.Place;
-import static com.grin.appforuniver.data.utils.Constants.Subgroup;
-import static com.grin.appforuniver.data.utils.Constants.Week;
+import static com.grin.appforuniver.utils.Constants.Place;
+import static com.grin.appforuniver.utils.Constants.Subgroup;
+import static com.grin.appforuniver.utils.Constants.Week;
 
 @Data
 public class Classes {

@@ -7,17 +7,17 @@ import com.grin.appforuniver.data.model.schedule.Groups;
 import com.grin.appforuniver.data.model.schedule.Professors;
 import com.grin.appforuniver.data.model.schedule.Rooms;
 import com.grin.appforuniver.data.model.schedule.Subject;
-import com.grin.appforuniver.data.utils.PreferenceUtils;
+import com.grin.appforuniver.utils.PreferenceUtils;
 
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 
-import static com.grin.appforuniver.data.utils.Constants.Place;
-import static com.grin.appforuniver.data.utils.Constants.Roles.ROLE_TEACHER;
-import static com.grin.appforuniver.data.utils.Constants.TypesOfClasses;
-import static com.grin.appforuniver.data.utils.Constants.Week;
+import static com.grin.appforuniver.utils.Constants.Place;
+import static com.grin.appforuniver.utils.Constants.Roles.ROLE_TEACHER;
+import static com.grin.appforuniver.utils.Constants.TypesOfClasses;
+import static com.grin.appforuniver.utils.Constants.Week;
 
 public class ScheduleFiltrationManager {
     private int subject;

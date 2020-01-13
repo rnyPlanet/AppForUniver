@@ -16,13 +16,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.google.gson.Gson;
 import com.grin.appforuniver.R;
-import com.grin.appforuniver.activity.ConsultationActivity;
+import com.grin.appforuniver.activities.ConsultationActivity;
 import com.grin.appforuniver.data.WebServices.ConsultationInterface;
 import com.grin.appforuniver.data.WebServices.ServiceGenerator;
 import com.grin.appforuniver.data.model.consultation.Consultation;
-import com.grin.appforuniver.data.utils.PreferenceUtils;
+import com.grin.appforuniver.utils.PreferenceUtils;
 import com.mikepenz.fastadapter.FastAdapter;
 import com.mikepenz.fastadapter.adapters.ItemAdapter;
 
@@ -34,7 +33,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.grin.appforuniver.data.utils.Constants.Roles.ROLE_TEACHER;
+import static com.grin.appforuniver.utils.Constants.Roles.ROLE_TEACHER;
 
 public abstract class ConsultationListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     private static final String TAG = "ConsultationListFragment";

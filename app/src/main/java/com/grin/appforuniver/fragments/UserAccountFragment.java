@@ -19,12 +19,12 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import com.grin.appforuniver.R;
-import com.grin.appforuniver.activity.LoginActivity;
+import com.grin.appforuniver.activities.LoginActivity;
 import com.grin.appforuniver.data.WebServices.ServiceGenerator;
 import com.grin.appforuniver.data.WebServices.UserInterface;
 import com.grin.appforuniver.data.model.schedule.Professors;
 import com.grin.appforuniver.data.model.user.User;
-import com.grin.appforuniver.data.utils.PreferenceUtils;
+import com.grin.appforuniver.utils.PreferenceUtils;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -38,7 +38,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.grin.appforuniver.data.utils.Constants.Roles.ROLE_TEACHER;
+import static com.grin.appforuniver.utils.Constants.Roles.ROLE_TEACHER;
 
 public class UserAccountFragment extends Fragment {
 
