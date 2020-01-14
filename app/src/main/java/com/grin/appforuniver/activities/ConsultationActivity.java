@@ -62,8 +62,6 @@ public class ConsultationActivity extends AppCompatActivity implements Consultat
     @BindView(R.id.activity_consultation_pb)
     ProgressBar progressBar;
 
-    ConsultationApi consultationApi = ServiceGenerator.createService(ConsultationApi.class);
-
     public static String KEY = "idConsultation";
 
     @Override
