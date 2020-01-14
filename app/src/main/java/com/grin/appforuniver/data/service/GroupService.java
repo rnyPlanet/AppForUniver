@@ -1,0 +1,74 @@
+package com.grin.appforuniver.data.service;
+
+import com.google.gson.GsonBuilder;
+import com.grin.appforuniver.data.api.GroupApi;
+import com.grin.appforuniver.data.model.schedule.Groups;
+import com.grin.appforuniver.utils.Constants;
+import com.grin.appforuniver.utils.PreferenceUtils;
+
+import java.util.List;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+public class GroupService {
+
+    public void requestAllGroups(final OnRequestGroupListListener l) {
+        Call<List<Groups>> getAllGroups = buildApi(buildClient()).getAllGroups();
+        getAllGroups.enqueue(new Callback<List<Groups>>() {
+            @Override
+            public void onResponse(Call<List<Groups>> call, Response<List<Groups>> response) {
+                if (l != null) {
+                    l.onRequestGroupListSuccess(call, response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Groups>> call, Throwable t) {
+                if (l != null) {
+                    l.onRequestGroupListFailed(call, t);
+                }
+            }
+        });
+    }
+
+    public static GroupService getService() {
+        return new GroupService();
+    }
+
+    private OkHttpClient buildClient() {
+        return new OkHttpClient.Builder()
+                .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+                .addInterceptor(chain -> {
+                    Request request = chain.request().newBuilder()
+                            .addHeader("Authorization", (PreferenceUtils.getUserToken() == null) ? "" : PreferenceUtils.getUserToken())
+                            .build();
+                    return chain.proceed(request);
+                })
+                .build();
+    }
+
+    private GroupApi buildApi(OkHttpClient client) {
+        return new Retrofit.Builder()
+                .baseUrl(Constants.BASE_URL)
+                .client(client)
+                .addConverterFactory(
+                        GsonConverterFactory.create(
+                                new GsonBuilder()
+                                        .create()))
+                .build()
+                .create((GroupApi.class));
+    }
+
+    public interface OnRequestGroupListListener {
+        void onRequestGroupListSuccess(Call<List<Groups>> call, Response<List<Groups>> response);
+
+        void onRequestGroupListFailed(Call<List<Groups>> call, Throwable t);
+    }
+}

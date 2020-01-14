@@ -24,12 +24,11 @@ import androidx.fragment.app.DialogFragment;
 import com.google.android.material.textfield.TextInputLayout;
 import com.grin.appforuniver.R;
 import com.grin.appforuniver.activities.ConsultationActivity;
-import com.grin.appforuniver.data.WebServices.ServiceGenerator;
-import com.grin.appforuniver.data.api.RoomApi;
 import com.grin.appforuniver.data.model.consultation.Consultation;
 import com.grin.appforuniver.data.model.dto.ConsultationRequestDto;
 import com.grin.appforuniver.data.model.schedule.Rooms;
 import com.grin.appforuniver.data.service.ConsultationService;
+import com.grin.appforuniver.data.service.RoomService;
 import com.grin.appforuniver.utils.PreferenceUtils;
 
 import java.text.ParseException;
@@ -48,12 +47,12 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ConsultationActionsDialog extends DialogFragment implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener, ConsultationService.OnRequestConsultationListener {
+public class ConsultationActionsDialog extends DialogFragment implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener, ConsultationService.OnRequestConsultationListener, RoomService.OnRequestRoomListListener {
     private static final String TAG = "ConsultationActionsDialog";
-    private ConsultationService mService;
+    private ConsultationService mConsultationService;
+    private RoomService mRoomService;
     private Bundle mBundleArguments;
     private Context mContext;
     private Unbinder mUnbinder;
@@ -91,7 +90,8 @@ public class ConsultationActionsDialog extends DialogFragment implements DatePic
 
     public ConsultationActionsDialog(Context context) {
         this.mContext = context;
-        mService = ConsultationService.getService();
+        mConsultationService = ConsultationService.getService();
+        mRoomService = RoomService.getService();
     }
 
     public ConsultationActionsDialog(Context context, OnCreate onCreate) {
@@ -119,7 +119,7 @@ public class ConsultationActionsDialog extends DialogFragment implements DatePic
         if (mBundleArguments != null) {
             int mIdConsultation = mBundleArguments.getInt(ConsultationActivity.KEY, -1);
             if (mIdConsultation != -1) {
-                mService.requestConsultationById(mIdConsultation, this);
+                mConsultationService.requestConsultationById(mIdConsultation, this);
                 titleDialog = getString(R.string.update_consultation);
                 titlePositiveButton = getString(R.string.update);
                 isDateAndTimeChoosed = true;
@@ -127,7 +127,7 @@ public class ConsultationActionsDialog extends DialogFragment implements DatePic
         } else {
             titleDialog = getString(R.string.сreate_сonsultation);
             titlePositiveButton = getString(R.string.create);
-            getRooms();
+            mRoomService.requestAllRooms(this);
         }
 
         builder.setTitle(titleDialog);
@@ -172,30 +172,6 @@ public class ConsultationActionsDialog extends DialogFragment implements DatePic
 
         dialog = builder.create();
         return dialog;
-    }
-
-    private void getRooms() {
-        RoomApi roomApi = ServiceGenerator.createService(RoomApi.class);
-        Call<List<Rooms>> call = roomApi.getRooms();
-        call.enqueue(new Callback<List<Rooms>>() {
-            @Override
-            public void onResponse(@NonNull Call<List<Rooms>> call, @NonNull Response<List<Rooms>> response) {
-                if (response.isSuccessful()) {
-                    if (response.body() != null) {
-                        mArrayRooms.clear();
-                        mArrayRooms.addAll(response.body());
-                        if (mBundleArguments != null) {
-                            setSelectionRoomField();
-                        }
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<List<Rooms>> call, @NonNull Throwable t) {
-                Toasty.error(Objects.requireNonNull(getContext()), Objects.requireNonNull(t.getMessage()), Toast.LENGTH_SHORT, true).show();
-            }
-        });
     }
 
     private void setSelectionRoomField() {
@@ -247,7 +223,7 @@ public class ConsultationActionsDialog extends DialogFragment implements DatePic
                 (descriptionET.getText().toString().length() == 0) ? null : descriptionET.getText().toString());
 
         if (mConsultation == null) {
-            mService.createConsultation(consultationRequestDto, new ConsultationService.OnCreateConsultationListener() {
+            mConsultationService.createConsultation(consultationRequestDto, new ConsultationService.OnCreateConsultationListener() {
                 @Override
                 public void onCreateConsultationSuccess(Call<Consultation> call, Response<Consultation> response) {
                     if (response.isSuccessful()) {
@@ -262,7 +238,7 @@ public class ConsultationActionsDialog extends DialogFragment implements DatePic
                 }
             });
         } else {
-            mService.updateConsultation(mConsultation.getId(), consultationRequestDto, new ConsultationService.OnUpdateConsultationListener() {
+            mConsultationService.updateConsultation(mConsultation.getId(), consultationRequestDto, new ConsultationService.OnUpdateConsultationListener() {
                 @Override
                 public void onUpdateConsultationSuccess(Call<Void> call, Response<Void> response) {
                     if (response.isSuccessful()) {
@@ -327,7 +303,6 @@ public class ConsultationActionsDialog extends DialogFragment implements DatePic
     }
 
     private boolean isValidTime(int hourOfDay, int minute) {
-
         Calendar c = Calendar.getInstance();
         int currentHour = c.get(Calendar.HOUR_OF_DAY);
         int currentMinute = c.get(Calendar.MINUTE);
@@ -341,12 +316,11 @@ public class ConsultationActionsDialog extends DialogFragment implements DatePic
 
     private String returnStringOfDate(int year, int month, int dayOfMonth, int hour,
                                       int minute) {
-        return
-                validateValuesForStringDate(dayOfMonth) + "." +
-                        validateValuesForStringDate(month) + "." +
-                        validateValuesForStringDate(year) + " " +
-                        validateValuesForStringDate(hour) + ":" +
-                        validateValuesForStringDate(minute);
+        return validateValuesForStringDate(dayOfMonth) + "." +
+                validateValuesForStringDate(month) + "." +
+                validateValuesForStringDate(year) + " " +
+                validateValuesForStringDate(hour) + ":" +
+                validateValuesForStringDate(minute);
     }
 
     private String validateValuesForStringDate(int value) {
@@ -366,7 +340,7 @@ public class ConsultationActionsDialog extends DialogFragment implements DatePic
                 mConsultation = response.body();
                 selectDateTimeET.setText(mConsultation.getDateAndTimeOfPassage());
                 descriptionET.setText(mConsultation.getDescription());
-                getRooms();
+                mRoomService.requestAllRooms(this);
             }
         }
     }
@@ -375,6 +349,24 @@ public class ConsultationActionsDialog extends DialogFragment implements DatePic
     public void onRequestConsultationFailed(Call<Consultation> call, Throwable t) {
         Toasty.error(Objects.requireNonNull(getContext()), Objects.requireNonNull(t.getMessage()), Toast.LENGTH_SHORT, true).show();
 
+    }
+
+    @Override
+    public void onRequestRoomListSuccess(Call<List<Rooms>> call, Response<List<Rooms>> response) {
+        if (response.isSuccessful()) {
+            if (response.body() != null) {
+                mArrayRooms.clear();
+                mArrayRooms.addAll(response.body());
+                if (mBundleArguments != null) {
+                    setSelectionRoomField();
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onRequestRoomListFailed(Call<List<Rooms>> call, Throwable t) {
+        Toasty.error(Objects.requireNonNull(getContext()), Objects.requireNonNull(t.getMessage()), Toast.LENGTH_SHORT, true).show();
     }
 
 

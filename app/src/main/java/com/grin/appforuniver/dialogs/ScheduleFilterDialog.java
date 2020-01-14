@@ -17,14 +17,13 @@ import androidx.fragment.app.DialogFragment;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.grin.appforuniver.R;
-import com.grin.appforuniver.data.api.GroupApi;
-import com.grin.appforuniver.data.api.ProfessorApi;
-import com.grin.appforuniver.data.api.RoomApi;
-import com.grin.appforuniver.data.WebServices.ServiceGenerator;
 import com.grin.appforuniver.data.model.schedule.Groups;
 import com.grin.appforuniver.data.model.schedule.Professors;
 import com.grin.appforuniver.data.model.schedule.Rooms;
 import com.grin.appforuniver.data.model.schedule.Subject;
+import com.grin.appforuniver.data.service.GroupService;
+import com.grin.appforuniver.data.service.ProfessorService;
+import com.grin.appforuniver.data.service.RoomService;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -36,7 +35,6 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.grin.appforuniver.utils.Constants.Place;
@@ -44,6 +42,9 @@ import static com.grin.appforuniver.utils.Constants.TypesOfClasses;
 import static com.grin.appforuniver.utils.Constants.Week;
 
 public class ScheduleFilterDialog extends DialogFragment {
+    private GroupService mGroupService;
+    private ProfessorService mProfessorService;
+    private RoomService mRoomService;
     private Context mContext;
     private Unbinder mUnbinder;
 
@@ -72,6 +73,9 @@ public class ScheduleFilterDialog extends DialogFragment {
 
     public ScheduleFilterDialog(Context mContext) {
         this.mContext = mContext;
+        mGroupService = GroupService.getService();
+        mProfessorService = ProfessorService.getService();
+        mRoomService = RoomService.getService();
     }
 
     public void setOnSelectListener(OnSelectListener onFilterParameter) {
@@ -84,9 +88,57 @@ public class ScheduleFilterDialog extends DialogFragment {
         super.onCreateDialog(savedInstanceState);
         View rootView = getActivity().getLayoutInflater().inflate(R.layout.schedule_filtration_dialog, null);
         mUnbinder = ButterKnife.bind(this, rootView);
-        getProfessors();
-        getRooms();
-        getGroups();
+        mProfessorService.requestAllProfessors(new ProfessorService.OnRequestProfessorListListener() {
+            @Override
+            public void onRequestProfessorListSuccess(Call<List<Professors>> call, Response<List<Professors>> response) {
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        mArrayProfessors.clear();
+                        mArrayProfessors.addAll(response.body());
+                        Collections.sort(mArrayProfessors, (professors, t1) -> String.CASE_INSENSITIVE_ORDER.compare(professors.getUser().getShortFIO(), t1.getUser().getShortFIO()));
+                    }
+                }
+            }
+
+            @Override
+            public void onRequestProfessorListFailed(Call<List<Professors>> call, Throwable t) {
+                Toasty.error(Objects.requireNonNull(getContext()), Objects.requireNonNull(t.getMessage()), Toast.LENGTH_SHORT, true).show();
+            }
+        });
+        mRoomService.requestAllRooms(new RoomService.OnRequestRoomListListener() {
+            @Override
+            public void onRequestRoomListSuccess(Call<List<Rooms>> call, Response<List<Rooms>> response) {
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        mArrayRooms.clear();
+                        mArrayRooms.addAll(response.body());
+                        Collections.sort(mArrayRooms, (rooms, t1) -> String.CASE_INSENSITIVE_ORDER.compare(rooms.getName(), t1.getName()));
+                    }
+                }
+            }
+
+            @Override
+            public void onRequestRoomListFailed(Call<List<Rooms>> call, Throwable t) {
+                Toasty.error(Objects.requireNonNull(getContext()), Objects.requireNonNull(t.getMessage()), Toast.LENGTH_SHORT, true).show();
+            }
+        });
+        mGroupService.requestAllGroups(new GroupService.OnRequestGroupListListener() {
+            @Override
+            public void onRequestGroupListSuccess(Call<List<Groups>> call, Response<List<Groups>> response) {
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        mArrayGroups.clear();
+                        mArrayGroups.addAll(response.body());
+                        Collections.sort(mArrayGroups, (groups, t1) -> String.CASE_INSENSITIVE_ORDER.compare(groups.getmName(), t1.getmName()));
+                    }
+                }
+            }
+
+            @Override
+            public void onRequestGroupListFailed(Call<List<Groups>> call, Throwable t) {
+                Toasty.error(Objects.requireNonNull(getContext()), Objects.requireNonNull(t.getMessage()), Toast.LENGTH_SHORT, true).show();
+            }
+        });
 
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         builder.setView(rootView);
@@ -127,72 +179,6 @@ public class ScheduleFilterDialog extends DialogFragment {
 
         AlertDialog alertDialog = builder.create();
         return alertDialog;
-    }
-
-    private void getProfessors() {
-        ProfessorApi professorApi = ServiceGenerator.createService(ProfessorApi.class);
-        Call<List<Professors>> call = professorApi.getProfessors();
-        call.enqueue(new Callback<List<Professors>>() {
-            @Override
-            public void onResponse(@NonNull Call<List<Professors>> call, @NonNull Response<List<Professors>> response) {
-                if (response.isSuccessful()) {
-                    if (response.body() != null) {
-                        mArrayProfessors.clear();
-                        mArrayProfessors.addAll(response.body());
-                        Collections.sort(mArrayProfessors, (professors, t1) -> String.CASE_INSENSITIVE_ORDER.compare(professors.getUser().getShortFIO(), t1.getUser().getShortFIO()));
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<List<Professors>> call, @NonNull Throwable t) {
-                Toasty.error(Objects.requireNonNull(getContext()), Objects.requireNonNull(t.getMessage()), Toast.LENGTH_SHORT, true).show();
-            }
-        });
-    }
-
-    private void getRooms() {
-        RoomApi roomApi = ServiceGenerator.createService(RoomApi.class);
-        Call<List<Rooms>> call = roomApi.getRooms();
-        call.enqueue(new Callback<List<Rooms>>() {
-            @Override
-            public void onResponse(@NonNull Call<List<Rooms>> call, @NonNull Response<List<Rooms>> response) {
-                if (response.isSuccessful()) {
-                    if (response.body() != null) {
-                        mArrayRooms.clear();
-                        mArrayRooms.addAll(response.body());
-                        Collections.sort(mArrayRooms, (rooms, t1) -> String.CASE_INSENSITIVE_ORDER.compare(rooms.getName(), t1.getName()));
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<List<Rooms>> call, @NonNull Throwable t) {
-                Toasty.error(Objects.requireNonNull(getContext()), Objects.requireNonNull(t.getMessage()), Toast.LENGTH_SHORT, true).show();
-            }
-        });
-    }
-
-    private void getGroups() {
-        GroupApi groupApi = ServiceGenerator.createService(GroupApi.class);
-        Call<List<Groups>> call = groupApi.getAllGroups();
-        call.enqueue(new Callback<List<Groups>>() {
-            @Override
-            public void onResponse(@NonNull Call<List<Groups>> call, @NonNull Response<List<Groups>> response) {
-                if (response.isSuccessful()) {
-                    if (response.body() != null) {
-                        mArrayGroups.clear();
-                        mArrayGroups.addAll(response.body());
-                        Collections.sort(mArrayGroups, (groups, t1) -> String.CASE_INSENSITIVE_ORDER.compare(groups.getmName(), t1.getmName()));
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<List<Groups>> call, @NonNull Throwable t) {
-                Toasty.error(Objects.requireNonNull(getContext()), Objects.requireNonNull(t.getMessage()), Toast.LENGTH_SHORT, true).show();
-            }
-        });
     }
 
     private void initializeAutoCompleteSpinners(TextInputLayout textInputLayout, AutoCompleteTextView autoCompleteTextView, String errorText) {
