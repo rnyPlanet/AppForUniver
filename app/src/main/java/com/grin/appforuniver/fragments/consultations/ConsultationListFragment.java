@@ -18,9 +18,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.grin.appforuniver.R;
 import com.grin.appforuniver.activities.ConsultationActivity;
-import com.grin.appforuniver.data.api.ConsultationApi;
-import com.grin.appforuniver.data.WebServices.ServiceGenerator;
 import com.grin.appforuniver.data.model.consultation.Consultation;
+import com.grin.appforuniver.data.service.ConsultationService;
 import com.grin.appforuniver.utils.PreferenceUtils;
 import com.mikepenz.fastadapter.FastAdapter;
 import com.mikepenz.fastadapter.adapters.ItemAdapter;
@@ -30,13 +29,13 @@ import java.util.Objects;
 
 import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.grin.appforuniver.utils.Constants.Roles.ROLE_TEACHER;
 
-public abstract class ConsultationListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public abstract class ConsultationListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, ConsultationService.OnRequestConsultationListListener {
     private static final String TAG = "ConsultationListFragment";
+    ConsultationService mService;
     private View mRootView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView recyclerView;
@@ -50,6 +49,7 @@ public abstract class ConsultationListFragment extends Fragment implements Swipe
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        mService = ConsultationService.getService();
         mRootView = inflater.inflate(R.layout.fragment_consultations_all, container, false);
         mSwipeRefreshLayout = mRootView.findViewById(R.id.swipe_to_refresh_consultations);
         recyclerView = mRootView.findViewById(R.id.fragment_consultations_all_rv);
@@ -82,56 +82,49 @@ public abstract class ConsultationListFragment extends Fragment implements Swipe
         return mRootView;
     }
 
-    private void getConsultations() {
-        ConsultationApi consultationApi = ServiceGenerator.createService(ConsultationApi.class);
-
-        Call<List<Consultation>> call = getWhatConsultations(consultationApi);
-        call.enqueue(new Callback<List<Consultation>>() {
-            @Override
-            public void onResponse(@NonNull Call<List<Consultation>> call, @NonNull Response<List<Consultation>> response) {
-                if (response.isSuccessful()) {
-                    mItemAdapter.clear();
-                    if (response.body() != null) {
-                        mItemAdapter.add(response.body());
-                        progressBar.setVisibility(View.GONE);
-                        recyclerView.setVisibility(View.VISIBLE);
-                        emptyState.setVisibility(View.GONE);
-                    } else {
-                        progressBar.setVisibility(View.GONE);
-                        recyclerView.setVisibility(View.GONE);
-                        emptyState.setVisibility(View.VISIBLE);
-                    }
-                } else {
-                    progressBar.setVisibility(View.GONE);
-                    recyclerView.setVisibility(View.GONE);
-                    emptyState.setVisibility(View.VISIBLE);
-                }
-                mSwipeRefreshLayout.setRefreshing(false);
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<List<Consultation>> call, @NonNull Throwable t) {
-                Toasty.error(Objects.requireNonNull(getContext()), Objects.requireNonNull(t.getMessage()), Toast.LENGTH_SHORT, true).show();
-                progressBar.setVisibility(View.GONE);
-                emptyState.setVisibility(View.VISIBLE);
-            }
-        });
-    }
+    public abstract void getConsultations(ConsultationService.OnRequestConsultationListListener l);
 
     @Override
     public void onRefresh() {
-        getConsultations();
+        getConsultations(this);
     }
-
-    public abstract Call<List<Consultation>> getWhatConsultations(ConsultationApi consultationApi);
 
     @Override
     public void onResume() {
         super.onResume();
-        getConsultations();
+        getConsultations(this);
     }
 
     public interface OnRecyclerViewScrolled {
         void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy);
+    }
+
+    @Override
+    public void onRequestConsultationListSuccess(Call<List<Consultation>> call, Response<List<Consultation>> response) {
+        if (response.isSuccessful()) {
+            mItemAdapter.clear();
+            if (response.body() != null) {
+                mItemAdapter.add(response.body());
+                progressBar.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
+                emptyState.setVisibility(View.GONE);
+            } else {
+                progressBar.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.GONE);
+                emptyState.setVisibility(View.VISIBLE);
+            }
+        } else {
+            progressBar.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.GONE);
+            emptyState.setVisibility(View.VISIBLE);
+        }
+        mSwipeRefreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void onRequestConsultationListFailed(Call<List<Consultation>> call, Throwable t) {
+        Toasty.error(Objects.requireNonNull(getContext()), Objects.requireNonNull(t.getMessage()), Toast.LENGTH_SHORT, true).show();
+        progressBar.setVisibility(View.GONE);
+        emptyState.setVisibility(View.VISIBLE);
     }
 }

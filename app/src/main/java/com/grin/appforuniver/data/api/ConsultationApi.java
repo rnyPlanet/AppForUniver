@@ -40,7 +40,7 @@ public interface ConsultationApi {
     Call<Void> updateConsultation(@Path("id") int id, @Body ConsultationRequestDto consultationRequestDto);
 
     @PUT("consultation/{id}/delete")
-    Call<Void> delete(@Path("id") int id);
+    Call<Void> deleteConsultation(@Path("id") int id);
 
     @GET("consultation/{id}/statusConsultation")
     Call<Map<Object, Boolean>> statusConsultation(@Path("id") int id);

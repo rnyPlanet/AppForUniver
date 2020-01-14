@@ -1,11 +1,6 @@
 package com.grin.appforuniver.fragments.consultations;
 
-import com.grin.appforuniver.data.api.ConsultationApi;
-import com.grin.appforuniver.data.model.consultation.Consultation;
-
-import java.util.List;
-
-import retrofit2.Call;
+import com.grin.appforuniver.data.service.ConsultationService;
 
 public class SubscribeConsultationsFragment extends ConsultationListFragment {
 
@@ -14,7 +9,7 @@ public class SubscribeConsultationsFragment extends ConsultationListFragment {
     }
 
     @Override
-    public Call<List<Consultation>> getWhatConsultations(ConsultationApi consultationApi) {
-        return consultationApi.mySubscriptions();
+    public void getConsultations(ConsultationService.OnRequestConsultationListListener l) {
+        mService.requestSubscribedConsultations(l);
     }
 }

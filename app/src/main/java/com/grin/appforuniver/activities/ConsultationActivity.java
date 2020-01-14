@@ -19,9 +19,10 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 
 import com.grin.appforuniver.R;
-import com.grin.appforuniver.data.api.ConsultationApi;
 import com.grin.appforuniver.data.WebServices.ServiceGenerator;
+import com.grin.appforuniver.data.api.ConsultationApi;
 import com.grin.appforuniver.data.model.consultation.Consultation;
+import com.grin.appforuniver.data.service.ConsultationService;
 import com.grin.appforuniver.dialogs.ConsultationActionsDialog;
 
 import java.util.Map;
@@ -32,12 +33,11 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ConsultationActivity extends AppCompatActivity implements ConsultationActionsDialog.OnUpdate {
+public class ConsultationActivity extends AppCompatActivity implements ConsultationActionsDialog.OnUpdate, ConsultationService.OnRequestConsultationListener, ConsultationService.OnSetSubscribeStatusListener {
     public final String TAG = ConsultationActivity.class.getSimpleName();
-
+    private ConsultationService mService;
     private Unbinder mUnbinder;
     private int mIdConsultation;
     private Consultation mConsultation;
@@ -70,7 +70,7 @@ public class ConsultationActivity extends AppCompatActivity implements Consultat
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_consultation);
-
+        mService = ConsultationService.getService();
         mUnbinder = ButterKnife.bind(this);
 
         Objects.requireNonNull(getSupportActionBar()).setHomeAsUpIndicator(R.drawable.ic_arrow_back_black_24dp);
@@ -78,37 +78,14 @@ public class ConsultationActivity extends AppCompatActivity implements Consultat
 
         mIdConsultation = getIntent().getIntExtra("Consultation", -1);
 
-        getConsultationById(mIdConsultation);
+        mService.requestConsultationById(mIdConsultation, this);
         getStatusConsultation(mIdConsultation);
     }
 
-    private void getConsultationById(int id) {
-        Call<Consultation> callConsultation = consultationApi.getConsultationById(id);
-        callConsultation.enqueue(new Callback<Consultation>() {
-            @Override
-            public void onResponse(@NonNull Call<Consultation> call, @NonNull Response<Consultation> response) {
-                if (response.isSuccessful()) {
-                    if (response.body() != null) {
-                        mConsultation = response.body();
-                        init();
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<Consultation> call, @NonNull Throwable t) {
-                Toasty.error(ConsultationActivity.this, Objects.requireNonNull(t.getMessage()), Toast.LENGTH_SHORT, true).show();
-            }
-        });
-
-
-    }
-
     private void getStatusConsultation(int mIdConsultation) {
-        Call<Map<Object, Boolean>> call = consultationApi.statusConsultation(mIdConsultation);
-        call.enqueue(new Callback<Map<Object, Boolean>>() {
+        mService.requestStatusConsultation(mIdConsultation, new ConsultationService.OnRequestStatusConsultationListener() {
             @Override
-            public void onResponse(@NonNull Call<Map<Object, Boolean>> call, @NonNull Response<Map<Object, Boolean>> response) {
+            public void onRequestStatusConsultationSuccess(Call<Map<Object, Boolean>> call, Response<Map<Object, Boolean>> response) {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
                         Map<Object, Boolean> map = response.body();
@@ -125,7 +102,7 @@ public class ConsultationActivity extends AppCompatActivity implements Consultat
             }
 
             @Override
-            public void onFailure(@NonNull Call<Map<Object, Boolean>> call, @NonNull Throwable t) {
+            public void onRequestStatusConsultationFailed(Call<Map<Object, Boolean>> call, Throwable t) {
 
             }
         });
@@ -156,37 +133,11 @@ public class ConsultationActivity extends AppCompatActivity implements Consultat
     }
 
     void subscribe() {
-        Call<Void> call = consultationApi.subscribeOnConsultationById(mIdConsultation);
-        call.enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
-                Toasty.success(ConsultationActivity.this, getString(R.string.subscribe_on_consultation), Toast.LENGTH_SHORT, true).show();
-                manageSubscribeButton(true);
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
-                Toasty.error(ConsultationActivity.this, Objects.requireNonNull(t.getMessage()), Toast.LENGTH_SHORT, true).show();
-            }
-        });
+        mService.setSubscribeStatus(mIdConsultation, false, this);
     }
 
     void unSubscribe() {
-        Call<Void> call = consultationApi.unsubscribeOnConsultationById(mIdConsultation);
-        call.enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
-                if (response.isSuccessful()) {
-                    Toasty.info(ConsultationActivity.this, getString(R.string.unsubscrib_from_consultation), Toast.LENGTH_SHORT, true).show();
-                    manageSubscribeButton(false);
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
-                Toasty.error(ConsultationActivity.this, Objects.requireNonNull(t.getMessage()), Toast.LENGTH_SHORT, true).show();
-            }
-        });
+        mService.setSubscribeStatus(mIdConsultation, true, this);
     }
 
     void manageSubscribeButton(boolean isSubscribed) {
@@ -229,12 +180,9 @@ public class ConsultationActivity extends AppCompatActivity implements Consultat
                 builderDeleteCounter.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        ConsultationApi consultationApi = ServiceGenerator.createService(ConsultationApi.class);
-
-                        Call<Void> call = consultationApi.delete(mIdConsultation);
-                        call.enqueue(new Callback<Void>() {
+                        mService.deleteConsultation(mIdConsultation, new ConsultationService.OnDeleteConsultationListener() {
                             @Override
-                            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                            public void onDeleteConsultationSuccess(Call<Void> call, Response<Void> response) {
                                 if (response.isSuccessful()) {
                                     Toasty.success(getBaseContext(), "Successful deleted", Toast.LENGTH_SHORT, true).show();
                                     finish();
@@ -242,7 +190,7 @@ public class ConsultationActivity extends AppCompatActivity implements Consultat
                             }
 
                             @Override
-                            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                            public void onDeleteConsultationFailed(Call<Void> call, Throwable t) {
                                 Toasty.error(Objects.requireNonNull(getBaseContext()), Objects.requireNonNull(t.getMessage()), Toast.LENGTH_SHORT, true).show();
                             }
                         });
@@ -271,6 +219,35 @@ public class ConsultationActivity extends AppCompatActivity implements Consultat
     @Override
     public void onUpdated(int idConsultation) {
         Toasty.success(this, getString(R.string.successful_updated), Toast.LENGTH_SHORT, true).show();
-        getConsultationById(idConsultation);
+        mService.requestConsultationById(mIdConsultation, this);
+    }
+
+    @Override
+    public void onRequestConsultationSuccess(Call<Consultation> call, Response<Consultation> response) {
+        if (response.isSuccessful()) {
+            if (response.body() != null) {
+                mConsultation = response.body();
+                init();
+            }
+        }
+    }
+
+    @Override
+    public void onRequestConsultationFailed(Call<Consultation> call, Throwable t) {
+        Toasty.error(ConsultationActivity.this, Objects.requireNonNull(t.getMessage()), Toast.LENGTH_SHORT, true).show();
+    }
+
+    @Override
+    public void onSetSubscribeConsultationSuccess(boolean statusSubscribe, Call<Void> call, Response<Void> response) {
+        if (statusSubscribe)
+            Toasty.success(ConsultationActivity.this, getString(R.string.subscribe_on_consultation), Toast.LENGTH_SHORT, true).show();
+        else
+            Toasty.info(ConsultationActivity.this, getString(R.string.unsubscrib_from_consultation), Toast.LENGTH_SHORT, true).show();
+        manageSubscribeButton(statusSubscribe);
+    }
+
+    @Override
+    public void onSetSubscribeConsultationFailed(boolean statusSubscribe, Call<Void> call, Throwable t) {
+        Toasty.error(ConsultationActivity.this, Objects.requireNonNull(t.getMessage()), Toast.LENGTH_SHORT, true).show();
     }
 }

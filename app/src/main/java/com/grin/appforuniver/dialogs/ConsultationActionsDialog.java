@@ -24,12 +24,12 @@ import androidx.fragment.app.DialogFragment;
 import com.google.android.material.textfield.TextInputLayout;
 import com.grin.appforuniver.R;
 import com.grin.appforuniver.activities.ConsultationActivity;
-import com.grin.appforuniver.data.api.ConsultationApi;
-import com.grin.appforuniver.data.api.RoomApi;
 import com.grin.appforuniver.data.WebServices.ServiceGenerator;
+import com.grin.appforuniver.data.api.RoomApi;
 import com.grin.appforuniver.data.model.consultation.Consultation;
 import com.grin.appforuniver.data.model.dto.ConsultationRequestDto;
 import com.grin.appforuniver.data.model.schedule.Rooms;
+import com.grin.appforuniver.data.service.ConsultationService;
 import com.grin.appforuniver.utils.PreferenceUtils;
 
 import java.text.ParseException;
@@ -51,8 +51,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ConsultationActionsDialog extends DialogFragment implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+public class ConsultationActionsDialog extends DialogFragment implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener, ConsultationService.OnRequestConsultationListener {
     private static final String TAG = "ConsultationActionsDialog";
+    private ConsultationService mService;
     private Bundle mBundleArguments;
     private Context mContext;
     private Unbinder mUnbinder;
@@ -90,6 +91,7 @@ public class ConsultationActionsDialog extends DialogFragment implements DatePic
 
     public ConsultationActionsDialog(Context context) {
         this.mContext = context;
+        mService = ConsultationService.getService();
     }
 
     public ConsultationActionsDialog(Context context, OnCreate onCreate) {
@@ -117,7 +119,7 @@ public class ConsultationActionsDialog extends DialogFragment implements DatePic
         if (mBundleArguments != null) {
             int mIdConsultation = mBundleArguments.getInt(ConsultationActivity.KEY, -1);
             if (mIdConsultation != -1) {
-                getConsultationById(mIdConsultation);
+                mService.requestConsultationById(mIdConsultation, this);
                 titleDialog = getString(R.string.update_consultation);
                 titlePositiveButton = getString(R.string.update);
                 isDateAndTimeChoosed = true;
@@ -196,30 +198,6 @@ public class ConsultationActionsDialog extends DialogFragment implements DatePic
         });
     }
 
-    private void getConsultationById(int idConsultation) {
-        ConsultationApi consultationApi = ServiceGenerator.createService(ConsultationApi.class);
-
-        Call<Consultation> call = consultationApi.getConsultationById(idConsultation);
-        call.enqueue(new Callback<Consultation>() {
-            @Override
-            public void onResponse(@NonNull Call<Consultation> call, @NonNull Response<Consultation> response) {
-                if (response.isSuccessful()) {
-                    if (response.body() != null) {
-                        mConsultation = response.body();
-                        selectDateTimeET.setText(mConsultation.getDateAndTimeOfPassage());
-                        descriptionET.setText(mConsultation.getDescription());
-                        getRooms();
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<Consultation> call, @NonNull Throwable t) {
-                Toasty.error(Objects.requireNonNull(getContext()), Objects.requireNonNull(t.getMessage()), Toast.LENGTH_SHORT, true).show();
-            }
-        });
-    }
-
     private void setSelectionRoomField() {
         Rooms room;
         for (int i = 0; i < mArrayRooms.size(); i++) {
@@ -268,12 +246,10 @@ public class ConsultationActionsDialog extends DialogFragment implements DatePic
                 parseSelectedDate(),
                 (descriptionET.getText().toString().length() == 0) ? null : descriptionET.getText().toString());
 
-        ConsultationApi consultationApi = ServiceGenerator.createService(ConsultationApi.class);
         if (mConsultation == null) {
-            Call<Consultation> call = consultationApi.createConsultation(consultationRequestDto);
-            call.enqueue(new Callback<Consultation>() {
+            mService.createConsultation(consultationRequestDto, new ConsultationService.OnCreateConsultationListener() {
                 @Override
-                public void onResponse(@NonNull Call<Consultation> call, @NonNull Response<Consultation> response) {
+                public void onCreateConsultationSuccess(Call<Consultation> call, Response<Consultation> response) {
                     if (response.isSuccessful()) {
                         if (onCreate != null) onCreate.onCreated();
                         dialog.dismiss();
@@ -281,15 +257,14 @@ public class ConsultationActionsDialog extends DialogFragment implements DatePic
                 }
 
                 @Override
-                public void onFailure(@NonNull Call<Consultation> call, @NonNull Throwable t) {
+                public void onCreateConsultationFailed(Call<Consultation> call, Throwable t) {
                     Toasty.error(Objects.requireNonNull(getContext()), Objects.requireNonNull(t.getMessage()), Toast.LENGTH_SHORT, true).show();
                 }
             });
         } else {
-            Call<Void> call = consultationApi.updateConsultation(mConsultation.getId(), consultationRequestDto);
-            call.enqueue(new Callback<Void>() {
+            mService.updateConsultation(mConsultation.getId(), consultationRequestDto, new ConsultationService.OnUpdateConsultationListener() {
                 @Override
-                public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                public void onUpdateConsultationSuccess(Call<Void> call, Response<Void> response) {
                     if (response.isSuccessful()) {
                         if (onUpdate != null) onUpdate.onUpdated(mConsultation.getId());
                         dialog.dismiss();
@@ -297,12 +272,11 @@ public class ConsultationActionsDialog extends DialogFragment implements DatePic
                 }
 
                 @Override
-                public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                public void onUpdateConsultationFailed(Call<Void> call, Throwable t) {
                     Toasty.error(Objects.requireNonNull(getContext()), Objects.requireNonNull(t.getMessage()), Toast.LENGTH_SHORT, true).show();
                 }
             });
         }
-
     }
 
     @OnClick(R.id.dialog_consultation_create_select_date_time_et)
@@ -384,6 +358,25 @@ public class ConsultationActionsDialog extends DialogFragment implements DatePic
         super.onDestroyView();
         mUnbinder.unbind();
     }
+
+    @Override
+    public void onRequestConsultationSuccess(Call<Consultation> call, Response<Consultation> response) {
+        if (response.isSuccessful()) {
+            if (response.body() != null) {
+                mConsultation = response.body();
+                selectDateTimeET.setText(mConsultation.getDateAndTimeOfPassage());
+                descriptionET.setText(mConsultation.getDescription());
+                getRooms();
+            }
+        }
+    }
+
+    @Override
+    public void onRequestConsultationFailed(Call<Consultation> call, Throwable t) {
+        Toasty.error(Objects.requireNonNull(getContext()), Objects.requireNonNull(t.getMessage()), Toast.LENGTH_SHORT, true).show();
+
+    }
+
 
     public interface OnCreate {
         void onCreated();
