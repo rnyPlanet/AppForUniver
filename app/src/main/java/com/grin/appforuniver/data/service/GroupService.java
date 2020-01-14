@@ -19,6 +19,25 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class GroupService {
 
+    public void requestGroupById(int id, OnRequestGroupListener l) {
+        Call<Groups> getGroupById = buildApi(buildClient()).getGroupById(id);
+        getGroupById.enqueue(new Callback<Groups>() {
+            @Override
+            public void onResponse(Call<Groups> call, Response<Groups> response) {
+                if (l != null) {
+                    l.onRequestGroupSuccess(call, response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Groups> call, Throwable t) {
+                if (l != null) {
+                    l.onRequestGroupFailed(call, t);
+                }
+            }
+        });
+    }
+
     public void requestAllGroups(final OnRequestGroupListListener l) {
         Call<List<Groups>> getAllGroups = buildApi(buildClient()).getAllGroups();
         getAllGroups.enqueue(new Callback<List<Groups>>() {
@@ -64,6 +83,12 @@ public class GroupService {
                                         .create()))
                 .build()
                 .create((GroupApi.class));
+    }
+
+    public interface OnRequestGroupListener {
+        void onRequestGroupSuccess(Call<Groups> call, Response<Groups> response);
+
+        void onRequestGroupFailed(Call<Groups> call, Throwable t);
     }
 
     public interface OnRequestGroupListListener {

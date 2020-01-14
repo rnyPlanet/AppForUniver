@@ -19,6 +19,25 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ProfessorService {
 
+    public void requestProfessorById(int id, OnRequestProfessorListener l) {
+        Call<Professors> getProfessorById = buildApi(buildClient()).getProfessorById(id);
+        getProfessorById.enqueue(new Callback<Professors>() {
+            @Override
+            public void onResponse(Call<Professors> call, Response<Professors> response) {
+                if (l != null) {
+                    l.onRequestProfessorSuccess(call, response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Professors> call, Throwable t) {
+                if (l != null) {
+                    l.onRequestProfessorFailed(call, t);
+                }
+            }
+        });
+    }
+
     public void requestAllProfessors(final OnRequestProfessorListListener l) {
         Call<List<Professors>> getAllProfessors = buildApi(buildClient()).getProfessors();
         getAllProfessors.enqueue(new Callback<List<Professors>>() {
@@ -64,6 +83,12 @@ public class ProfessorService {
                                         .create()))
                 .build()
                 .create((ProfessorApi.class));
+    }
+
+    public interface OnRequestProfessorListener {
+        void onRequestProfessorSuccess(Call<Professors> call, Response<Professors> response);
+
+        void onRequestProfessorFailed(Call<Professors> call, Throwable t);
     }
 
     public interface OnRequestProfessorListListener {

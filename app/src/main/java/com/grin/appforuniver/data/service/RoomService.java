@@ -19,6 +19,25 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RoomService {
 
+    public void requestRoomById(int id, OnRequestRoomListener l) {
+        Call<Rooms> getRoomById = buildApi(buildClient()).getRoomById(id);
+        getRoomById.enqueue(new Callback<Rooms>() {
+            @Override
+            public void onResponse(Call<Rooms> call, Response<Rooms> response) {
+                if (l != null) {
+                    l.onRequestRoomSuccess(call, response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Rooms> call, Throwable t) {
+                if (l != null) {
+                    l.onRequestRoomFailed(call, t);
+                }
+            }
+        });
+    }
+
     public void requestAllRooms(final OnRequestRoomListListener l) {
         Call<List<Rooms>> getAllRooms = buildApi(buildClient()).getRooms();
         getAllRooms.enqueue(new Callback<List<Rooms>>() {
@@ -64,6 +83,12 @@ public class RoomService {
                                         .create()))
                 .build()
                 .create((RoomApi.class));
+    }
+
+    public interface OnRequestRoomListener {
+        void onRequestRoomSuccess(Call<Rooms> call, Response<Rooms> response);
+
+        void onRequestRoomFailed(Call<Rooms> call, Throwable t);
     }
 
     public interface OnRequestRoomListListener {

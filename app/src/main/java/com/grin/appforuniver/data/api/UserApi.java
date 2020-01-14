@@ -8,12 +8,13 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 
 public interface UserApi {
-    @GET("user/my_account")
+
+    @GET("users/my_account")
     Call<User> getMyAccount();
 
-    @GET("user/my_account/student")
+    @GET("users/my_account/student")
     Call<User> getMyAccountStudent();
 
-    @GET("user/my_account/professor")
+    @GET("users/my_account/professor")
     Call<Professors> getMyAccountProfessor();
 }

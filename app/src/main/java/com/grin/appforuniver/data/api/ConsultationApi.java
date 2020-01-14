@@ -15,33 +15,33 @@ import retrofit2.http.Path;
 
 public interface ConsultationApi {
 
-    @GET("consultation/{id}")
+    @GET("consultations/{id}")
     Call<Consultation> getConsultationById(@Path("id") int id);
 
-    @GET("consultation/all")
+    @GET("consultations/all")
     Call<List<Consultation>> getAllConsultations();
 
-    @GET("consultation/my")
+    @GET("consultations/my")
     Call<List<Consultation>> getMyConsultation();
 
-    @GET("consultation/mySubscriptions")
+    @GET("consultations/mySubscriptions")
     Call<List<Consultation>> mySubscriptions();
 
-    @POST("consultation/{id}/subscribe")
+    @POST("consultations/{id}/subscribe")
     Call<Void> subscribeOnConsultationById(@Path("id") int id);
 
-    @PUT("consultation/{id}/unsubscribe")
+    @PUT("consultations/{id}/unsubscribe")
     Call<Void> unsubscribeOnConsultationById(@Path("id") int id);
 
-    @POST("consultation/create")
+    @POST("consultations/create")
     Call<Consultation> createConsultation(@Body ConsultationRequestDto consultationRequestDto);
 
-    @PUT("consultation/{id}/update")
+    @PUT("consultations/{id}/update")
     Call<Void> updateConsultation(@Path("id") int id, @Body ConsultationRequestDto consultationRequestDto);
 
-    @PUT("consultation/{id}/delete")
+    @PUT("consultations/{id}/delete")
     Call<Void> deleteConsultation(@Path("id") int id);
 
-    @GET("consultation/{id}/statusConsultation")
+    @GET("consultations/{id}/statusConsultation")
     Call<Map<Object, Boolean>> statusConsultation(@Path("id") int id);
 }
