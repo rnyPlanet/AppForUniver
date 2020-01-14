@@ -4,11 +4,10 @@ import com.google.gson.GsonBuilder;
 import com.grin.appforuniver.data.api.UserApi;
 import com.grin.appforuniver.data.model.schedule.Professors;
 import com.grin.appforuniver.data.model.user.User;
+import com.grin.appforuniver.data.tools.AuthInterceptor;
 import com.grin.appforuniver.utils.Constants;
-import com.grin.appforuniver.utils.PreferenceUtils;
 
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -82,12 +81,7 @@ public class UserService {
     private OkHttpClient buildClient() {
         return new OkHttpClient.Builder()
                 .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
-                .addInterceptor(chain -> {
-                    Request request = chain.request().newBuilder()
-                            .addHeader("Authorization", (PreferenceUtils.getUserToken() == null) ? "" : PreferenceUtils.getUserToken())
-                            .build();
-                    return chain.proceed(request);
-                })
+                .addInterceptor(new AuthInterceptor())
                 .build();
     }
 

@@ -3,13 +3,12 @@ package com.grin.appforuniver.data.service;
 import com.google.gson.GsonBuilder;
 import com.grin.appforuniver.data.api.RoomApi;
 import com.grin.appforuniver.data.model.schedule.Rooms;
+import com.grin.appforuniver.data.tools.AuthInterceptor;
 import com.grin.appforuniver.utils.Constants;
-import com.grin.appforuniver.utils.PreferenceUtils;
 
 import java.util.List;
 
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -64,12 +63,7 @@ public class RoomService {
     private OkHttpClient buildClient() {
         return new OkHttpClient.Builder()
                 .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
-                .addInterceptor(chain -> {
-                    Request request = chain.request().newBuilder()
-                            .addHeader("Authorization", (PreferenceUtils.getUserToken() == null) ? "" : PreferenceUtils.getUserToken())
-                            .build();
-                    return chain.proceed(request);
-                })
+                .addInterceptor(new AuthInterceptor())
                 .build();
     }
 

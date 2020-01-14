@@ -3,6 +3,7 @@ package com.grin.appforuniver.data.service;
 import com.google.gson.GsonBuilder;
 import com.grin.appforuniver.data.api.ScheduleApi;
 import com.grin.appforuniver.data.model.schedule.Classes;
+import com.grin.appforuniver.data.tools.AuthInterceptor;
 import com.grin.appforuniver.utils.Constants;
 import com.grin.appforuniver.utils.PreferenceUtils;
 
@@ -65,12 +66,7 @@ public class ScheduleService {
     private OkHttpClient buildClient() {
         return new OkHttpClient.Builder()
                 .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
-                .addInterceptor(chain -> {
-                    Request request = chain.request().newBuilder()
-                            .addHeader("Authorization", (PreferenceUtils.getUserToken() == null) ? "" : PreferenceUtils.getUserToken())
-                            .build();
-                    return chain.proceed(request);
-                })
+                .addInterceptor(new AuthInterceptor())
                 .build();
     }
 
