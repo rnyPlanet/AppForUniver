@@ -19,11 +19,11 @@ import androidx.constraintlayout.widget.ConstraintSet;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.grin.appforuniver.R;
-import com.grin.appforuniver.data.api.AuthApi;
 import com.grin.appforuniver.data.WebServices.ServiceGenerator;
 import com.grin.appforuniver.data.api.UserApi;
 import com.grin.appforuniver.data.model.dto.AuthenticationRequestDto;
 import com.grin.appforuniver.data.model.user.User;
+import com.grin.appforuniver.data.service.AuthService;
 import com.grin.appforuniver.utils.PreferenceUtils;
 
 import java.util.Map;
@@ -41,7 +41,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public final String TAG = LoginActivity.class.getSimpleName();
 
-
+    private AuthService mAuthService;
     @BindView(R.id.activity_login_username_et)
     TextInputLayout usernameTIL;
     @BindView(R.id.activity_login_password_et)
@@ -64,7 +64,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        mAuthService = AuthService.getService();
         PreferenceUtils.setContext(getApplicationContext());
         PreferenceUtils.saveUserToken(null);
 
@@ -98,13 +98,10 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void loginUser(String username, String password) {
-        AuthApi authApi = ServiceGenerator.createService(AuthApi.class);
         AuthenticationRequestDto authenticationRequestDto = new AuthenticationRequestDto(username, password);
-
-        Call<Map<Object, Object>> call = authApi.loginUser(authenticationRequestDto);
-        call.enqueue(new Callback<Map<Object, Object>>() {
+        mAuthService.requestToken(authenticationRequestDto, new AuthService.OnRequstTokenListener() {
             @Override
-            public void onResponse(@NonNull Call<Map<Object, Object>> call, @NonNull Response<Map<Object, Object>> response) {
+            public void onRequestTokenSuccess(Call<Map<Object, Object>> call, Response<Map<Object, Object>> response) {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
 
@@ -130,7 +127,7 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(@NonNull Call<Map<Object, Object>> call, @NonNull Throwable t) {
+            public void onRequestTokenFailed(Call<Map<Object, Object>> call, Throwable t) {
                 mProgressBar.dismiss();
                 if (Objects.requireNonNull(t.getMessage()).contains("Failed to connect to /194.9.70.244:8075")) {
                     PreferenceUtils.saveUserToken(null);
