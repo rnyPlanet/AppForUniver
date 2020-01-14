@@ -1,6 +1,5 @@
 package com.grin.appforuniver.fragments;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,10 +19,9 @@ import androidx.fragment.app.Fragment;
 
 import com.grin.appforuniver.R;
 import com.grin.appforuniver.activities.LoginActivity;
-import com.grin.appforuniver.data.WebServices.ServiceGenerator;
-import com.grin.appforuniver.data.api.UserApi;
 import com.grin.appforuniver.data.model.schedule.Professors;
 import com.grin.appforuniver.data.model.user.User;
+import com.grin.appforuniver.data.service.UserService;
 import com.grin.appforuniver.utils.PreferenceUtils;
 
 import java.util.ArrayList;
@@ -35,7 +33,6 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.grin.appforuniver.utils.Constants.Roles.ROLE_TEACHER;
@@ -43,7 +40,7 @@ import static com.grin.appforuniver.utils.Constants.Roles.ROLE_TEACHER;
 public class UserAccountFragment extends Fragment {
 
     public final String TAG = UserAccountFragment.class.getSimpleName();
-
+    private UserService mUserService;
     @BindView(R.id.user_account_detail_progress)
     ProgressBar detail_progress;
 
@@ -88,6 +85,7 @@ public class UserAccountFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        mUserService = UserService.getService();
         mView = inflater.inflate(R.layout.fragment_user_account, container, false);
 
         Objects.requireNonNull(getActivity()).setTitle(R.string.menu_user_account);
@@ -100,13 +98,9 @@ public class UserAccountFragment extends Fragment {
     }
 
     private void getMyAccount(Context context) {
-        UserApi userApi = ServiceGenerator.createService(UserApi.class);
-
-        Call<User> call = userApi.getMyAccount();
-        call.enqueue(new Callback<User>() {
-            @SuppressLint("SetTextI18n")
+        mUserService.requestCurrentUserProfile(new UserService.OnRequestCurrentUserProfileListener() {
             @Override
-            public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
+            public void onRequestCurrentUserProfileSuccess(Call<User> call, Response<User> response) {
                 if (response.isSuccessful()) {
                     if (response.body() != null && !PreferenceUtils.getUserToken().isEmpty()) {
                         mUser = response.body();
@@ -144,18 +138,16 @@ public class UserAccountFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(@NonNull Call<User> call, @NonNull Throwable t) {
+            public void onRequestCurrentUserProfileFailed(Call<User> call, Throwable t) {
                 Toasty.error(context, Objects.requireNonNull(t.getMessage()), Toast.LENGTH_SHORT, true).show();
             }
         });
     }
 
     private void getMyAccountProfessor(Context context) {
-        UserApi userApi = ServiceGenerator.createService(UserApi.class);
-        Call<Professors> call = userApi.getMyAccountProfessor();
-        call.enqueue(new Callback<Professors>() {
+        mUserService.requestCurrentUserProfessorProfile(new UserService.OnRequestCurrentUserProfessorProfileListener() {
             @Override
-            public void onResponse(Call<Professors> call, Response<Professors> response) {
+            public void onRequestCurrentUserProfessorProfileSuccess(Call<Professors> call, Response<Professors> response) {
                 if (response.body() != null && !PreferenceUtils.getUserToken().isEmpty()) {
                     mProfessor = response.body();
 
@@ -176,7 +168,7 @@ public class UserAccountFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<Professors> call, Throwable t) {
+            public void onRequestCurrentUserProfessorProfileFailed(Call<Professors> call, Throwable t) {
                 Toasty.error(context, Objects.requireNonNull(t.getMessage()), Toast.LENGTH_SHORT, true).show();
             }
         });

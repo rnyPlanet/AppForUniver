@@ -24,6 +24,7 @@ import com.grin.appforuniver.data.api.UserApi;
 import com.grin.appforuniver.data.model.dto.AuthenticationRequestDto;
 import com.grin.appforuniver.data.model.user.User;
 import com.grin.appforuniver.data.service.AuthService;
+import com.grin.appforuniver.data.service.UserService;
 import com.grin.appforuniver.utils.PreferenceUtils;
 
 import java.util.Map;
@@ -42,6 +43,7 @@ public class LoginActivity extends AppCompatActivity {
     public final String TAG = LoginActivity.class.getSimpleName();
 
     private AuthService mAuthService;
+    private UserService mUserService;
     @BindView(R.id.activity_login_username_et)
     TextInputLayout usernameTIL;
     @BindView(R.id.activity_login_password_et)
@@ -65,6 +67,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mAuthService = AuthService.getService();
+        mUserService = UserService.getService();
         PreferenceUtils.setContext(getApplicationContext());
         PreferenceUtils.saveUserToken(null);
 
@@ -139,12 +142,9 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void getMe() {
-        UserApi userApi = ServiceGenerator.createService(UserApi.class);
-
-        Call<User> call = userApi.getMyAccount();
-        call.enqueue(new Callback<User>() {
+        mUserService.requestCurrentUserProfile(new UserService.OnRequestCurrentUserProfileListener() {
             @Override
-            public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
+            public void onRequestCurrentUserProfileSuccess(Call<User> call, Response<User> response) {
                 if (response.isSuccessful()) {
                     if (response.body() != null && !PreferenceUtils.getUserToken().isEmpty()) {
                         PreferenceUtils.saveUser(response.body());
@@ -161,7 +161,7 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(@NonNull Call<User> call, @NonNull Throwable t) {
+            public void onRequestCurrentUserProfileFailed(Call<User> call, Throwable t) {
                 Toasty.error(Objects.requireNonNull(getApplicationContext()), Objects.requireNonNull(t.getMessage()), Toast.LENGTH_SHORT, true).show();
                 mProgressBar.dismiss();
             }
