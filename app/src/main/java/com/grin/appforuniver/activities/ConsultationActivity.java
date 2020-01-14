@@ -19,7 +19,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 
 import com.grin.appforuniver.R;
-import com.grin.appforuniver.data.WebServices.ConsultationInterface;
+import com.grin.appforuniver.data.api.ConsultationApi;
 import com.grin.appforuniver.data.WebServices.ServiceGenerator;
 import com.grin.appforuniver.data.model.consultation.Consultation;
 import com.grin.appforuniver.dialogs.ConsultationActionsDialog;
@@ -62,7 +62,7 @@ public class ConsultationActivity extends AppCompatActivity implements Consultat
     @BindView(R.id.activity_consultation_pb)
     ProgressBar progressBar;
 
-    ConsultationInterface consultationInterface = ServiceGenerator.createService(ConsultationInterface.class);
+    ConsultationApi consultationApi = ServiceGenerator.createService(ConsultationApi.class);
 
     public static String KEY = "idConsultation";
 
@@ -83,7 +83,7 @@ public class ConsultationActivity extends AppCompatActivity implements Consultat
     }
 
     private void getConsultationById(int id) {
-        Call<Consultation> callConsultation = consultationInterface.getConsultationById(id);
+        Call<Consultation> callConsultation = consultationApi.getConsultationById(id);
         callConsultation.enqueue(new Callback<Consultation>() {
             @Override
             public void onResponse(@NonNull Call<Consultation> call, @NonNull Response<Consultation> response) {
@@ -105,7 +105,7 @@ public class ConsultationActivity extends AppCompatActivity implements Consultat
     }
 
     private void getStatusConsultation(int mIdConsultation) {
-        Call<Map<Object, Boolean>> call = consultationInterface.statusConsultation(mIdConsultation);
+        Call<Map<Object, Boolean>> call = consultationApi.statusConsultation(mIdConsultation);
         call.enqueue(new Callback<Map<Object, Boolean>>() {
             @Override
             public void onResponse(@NonNull Call<Map<Object, Boolean>> call, @NonNull Response<Map<Object, Boolean>> response) {
@@ -156,7 +156,7 @@ public class ConsultationActivity extends AppCompatActivity implements Consultat
     }
 
     void subscribe() {
-        Call<Void> call = consultationInterface.subscribeOnConsultationById(mIdConsultation);
+        Call<Void> call = consultationApi.subscribeOnConsultationById(mIdConsultation);
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
@@ -172,7 +172,7 @@ public class ConsultationActivity extends AppCompatActivity implements Consultat
     }
 
     void unSubscribe() {
-        Call<Void> call = consultationInterface.unsubscribeOnConsultationById(mIdConsultation);
+        Call<Void> call = consultationApi.unsubscribeOnConsultationById(mIdConsultation);
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
@@ -229,9 +229,9 @@ public class ConsultationActivity extends AppCompatActivity implements Consultat
                 builderDeleteCounter.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        ConsultationInterface consultationInterface = ServiceGenerator.createService(ConsultationInterface.class);
+                        ConsultationApi consultationApi = ServiceGenerator.createService(ConsultationApi.class);
 
-                        Call<Void> call = consultationInterface.delete(mIdConsultation);
+                        Call<Void> call = consultationApi.delete(mIdConsultation);
                         call.enqueue(new Callback<Void>() {
                             @Override
                             public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {

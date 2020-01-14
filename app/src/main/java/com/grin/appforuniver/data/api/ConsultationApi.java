@@ -1,4 +1,4 @@
-package com.grin.appforuniver.data.WebServices;
+package com.grin.appforuniver.data.api;
 
 import com.grin.appforuniver.data.model.consultation.Consultation;
 import com.grin.appforuniver.data.model.dto.ConsultationRequestDto;
@@ -13,7 +13,7 @@ import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
-public interface ConsultationInterface {
+public interface ConsultationApi {
 
     @GET("consultation/{id}")
     Call<Consultation> getConsultationById(@Path("id") int id);

@@ -18,7 +18,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.grin.appforuniver.R;
 import com.grin.appforuniver.activities.ConsultationActivity;
-import com.grin.appforuniver.data.WebServices.ConsultationInterface;
+import com.grin.appforuniver.data.api.ConsultationApi;
 import com.grin.appforuniver.data.WebServices.ServiceGenerator;
 import com.grin.appforuniver.data.model.consultation.Consultation;
 import com.grin.appforuniver.utils.PreferenceUtils;
@@ -83,9 +83,9 @@ public abstract class ConsultationListFragment extends Fragment implements Swipe
     }
 
     private void getConsultations() {
-        ConsultationInterface consultationInterface = ServiceGenerator.createService(ConsultationInterface.class);
+        ConsultationApi consultationApi = ServiceGenerator.createService(ConsultationApi.class);
 
-        Call<List<Consultation>> call = getWhatConsultations(consultationInterface);
+        Call<List<Consultation>> call = getWhatConsultations(consultationApi);
         call.enqueue(new Callback<List<Consultation>>() {
             @Override
             public void onResponse(@NonNull Call<List<Consultation>> call, @NonNull Response<List<Consultation>> response) {
@@ -123,7 +123,7 @@ public abstract class ConsultationListFragment extends Fragment implements Swipe
         getConsultations();
     }
 
-    public abstract Call<List<Consultation>> getWhatConsultations(ConsultationInterface consultationInterface);
+    public abstract Call<List<Consultation>> getWhatConsultations(ConsultationApi consultationApi);
 
     @Override
     public void onResume() {

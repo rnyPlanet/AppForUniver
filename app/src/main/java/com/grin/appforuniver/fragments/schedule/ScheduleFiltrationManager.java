@@ -1,6 +1,6 @@
 package com.grin.appforuniver.fragments.schedule;
 
-import com.grin.appforuniver.data.WebServices.ScheduleInterface;
+import com.grin.appforuniver.data.api.ScheduleApi;
 import com.grin.appforuniver.data.WebServices.ServiceGenerator;
 import com.grin.appforuniver.data.model.schedule.Classes;
 import com.grin.appforuniver.data.model.schedule.Groups;
@@ -46,19 +46,19 @@ public class ScheduleFiltrationManager {
     public void getSchedule(Subject subject, TypesOfClasses type, Professors professor, Rooms room, Groups group, Place place, Week week) {
         initializeParameters(subject, type, professor, room, group, place, week);
 
-        ScheduleInterface scheduleInterface = ServiceGenerator.createService(ScheduleInterface.class);
+        ScheduleApi scheduleApi = ServiceGenerator.createService(ScheduleApi.class);
         Call<List<Classes>> call;
 
         if (this.subject == -1 & this.type == null & this.professorId == -1 &
                 this.roomId == -1 & this.groupId == -1 & this.place == null &
                 this.week == null) {
-            call = scheduleInterface.getScheduleCurrentUser();
+            call = scheduleApi.getScheduleCurrentUser();
             if (PreferenceUtils.getUserRoles().contains(ROLE_TEACHER.toString())){
                 //Fix for teacher schedule display normally
                 this.professorId=0;
             }
         } else {
-            call = scheduleInterface.getScheduleByCriteria(
+            call = scheduleApi.getScheduleByCriteria(
                     this.subject,
                     this.type,
                     this.professorId,

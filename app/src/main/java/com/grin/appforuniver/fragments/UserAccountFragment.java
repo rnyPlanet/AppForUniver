@@ -21,7 +21,7 @@ import androidx.fragment.app.Fragment;
 import com.grin.appforuniver.R;
 import com.grin.appforuniver.activities.LoginActivity;
 import com.grin.appforuniver.data.WebServices.ServiceGenerator;
-import com.grin.appforuniver.data.WebServices.UserInterface;
+import com.grin.appforuniver.data.api.UserApi;
 import com.grin.appforuniver.data.model.schedule.Professors;
 import com.grin.appforuniver.data.model.user.User;
 import com.grin.appforuniver.utils.PreferenceUtils;
@@ -100,9 +100,9 @@ public class UserAccountFragment extends Fragment {
     }
 
     private void getMyAccount(Context context) {
-        UserInterface userInterface = ServiceGenerator.createService(UserInterface.class);
+        UserApi userApi = ServiceGenerator.createService(UserApi.class);
 
-        Call<User> call = userInterface.getMyAccount();
+        Call<User> call = userApi.getMyAccount();
         call.enqueue(new Callback<User>() {
             @SuppressLint("SetTextI18n")
             @Override
@@ -151,8 +151,8 @@ public class UserAccountFragment extends Fragment {
     }
 
     private void getMyAccountProfessor(Context context) {
-        UserInterface userInterface = ServiceGenerator.createService(UserInterface.class);
-        Call<Professors> call = userInterface.getMyAccountProfessor();
+        UserApi userApi = ServiceGenerator.createService(UserApi.class);
+        Call<Professors> call = userApi.getMyAccountProfessor();
         call.enqueue(new Callback<Professors>() {
             @Override
             public void onResponse(Call<Professors> call, Response<Professors> response) {

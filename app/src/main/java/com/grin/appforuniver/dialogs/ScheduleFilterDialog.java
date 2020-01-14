@@ -17,9 +17,9 @@ import androidx.fragment.app.DialogFragment;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.grin.appforuniver.R;
-import com.grin.appforuniver.data.WebServices.GroupInterface;
-import com.grin.appforuniver.data.WebServices.ProfessorInterface;
-import com.grin.appforuniver.data.WebServices.RoomInterface;
+import com.grin.appforuniver.data.api.GroupApi;
+import com.grin.appforuniver.data.api.ProfessorApi;
+import com.grin.appforuniver.data.api.RoomApi;
 import com.grin.appforuniver.data.WebServices.ServiceGenerator;
 import com.grin.appforuniver.data.model.schedule.Groups;
 import com.grin.appforuniver.data.model.schedule.Professors;
@@ -130,8 +130,8 @@ public class ScheduleFilterDialog extends DialogFragment {
     }
 
     private void getProfessors() {
-        ProfessorInterface professorInterface = ServiceGenerator.createService(ProfessorInterface.class);
-        Call<List<Professors>> call = professorInterface.getProfessors();
+        ProfessorApi professorApi = ServiceGenerator.createService(ProfessorApi.class);
+        Call<List<Professors>> call = professorApi.getProfessors();
         call.enqueue(new Callback<List<Professors>>() {
             @Override
             public void onResponse(@NonNull Call<List<Professors>> call, @NonNull Response<List<Professors>> response) {
@@ -152,8 +152,8 @@ public class ScheduleFilterDialog extends DialogFragment {
     }
 
     private void getRooms() {
-        RoomInterface roomInterface = ServiceGenerator.createService(RoomInterface.class);
-        Call<List<Rooms>> call = roomInterface.getRooms();
+        RoomApi roomApi = ServiceGenerator.createService(RoomApi.class);
+        Call<List<Rooms>> call = roomApi.getRooms();
         call.enqueue(new Callback<List<Rooms>>() {
             @Override
             public void onResponse(@NonNull Call<List<Rooms>> call, @NonNull Response<List<Rooms>> response) {
@@ -174,8 +174,8 @@ public class ScheduleFilterDialog extends DialogFragment {
     }
 
     private void getGroups() {
-        GroupInterface groupInterface = ServiceGenerator.createService(GroupInterface.class);
-        Call<List<Groups>> call = groupInterface.getAllGroups();
+        GroupApi groupApi = ServiceGenerator.createService(GroupApi.class);
+        Call<List<Groups>> call = groupApi.getAllGroups();
         call.enqueue(new Callback<List<Groups>>() {
             @Override
             public void onResponse(@NonNull Call<List<Groups>> call, @NonNull Response<List<Groups>> response) {

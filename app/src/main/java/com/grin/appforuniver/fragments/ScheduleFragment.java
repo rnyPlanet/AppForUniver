@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.grin.appforuniver.R;
-import com.grin.appforuniver.data.WebServices.ProfessorInterface;
+import com.grin.appforuniver.data.api.ProfessorApi;
 import com.grin.appforuniver.data.WebServices.ServiceGenerator;
 import com.grin.appforuniver.data.model.schedule.Classes;
 import com.grin.appforuniver.data.model.schedule.Groups;
@@ -72,7 +72,7 @@ public class ScheduleFragment extends Fragment implements ScheduleFilterDialog.O
     }
 
     private void dialogSearchProfessor(Context context) {
-        ProfessorInterface scheduleInterface = ServiceGenerator.createService(ProfessorInterface.class);
+        ProfessorApi scheduleInterface = ServiceGenerator.createService(ProfessorApi.class);
         Call<List<Professors>> list = scheduleInterface.getProfessors();
         list.enqueue(new Callback<List<Professors>>() {
             @Override

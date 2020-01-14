@@ -24,8 +24,8 @@ import androidx.fragment.app.DialogFragment;
 import com.google.android.material.textfield.TextInputLayout;
 import com.grin.appforuniver.R;
 import com.grin.appforuniver.activities.ConsultationActivity;
-import com.grin.appforuniver.data.WebServices.ConsultationInterface;
-import com.grin.appforuniver.data.WebServices.RoomInterface;
+import com.grin.appforuniver.data.api.ConsultationApi;
+import com.grin.appforuniver.data.api.RoomApi;
 import com.grin.appforuniver.data.WebServices.ServiceGenerator;
 import com.grin.appforuniver.data.model.consultation.Consultation;
 import com.grin.appforuniver.data.model.dto.ConsultationRequestDto;
@@ -173,8 +173,8 @@ public class ConsultationActionsDialog extends DialogFragment implements DatePic
     }
 
     private void getRooms() {
-        RoomInterface roomInterface = ServiceGenerator.createService(RoomInterface.class);
-        Call<List<Rooms>> call = roomInterface.getRooms();
+        RoomApi roomApi = ServiceGenerator.createService(RoomApi.class);
+        Call<List<Rooms>> call = roomApi.getRooms();
         call.enqueue(new Callback<List<Rooms>>() {
             @Override
             public void onResponse(@NonNull Call<List<Rooms>> call, @NonNull Response<List<Rooms>> response) {
@@ -197,9 +197,9 @@ public class ConsultationActionsDialog extends DialogFragment implements DatePic
     }
 
     private void getConsultationById(int idConsultation) {
-        ConsultationInterface consultationInterface = ServiceGenerator.createService(ConsultationInterface.class);
+        ConsultationApi consultationApi = ServiceGenerator.createService(ConsultationApi.class);
 
-        Call<Consultation> call = consultationInterface.getConsultationById(idConsultation);
+        Call<Consultation> call = consultationApi.getConsultationById(idConsultation);
         call.enqueue(new Callback<Consultation>() {
             @Override
             public void onResponse(@NonNull Call<Consultation> call, @NonNull Response<Consultation> response) {
@@ -268,9 +268,9 @@ public class ConsultationActionsDialog extends DialogFragment implements DatePic
                 parseSelectedDate(),
                 (descriptionET.getText().toString().length() == 0) ? null : descriptionET.getText().toString());
 
-        ConsultationInterface consultationInterface = ServiceGenerator.createService(ConsultationInterface.class);
+        ConsultationApi consultationApi = ServiceGenerator.createService(ConsultationApi.class);
         if (mConsultation == null) {
-            Call<Consultation> call = consultationInterface.createConsultation(consultationRequestDto);
+            Call<Consultation> call = consultationApi.createConsultation(consultationRequestDto);
             call.enqueue(new Callback<Consultation>() {
                 @Override
                 public void onResponse(@NonNull Call<Consultation> call, @NonNull Response<Consultation> response) {
@@ -286,7 +286,7 @@ public class ConsultationActionsDialog extends DialogFragment implements DatePic
                 }
             });
         } else {
-            Call<Void> call = consultationInterface.updateConsultation(mConsultation.getId(), consultationRequestDto);
+            Call<Void> call = consultationApi.updateConsultation(mConsultation.getId(), consultationRequestDto);
             call.enqueue(new Callback<Void>() {
                 @Override
                 public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {

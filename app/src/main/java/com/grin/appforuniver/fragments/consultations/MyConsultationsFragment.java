@@ -1,6 +1,6 @@
 package com.grin.appforuniver.fragments.consultations;
 
-import com.grin.appforuniver.data.WebServices.ConsultationInterface;
+import com.grin.appforuniver.data.api.ConsultationApi;
 import com.grin.appforuniver.data.model.consultation.Consultation;
 
 import java.util.List;
@@ -14,7 +14,7 @@ public class MyConsultationsFragment extends ConsultationListFragment {
     }
 
     @Override
-    public Call<List<Consultation>> getWhatConsultations(ConsultationInterface consultationInterface) {
-        return consultationInterface.getMyConsultation();
+    public Call<List<Consultation>> getWhatConsultations(ConsultationApi consultationApi) {
+        return consultationApi.getMyConsultation();
     }
 }

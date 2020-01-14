@@ -19,9 +19,9 @@ import androidx.constraintlayout.widget.ConstraintSet;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.grin.appforuniver.R;
-import com.grin.appforuniver.data.WebServices.AuthInterface;
+import com.grin.appforuniver.data.api.AuthApi;
 import com.grin.appforuniver.data.WebServices.ServiceGenerator;
-import com.grin.appforuniver.data.WebServices.UserInterface;
+import com.grin.appforuniver.data.api.UserApi;
 import com.grin.appforuniver.data.model.dto.AuthenticationRequestDto;
 import com.grin.appforuniver.data.model.user.User;
 import com.grin.appforuniver.utils.PreferenceUtils;
@@ -98,10 +98,10 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void loginUser(String username, String password) {
-        AuthInterface authInterface = ServiceGenerator.createService(AuthInterface.class);
+        AuthApi authApi = ServiceGenerator.createService(AuthApi.class);
         AuthenticationRequestDto authenticationRequestDto = new AuthenticationRequestDto(username, password);
 
-        Call<Map<Object, Object>> call = authInterface.loginUser(authenticationRequestDto);
+        Call<Map<Object, Object>> call = authApi.loginUser(authenticationRequestDto);
         call.enqueue(new Callback<Map<Object, Object>>() {
             @Override
             public void onResponse(@NonNull Call<Map<Object, Object>> call, @NonNull Response<Map<Object, Object>> response) {
@@ -142,9 +142,9 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void getMe() {
-        UserInterface userInterface = ServiceGenerator.createService(UserInterface.class);
+        UserApi userApi = ServiceGenerator.createService(UserApi.class);
 
-        Call<User> call = userInterface.getMyAccount();
+        Call<User> call = userApi.getMyAccount();
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {

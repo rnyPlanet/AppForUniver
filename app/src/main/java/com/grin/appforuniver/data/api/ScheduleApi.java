@@ -1,4 +1,4 @@
-package com.grin.appforuniver.data.WebServices;
+package com.grin.appforuniver.data.api;
 
 import com.grin.appforuniver.data.model.schedule.Classes;
 
@@ -8,7 +8,7 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
-public interface ScheduleInterface {
+public interface ScheduleApi {
 
     @GET("schedule/classes/criteria")
     Call<List<Classes>> getScheduleByCriteria(@Query("subjectId") int subject,
