@@ -55,34 +55,37 @@ public class HomeFragment extends Fragment {
     }
 
     private void parseUniversityMainPage() {
-        Document doc;
+        new Thread(new Runnable() {
 
-        ArrayList<String> newsCardTitles = new ArrayList<>();
-        ArrayList<String> newsCardImagesUrl = new ArrayList<>();
-        ArrayList<String> newsCardLinks = new ArrayList<>();
+            Document doc;
 
-        try {
-            doc = Jsoup.connect("https://chmnu.edu.ua/category/zapisi/novini/").timeout(6000).get();
-            Elements newsCardsBody = doc.select("div.category-standart-raid");
+            ArrayList<String> newsCardTitles = new ArrayList<>();
+            ArrayList<String> newsCardImagesUrl = new ArrayList<>();
+            ArrayList<String> newsCardLinks = new ArrayList<>();
 
-            for (Element newsCardBody : newsCardsBody) {
-                for (Element cardData : newsCardBody.select("div.category-standart-block")) {
-                    String newsCardTitle = cardData.select("div.title").text();
-                    newsCardTitles.add(newsCardTitle);
+            @Override
+            public void run() {
+                try {
+                    doc = Jsoup.connect("https://chmnu.edu.ua/category/zapisi/novini/").timeout(6000).get();
+                    Elements newsCardsBody = doc.select("div.category-standart-raid");
 
-                    String img_url = cardData.select("img").attr("src");
-                    newsCardImagesUrl.add(img_url);
+                    for (Element newsCardBody : newsCardsBody) {
+                        for (Element cardData : newsCardBody.select("div.category-standart-block")) {
+                            String newsCardTitle = cardData.select("div.title").text();
+                            newsCardTitles.add(newsCardTitle);
 
-                    String newsLink = cardData.select("div.title > a").attr("href");
-                    newsCardLinks.add(newsLink);
+                            String img_url = cardData.select("img").attr("src");
+                            newsCardImagesUrl.add(img_url);
+
+                            String newsLink = cardData.select("div.title > a").attr("href");
+                            newsCardLinks.add(newsLink);
+                        }
+                    }
+
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        }).start();
     }
-
-
 }

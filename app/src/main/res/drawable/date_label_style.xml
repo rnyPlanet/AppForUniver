@@ -8,7 +8,7 @@
                 android:bottomLeftRadius="@dimen/radius"
                 android:bottomRightRadius="0dp"
                 android:topLeftRadius="0dp"
-                android:topRightRadius="10dp"/>
+                android:topRightRadius="@dimen/radius"/>
         </shape>
     </item>
 

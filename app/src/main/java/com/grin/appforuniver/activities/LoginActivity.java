@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -44,6 +45,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private AuthService mAuthService;
     private UserService mUserService;
+    private ProgressDialog mProgressBar;
+
     @BindView(R.id.activity_login_username_et)
     TextInputLayout usernameTIL;
     @BindView(R.id.activity_login_password_et)
@@ -51,17 +54,11 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.password_field)
     AppCompatEditText passwordField;
 
-    // Variables for visual settings
-    @BindView(R.id.logo)
-    ImageView logo;
-    @BindView(R.id.university_name)
-    TextView universityName;
-    @BindView(R.id.login_header_layout)
-    LinearLayout loginHeaderActivity;
-    @BindView(R.id.login_activity_constraint)
-    ConstraintLayout loginPageActivity;
+    @BindView(R.id.login_header_container)
+    LinearLayout login_title;
 
-    private ProgressDialog mProgressBar;
+    @BindView(R.id.login_activity_constraint)
+    LinearLayout loginPageActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +86,6 @@ public class LoginActivity extends AppCompatActivity {
             loginPageActivity.post(() -> {
                 int height = loginPageActivity.getHeight();
                 loginPageActivity.addOnLayoutChangeListener((v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) -> {
-                    Log.d("ActivityHeight", "Start result = " + height);
                     if ((bottom - top) == height) {
                         changeHeaderVisible("visible");
                     } else {
@@ -208,20 +204,12 @@ public class LoginActivity extends AppCompatActivity {
 
     // Visual settings
     private void changeHeaderVisible(String visibility) {
-        ConstraintSet constraintSet = new ConstraintSet();
-        constraintSet.clone(loginPageActivity);
         switch (visibility) {
             case "gone":
-                logo.setVisibility(View.GONE);
-                universityName.setVisibility(View.GONE);
-                constraintSet.connect(R.id.activity_login_login_btn, ConstraintSet.TOP, R.id.activity_login_password_et, ConstraintSet.BOTTOM, 300);
-                constraintSet.applyTo(loginPageActivity);
+                login_title.setVisibility(View.GONE);
                 break;
             case "visible":
-                logo.setVisibility(View.VISIBLE);
-                universityName.setVisibility(View.VISIBLE);
-                constraintSet.connect(R.id.activity_login_login_btn, ConstraintSet.TOP, R.id.activity_login_password_et, ConstraintSet.BOTTOM, 0);
-                constraintSet.applyTo(loginPageActivity);
+                login_title.setVisibility(View.VISIBLE);
                 break;
         }
     }

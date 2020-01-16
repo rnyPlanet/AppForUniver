@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/empty_state"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:gravity="center"
     android:orientation="vertical"
-    tools:ignore="UseCompoundDrawables"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    tools:ignore="UseCompoundDrawables">
 
     <ImageView
         android:id="@+id/empty_state_icon"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="100dp"
         android:layout_margin="@dimen/page_padding"
         android:contentDescription="@string/empty_state_icon"
         app:srcCompat="@drawable/ic_thinking" />
@@ -20,8 +20,8 @@
     <TextView
         android:id="@+id/empty_state_text"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:gravity="center"
         android:text="@string/empty_state_text"
-        android:textSize="20sp" />
+        android:textSize="18sp" />
 </LinearLayout>

@@ -142,7 +142,7 @@ public class ScheduleFilterDialog extends DialogFragment {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         builder.setView(rootView);
-        builder.setTitle("Title");
+        builder.setTitle("Filter");
         builder.setPositiveButton("Filtration", (dialogInterface, i) -> {
             if (onFilterParameter != null) {
                 onFilterParameter.onSelectedParameter(null, null, selectedProfessors, selectedRooms, selectedGroups, null, null);
