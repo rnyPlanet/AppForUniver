@@ -3,25 +3,18 @@ package com.grin.appforuniver.activities;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.constraintlayout.widget.ConstraintSet;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.grin.appforuniver.R;
-import com.grin.appforuniver.data.WebServices.ServiceGenerator;
-import com.grin.appforuniver.data.api.UserApi;
 import com.grin.appforuniver.data.model.dto.AuthenticationRequestDto;
 import com.grin.appforuniver.data.model.user.User;
 import com.grin.appforuniver.data.service.AuthService;
@@ -36,7 +29,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
@@ -54,11 +46,8 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.password_field)
     AppCompatEditText passwordField;
 
-    @BindView(R.id.login_header_container)
-    LinearLayout login_title;
-
     @BindView(R.id.login_activity_constraint)
-    LinearLayout loginPageActivity;
+    ConstraintLayout loginPageActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,16 +69,18 @@ public class LoginActivity extends AppCompatActivity {
                 if (actionId == EditorInfo.IME_ACTION_SEND) logIn();
                 return false;
             });
+
             //
             // Change header visibility
             //
+
             loginPageActivity.post(() -> {
                 int height = loginPageActivity.getHeight();
                 loginPageActivity.addOnLayoutChangeListener((v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) -> {
                     if ((bottom - top) == height) {
-                        changeHeaderVisible("visible");
+                        changeHeaderItemsVisible("visible");
                     } else {
-                        changeHeaderVisible("gone");
+                        changeHeaderItemsVisible("gone");
                     }
                 });
             });
@@ -203,13 +194,18 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     // Visual settings
-    private void changeHeaderVisible(String visibility) {
+    private void changeHeaderItemsVisible(String visibility) {
+        TextView login_title = findViewById(R.id.login_title);
+        ImageView university_logo = findViewById(R.id.university_logo);
+
         switch (visibility) {
             case "gone":
                 login_title.setVisibility(View.GONE);
+                university_logo.setVisibility(View.GONE);
                 break;
             case "visible":
                 login_title.setVisibility(View.VISIBLE);
+                university_logo.setVisibility(View.VISIBLE);
                 break;
         }
     }
