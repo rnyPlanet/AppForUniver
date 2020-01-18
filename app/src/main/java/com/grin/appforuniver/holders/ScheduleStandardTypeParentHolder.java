@@ -45,7 +45,7 @@ class ScheduleStandardTypeParentHolder extends RecyclerView.ViewHolder {
         typeSubject.setText(classes.getType());
         builder.setTitle(classes.getSubject().getShortname());
         builder.setView(rootView);
-        builder.setPositiveButton("Hide description", (dialogInterface, i) -> {
+        builder.setPositiveButton(R.string.hide_description, (dialogInterface, i) -> {
         });
         return builder.create();
     }

@@ -44,8 +44,8 @@ public class NavigationDrawer extends AppCompatActivity
         PreferenceUtils.setContext(getApplicationContext());
 
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
-            mNavigationView.setCheckedItem(R.id.nav_home);
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ScheduleFragment()).commit();
+            mNavigationView.setCheckedItem(R.id.nav_schedule);
         }
 
         mUser = PreferenceUtils.getSaveUser();

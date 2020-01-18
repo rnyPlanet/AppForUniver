@@ -91,11 +91,27 @@
     <string name="_192_168_0_1" translatable="false">192.168.0.1</string>
     <string name="university_logo" translatable="false">university_logo</string>
     <string name="account_header">account_header</string>
-    <string name="empty_state_icon" translatable="false">Інформація відсутня, зображення</string>
+    <string name="empty_state_icon" translatable="false">Зображення о відсутній інформації</string>
     <string name="fragment_reg_lastname">Прізвище</string>
     <string name="fragment_reg_middle_name">По батькові</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="logo">Логотип</string>
     <string name="select_group">Оберіть групу</string>
     <string name="select_professor">Оберіть викладача</string>
+    <string name="position">Посада</string>
+    <string name="professor">Викладач</string>
+    <string name="search_professor" translatable="false">Пошук викладача</string>
+    <string name="subject">Предмет</string>
+    <string name="subject_type">Тип предмету</string>
+    <string name="successful_deleted">Успішно видалено</string>
+    <string name="warning_delete_counter">Цю консультацію буде видалено!</string>
+    <string name="your_schedule" translatable="false">Ваш розклад</string>
+    <string name="hide_description">Приховати опис</string>
+    <string name="group">Група</string>
+    <string name="filtration">Фільтрувати</string>
+    <string name="chip_adapter_group">"Група: "</string>
+    <string name="chip_adapter_professor">"Викладач: "</string>
+    <string name="chip_adapter_room">"Аудиторія: "</string>
+    <string name="close">Закрити</string>
+    <string name="clear">"Відчистити: "</string>
 </resources>

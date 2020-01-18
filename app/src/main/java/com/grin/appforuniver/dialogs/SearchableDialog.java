@@ -79,15 +79,15 @@ public class SearchableDialog<T> extends DialogFragment {
             }
         });
 
-        builder.setTitle("Select item");
+        builder.setTitle(R.string.select_item);
         builder.setView(rootView);
-        builder.setPositiveButton("Clear", (dialogInterface, i) -> {
+        builder.setPositiveButton(R.string.clear, (dialogInterface, i) -> {
             if (onSelectListener != null) {
                 onSelectListener.onSelected(null);
             }
             dismiss();
         });
-        builder.setNegativeButton("Close", (dialogInterface, i) -> dismiss());
+        builder.setNegativeButton(R.string.close, (dialogInterface, i) -> dismiss());
         AlertDialog alertDialog = builder.create();
 
         return alertDialog;

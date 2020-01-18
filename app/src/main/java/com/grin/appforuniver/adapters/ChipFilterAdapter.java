@@ -106,7 +106,7 @@ public class ChipFilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         if (place != null) listFilters.add(place);
         if (week != null) listFilters.add(week);
         if (listFilters.size() == 0) {
-            listFilters.add("Your schedule");
+            listFilters.add(context.getString(R.string.your_schedule));
         }
         notifyDataSetChanged();
         getSchedule(subject, type, professor, room, group, place, week);
@@ -131,7 +131,7 @@ public class ChipFilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             if (object instanceof Week) week = (Week) object;
         }
         if (listFilters.size() == 0) {
-            listFilters.add("Schedule current user");
+            listFilters.add(context.getString(R.string.your_schedule));
         }
         notifyDataSetChanged();
         getSchedule(subject, type, professor, room, group, place, week);
@@ -169,7 +169,7 @@ public class ChipFilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
 
         void bind(Professors professors) {
-            String text = "Professor: " + professors.getUser().getShortFIO();
+            String text = context.getString(R.string.chip_adapter_professor) + professors.getUser().getShortFIO();
             chip.setText(text);
             chip.setOnCloseIconClickListener(view -> deleteItemFilter(getAdapterPosition()));
         }
@@ -184,7 +184,7 @@ public class ChipFilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
 
         void bind(Rooms rooms) {
-            String text = "Room: " + rooms.getName();
+            String text = context.getString(R.string.chip_adapter_room) + rooms.getName();
             chip.setText(text);
             chip.setOnCloseIconClickListener(view -> deleteItemFilter(getAdapterPosition()));
         }
@@ -199,7 +199,7 @@ public class ChipFilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
 
         void bind(Groups group) {
-            String text = "Group: " + group.getmName();
+            String text = context.getString(R.string.chip_adapter_group) + group.getmName();
             chip.setText(text);
             chip.setOnCloseIconClickListener(view -> deleteItemFilter(getAdapterPosition()));
         }

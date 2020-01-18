@@ -182,7 +182,7 @@ public class ConsultationActivity extends AppCompatActivity implements Consultat
                             @Override
                             public void onDeleteConsultationSuccess(Call<Void> call, Response<Void> response) {
                                 if (response.isSuccessful()) {
-                                    Toasty.success(getBaseContext(), "Successful deleted", Toast.LENGTH_SHORT, true).show();
+                                    Toasty.success(getBaseContext(), getString(R.string.successful_deleted), Toast.LENGTH_SHORT, true).show();
                                     finish();
                                 }
                             }

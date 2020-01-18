@@ -130,13 +130,23 @@
     <string name="consultation_all">All</string>
     <string name="consultation_my">My</string>
     <string name="consultation_subscribe">Subscribe</string>
-    <string name="warning_delete_counter" translatable="false">This consultation will be deleted!</string>
-    <string name="search_professor" translatable="false">Search professor</string>
-    <string name="subject" translatable="false">Subject</string>
-    <string name="professor" translatable="false">Professor</string>
-    <string name="position" translatable="false">Position</string>
-    <string name="group" translatable="false">Group</string>
-    <string name="subject_type" translatable="false">Subject type</string>
+    <string name="warning_delete_counter">This consultation will be deleted!</string>
+    <string name="search_professor">Search professor</string>
+    <string name="subject">Subject</string>
+    <string name="professor">Professor</string>
+    <string name="position">Position</string>
+    <string name="group">Group</string>
+    <string name="subject_type">Subject type</string>
     <string name="students_sount_title" translatable="false">Записано студентів:</string>
+    <string name="your_schedule">Your schedule</string>
+    <string name="chip_adapter_professor">Professor:</string>
+    <string name="chip_adapter_room">Room:</string>
+    <string name="chip_adapter_group">Group:</string>
+    <string name="successful_deleted">Successful deleted</string>
+    <string name="filtration">Filtration</string>
+    <string name="clear">Clear</string>
+    <string name="hide_description">Hide description</string>
+    <string name="close">Close</string>
+    <string name="select_item" translatable="false">Select item</string>
 
 </resources>
