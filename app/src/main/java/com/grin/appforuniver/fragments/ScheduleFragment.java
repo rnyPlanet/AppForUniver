@@ -17,19 +17,20 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.grin.appforuniver.R;
-import com.grin.appforuniver.data.api.ProfessorApi;
+import com.grin.appforuniver.adapters.ChipFilterAdapter;
+import com.grin.appforuniver.adapters.ProfessorScheduleAdapter;
+import com.grin.appforuniver.adapters.ScheduleGroupAdapter;
 import com.grin.appforuniver.data.WebServices.ServiceGenerator;
+import com.grin.appforuniver.data.api.ProfessorApi;
 import com.grin.appforuniver.data.model.schedule.Classes;
 import com.grin.appforuniver.data.model.schedule.Groups;
 import com.grin.appforuniver.data.model.schedule.Professors;
 import com.grin.appforuniver.data.model.schedule.Rooms;
 import com.grin.appforuniver.data.model.schedule.Subject;
+import com.grin.appforuniver.data.model.schedule.TypeClasses;
 import com.grin.appforuniver.dialogs.ScheduleFilterDialog;
 import com.grin.appforuniver.dialogs.SearchableDialog;
 import com.grin.appforuniver.fragments.schedule.ScheduleStandardTypeModel;
-import com.grin.appforuniver.adapters.ChipFilterAdapter;
-import com.grin.appforuniver.adapters.ProfessorScheduleAdapter;
-import com.grin.appforuniver.adapters.ScheduleGroupAdapter;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -41,7 +42,6 @@ import retrofit2.Response;
 
 import static com.grin.appforuniver.utils.Constants.Place;
 import static com.grin.appforuniver.utils.Constants.Subgroup;
-import static com.grin.appforuniver.utils.Constants.TypesOfClasses;
 import static com.grin.appforuniver.utils.Constants.Week;
 
 public class ScheduleFragment extends Fragment implements ScheduleFilterDialog.OnSelectListener {
@@ -120,16 +120,17 @@ public class ScheduleFragment extends Fragment implements ScheduleFilterDialog.O
         public void onResponse(@NonNull Call<List<Classes>> call, @NonNull Response<List<Classes>> response) {
             if (response.body() != null) {
                 List<Classes> listClasses = new ArrayList<>(response.body());
+                Log.d(TAG, "onResponse: "+listClasses);
                 List<ScheduleStandardTypeModel> schedulePairs = new ArrayList<>();
                 for (Place place : Place.values()) {
                     if (place == Place.POOL) continue;
                     schedulePairs.add(new ScheduleStandardTypeModel(R.layout.schedule_day_separator,
                             place, -1, null));
                     boolean isWeekendDay = false;
-                    for (int i = 0; i <= 6; i++) {
+                    for (int i = 1; i <= 6; i++) {
                         List<Classes> classesInsidePairs = new ArrayList<>();
                         for (Classes classes : listClasses) {
-                            if (classes.getPlace() == place && classes.getIndexInDay() == i) {
+                            if (classes.getPlace() == place && classes.getPositionInDay().getId() == i) {
                                 if (chipFilterAdapter.isProfessorsSchedule()) {
                                     //Требуется для корректного отображения предметов преподавателя
                                     classes.setSubgroup(Subgroup.BOTH);
@@ -363,7 +364,7 @@ public class ScheduleFragment extends Fragment implements ScheduleFilterDialog.O
     }
 
     @Override
-    public void onSelectedParameter(Subject subject, TypesOfClasses type, Professors professor, Rooms room, Groups group, Place place, Week week) {
+    public void onSelectedParameter(Subject subject, TypeClasses type, Professors professor, Rooms room, Groups group, Place place, Week week) {
         chipFilterAdapter.setItemsFilter(subject, type, professor, room, group, place, week);
     }
 }

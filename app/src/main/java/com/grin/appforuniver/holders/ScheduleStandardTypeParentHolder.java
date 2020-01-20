@@ -40,9 +40,9 @@ class ScheduleStandardTypeParentHolder extends RecyclerView.ViewHolder {
         TextView typeSubject = rootView.findViewById(R.id.name_subject_type);
         nameSubject.setText(classes.getSubject().getFullName());
         nameProf.setText(classes.getProfessor().getUser().getFullFIO());
-        nameProfPosada.setText(classes.getProfessor().getPosada().getPostVykl());
+        nameProfPosada.setText(classes.getProfessor().getPosada().getFullPostProfessor());
         nameGroup.setText(classes.getAssignedGroup().getmName());
-        typeSubject.setText(classes.getType());
+        typeSubject.setText(classes.getType().getType());
         builder.setTitle(classes.getSubject().getShortname());
         builder.setView(rootView);
         builder.setPositiveButton(R.string.hide_description, (dialogInterface, i) -> {

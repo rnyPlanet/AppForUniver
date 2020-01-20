@@ -7,35 +7,21 @@ import lombok.Data;
 @Data
 public class Department {
 
-    /*
-    department": {
-        "id": 2,
-        "pkeyTypeDepartment": null,
-        "pkeyBoss": null,
-        "name": "Деканат факультету компютерних наук",
-        "emeil": null,
-        "telefon": null
-    }
-    */
-
     @SerializedName("id")
     private Integer mId;
-    @SerializedName("pkeyTypeDepartment")
-    private Integer mPkeyTypeDepartment;
-    @SerializedName("pkeyBoss")
-    private Integer mPkeyBoss;
     @SerializedName("name")
     private String mName;
+    @SerializedName("shortName")
+    private String mShortName;
     @SerializedName("emeil")
     private String mEmeil;
     @SerializedName("telefon")
     private String mTelefon;
 
-    Department(Integer id, Integer pkeyTypeDepartment, Integer pkeyBoss, String name, String emeil, String telefon) {
+    Department(Integer id, String name, String shortName, String emeil, String telefon) {
         this.mId = id;
-        this.mPkeyTypeDepartment = pkeyTypeDepartment;
-        this.mPkeyBoss = pkeyBoss;
         this.mName = name;
+        this.mShortName = shortName;
         this.mEmeil = emeil;
         this.mTelefon = telefon;
     }
@@ -48,28 +34,20 @@ public class Department {
         this.mId = id;
     }
 
-    public Integer getPkeyTypeDepartment() {
-        return mPkeyTypeDepartment;
-    }
-
-    public void setPkeyTypeDepartment(Integer pkeyTypeDepartment) {
-        this.mPkeyTypeDepartment = pkeyTypeDepartment;
-    }
-
-    public Integer getPkeyBoss() {
-        return mPkeyBoss;
-    }
-
-    public void setPkeyBoss(Integer pkeyBoss) {
-        this.mPkeyBoss = pkeyBoss;
-    }
-
     public String getName() {
         return mName;
     }
 
     public void setName(String name) {
         this.mName = name;
+    }
+
+    public String getShortName() {
+        return mShortName;
+    }
+
+    public void setShortName(String mShortName) {
+        this.mShortName = mShortName;
     }
 
     public String getEmeil() {
@@ -91,12 +69,11 @@ public class Department {
     @Override
     public String toString() {
         return "Department{" +
-                "id=" + mId +
-                ", pkeyTypeDepartment=" + mPkeyTypeDepartment +
-                ", pkeyBoss=" + mPkeyBoss +
-                ", name='" + mName + '\'' +
-                ", emeil='" + mEmeil + '\'' +
-                ", telefon='" + mTelefon + '\'' +
+                "mId=" + mId +
+                ", mName='" + mName + '\'' +
+                ", mShortName='" + mShortName + '\'' +
+                ", mEmeil='" + mEmeil + '\'' +
+                ", mTelefon='" + mTelefon + '\'' +
                 '}';
     }
 }

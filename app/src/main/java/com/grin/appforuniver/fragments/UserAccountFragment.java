@@ -153,7 +153,7 @@ public class UserAccountFragment extends Fragment {
 
                     if (mProfessor.getPosada() != null) {
                         posada_ll.setVisibility(View.VISIBLE);
-                        posada_tv.setText(mProfessor.getPosada().getPostVykl());
+                        posada_tv.setText(mProfessor.getPosada().getFullPostProfessor());
                     } else {
                         posada_ll.setVisibility(View.GONE);
                     }

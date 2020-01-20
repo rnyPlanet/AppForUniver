@@ -21,6 +21,7 @@ import com.grin.appforuniver.data.model.schedule.Groups;
 import com.grin.appforuniver.data.model.schedule.Professors;
 import com.grin.appforuniver.data.model.schedule.Rooms;
 import com.grin.appforuniver.data.model.schedule.Subject;
+import com.grin.appforuniver.data.model.schedule.TypeClasses;
 import com.grin.appforuniver.data.service.GroupService;
 import com.grin.appforuniver.data.service.ProfessorService;
 import com.grin.appforuniver.data.service.RoomService;
@@ -38,7 +39,6 @@ import retrofit2.Call;
 import retrofit2.Response;
 
 import static com.grin.appforuniver.utils.Constants.Place;
-import static com.grin.appforuniver.utils.Constants.TypesOfClasses;
 import static com.grin.appforuniver.utils.Constants.Week;
 
 public class ScheduleFilterDialog extends DialogFragment {
@@ -148,7 +148,7 @@ public class ScheduleFilterDialog extends DialogFragment {
                 onFilterParameter.onSelectedParameter(null, null, selectedProfessors, selectedRooms, selectedGroups, null, null);
             }
         });
-        builder.setNegativeButton( R.string.clear, (dialogInterface, i) -> {
+        builder.setNegativeButton(R.string.clear, (dialogInterface, i) -> {
             if (onFilterParameter != null) {
                 onFilterParameter.onSelectedParameter(null, null, null, null, null, null, null);
             }
@@ -216,6 +216,6 @@ public class ScheduleFilterDialog extends DialogFragment {
     }
 
     public interface OnSelectListener {
-        void onSelectedParameter(Subject subject, TypesOfClasses type, Professors professor, Rooms room, Groups group, Place place, Week week);
+        void onSelectedParameter(Subject subject, TypeClasses type, Professors professor, Rooms room, Groups group, Place place, Week week);
     }
 }

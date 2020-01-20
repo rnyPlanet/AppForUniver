@@ -5,12 +5,10 @@ import com.grin.appforuniver.data.api.ScheduleApi;
 import com.grin.appforuniver.data.model.schedule.Classes;
 import com.grin.appforuniver.data.tools.AuthInterceptor;
 import com.grin.appforuniver.utils.Constants;
-import com.grin.appforuniver.utils.PreferenceUtils;
 
 import java.util.List;
 
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -20,7 +18,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ScheduleService {
 
-    public void requestScheduleByCriteria(int subject, String type, int professorId, int roomId, int groupId, String place, String week, int indexInDay, String additionalRequirements, final OnRequestScheduleListener l) {
+    public void requestScheduleByCriteria(int subject, int type, int professorId, int roomId, int groupId, String place, String week, int indexInDay, String additionalRequirements, final OnRequestScheduleListener l) {
         Call<List<Classes>> getScheduleByCriteria = buildApi(buildClient())
                 .getScheduleByCriteria(subject, type, professorId, roomId, groupId, place, week, indexInDay, additionalRequirements);
         getScheduleByCriteria.enqueue(new Callback<List<Classes>>() {

@@ -8,17 +8,12 @@ import lombok.Data;
 @Data
 public class Posada {
 
-    /*
-    sprPosada": {
-        "id": 1,
-        "postVykl": "професор, доктор наук"
-    }
-    */
-
     @SerializedName("id")
     private int mId;
-    @SerializedName("postVykl")
-    private String mPostVykl;
+    @SerializedName("shortPostProfessor")
+    private String mShortPostProfessor;
+    @SerializedName("fullPostProfessor")
+    private String mFullPostProfessor;
 
     public int getId() {
         return mId;
@@ -28,19 +23,28 @@ public class Posada {
         this.mId = id;
     }
 
-    public String getPostVykl() {
-        return mPostVykl;
+    public String getShortPostProfessor() {
+        return mShortPostProfessor;
     }
 
-    public void setPostVykl(String postVykl) {
-        this.mPostVykl = postVykl;
+    public void setShortPostProfessor(String mShortPostProfessor) {
+        this.mShortPostProfessor = mShortPostProfessor;
+    }
+
+    public String getFullPostProfessor() {
+        return mFullPostProfessor;
+    }
+
+    public void setFullPostProfessor(String mFullPostProfessor) {
+        this.mFullPostProfessor = mFullPostProfessor;
     }
 
     @Override
     public String toString() {
         return "Posada{" +
-                "id=" + mId +
-                ", postVykl='" + mPostVykl + '\'' +
+                "mId=" + mId +
+                ", mShortPostProfessor='" + mShortPostProfessor + '\'' +
+                ", mFullPostProfessor='" + mFullPostProfessor + '\'' +
                 '}';
     }
 }

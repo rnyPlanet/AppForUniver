@@ -8,7 +8,6 @@ package com.grin.appforuniver.data.model.schedule;
 import com.google.gson.annotations.SerializedName;
 
 import lombok.Data;
-import lombok.NonNull;
 
 
 @Data
@@ -30,7 +29,7 @@ public class Rooms {
     private Short mIsBlocked;
 
     @SerializedName("type")
-    private String mType;
+    private TypeRoom mType;
 
     @Override
     public String toString() {
@@ -77,11 +76,11 @@ public class Rooms {
         this.mIsBlocked = mIsBlocked;
     }
 
-    public String getType() {
+    public TypeRoom getType() {
         return mType;
     }
 
-    public void setType(String mType) {
+    public void setType(TypeRoom mType) {
         this.mType = mType;
     }
 }

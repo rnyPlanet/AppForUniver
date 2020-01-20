@@ -15,6 +15,7 @@ import com.grin.appforuniver.data.model.schedule.Groups;
 import com.grin.appforuniver.data.model.schedule.Professors;
 import com.grin.appforuniver.data.model.schedule.Rooms;
 import com.grin.appforuniver.data.model.schedule.Subject;
+import com.grin.appforuniver.data.model.schedule.TypeClasses;
 import com.grin.appforuniver.fragments.schedule.ScheduleFiltrationManager;
 
 import java.util.ArrayList;
@@ -23,7 +24,6 @@ import java.util.List;
 import retrofit2.Callback;
 
 import static com.grin.appforuniver.utils.Constants.Place;
-import static com.grin.appforuniver.utils.Constants.TypesOfClasses;
 import static com.grin.appforuniver.utils.Constants.Week;
 
 public class ChipFilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -96,7 +96,7 @@ public class ChipFilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         return listFilters.size();
     }
 
-    public void setItemsFilter(Subject subject, TypesOfClasses type, Professors professor, Rooms room, Groups group, Place place, Week week) {
+    public void setItemsFilter(Subject subject, TypeClasses type, Professors professor, Rooms room, Groups group, Place place, Week week) {
         listFilters.clear();
         if (subject != null) listFilters.add(subject);
         if (type != null) listFilters.add(type);
@@ -115,7 +115,7 @@ public class ChipFilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private void deleteItemFilter(int position) {
         listFilters.remove(position);
         Subject subject = null;
-        TypesOfClasses type = null;
+        TypeClasses type = null;
         Professors professor = null;
         Rooms room = null;
         Groups group = null;
@@ -123,7 +123,7 @@ public class ChipFilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         Week week = null;
         for (Object object : listFilters) {
             if (object instanceof Subject) subject = (Subject) object;
-            if (object instanceof TypesOfClasses) type = (TypesOfClasses) object;
+            if (object instanceof TypeClasses) type = (TypeClasses) object;
             if (object instanceof Professors) professor = (Professors) object;
             if (object instanceof Rooms) room = (Rooms) object;
             if (object instanceof Groups) group = (Groups) object;
@@ -137,7 +137,7 @@ public class ChipFilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         getSchedule(subject, type, professor, room, group, place, week);
     }
 
-    void getSchedule(Subject subject, TypesOfClasses type, Professors professor, Rooms room, Groups group, Place place, Week week) {
+    void getSchedule(Subject subject, TypeClasses type, Professors professor, Rooms room, Groups group, Place place, Week week) {
         scheduleFiltrationManager.getSchedule(subject, type, professor, room, group, place, week);
 
     }

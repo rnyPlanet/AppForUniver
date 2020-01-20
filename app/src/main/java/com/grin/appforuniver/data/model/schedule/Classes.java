@@ -23,13 +23,13 @@ public class Classes {
     private Subject mSubject;
 
     @SerializedName("type")
-    private String mType;
+    private TypeClasses mType;
 
     @SerializedName("place")
     private Place mPlace;
 
-    @SerializedName("indexInDay")
-    private int mIndexInDay;
+    @SerializedName("positionInDay")
+    private LessonTime mPositionInDay;
 
     @SerializedName("additionalRequirements")
     private String mAdditionalRequirements;
@@ -65,11 +65,11 @@ public class Classes {
         this.mSubject = mSubject;
     }
 
-    public String getType() {
+    public TypeClasses getType() {
         return mType;
     }
 
-    public void setType(String mType) {
+    public void setType(TypeClasses mType) {
         this.mType = mType;
     }
 
@@ -81,12 +81,12 @@ public class Classes {
         this.mPlace = mPlace;
     }
 
-    public int getIndexInDay() {
-        return mIndexInDay;
+    public LessonTime getPositionInDay() {
+        return mPositionInDay;
     }
 
-    public void setIndexInDay(int mIndexInDay) {
-        this.mIndexInDay = mIndexInDay;
+    public void setPositionInDay(LessonTime mPositionInDay) {
+        this.mPositionInDay = mPositionInDay;
     }
 
     public String getAdditionalRequirements() {
@@ -144,7 +144,7 @@ public class Classes {
                 ", mSubject='" + mSubject + '\'' +
                 ", mType='" + mType + '\'' +
                 ", mPlace=" + mPlace +
-                ", mIndexInDay=" + mIndexInDay +
+                ", mPositionInDay=" + mPositionInDay +
                 ", mAdditionalRequirements='" + mAdditionalRequirements + '\'' +
                 ", mWeek=" + mWeek +
                 ", mAssignedGroup=" + mAssignedGroup +

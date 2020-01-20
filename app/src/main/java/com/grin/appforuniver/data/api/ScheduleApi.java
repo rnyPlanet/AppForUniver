@@ -12,7 +12,7 @@ public interface ScheduleApi {
 
     @GET("schedule/classes/criteria")
     Call<List<Classes>> getScheduleByCriteria(@Query("subjectId") int subject,
-                                              @Query("type") String type,
+                                              @Query("type") int type,
                                               @Query("professorId") int professorId,
                                               @Query("roomId") int roomId,
                                               @Query("groupId") int groupId,
