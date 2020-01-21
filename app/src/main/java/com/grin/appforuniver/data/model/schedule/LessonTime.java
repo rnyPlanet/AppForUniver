@@ -2,19 +2,17 @@ package com.grin.appforuniver.data.model.schedule;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.sql.Time;
-
 public class LessonTime {
-    
+
     @SerializedName("id")
     private Integer mId;
 
     @SerializedName("position")
-    private Integer mType;
-    
+    private Integer mPositionInDay;
+
     @SerializedName("startTime")
     private String mStartTime;
-    
+
     @SerializedName("endTime")
     private String mEndTime;
 
@@ -26,12 +24,12 @@ public class LessonTime {
         this.mId = mId;
     }
 
-    public Integer getType() {
-        return mType;
+    public Integer getPositionInDay() {
+        return mPositionInDay;
     }
 
-    public void setType(Integer mType) {
-        this.mType = mType;
+    public void setPositionInDay(Integer mPositionInDay) {
+        this.mPositionInDay = mPositionInDay;
     }
 
     public String getStartTime() {
@@ -54,7 +52,7 @@ public class LessonTime {
     public String toString() {
         return "LessonTime{" +
                 "mId=" + mId +
-                ", mType=" + mType +
+                ", mPositionInDay=" + mPositionInDay +
                 ", mStartTime=" + mStartTime +
                 ", mEndTime=" + mEndTime +
                 '}';

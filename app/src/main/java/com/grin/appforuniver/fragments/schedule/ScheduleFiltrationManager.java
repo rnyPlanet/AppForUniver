@@ -10,6 +10,7 @@ import com.grin.appforuniver.data.model.schedule.Subject;
 import com.grin.appforuniver.data.model.schedule.TypeClasses;
 import com.grin.appforuniver.utils.PreferenceUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -20,58 +21,129 @@ import static com.grin.appforuniver.utils.Constants.Roles.ROLE_TEACHER;
 import static com.grin.appforuniver.utils.Constants.Week;
 
 public class ScheduleFiltrationManager {
-    private int subject;
-    private int type;
-    private int professorId;
-    private int roomId;
-    private int groupId;
-    private String place;
-    private String week;
-    private Callback<List<Classes>> callbackRetrofitSchedule;
+    private Subject subject;
+    private TypeClasses type;
+    private Professors professor;
+    private Rooms room;
+    private Groups group;
+    private Place place;
+    private Week week;
 
-    public ScheduleFiltrationManager(Callback<List<Classes>> callbackRetrofitSchedule) {
-        this.callbackRetrofitSchedule = callbackRetrofitSchedule;
+    private boolean isProfessorSchedule;
+
+    private ScheduleFiltrationManager(Builder builder) {
+        subject = builder.subject;
+        type = builder.type;
+        professor = builder.professor;
+        room = builder.room;
+        group = builder.group;
+        place = builder.place;
+        week = builder.week;
     }
 
-    private void initializeParameters(Subject subject, TypeClasses type, Professors professor, Rooms room, Groups group, Place place, Week week) {
-        this.subject = (subject != null) ? subject.getId() : -1;
-        this.type = (type != null) ? type.getId() : -1;
-        this.professorId = (professor != null) ? professor.getId() : -1;
-        this.roomId = (room != null) ? room.getId() : -1;
-        this.groupId = (group != null) ? group.getmId() : -1;
-        this.place = (place != null) ? place.toString() : null;
-        this.week = (week != null) ? week.toString() : null;
+    public static class Builder {
+        private Subject subject = null;
+        private TypeClasses type = null;
+        private Professors professor = null;
+        private Rooms room = null;
+        private Groups group = null;
+        private Place place = null;
+        private Week week = null;
+
+        public Builder() {
+        }
+
+        public Builder filtrationBySubject(Subject subject) {
+            this.subject = subject;
+            return this;
+        }
+
+        public Builder filtrationByType(TypeClasses typeClasses) {
+            this.type = typeClasses;
+            return this;
+        }
+
+        public Builder filtrationByProfessor(Professors professor) {
+            this.professor = professor;
+            return this;
+        }
+
+        public Builder filtrationByRoom(Rooms room) {
+            this.room = room;
+            return this;
+        }
+
+        public Builder filtrationByGroup(Groups group) {
+            this.group = group;
+            return this;
+        }
+
+        public Builder filtrationByPlace(Place place) {
+            this.place = place;
+            return this;
+        }
+
+        public Builder filtrationByWeek(Week week) {
+            this.week = week;
+            return this;
+        }
+
+        public ScheduleFiltrationManager build() {
+            return new ScheduleFiltrationManager(this);
+        }
     }
 
-    public void getSchedule(Subject subject, TypeClasses type, Professors professor, Rooms room, Groups group, Place place, Week week) {
-        initializeParameters(subject, type, professor, room, group, place, week);
+    public void getSchedule(Callback<List<Classes>> callbackRetrofitSchedule) {
+        int subjectId = (subject != null) ? subject.getId() : -1;
+        int typeClassesId = (type != null) ? type.getId() : -1;
+        int professorId = (professor != null) ? professor.getId() : -1;
+        int roomId = (room != null) ? room.getId() : -1;
+        int groupId = (group != null) ? group.getmId() : -1;
+        String placeStr = (place != null) ? place.toString() : null;
+        String weekStr = (week != null) ? week.toString() : null;
+
 
         ScheduleApi scheduleApi = ServiceGenerator.createService(ScheduleApi.class);
         Call<List<Classes>> call;
 
-        if (this.subject == -1 & this.type == -1 & this.professorId == -1 &
-                this.roomId == -1 & this.groupId == -1 & this.place == null &
-                this.week == null) {
+        if (subjectId == -1 & typeClassesId == -1 & professorId == -1 &
+                roomId == -1 & groupId == -1 & placeStr == null &
+                weekStr == null) {
             call = scheduleApi.getScheduleCurrentUser();
             if (PreferenceUtils.getUserRoles().contains(ROLE_TEACHER.toString())) {
                 //Fix for teacher schedule display normally
-                this.professorId = 0;
+                isProfessorSchedule = true;
+            } else {
+                isProfessorSchedule = false;
             }
         } else {
             call = scheduleApi.getScheduleByCriteria(
-                    this.subject,
-                    this.type,
-                    this.professorId,
-                    this.roomId,
-                    this.groupId,
-                    this.place,
-                    this.week, -1, null);
+                    subjectId,
+                    typeClassesId,
+                    professorId,
+                    roomId,
+                    groupId,
+                    placeStr,
+                    weekStr, -1, null);
+            isProfessorSchedule = professorId != -1;
         }
         if (callbackRetrofitSchedule != null)
             call.enqueue(callbackRetrofitSchedule);
     }
 
+    public List<Object> getFilterItems() {
+        List<Object> listFilterItems = new ArrayList<>();
+        if (subject != null) listFilterItems.add(subject);
+        if (type != null) listFilterItems.add(type);
+        if (professor != null) listFilterItems.add(professor);
+        if (room != null) listFilterItems.add(room);
+        if (group != null) listFilterItems.add(group);
+        if (place != null) listFilterItems.add(place);
+        if (week != null) listFilterItems.add(week);
+        return listFilterItems;
+    }
+
     public boolean isProfessorsSchedule() {
-        return professorId != -1 & groupId == -1;
+        return isProfessorSchedule;
     }
 }

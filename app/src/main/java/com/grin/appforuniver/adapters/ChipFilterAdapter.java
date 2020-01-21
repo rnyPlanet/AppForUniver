@@ -10,21 +10,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.chip.Chip;
 import com.grin.appforuniver.R;
-import com.grin.appforuniver.data.model.schedule.Classes;
 import com.grin.appforuniver.data.model.schedule.Groups;
 import com.grin.appforuniver.data.model.schedule.Professors;
 import com.grin.appforuniver.data.model.schedule.Rooms;
-import com.grin.appforuniver.data.model.schedule.Subject;
-import com.grin.appforuniver.data.model.schedule.TypeClasses;
-import com.grin.appforuniver.fragments.schedule.ScheduleFiltrationManager;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import retrofit2.Callback;
-
-import static com.grin.appforuniver.utils.Constants.Place;
-import static com.grin.appforuniver.utils.Constants.Week;
 
 public class ChipFilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final String TAG = "ChipFilterAdapter";
@@ -33,18 +24,18 @@ public class ChipFilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private static final int TYPE_GROUP = 2;
     private static final int TYPE_STRING = 3;
     private Context context;
-    private List<Object> listFilters;
-    private ScheduleFiltrationManager scheduleFiltrationManager;
+    private List<Object> listFilterItems;
+    private OnRemovedFilterItem onRemovedFilterItem;
 
-    public ChipFilterAdapter(Context context, Callback<List<Classes>> callbackRetrofitSchedule) {
+    public ChipFilterAdapter(Context context, OnRemovedFilterItem onRemovedFilterItem) {
         this.context = context;
-        scheduleFiltrationManager = new ScheduleFiltrationManager(callbackRetrofitSchedule);
-        this.listFilters = new ArrayList<>();
+        this.onRemovedFilterItem = onRemovedFilterItem;
+        this.listFilterItems = new ArrayList<>();
     }
 
     @Override
     public int getItemViewType(int position) {
-        Object item = listFilters.get(position);
+        Object item = listFilterItems.get(position);
         if (item instanceof Professors) {
             return TYPE_PROFESSOR;
         } else if (item instanceof Rooms) {
@@ -81,69 +72,34 @@ public class ChipFilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof ProfessorViewHolder) {
-            ((ProfessorViewHolder) holder).bind((Professors) listFilters.get(position));
+            ((ProfessorViewHolder) holder).bind((Professors) listFilterItems.get(position));
         } else if (holder instanceof RoomViewHolder) {
-            ((RoomViewHolder) holder).bind((Rooms) listFilters.get(position));
+            ((RoomViewHolder) holder).bind((Rooms) listFilterItems.get(position));
         } else if (holder instanceof GroupViewHolder) {
-            ((GroupViewHolder) holder).bind((Groups) listFilters.get(position));
+            ((GroupViewHolder) holder).bind((Groups) listFilterItems.get(position));
         } else if (holder instanceof ViewHolder) {
-            ((ViewHolder) holder).bind((String) listFilters.get(position));
+            ((ViewHolder) holder).bind((String) listFilterItems.get(position));
         }
     }
 
     @Override
     public int getItemCount() {
-        return listFilters.size();
+        return listFilterItems.size();
     }
 
-    public void setItemsFilter(Subject subject, TypeClasses type, Professors professor, Rooms room, Groups group, Place place, Week week) {
-        listFilters.clear();
-        if (subject != null) listFilters.add(subject);
-        if (type != null) listFilters.add(type);
-        if (professor != null) listFilters.add(professor);
-        if (room != null) listFilters.add(room);
-        if (group != null) listFilters.add(group);
-        if (place != null) listFilters.add(place);
-        if (week != null) listFilters.add(week);
-        if (listFilters.size() == 0) {
-            listFilters.add(context.getString(R.string.your_schedule));
+    public void setItemsFilter(List<Object> listFilterItems) {
+        this.listFilterItems = listFilterItems;
+        if (this.listFilterItems.size() == 0) {
+            this.listFilterItems.add(context.getString(R.string.your_schedule));
         }
         notifyDataSetChanged();
-        getSchedule(subject, type, professor, room, group, place, week);
     }
 
     private void deleteItemFilter(int position) {
-        listFilters.remove(position);
-        Subject subject = null;
-        TypeClasses type = null;
-        Professors professor = null;
-        Rooms room = null;
-        Groups group = null;
-        Place place = null;
-        Week week = null;
-        for (Object object : listFilters) {
-            if (object instanceof Subject) subject = (Subject) object;
-            if (object instanceof TypeClasses) type = (TypeClasses) object;
-            if (object instanceof Professors) professor = (Professors) object;
-            if (object instanceof Rooms) room = (Rooms) object;
-            if (object instanceof Groups) group = (Groups) object;
-            if (object instanceof Place) place = (Place) object;
-            if (object instanceof Week) week = (Week) object;
-        }
-        if (listFilters.size() == 0) {
-            listFilters.add(context.getString(R.string.your_schedule));
-        }
+        listFilterItems.remove(position);
+        if (onRemovedFilterItem != null)
+            onRemovedFilterItem.onRemovedFilterItem(listFilterItems);
         notifyDataSetChanged();
-        getSchedule(subject, type, professor, room, group, place, week);
-    }
-
-    void getSchedule(Subject subject, TypeClasses type, Professors professor, Rooms room, Groups group, Place place, Week week) {
-        scheduleFiltrationManager.getSchedule(subject, type, professor, room, group, place, week);
-
-    }
-
-    public boolean isProfessorsSchedule() {
-        return scheduleFiltrationManager.isProfessorsSchedule();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -205,4 +161,7 @@ public class ChipFilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
     }
 
+    public interface OnRemovedFilterItem {
+        void onRemovedFilterItem(List<Object> listFilterItems);
+    }
 }
