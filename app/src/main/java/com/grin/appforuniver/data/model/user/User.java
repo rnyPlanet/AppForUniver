@@ -33,9 +33,9 @@ public class User {
     @SerializedName("photo")
     private Photo mPhoto;
 
-    @SerializedName("telefon1")
+    @SerializedName("telephone_1")
     private String mTelefon1;
-    @SerializedName("telefon2")
+    @SerializedName("telephone_2")
     private String mTelefon2;
 
     public User() {
@@ -125,6 +125,15 @@ public class User {
     public String getShortFIO() {
         return mLastName + " " + getShortFormFirstName() + " " + getShortFormPatronymic();
     }
+
+    public String getFullFI() {
+        return mLastName + " " + mFirstName;
+    }
+
+    public String getShortFI() {
+        return mLastName + " " + getShortFormFirstName();
+    }
+
 
     @Override
     public String toString() {

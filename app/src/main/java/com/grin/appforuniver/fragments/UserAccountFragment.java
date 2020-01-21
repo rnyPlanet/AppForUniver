@@ -107,7 +107,7 @@ public class UserAccountFragment extends Fragment {
 
                         if (mUser.getFirstName() != null && !mUser.getFirstName().isEmpty()) {
                             username_ll.setVisibility(View.VISIBLE);
-                            username_tv.setText(mUser.getFirstName() + " " + mUser.getLastName());
+                            username_tv.setText(mUser.getFullFI());
                         }
 
                         if (mUser.getEmail() != null && !mUser.getEmail().isEmpty()) {
@@ -132,7 +132,6 @@ public class UserAccountFragment extends Fragment {
                         user_account_header.setVisibility(View.VISIBLE);
                         email_ll.setVisibility(View.VISIBLE);
                         telefon1_ll.setVisibility(View.VISIBLE);
-
                     }
                 }
             }

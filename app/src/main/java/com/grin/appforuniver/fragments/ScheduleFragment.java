@@ -177,7 +177,7 @@ public class ScheduleFragment extends Fragment implements ScheduleFilterDialog.O
                                 typeView = setDataInLayout(classesInsidePairs);
                             }
                             schedulePairs.add(new ScheduleStandardTypeModel(typeView,
-                                    place, i + 1, classesInsidePairs));
+                                    place, i, classesInsidePairs));
                         }
                     }
                     if (!isWeekendDay) {
