@@ -20,14 +20,14 @@ import com.grin.appforuniver.R;
 import com.grin.appforuniver.adapters.ChipFilterAdapter;
 import com.grin.appforuniver.adapters.ProfessorScheduleAdapter;
 import com.grin.appforuniver.adapters.ScheduleGroupAdapter;
-import com.grin.appforuniver.data.WebServices.ServiceGenerator;
-import com.grin.appforuniver.data.api.ProfessorApi;
 import com.grin.appforuniver.data.model.schedule.Classes;
 import com.grin.appforuniver.data.model.schedule.Groups;
 import com.grin.appforuniver.data.model.schedule.Professors;
 import com.grin.appforuniver.data.model.schedule.Rooms;
 import com.grin.appforuniver.data.model.schedule.Subject;
 import com.grin.appforuniver.data.model.schedule.TypeClasses;
+import com.grin.appforuniver.data.service.ProfessorService;
+import com.grin.appforuniver.data.service.ScheduleService;
 import com.grin.appforuniver.dialogs.ScheduleFilterDialog;
 import com.grin.appforuniver.dialogs.SearchableDialog;
 import com.grin.appforuniver.fragments.schedule.ScheduleFiltrationManager;
@@ -38,7 +38,6 @@ import java.util.Collections;
 import java.util.List;
 
 import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.grin.appforuniver.utils.Constants.Place;
@@ -48,17 +47,19 @@ import static com.grin.appforuniver.utils.Constants.Week;
 public class ScheduleFragment extends Fragment implements ScheduleFilterDialog.OnSelectListener {
     private static final String TAG = "ScheduleFragment";
     private View mView;
+    private ProfessorService mProfessorService;
     private RecyclerView recyclerViewSchedule;
     private ScheduleGroupAdapter scheduleAdapter;
     private RecyclerView recyclerViewFiltration;
     private ScheduleFiltrationManager scheduleFiltrationManager;
 
-    ChipFilterAdapter chipFilterAdapter;
+    private ChipFilterAdapter chipFilterAdapter;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
+        mProfessorService = ProfessorService.getService();
         setHasOptionsMenu(true);
         mView = inflater.inflate(R.layout.fragment_schedule, container, false);
         getActivity().setTitle(R.string.menu_schedule);
@@ -67,46 +68,41 @@ public class ScheduleFragment extends Fragment implements ScheduleFilterDialog.O
         recyclerViewSchedule.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerViewFiltration.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
 
-        chipFilterAdapter = new ChipFilterAdapter(getContext(), new ChipFilterAdapter.OnRemovedFilterItem() {
-            @Override
-            public void onRemovedFilterItem(List<Object> listFilterItems) {
-                ScheduleFiltrationManager.Builder scheduleFilters = new ScheduleFiltrationManager.Builder();
-                for (Object object : listFilterItems) {
-                    if (object instanceof Subject)
-                        scheduleFilters.filtrationBySubject((Subject) object);
-                    if (object instanceof TypeClasses)
-                        scheduleFilters.filtrationByType((TypeClasses) object);
-                    if (object instanceof Professors)
-                        scheduleFilters.filtrationByProfessor((Professors) object);
-                    if (object instanceof Rooms)
-                        scheduleFilters.filtrationByRoom((Rooms) object);
-                    if (object instanceof Groups)
-                        scheduleFilters.filtrationByGroup((Groups) object);
-                    if (object instanceof Place)
-                        scheduleFilters.filtrationByPlace((Place) object);
-                    if (object instanceof Week)
-                        scheduleFilters.filtrationByWeek((Week) object);
-                }
-                scheduleFiltrationManager = scheduleFilters.build();
-                scheduleFiltrationManager.getSchedule(callbackRetrofitSchedule);
-                chipFilterAdapter.setItemsFilter(scheduleFiltrationManager.getFilterItems());
+        chipFilterAdapter = new ChipFilterAdapter(getContext(), listFilterItems -> {
+            ScheduleFiltrationManager.Builder scheduleFilters = new ScheduleFiltrationManager.Builder(mListenerSchedule);
+            for (Object object : listFilterItems) {
+                if (object instanceof Subject)
+                    scheduleFilters.filtrationBySubject((Subject) object);
+                if (object instanceof TypeClasses)
+                    scheduleFilters.filtrationByType((TypeClasses) object);
+                if (object instanceof Professors)
+                    scheduleFilters.filtrationByProfessor((Professors) object);
+                if (object instanceof Rooms)
+                    scheduleFilters.filtrationByRoom((Rooms) object);
+                if (object instanceof Groups)
+                    scheduleFilters.filtrationByGroup((Groups) object);
+                if (object instanceof Place)
+                    scheduleFilters.filtrationByPlace((Place) object);
+                if (object instanceof Week)
+                    scheduleFilters.filtrationByWeek((Week) object);
             }
+            scheduleFiltrationManager = scheduleFilters.build();
+            scheduleFiltrationManager.getSchedule();
+            chipFilterAdapter.setItemsFilter(scheduleFiltrationManager.getFilterItems());
         });
         recyclerViewFiltration.setAdapter(chipFilterAdapter);
         scheduleAdapter = new ScheduleGroupAdapter(getContext());
 
-        scheduleFiltrationManager = new ScheduleFiltrationManager.Builder().build();
-        scheduleFiltrationManager.getSchedule(callbackRetrofitSchedule);
+        scheduleFiltrationManager = new ScheduleFiltrationManager.Builder(mListenerSchedule).build();
+        scheduleFiltrationManager.getSchedule();
         chipFilterAdapter.setItemsFilter(scheduleFiltrationManager.getFilterItems());
         return mView;
     }
 
     private void dialogSearchProfessor(Context context) {
-        ProfessorApi scheduleInterface = ServiceGenerator.createService(ProfessorApi.class);
-        Call<List<Professors>> list = scheduleInterface.getProfessors();
-        list.enqueue(new Callback<List<Professors>>() {
+        mProfessorService.requestAllProfessors(new ProfessorService.OnRequestProfessorListListener() {
             @Override
-            public void onResponse(@NonNull Call<List<Professors>> call, @NonNull Response<List<Professors>> response) {
+            public void onRequestProfessorListSuccess(Call<List<Professors>> call, Response<List<Professors>> response) {
                 if (response.body() != null) {
                     List<Professors> listProfessors = new ArrayList<>(response.body());
                     Log.d(TAG, "onResponseGroups: " + listProfessors);
@@ -133,7 +129,7 @@ public class ScheduleFragment extends Fragment implements ScheduleFilterDialog.O
             }
 
             @Override
-            public void onFailure(@NonNull Call<List<Professors>> call, @NonNull Throwable t) {
+            public void onRequestProfessorListFailed(Call<List<Professors>> call, Throwable t) {
 
             }
         });
@@ -145,9 +141,9 @@ public class ScheduleFragment extends Fragment implements ScheduleFilterDialog.O
         scheduleFilterDialog.show(getChildFragmentManager(), "filtration_dialog");
     }
 
-    private Callback<List<Classes>> callbackRetrofitSchedule = new Callback<List<Classes>>() {
+    private ScheduleService.OnRequestScheduleListener mListenerSchedule = new ScheduleService.OnRequestScheduleListener() {
         @Override
-        public void onResponse(@NonNull Call<List<Classes>> call, @NonNull Response<List<Classes>> response) {
+        public void onRequestScheduleSuccess(Call<List<Classes>> call, Response<List<Classes>> response) {
             if (response.body() != null) {
                 List<Classes> listClasses = new ArrayList<>(response.body());
                 Log.d(TAG, "onResponse: " + listClasses);
@@ -197,25 +193,22 @@ public class ScheduleFragment extends Fragment implements ScheduleFilterDialog.O
         }
 
         @Override
-        public void onFailure(@NonNull Call<List<Classes>> call, @NonNull Throwable t) {
-
+        public void onRequestScheduleFailed(Call<List<Classes>> call, Throwable t) {
+            Log.d(TAG, "displayedSchedule: " + t.getMessage());
         }
     };
 
-    private SearchableDialog.OnSelectListener callback = new SearchableDialog.OnSelectListener<Professors>() {
-        @Override
-        public void onSelected(Professors selectedItem) {
-            if (selectedItem != null) {
-                scheduleFiltrationManager = new ScheduleFiltrationManager.Builder()
-                        .filtrationByProfessor(selectedItem)
-                        .build();
-            } else {
-                scheduleFiltrationManager = new ScheduleFiltrationManager.Builder()
-                        .build();
-            }
-            scheduleFiltrationManager.getSchedule(callbackRetrofitSchedule);
-            chipFilterAdapter.setItemsFilter(scheduleFiltrationManager.getFilterItems());
+    private SearchableDialog.OnSelectListener<Professors> callback = selectedItem -> {
+        if (selectedItem != null) {
+            scheduleFiltrationManager = new ScheduleFiltrationManager.Builder(mListenerSchedule)
+                    .filtrationByProfessor(selectedItem)
+                    .build();
+        } else {
+            scheduleFiltrationManager = new ScheduleFiltrationManager.Builder(mListenerSchedule)
+                    .build();
         }
+        scheduleFiltrationManager.getSchedule();
+        chipFilterAdapter.setItemsFilter(scheduleFiltrationManager.getFilterItems());
     };
 
     private boolean bothSubgroup_firstWeek;
@@ -400,7 +393,7 @@ public class ScheduleFragment extends Fragment implements ScheduleFilterDialog.O
 
     @Override
     public void onSelectedParameter(Subject subject, TypeClasses type, Professors professor, Rooms room, Groups group, Place place, Week week) {
-        scheduleFiltrationManager = new ScheduleFiltrationManager.Builder()
+        scheduleFiltrationManager = new ScheduleFiltrationManager.Builder(mListenerSchedule)
                 .filtrationBySubject(subject)
                 .filtrationByType(type)
                 .filtrationByProfessor(professor)
@@ -409,7 +402,7 @@ public class ScheduleFragment extends Fragment implements ScheduleFilterDialog.O
                 .filtrationByPlace(place)
                 .filtrationByWeek(week)
                 .build();
-        scheduleFiltrationManager.getSchedule(callbackRetrofitSchedule);
+        scheduleFiltrationManager.getSchedule();
         chipFilterAdapter.setItemsFilter(scheduleFiltrationManager.getFilterItems());
     }
 }

@@ -19,8 +19,6 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 
 import com.grin.appforuniver.R;
-import com.grin.appforuniver.data.WebServices.ServiceGenerator;
-import com.grin.appforuniver.data.api.ConsultationApi;
 import com.grin.appforuniver.data.model.consultation.Consultation;
 import com.grin.appforuniver.data.service.ConsultationService;
 import com.grin.appforuniver.dialogs.ConsultationActionsDialog;
