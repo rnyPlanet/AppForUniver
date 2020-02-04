@@ -19,7 +19,7 @@ import com.grin.appforuniver.data.model.dto.AuthenticationRequestDto;
 import com.grin.appforuniver.data.model.user.User;
 import com.grin.appforuniver.data.service.AuthService;
 import com.grin.appforuniver.data.service.UserService;
-import com.grin.appforuniver.utils.PreferenceUtils;
+import com.grin.appforuniver.data.tools.AuthManager;
 
 import java.util.Map;
 import java.util.Objects;
@@ -54,14 +54,13 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         mAuthService = AuthService.getService();
         mUserService = UserService.getService();
-        PreferenceUtils.setContext(getApplicationContext());
-        PreferenceUtils.saveUserToken(null);
+        AuthManager.getInstance().writeAccessToken(null);
 
         mProgressBar = new ProgressDialog(LoginActivity.this);
 
-        if (PreferenceUtils.getUsername() != null & PreferenceUtils.getPassword() != null) {
+        if (AuthManager.getInstance().isLoginData()) {
             mProgressBar.show();
-            loginUser(PreferenceUtils.getUsername(), PreferenceUtils.getPassword());
+            loginUser(AuthManager.getInstance().getUsername(), AuthManager.getInstance().getPassword());
         } else {
             setContentView(R.layout.activity_login);
             ButterKnife.bind(this);
@@ -97,13 +96,10 @@ public class LoginActivity extends AppCompatActivity {
 
                         for (Map.Entry<Object, Object> item : response.body().entrySet()) {
                             if (item.getKey().equals("token")) {
-                                PreferenceUtils.saveUserToken(item.getValue().toString());
+                                AuthManager.getInstance().writeAccessToken(item.getValue().toString());
+                                AuthManager.getInstance().writeDataLogin(username, password);
+                                break;
                             }
-                        }
-
-                        if (PreferenceUtils.getUsername() == null) {
-                            PreferenceUtils.saveUsername(username);
-                            PreferenceUtils.savePassword(password);
                         }
 
                         getMe();
@@ -111,7 +107,7 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 } else {
                     mProgressBar.dismiss();
-                    PreferenceUtils.saveUserToken(null);
+                    AuthManager.getInstance().writeAccessToken(null);
                     Toasty.error(Objects.requireNonNull(getApplicationContext()), getString(R.string.fail_username_OR_acc_is_NOTACTIVE), Toast.LENGTH_SHORT, true).show();
                 }
             }
@@ -120,7 +116,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onRequestTokenFailed(Call<Map<Object, Object>> call, Throwable t) {
                 mProgressBar.dismiss();
                 if (Objects.requireNonNull(t.getMessage()).contains("Failed to connect to /194.9.70.244:8075")) {
-                    PreferenceUtils.saveUserToken(null);
+                    AuthManager.getInstance().writeAccessToken(null);
                     Toasty.error(Objects.requireNonNull(getApplicationContext()), getString(R.string.check_your_internet_connection), Toasty.LENGTH_LONG, true).show();
                 }
             }
@@ -133,9 +129,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onRequestCurrentUserProfileSuccess(Call<User> call, Response<User> response) {
                 if (response.isSuccessful()) {
-                    if (response.body() != null && !PreferenceUtils.getUserToken().isEmpty()) {
-                        PreferenceUtils.saveUser(response.body());
-                        PreferenceUtils.saveUserRoles(response.body().getRoles());
+                    if (response.body() != null && !AuthManager.getInstance().getAccessToken().isEmpty()) {
+                        AuthManager.getInstance().writeUserInfo(response.body());
 
                         mProgressBar.dismiss();
 

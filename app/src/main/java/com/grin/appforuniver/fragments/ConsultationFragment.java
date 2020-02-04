@@ -16,7 +16,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.grin.appforuniver.R;
-import com.grin.appforuniver.utils.PreferenceUtils;
+import com.grin.appforuniver.data.tools.AuthManager;
 import com.grin.appforuniver.fragments.consultations.AllConsultationsFragment;
 import com.grin.appforuniver.fragments.consultations.ConsultationListFragment;
 import com.grin.appforuniver.fragments.consultations.MyConsultationsFragment;
@@ -61,7 +61,7 @@ public class ConsultationFragment extends Fragment implements ConsultationListFr
 
         tabLayout.setVisibility(View.VISIBLE);
         tabLayout.setupWithViewPager(viewPager);
-        if (PreferenceUtils.getUserRoles().contains(ROLE_TEACHER.toString())) {
+        if (AuthManager.getInstance().getUserRoles().contains(ROLE_TEACHER.toString())) {
             floatingActionButton.show();
         }
         return mView;
@@ -96,7 +96,7 @@ public class ConsultationFragment extends Fragment implements ConsultationListFr
             super(supportFragmentManager);
             items = new ArrayList<>();
             items.add(new ItemViewPager(getString(R.string.consultation_all), new AllConsultationsFragment(ConsultationFragment.this)));
-            if (PreferenceUtils.getUserRoles().contains(ROLE_TEACHER.toString())) {
+            if (AuthManager.getInstance().getUserRoles().contains(ROLE_TEACHER.toString())) {
                 items.add(new ItemViewPager(getString(R.string.consultation_my), new MyConsultationsFragment(ConsultationFragment.this)));
             }
             items.add(new ItemViewPager(getString(R.string.consultation_subscribe), new SubscribeConsultationsFragment(ConsultationFragment.this)));

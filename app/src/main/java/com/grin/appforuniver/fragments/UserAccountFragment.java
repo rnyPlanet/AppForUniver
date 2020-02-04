@@ -22,7 +22,7 @@ import com.grin.appforuniver.activities.LoginActivity;
 import com.grin.appforuniver.data.model.schedule.Professors;
 import com.grin.appforuniver.data.model.user.User;
 import com.grin.appforuniver.data.service.UserService;
-import com.grin.appforuniver.utils.PreferenceUtils;
+import com.grin.appforuniver.data.tools.AuthManager;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -98,56 +98,43 @@ public class UserAccountFragment extends Fragment {
     }
 
     private void getMyAccount(Context context) {
-        mUserService.requestCurrentUserProfile(new UserService.OnRequestCurrentUserProfileListener() {
-            @Override
-            public void onRequestCurrentUserProfileSuccess(Call<User> call, Response<User> response) {
-                if (response.isSuccessful()) {
-                    if (response.body() != null && !PreferenceUtils.getUserToken().isEmpty()) {
-                        mUser = response.body();
+        mUser = AuthManager.getInstance().getUser();
 
-                        if (mUser.getFirstName() != null && !mUser.getFirstName().isEmpty()) {
-                            username_ll.setVisibility(View.VISIBLE);
-                            username_tv.setText(mUser.getFullFI());
-                        }
+        if (mUser.getFirstName() != null && !mUser.getFirstName().isEmpty()) {
+            username_ll.setVisibility(View.VISIBLE);
+            username_tv.setText(mUser.getFullFI());
+        }
 
-                        if (mUser.getEmail() != null && !mUser.getEmail().isEmpty()) {
-                            email_ll.setVisibility(View.VISIBLE);
-                            email_tv.setText(mUser.getEmail());
-                        }
+        if (mUser.getEmail() != null && !mUser.getEmail().isEmpty()) {
+            email_ll.setVisibility(View.VISIBLE);
+            email_tv.setText(mUser.getEmail());
+        }
 
-                        if (PreferenceUtils.getUserRoles().contains(ROLE_TEACHER.toString())) {
-                            getMyAccountProfessor(context);
-                        }
+        if (AuthManager.getInstance().getUserRoles().contains(ROLE_TEACHER.toString())) {
+            getMyAccountProfessor(context);
+        }
 
-                        if (mUser.getTelefon1() != null && !mUser.getTelefon1().isEmpty()) {
-                            telefon1_ll.setVisibility(View.VISIBLE);
-                            telefon1_tv.setText(mUser.getTelefon1());
-                        } else {
-                            telefon1_ll.setVisibility(View.GONE);
-                        }
+        if (mUser.getTelefon1() != null && !mUser.getTelefon1().isEmpty()) {
+            telefon1_ll.setVisibility(View.VISIBLE);
+            telefon1_tv.setText(mUser.getTelefon1());
+        } else {
+            telefon1_ll.setVisibility(View.GONE);
+        }
 
-                        detail_progress.setVisibility(View.GONE);
-                        userinfo_rl.setVisibility(View.VISIBLE);
-                        logout_btn.setVisibility(View.VISIBLE);
-                        user_account_header.setVisibility(View.VISIBLE);
-                        email_ll.setVisibility(View.VISIBLE);
-                        telefon1_ll.setVisibility(View.VISIBLE);
-                    }
-                }
-            }
+        detail_progress.setVisibility(View.GONE);
+        userinfo_rl.setVisibility(View.VISIBLE);
+        logout_btn.setVisibility(View.VISIBLE);
+        user_account_header.setVisibility(View.VISIBLE);
+        email_ll.setVisibility(View.VISIBLE);
+        telefon1_ll.setVisibility(View.VISIBLE);
 
-            @Override
-            public void onRequestCurrentUserProfileFailed(Call<User> call, Throwable t) {
-                Toasty.error(context, Objects.requireNonNull(t.getMessage()), Toast.LENGTH_SHORT, true).show();
-            }
-        });
     }
 
     private void getMyAccountProfessor(Context context) {
         mUserService.requestCurrentUserProfessorProfile(new UserService.OnRequestCurrentUserProfessorProfileListener() {
             @Override
             public void onRequestCurrentUserProfessorProfileSuccess(Call<Professors> call, Response<Professors> response) {
-                if (response.body() != null && !PreferenceUtils.getUserToken().isEmpty()) {
+                if (response.body() != null) {
                     mProfessor = response.body();
 
                     if (mProfessor.getPosada() != null) {
@@ -178,25 +165,16 @@ public class UserAccountFragment extends Fragment {
 
     @OnClick(R.id.user_account_detail_log_out_button)
     void onClickLogout() {
-        logOut();
+        AuthManager.getInstance().logout();
 
         Objects.requireNonNull(getActivity()).startActivity(new Intent(getContext(), LoginActivity.class));
         getActivity().finish();
-
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         mUnbinder.unbind();
-    }
-
-    private void logOut() {
-        PreferenceUtils.saveUsername(null);
-        PreferenceUtils.savePassword(null);
-        PreferenceUtils.saveUser(null);
-        PreferenceUtils.saveUserRoles(new ArrayList<>());
-        PreferenceUtils.saveUserToken(null);
     }
 
 }

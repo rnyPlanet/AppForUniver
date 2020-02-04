@@ -29,7 +29,7 @@ import com.grin.appforuniver.data.model.dto.ConsultationRequestDto;
 import com.grin.appforuniver.data.model.schedule.Rooms;
 import com.grin.appforuniver.data.service.ConsultationService;
 import com.grin.appforuniver.data.service.RoomService;
-import com.grin.appforuniver.utils.PreferenceUtils;
+import com.grin.appforuniver.data.tools.AuthManager;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -217,7 +217,7 @@ public class ConsultationActionsDialog extends DialogFragment implements DatePic
         }
 
         ConsultationRequestDto consultationRequestDto = new ConsultationRequestDto(
-                PreferenceUtils.getSaveUser().getId(),
+                AuthManager.getInstance().getID(),
                 idSelectedRoom,
                 parseSelectedDate(),
                 (descriptionET.getText().toString().length() == 0) ? null : descriptionET.getText().toString());

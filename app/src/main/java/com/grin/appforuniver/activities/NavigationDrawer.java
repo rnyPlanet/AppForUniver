@@ -17,7 +17,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.google.android.material.navigation.NavigationView;
 import com.grin.appforuniver.R;
 import com.grin.appforuniver.data.model.user.User;
-import com.grin.appforuniver.utils.PreferenceUtils;
+import com.grin.appforuniver.data.tools.AuthManager;
 import com.grin.appforuniver.fragments.AdminFragment;
 import com.grin.appforuniver.fragments.ConsultationFragment;
 import com.grin.appforuniver.fragments.HomeFragment;
@@ -41,17 +41,13 @@ public class NavigationDrawer extends AppCompatActivity
 
         navigationDrawer();
 
-        PreferenceUtils.setContext(getApplicationContext());
-
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ScheduleFragment()).commit();
             mNavigationView.setCheckedItem(R.id.nav_schedule);
         }
-
-        mUser = PreferenceUtils.getSaveUser();
+        mUser = AuthManager.getInstance().getUser();
 
         userInfo();
-
     }
 
 

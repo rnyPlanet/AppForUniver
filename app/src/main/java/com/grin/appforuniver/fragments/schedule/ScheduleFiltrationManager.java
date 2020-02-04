@@ -6,7 +6,7 @@ import com.grin.appforuniver.data.model.schedule.Rooms;
 import com.grin.appforuniver.data.model.schedule.Subject;
 import com.grin.appforuniver.data.model.schedule.TypeClasses;
 import com.grin.appforuniver.data.service.ScheduleService;
-import com.grin.appforuniver.utils.PreferenceUtils;
+import com.grin.appforuniver.data.tools.AuthManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -112,7 +112,7 @@ public class ScheduleFiltrationManager {
                 roomId == -1 & groupId == -1 & placeStr == null &
                 weekStr == null) {
             //Fix for teacher schedule display normally
-            isProfessorSchedule = PreferenceUtils.getUserRoles().contains(ROLE_TEACHER.toString());
+            isProfessorSchedule = AuthManager.getInstance().getUserRoles().contains(ROLE_TEACHER.toString());
 
             mScheduleService.requestScheduleCurrentUser(mScheduleListener);
         } else {

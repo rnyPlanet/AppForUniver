@@ -1,7 +1,5 @@
 package com.grin.appforuniver.data.tools;
 
-import com.grin.appforuniver.utils.PreferenceUtils;
-
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -15,10 +13,17 @@ public class AuthInterceptor implements Interceptor {
     @Override
     public Response intercept(@NotNull Chain chain) throws IOException {
         Request request;
-        request = chain.request()
-                .newBuilder()
-                .addHeader("Authorization", (PreferenceUtils.getUserToken() == null) ? "" : PreferenceUtils.getUserToken())
-                .build();
+        if (AuthManager.getInstance().getAccessToken() == null) {
+            request = chain.request()
+                    .newBuilder()
+                    .addHeader("Authorization", "")
+                    .build();
+        } else {
+            request = chain.request()
+                    .newBuilder()
+                    .addHeader("Authorization", "Bearer_" + AuthManager.getInstance().getAccessToken())
+                    .build();
+        }
         return chain.proceed(request);
     }
 }

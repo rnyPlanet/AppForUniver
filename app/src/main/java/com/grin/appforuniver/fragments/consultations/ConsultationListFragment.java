@@ -20,7 +20,7 @@ import com.grin.appforuniver.R;
 import com.grin.appforuniver.activities.ConsultationActivity;
 import com.grin.appforuniver.data.model.consultation.Consultation;
 import com.grin.appforuniver.data.service.ConsultationService;
-import com.grin.appforuniver.utils.PreferenceUtils;
+import com.grin.appforuniver.data.tools.AuthManager;
 import com.mikepenz.fastadapter.FastAdapter;
 import com.mikepenz.fastadapter.adapters.ItemAdapter;
 
@@ -70,7 +70,7 @@ public abstract class ConsultationListFragment extends Fragment implements Swipe
                 }
         );
         recyclerView.setAdapter(mFastAdapter);
-        if (PreferenceUtils.getUserRoles().contains(ROLE_TEACHER.toString())) {
+        if (AuthManager.getInstance().getUserRoles().contains(ROLE_TEACHER.toString())) {
             recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
                 @Override
                 public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
