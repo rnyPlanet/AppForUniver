@@ -28,6 +28,7 @@ import com.grin.appforuniver.data.model.schedule.Subject;
 import com.grin.appforuniver.data.model.schedule.TypeClasses;
 import com.grin.appforuniver.data.service.ProfessorService;
 import com.grin.appforuniver.data.service.ScheduleService;
+import com.grin.appforuniver.data.tools.ScheduleParser;
 import com.grin.appforuniver.dialogs.ScheduleFilterDialog;
 import com.grin.appforuniver.dialogs.SearchableDialog;
 import com.grin.appforuniver.fragments.schedule.ScheduleFiltrationManager;
@@ -41,7 +42,6 @@ import retrofit2.Call;
 import retrofit2.Response;
 
 import static com.grin.appforuniver.utils.Constants.Place;
-import static com.grin.appforuniver.utils.Constants.Subgroup;
 import static com.grin.appforuniver.utils.Constants.Week;
 
 public class ScheduleFragment extends Fragment implements ScheduleFilterDialog.OnSelectListener {
@@ -49,7 +49,7 @@ public class ScheduleFragment extends Fragment implements ScheduleFilterDialog.O
     private View mView;
     private ProfessorService mProfessorService;
     private RecyclerView recyclerViewSchedule;
-    private ScheduleGroupAdapter scheduleAdapter;
+
     private RecyclerView recyclerViewFiltration;
     private ScheduleFiltrationManager scheduleFiltrationManager;
 
@@ -91,7 +91,6 @@ public class ScheduleFragment extends Fragment implements ScheduleFilterDialog.O
             chipFilterAdapter.setItemsFilter(scheduleFiltrationManager.getFilterItems());
         });
         recyclerViewFiltration.setAdapter(chipFilterAdapter);
-        scheduleAdapter = new ScheduleGroupAdapter(getContext());
 
         scheduleFiltrationManager = new ScheduleFiltrationManager.Builder(mListenerSchedule).build();
         scheduleFiltrationManager.getSchedule();
@@ -145,47 +144,16 @@ public class ScheduleFragment extends Fragment implements ScheduleFilterDialog.O
         @Override
         public void onRequestScheduleSuccess(Call<List<Classes>> call, Response<List<Classes>> response) {
             if (response.body() != null) {
-                List<Classes> listClasses = new ArrayList<>(response.body());
-                Log.d(TAG, "onResponse: " + listClasses);
-                List<ScheduleStandardTypeModel> schedulePairs = new ArrayList<>();
-                for (Place place : Place.values()) {
-                    if (place == Place.POOL) continue;
-                    schedulePairs.add(new ScheduleStandardTypeModel(R.layout.schedule_day_separator,
-                            place, -1, null));
-                    boolean isWeekendDay = false;
-                    for (int i = 1; i <= 6; i++) {
-                        List<Classes> classesInsidePairs = new ArrayList<>();
-                        for (Classes classes : listClasses) {
-                            if (classes.getPlace() == place && classes.getPositionInDay().getId() == i) {
-                                if (scheduleFiltrationManager.isProfessorsSchedule()) {
-                                    //Требуется для корректного отображения предметов преподавателя
-                                    classes.setSubgroup(Subgroup.BOTH);
-                                }
-                                classesInsidePairs.add(classes);
-                            }
-                        }
-                        if (classesInsidePairs.size() > 0) {
-                            isWeekendDay = true;
-                            int typeView;
-                            if (scheduleFiltrationManager.isProfessorsSchedule()) {
-                                typeView = setDataInLayoutProfessors(classesInsidePairs);
-                            } else {
-                                typeView = setDataInLayout(classesInsidePairs);
-                            }
-                            schedulePairs.add(new ScheduleStandardTypeModel(typeView,
-                                    place, i, classesInsidePairs));
-                        }
-                    }
-                    if (!isWeekendDay) {
-                        schedulePairs.add(new ScheduleStandardTypeModel(R.layout.schedule_weekend_day,
-                                place, -1, null));
-                    }
-                }
+                List<ScheduleStandardTypeModel> schedulePairs = new ScheduleParser(response.body(), scheduleFiltrationManager.isProfessorsSchedule())
+                        .parse()
+                        .getParsedSchedule();
+
                 if (scheduleFiltrationManager.isProfessorsSchedule()) {
                     ProfessorScheduleAdapter adapter = new ProfessorScheduleAdapter(getContext());
                     adapter.setClasses(schedulePairs);
                     recyclerViewSchedule.setAdapter(adapter);
                 } else {
+                    ScheduleGroupAdapter scheduleAdapter = new ScheduleGroupAdapter(getContext());
                     scheduleAdapter.setClasses(schedulePairs);
                     recyclerViewSchedule.setAdapter(scheduleAdapter);
                 }
@@ -210,166 +178,6 @@ public class ScheduleFragment extends Fragment implements ScheduleFilterDialog.O
         scheduleFiltrationManager.getSchedule();
         chipFilterAdapter.setItemsFilter(scheduleFiltrationManager.getFilterItems());
     };
-
-    private boolean bothSubgroup_firstWeek;
-    private boolean bothSubgroup_secondWeek;
-    private boolean bothSubgroup_bothWeek;
-    private boolean firstSubgroup_firstWeek;
-    private boolean firstSubgroup_secondWeek;
-    private boolean firstSubgroup_bothWeek;
-    private boolean secondSubgroup_firstWeek;
-    private boolean secondSubgroup_secondWeek;
-    private boolean secondSubgroup_bothWeek;
-
-    private int setDataInLayout(List<Classes> mListClasses) {
-        firstSubgroup_firstWeek = false;
-        firstSubgroup_secondWeek = false;
-        firstSubgroup_bothWeek = false;
-        secondSubgroup_firstWeek = false;
-        secondSubgroup_secondWeek = false;
-        secondSubgroup_bothWeek = false;
-        bothSubgroup_firstWeek = false;
-        bothSubgroup_secondWeek = false;
-        bothSubgroup_bothWeek = false;
-        for (Classes classes : mListClasses) {
-            if (classes.getSubgroup() == Subgroup.FIRST && classes.getWeek() == Week.FIRST) {
-                firstSubgroup_firstWeek = true;
-            }
-            if (classes.getSubgroup() == Subgroup.FIRST && classes.getWeek() == Week.SECOND) {
-                firstSubgroup_secondWeek = true;
-            }
-            if (classes.getSubgroup() == Subgroup.FIRST && classes.getWeek() == Week.BOTH) {
-                firstSubgroup_bothWeek = true;
-            }
-            if (classes.getSubgroup() == Subgroup.SECOND && classes.getWeek() == Week.FIRST) {
-                secondSubgroup_firstWeek = true;
-            }
-            if (classes.getSubgroup() == Subgroup.SECOND && classes.getWeek() == Week.SECOND) {
-                secondSubgroup_secondWeek = true;
-            }
-            if (classes.getSubgroup() == Subgroup.SECOND && classes.getWeek() == Week.BOTH) {
-                secondSubgroup_bothWeek = true;
-            }
-            if (classes.getSubgroup() == Subgroup.BOTH && classes.getWeek() == Week.FIRST) {
-                bothSubgroup_firstWeek = true;
-            }
-            if (classes.getSubgroup() == Subgroup.BOTH && classes.getWeek() == Week.SECOND) {
-                bothSubgroup_secondWeek = true;
-            }
-            if (classes.getSubgroup() == Subgroup.BOTH && classes.getWeek() == Week.BOTH) {
-                bothSubgroup_bothWeek = true;
-            }
-        }
-
-        return getLayoutId();
-    }
-
-    private int setDataInLayoutProfessors(List<Classes> mListClasses) {
-        firstSubgroup_firstWeek = false;
-        firstSubgroup_secondWeek = false;
-        firstSubgroup_bothWeek = false;
-        secondSubgroup_firstWeek = false;
-        secondSubgroup_secondWeek = false;
-        secondSubgroup_bothWeek = false;
-        //
-        bothSubgroup_firstWeek = false;
-        bothSubgroup_secondWeek = false;
-        bothSubgroup_bothWeek = false;
-        for (Classes classes : mListClasses) {
-            if (classes.getWeek() == Week.FIRST || classes.getWeek() == Week.SECOND) {
-                bothSubgroup_firstWeek = true;
-                bothSubgroup_secondWeek = true;
-            }
-            if (classes.getWeek() == Week.BOTH) {
-                bothSubgroup_bothWeek = true;
-            }
-        }
-
-        return getLayoutId();
-    }
-
-    private int getLayoutId() {
-        if (bothSubgroup_bothWeek) {
-            return R.layout.schedule_single_type_1;
-        }
-        // столбец 2*1
-        if (firstSubgroup_bothWeek) {
-            // layout 2,5
-            if (secondSubgroup_bothWeek) {
-                return R.layout.schedule_single_type_2;
-            } else {
-                return R.layout.schedule_single_type_5;
-            }
-        }
-        if (secondSubgroup_bothWeek) {
-            // layout 2,6
-            if (firstSubgroup_bothWeek) {
-                return R.layout.schedule_single_type_2;
-            } else {
-                return R.layout.schedule_single_type_6;
-            }
-        }
-        //строка 1*2
-        if (bothSubgroup_firstWeek) {
-            // layout 4,7
-            if (bothSubgroup_secondWeek) {
-                return R.layout.schedule_single_type_4;
-            } else {
-                return R.layout.schedule_single_type_7;
-            }
-        }
-        if (bothSubgroup_secondWeek) {
-            // layout 4,8
-            if (bothSubgroup_firstWeek) {
-                return R.layout.schedule_single_type_4;
-            } else {
-                return R.layout.schedule_single_type_8;
-            }
-        }
-
-        if (firstSubgroup_firstWeek) {
-            // layout 3,6,8
-            if (firstSubgroup_secondWeek & secondSubgroup_bothWeek) {
-                return R.layout.schedule_single_type_6;
-            } else if (secondSubgroup_firstWeek & bothSubgroup_secondWeek) {
-                return R.layout.schedule_single_type_8;
-            } else {
-                return R.layout.schedule_single_type_3;
-            }
-        }
-        if (firstSubgroup_secondWeek) {
-            // layout 3,6,7
-            if (firstSubgroup_firstWeek & secondSubgroup_bothWeek) {
-                return R.layout.schedule_single_type_6;
-            } else if (secondSubgroup_secondWeek & bothSubgroup_firstWeek) {
-                return R.layout.schedule_single_type_7;
-            } else {
-                return R.layout.schedule_single_type_3;
-            }
-        }
-
-        if (secondSubgroup_firstWeek) {
-            // layout 3,5,8
-            if (secondSubgroup_secondWeek & firstSubgroup_bothWeek) {
-                return R.layout.schedule_single_type_5;
-            } else if (firstSubgroup_firstWeek & bothSubgroup_secondWeek) {
-                return R.layout.schedule_single_type_8;
-            } else {
-                return R.layout.schedule_single_type_3;
-            }
-        }
-        if (secondSubgroup_secondWeek) {
-            // layout 3,5,7
-            if (secondSubgroup_firstWeek & firstSubgroup_bothWeek) {
-                return R.layout.schedule_single_type_5;
-            } else if (firstSubgroup_secondWeek & bothSubgroup_firstWeek) {
-                return R.layout.schedule_single_type_7;
-            } else {
-                return R.layout.schedule_single_type_3;
-            }
-        }
-        return R.layout.schedule_single_type_9;
-    }
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
@@ -406,4 +214,3 @@ public class ScheduleFragment extends Fragment implements ScheduleFilterDialog.O
         chipFilterAdapter.setItemsFilter(scheduleFiltrationManager.getFilterItems());
     }
 }
-
