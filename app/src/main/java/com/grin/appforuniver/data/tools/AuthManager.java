@@ -175,6 +175,7 @@ public class AuthManager {
 
         SharedPreferences.Editor editor = App.getInstance()
                 .getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE).edit();
+        editor.putBoolean(KEY_LOGIN_DATA, false);
         editor.putString(KEY_USER_TOKEN, null);
         editor.putString(KEY_ID, null);
         editor.putString(KEY_USERNAME, null);
