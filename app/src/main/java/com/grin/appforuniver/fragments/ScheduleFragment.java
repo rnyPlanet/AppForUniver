@@ -18,7 +18,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.grin.appforuniver.R;
 import com.grin.appforuniver.adapters.ChipFilterAdapter;
-import com.grin.appforuniver.adapters.ProfessorScheduleAdapter;
 import com.grin.appforuniver.adapters.ScheduleGroupAdapter;
 import com.grin.appforuniver.data.model.schedule.Classes;
 import com.grin.appforuniver.data.model.schedule.Groups;
@@ -148,15 +147,9 @@ public class ScheduleFragment extends Fragment implements ScheduleFilterDialog.O
                         .parse()
                         .getParsedSchedule();
 
-                if (scheduleFiltrationManager.isProfessorsSchedule()) {
-                    ProfessorScheduleAdapter adapter = new ProfessorScheduleAdapter(getContext());
-                    adapter.setClasses(schedulePairs);
-                    recyclerViewSchedule.setAdapter(adapter);
-                } else {
-                    ScheduleGroupAdapter scheduleAdapter = new ScheduleGroupAdapter(getContext());
-                    scheduleAdapter.setClasses(schedulePairs);
-                    recyclerViewSchedule.setAdapter(scheduleAdapter);
-                }
+                ScheduleGroupAdapter scheduleAdapter = new ScheduleGroupAdapter();
+                scheduleAdapter.setClasses(schedulePairs);
+                recyclerViewSchedule.setAdapter(scheduleAdapter);
             }
         }
 

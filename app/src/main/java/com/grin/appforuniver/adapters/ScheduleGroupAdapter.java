@@ -1,6 +1,5 @@
 package com.grin.appforuniver.adapters;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,96 +28,25 @@ public class ScheduleGroupAdapter extends RecyclerView.Adapter<RecyclerView.View
     private static final String TAG = "ScheduleGroupAdapter";
 
     private List<ScheduleStandardTypeModel> itemList = new ArrayList<>();
-    private Context context;
 
-    public ScheduleGroupAdapter(Context context) {
-        this.context = context;
+    public ScheduleGroupAdapter() {
     }
 
     @Override
     public int getItemViewType(int position) {
-        return itemList.get(position).typeItem;
+        return ScheduleCellType.get(itemList.get(position)).type();
     }
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater layoutInflater = LayoutInflater.from(context);
-        View view = layoutInflater.inflate(viewType, parent, false);
-        if (viewType == R.layout.schedule_single_type_1) {
-            return new ScheduleStandardType1Holder(view, context);
-        }
-        if (viewType == R.layout.schedule_single_type_2) {
-            return new ScheduleStandardType2Holder(view, context);
-        }
-        if (viewType == R.layout.schedule_single_type_3) {
-            return new ScheduleStandardType3Holder(view, context);
-        }
-        if (viewType == R.layout.schedule_single_type_4) {
-            return new ScheduleStandardType4Holder(view, context);
-        }
-        if (viewType == R.layout.schedule_single_type_5) {
-            return new ScheduleStandardType5Holder(view, context);
-        }
-        if (viewType == R.layout.schedule_single_type_6) {
-            return new ScheduleStandardType6Holder(view, context);
-        }
-        if (viewType == R.layout.schedule_single_type_7) {
-            return new ScheduleStandardType7Holder(view, context);
-        }
-        if (viewType == R.layout.schedule_single_type_8) {
-            return new ScheduleStandardType8Holder(view, context);
-        }
-        if (viewType == R.layout.schedule_single_type_9) {
-            return new ScheduleStandardType9Holder(view, context);
-        }
-        if (viewType == R.layout.schedule_day_separator) {
-            return new ScheduleStandardTypeDaySeparatorHolder(view);
-        }
-        if (viewType == R.layout.schedule_weekend_day) {
-            return new ScheduleStandardTypeWeekendHolder(view);
-        }
-
-        return null;
+        return ScheduleCellType.get(viewType).holder(parent);
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (getItemViewType(holder.getAdapterPosition()) == R.layout.schedule_single_type_1) {
-            ((ScheduleStandardType1Holder) holder).bind(itemList.get(holder.getAdapterPosition()));
-        }
-        if (getItemViewType(holder.getAdapterPosition()) == R.layout.schedule_single_type_2) {
-            ((ScheduleStandardType2Holder) holder).bind(itemList.get(holder.getAdapterPosition()));
-        }
-        if (getItemViewType(holder.getAdapterPosition()) == R.layout.schedule_single_type_3) {
-            ((ScheduleStandardType3Holder) holder).bind(itemList.get(holder.getAdapterPosition()));
-        }
-        if (getItemViewType(holder.getAdapterPosition()) == R.layout.schedule_single_type_4) {
-            ((ScheduleStandardType4Holder) holder).bind(itemList.get(holder.getAdapterPosition()));
-        }
-        if (getItemViewType(holder.getAdapterPosition()) == R.layout.schedule_single_type_5) {
-            ((ScheduleStandardType5Holder) holder).bind(itemList.get(holder.getAdapterPosition()));
-        }
-        if (getItemViewType(holder.getAdapterPosition()) == R.layout.schedule_single_type_6) {
-            ((ScheduleStandardType6Holder) holder).bind(itemList.get(holder.getAdapterPosition()));
-        }
-        if (getItemViewType(holder.getAdapterPosition()) == R.layout.schedule_single_type_7) {
-            ((ScheduleStandardType7Holder) holder).bind(itemList.get(holder.getAdapterPosition()));
-        }
-        if (getItemViewType(holder.getAdapterPosition()) == R.layout.schedule_single_type_8) {
-            ((ScheduleStandardType8Holder) holder).bind(itemList.get(holder.getAdapterPosition()));
-        }
-        if (getItemViewType(holder.getAdapterPosition()) == R.layout.schedule_single_type_9) {
-            ((ScheduleStandardType9Holder) holder).bind(
-                    String.valueOf(itemList.get(holder.getAdapterPosition()).positionInDay),
-                    "Message");
-        }
-        if (getItemViewType(holder.getAdapterPosition()) == R.layout.schedule_day_separator) {
-            ((ScheduleStandardTypeDaySeparatorHolder) holder).bind(itemList.get(holder.getAdapterPosition()).place.toString());
-        }
-//            if (getItemViewType(holder.getAdapterPosition()) == R.layout.schedule_weekend_day) {
-//                ((ScheduleStandardTypeWeekendHolder) holder).bind();
-//            }
+        ScheduleStandardTypeModel item = itemList.get(position);
+        ScheduleCellType.get(item).bind(holder, item);
     }
 
     @Override
@@ -130,5 +58,230 @@ public class ScheduleGroupAdapter extends RecyclerView.Adapter<RecyclerView.View
         this.itemList.clear();
         this.itemList.addAll(itemList);
         notifyDataSetChanged();
+    }
+
+    enum ScheduleCellType {
+        TYPE_1 {
+            @Override
+            int type() {
+                return R.layout.schedule_single_type_1;
+            }
+
+            @Override
+            RecyclerView.ViewHolder holder(ViewGroup parent) {
+                LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+                View view = inflater.inflate(type(), parent, false);
+                return new ScheduleStandardType1Holder(view, parent.getContext());
+            }
+
+            @Override
+            void bind(RecyclerView.ViewHolder holder, ScheduleStandardTypeModel item) {
+                ((ScheduleStandardType1Holder) holder).bind(item);
+            }
+        },
+        TYPE_2 {
+            @Override
+            int type() {
+                return R.layout.schedule_single_type_2;
+            }
+
+            @Override
+            RecyclerView.ViewHolder holder(ViewGroup parent) {
+                LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+                View view = inflater.inflate(type(), parent, false);
+                return new ScheduleStandardType2Holder(view, parent.getContext());
+            }
+
+            @Override
+            void bind(RecyclerView.ViewHolder holder, ScheduleStandardTypeModel item) {
+                ((ScheduleStandardType2Holder) holder).bind(item);
+            }
+        },
+        TYPE_3 {
+            @Override
+            int type() {
+                return R.layout.schedule_single_type_3;
+            }
+
+            @Override
+            RecyclerView.ViewHolder holder(ViewGroup parent) {
+                LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+                View view = inflater.inflate(type(), parent, false);
+                return new ScheduleStandardType3Holder(view, parent.getContext());
+            }
+
+            @Override
+            void bind(RecyclerView.ViewHolder holder, ScheduleStandardTypeModel item) {
+                ((ScheduleStandardType3Holder) holder).bind(item);
+            }
+        },
+        TYPE_4 {
+            @Override
+            int type() {
+                return R.layout.schedule_single_type_4;
+            }
+
+            @Override
+            RecyclerView.ViewHolder holder(ViewGroup parent) {
+                LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+                View view = inflater.inflate(type(), parent, false);
+                return new ScheduleStandardType4Holder(view, parent.getContext());
+            }
+
+            @Override
+            void bind(RecyclerView.ViewHolder holder, ScheduleStandardTypeModel item) {
+                ((ScheduleStandardType4Holder) holder).bind(item);
+            }
+        },
+        TYPE_5 {
+            @Override
+            int type() {
+                return R.layout.schedule_single_type_5;
+            }
+
+            @Override
+            RecyclerView.ViewHolder holder(ViewGroup parent) {
+                LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+                View view = inflater.inflate(type(), parent, false);
+                return new ScheduleStandardType5Holder(view, parent.getContext());
+            }
+
+            @Override
+            void bind(RecyclerView.ViewHolder holder, ScheduleStandardTypeModel item) {
+                ((ScheduleStandardType5Holder) holder).bind(item);
+            }
+        },
+        TYPE_6 {
+            @Override
+            int type() {
+                return R.layout.schedule_single_type_6;
+            }
+
+            @Override
+            RecyclerView.ViewHolder holder(ViewGroup parent) {
+                LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+                View view = inflater.inflate(type(), parent, false);
+                return new ScheduleStandardType6Holder(view, parent.getContext());
+            }
+
+            @Override
+            void bind(RecyclerView.ViewHolder holder, ScheduleStandardTypeModel item) {
+                ((ScheduleStandardType6Holder) holder).bind(item);
+            }
+        },
+        TYPE_7 {
+            @Override
+            int type() {
+                return R.layout.schedule_single_type_7;
+            }
+
+            @Override
+            RecyclerView.ViewHolder holder(ViewGroup parent) {
+                LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+                View view = inflater.inflate(type(), parent, false);
+                return new ScheduleStandardType7Holder(view, parent.getContext());
+            }
+
+            @Override
+            void bind(RecyclerView.ViewHolder holder, ScheduleStandardTypeModel item) {
+                ((ScheduleStandardType7Holder) holder).bind(item);
+            }
+        },
+        TYPE_8 {
+            @Override
+            int type() {
+                return R.layout.schedule_single_type_8;
+            }
+
+            @Override
+            RecyclerView.ViewHolder holder(ViewGroup parent) {
+                LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+                View view = inflater.inflate(type(), parent, false);
+                return new ScheduleStandardType8Holder(view, parent.getContext());
+            }
+
+            @Override
+            void bind(RecyclerView.ViewHolder holder, ScheduleStandardTypeModel item) {
+                ((ScheduleStandardType8Holder) holder).bind(item);
+            }
+        },
+        TYPE_9_MESSAGE {
+            @Override
+            int type() {
+                return R.layout.schedule_single_type_9;
+            }
+
+            @Override
+            RecyclerView.ViewHolder holder(ViewGroup parent) {
+                LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+                View view = inflater.inflate(type(), parent, false);
+                return new ScheduleStandardType9Holder(view, parent.getContext());
+            }
+
+            @Override
+            void bind(RecyclerView.ViewHolder holder, ScheduleStandardTypeModel item) {
+                ((ScheduleStandardType9Holder) holder).bind(String.valueOf(item.positionInDay), "Message");
+            }
+        },
+        TYPE_DAY_SEPARATOR {
+            @Override
+            int type() {
+                return R.layout.schedule_day_separator;
+            }
+
+            @Override
+            RecyclerView.ViewHolder holder(ViewGroup parent) {
+                LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+                View view = inflater.inflate(type(), parent, false);
+                return new ScheduleStandardTypeDaySeparatorHolder(view);
+            }
+
+            @Override
+            void bind(RecyclerView.ViewHolder holder, ScheduleStandardTypeModel item) {
+                ((ScheduleStandardTypeDaySeparatorHolder) holder).bind(item.place.toString());
+            }
+        },
+        TYPE_DAY_WEEKEND {
+            @Override
+            int type() {
+                return R.layout.schedule_weekend_day;
+            }
+
+            @Override
+            RecyclerView.ViewHolder holder(ViewGroup parent) {
+                LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+                View view = inflater.inflate(type(), parent, false);
+                return new ScheduleStandardTypeWeekendHolder(view);
+            }
+
+            @Override
+            void bind(RecyclerView.ViewHolder holder, ScheduleStandardTypeModel item) {
+                //Nothing bind
+            }
+        };
+
+        static ScheduleCellType get(ScheduleStandardTypeModel item) {
+            for (ScheduleCellType cellType : ScheduleCellType.values()) {
+                if (item.typeItem == cellType.type()) {
+                    return cellType;
+                }
+            }
+            throw new RuntimeException();
+        }
+
+        static ScheduleCellType get(int viewType) {
+            for (ScheduleCellType cellType : ScheduleCellType.values()) {
+                if (cellType.type() == viewType) {
+                    return cellType;
+                }
+            }
+            throw new RuntimeException();
+        }
+
+        abstract int type();
+
+        abstract RecyclerView.ViewHolder holder(ViewGroup parent);
+
+        abstract void bind(RecyclerView.ViewHolder holder, ScheduleStandardTypeModel item);
     }
 }
