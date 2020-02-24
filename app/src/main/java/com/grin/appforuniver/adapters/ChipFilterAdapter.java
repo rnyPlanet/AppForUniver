@@ -8,21 +8,24 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.chip.Chip;
 import com.grin.appforuniver.R;
 import com.grin.appforuniver.data.model.schedule.Groups;
 import com.grin.appforuniver.data.model.schedule.Professors;
 import com.grin.appforuniver.data.model.schedule.Rooms;
+import com.grin.appforuniver.holders.FilterHolders.DefaultViewHolder;
+import com.grin.appforuniver.holders.FilterHolders.GroupViewHolder;
+import com.grin.appforuniver.holders.FilterHolders.ProfessorViewHolder;
+import com.grin.appforuniver.holders.FilterHolders.RoomViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ChipFilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final String TAG = "ChipFilterAdapter";
-    private static final int TYPE_PROFESSOR = 0;
-    private static final int TYPE_ROOM = 1;
-    private static final int TYPE_GROUP = 2;
-    private static final int TYPE_STRING = 3;
+    private static final int TYPE_DEFAULT_VIEW = 0;
+    private static final int TYPE_PROFESSOR_VIEW = 1;
+    private static final int TYPE_ROOM_VIEW = 2;
+    private static final int TYPE_GROUP_VIEW = 3;
     private Context context;
     private List<Object> listFilterItems;
     private OnRemovedFilterItem onRemovedFilterItem;
@@ -35,51 +38,20 @@ public class ChipFilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public int getItemViewType(int position) {
-        Object item = listFilterItems.get(position);
-        if (item instanceof Professors) {
-            return TYPE_PROFESSOR;
-        } else if (item instanceof Rooms) {
-            return TYPE_ROOM;
-        } else if (item instanceof Groups) {
-            return TYPE_GROUP;
-        } else if (item instanceof String) {
-            return TYPE_STRING;
-        } else {
-            return -1;
-        }
+        return FilterCellType.get(listFilterItems.get(position)).type();
     }
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        if (viewType == TYPE_PROFESSOR) {
-            View view = inflater.inflate(R.layout.cat_chip_group_item_choice, parent, false);
-            return new ProfessorViewHolder(view);
-        } else if (viewType == TYPE_ROOM) {
-            View view = inflater.inflate(R.layout.cat_chip_group_item_choice, parent, false);
-            return new RoomViewHolder(view);
-        } else if (viewType == TYPE_GROUP) {
-            View view = inflater.inflate(R.layout.cat_chip_group_item_choice, parent, false);
-            return new GroupViewHolder(view);
-        } else if (viewType == TYPE_STRING) {
-            View view = inflater.inflate(R.layout.cat_chip_group_item_choice, parent, false);
-            return new ViewHolder(view);
-        }
-        return null;
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return FilterCellType.get(viewType).holder(parent);
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof ProfessorViewHolder) {
-            ((ProfessorViewHolder) holder).bind((Professors) listFilterItems.get(position));
-        } else if (holder instanceof RoomViewHolder) {
-            ((RoomViewHolder) holder).bind((Rooms) listFilterItems.get(position));
-        } else if (holder instanceof GroupViewHolder) {
-            ((GroupViewHolder) holder).bind((Groups) listFilterItems.get(position));
-        } else if (holder instanceof ViewHolder) {
-            ((ViewHolder) holder).bind((String) listFilterItems.get(position));
-        }
+        View.OnClickListener deleteItemListener = view -> deleteItemFilter(holder.getAdapterPosition());
+        Object filter = listFilterItems.get(holder.getAdapterPosition());
+        FilterCellType.get(filter).bind(holder, filter, deleteItemListener);
     }
 
     @Override
@@ -102,63 +74,149 @@ public class ChipFilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         notifyDataSetChanged();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        Chip chip;
+    enum FilterCellType {
+        TYPE_DEFAULT {
+            @Override
+            boolean is(Object item) {
+                return item instanceof String;
+            }
 
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-            chip = (Chip) itemView;
+            @Override
+            int type() {
+                return TYPE_DEFAULT_VIEW;
+            }
+
+            @Override
+            RecyclerView.ViewHolder holder(ViewGroup parent) {
+                LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+                View view = inflater.inflate(R.layout.chip_item, parent, false);
+                return new DefaultViewHolder(view);
+            }
+
+            @Override
+            void bind(RecyclerView.ViewHolder holder, Object item, View.OnClickListener deleteItemListener) {
+                try {
+                    String text = (String) item;
+                    DefaultViewHolder defaultViewHolder = (DefaultViewHolder) holder;
+                    defaultViewHolder.bind(text);
+                } catch (ClassCastException e) {
+                    e.printStackTrace();
+                }
+            }
+        },
+        TYPE_PROFESSOR {
+            @Override
+            boolean is(Object item) {
+                return item instanceof Professors;
+            }
+
+            @Override
+            int type() {
+                return TYPE_PROFESSOR_VIEW;
+            }
+
+            @Override
+            RecyclerView.ViewHolder holder(ViewGroup parent) {
+                LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+                View view = inflater.inflate(R.layout.chip_item_choice, parent, false);
+                return new ProfessorViewHolder(view);
+            }
+
+            @Override
+            void bind(RecyclerView.ViewHolder holder, Object item, View.OnClickListener deleteItemListener) {
+                try {
+                    Professors professors = (Professors) item;
+                    ProfessorViewHolder professorViewHolder = (ProfessorViewHolder) holder;
+                    professorViewHolder.bind(professors, deleteItemListener);
+                } catch (ClassCastException e) {
+                    e.printStackTrace();
+                }
+            }
+        },
+        TYPE_ROOM {
+            @Override
+            boolean is(Object item) {
+                return item instanceof Rooms;
+            }
+
+            @Override
+            int type() {
+                return TYPE_ROOM_VIEW;
+            }
+
+            @Override
+            RecyclerView.ViewHolder holder(ViewGroup parent) {
+                LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+                View view = inflater.inflate(R.layout.chip_item_choice, parent, false);
+                return new RoomViewHolder(view);
+            }
+
+            @Override
+            void bind(RecyclerView.ViewHolder holder, Object item, View.OnClickListener deleteItemListener) {
+                try {
+                    Rooms rooms = (Rooms) item;
+                    RoomViewHolder roomViewHolder = (RoomViewHolder) holder;
+                    roomViewHolder.bind(rooms, deleteItemListener);
+                } catch (ClassCastException e) {
+                    e.printStackTrace();
+                }
+            }
+        },
+        TYPE_GROUP {
+            @Override
+            boolean is(Object item) {
+                return item instanceof Groups;
+            }
+
+            @Override
+            int type() {
+                return TYPE_GROUP_VIEW;
+            }
+
+            @Override
+            RecyclerView.ViewHolder holder(ViewGroup parent) {
+                LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+                View view = inflater.inflate(R.layout.chip_item_choice, parent, false);
+                return new GroupViewHolder(view);
+            }
+
+            @Override
+            void bind(RecyclerView.ViewHolder holder, Object item, View.OnClickListener deleteItemListener) {
+                try {
+                    Groups group = (Groups) item;
+                    GroupViewHolder groupViewHolder = (GroupViewHolder) holder;
+                    groupViewHolder.bind(group, deleteItemListener);
+                } catch (ClassCastException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        static FilterCellType get(Object item) {
+            for (FilterCellType cellType : FilterCellType.values()) {
+                if (cellType.is(item)) {
+                    return cellType;
+                }
+            }
+            throw new RuntimeException();
         }
 
-        void bind(String text) {
-            chip.setText(text);
+        static FilterCellType get(int viewType) {
+            for (FilterCellType cellType : FilterCellType.values()) {
+                if (cellType.type() == viewType) {
+                    return cellType;
+                }
+            }
+            throw new RuntimeException();
         }
 
-    }
+        abstract boolean is(Object item);
 
-    public class ProfessorViewHolder extends RecyclerView.ViewHolder {
-        Chip chip;
+        abstract int type();
 
-        ProfessorViewHolder(@NonNull View itemView) {
-            super(itemView);
-            chip = (Chip) itemView;
-        }
+        abstract RecyclerView.ViewHolder holder(ViewGroup parent);
 
-        void bind(Professors professors) {
-            String text = context.getString(R.string.chip_adapter_professor) + professors.getUser().getShortFIO();
-            chip.setText(text);
-            chip.setOnCloseIconClickListener(view -> deleteItemFilter(getAdapterPosition()));
-        }
-    }
-
-    public class RoomViewHolder extends RecyclerView.ViewHolder {
-        Chip chip;
-
-        RoomViewHolder(@NonNull View itemView) {
-            super(itemView);
-            chip = (Chip) itemView;
-        }
-
-        void bind(Rooms rooms) {
-            String text = context.getString(R.string.chip_adapter_room) + rooms.getName();
-            chip.setText(text);
-            chip.setOnCloseIconClickListener(view -> deleteItemFilter(getAdapterPosition()));
-        }
-    }
-
-    public class GroupViewHolder extends RecyclerView.ViewHolder {
-        Chip chip;
-
-        public GroupViewHolder(@NonNull View itemView) {
-            super(itemView);
-            chip = (Chip) itemView;
-        }
-
-        void bind(Groups group) {
-            String text = context.getString(R.string.chip_adapter_group) + group.getmName();
-            chip.setText(text);
-            chip.setOnCloseIconClickListener(view -> deleteItemFilter(getAdapterPosition()));
-        }
+        abstract void bind(RecyclerView.ViewHolder holder, Object item, View.OnClickListener deleteItemListener);
     }
 
     public interface OnRemovedFilterItem {
