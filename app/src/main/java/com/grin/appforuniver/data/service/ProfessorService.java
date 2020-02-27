@@ -69,7 +69,7 @@ public class ProfessorService {
 
     private ProfessorApi buildApi(OkHttpClient client) {
         return new Retrofit.Builder()
-                .baseUrl(Constants.BASE_URL)
+                .baseUrl(Constants.API_BASE_URL)
                 .client(client)
                 .addConverterFactory(
                         GsonConverterFactory.create(

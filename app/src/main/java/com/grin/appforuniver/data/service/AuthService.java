@@ -40,7 +40,7 @@ public class AuthService {
 
     private AuthApi buildApi() {
         return new Retrofit.Builder()
-                .baseUrl(Constants.BASE_URL)
+                .baseUrl(Constants.API_BASE_URL)
                 .addConverterFactory(
                         GsonConverterFactory.create(
                                 new GsonBuilder()
