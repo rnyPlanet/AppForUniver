@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.grin.appforuniver.App;
+import com.grin.appforuniver.data.model.AccessToken;
 import com.grin.appforuniver.data.model.user.Role;
 import com.grin.appforuniver.data.model.user.User;
 import com.grin.appforuniver.data.service.AuthService;
@@ -21,9 +22,8 @@ import retrofit2.Response;
 public class AuthManager {
 
     public static final String PREFERENCE_NAME = "authorize_manager";
-    private static final String KEY_USER_TOKEN = "user_token";
+    private static final String KEY_TOKEN = "token";
     private static final String KEY_ID = "id";
-    private static final String KEY_LOGIN_DATA = "login_data";
     private static final String KEY_USERNAME = "username";
     private static final String KEY_PASSWORD = "password";
     private static final String KEY_PASSWORD_HASHED = "password";
@@ -31,37 +31,39 @@ public class AuthManager {
     private static final String KEY_FIRST_NAME = "first_name";
     private static final String KEY_LAST_NAME = "last_name";
     private static final String KEY_EMAIL = "email";
+
     private static AuthManager instance;
-    private String access_token;
+
+    private AccessToken access_token;
     private int id;
     private String username;
     private String first_name;
     private String last_name;
     private String email;
-    private String password;
-    private String password_hached;
     private List<String> roles;
     private boolean authorized;
-    private boolean isLoginData;
     private User me;
     private UserService mUserService;
     private AuthService mAuthService;
+
     private AuthManager() {
         SharedPreferences sharedPreferences = App.getInstance()
                 .getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
+        String jsonToken = sharedPreferences.getString(KEY_TOKEN, null);
+        if (jsonToken != null) {
+            Type typeAccess = new TypeToken<AccessToken>() {
+            }.getType();
+            this.access_token = new Gson().fromJson(jsonToken, typeAccess);
+        }
 
-//        this.access_token = sharedPreferences.getString(KEY_USER_TOKEN, null);
-//        this.authorized = !TextUtils.isEmpty(access_token);
-        this.isLoginData = sharedPreferences.getBoolean(KEY_LOGIN_DATA, false);
+        this.authorized = this.access_token != null;
 
-        if (isLoginData) {
+        if (authorized) {
             this.id = sharedPreferences.getInt(KEY_ID, -1);
             this.username = sharedPreferences.getString(KEY_USERNAME, null);
             this.first_name = sharedPreferences.getString(KEY_FIRST_NAME, null);
             this.last_name = sharedPreferences.getString(KEY_LAST_NAME, null);
             this.email = sharedPreferences.getString(KEY_EMAIL, null);
-            this.password = sharedPreferences.getString(KEY_PASSWORD, null);
-            this.password_hached = sharedPreferences.getString(KEY_PASSWORD_HASHED, null);
 
             String json = sharedPreferences.getString(KEY_USER_ROLES, "");
             Type type = new TypeToken<List<String>>() {
@@ -89,7 +91,7 @@ public class AuthManager {
         return id;
     }
 
-    public String getAccessToken() {
+    public AccessToken getAccessToken() {
         return access_token;
     }
 
@@ -97,18 +99,17 @@ public class AuthManager {
         return roles;
     }
 
-    public boolean isLoginData() {
-        return isLoginData;
+    public boolean isAuthorized() {
+        return authorized;
     }
 
     public void writeUserInfo(User me) {
         this.me = me;
+        this.id = me.getId();
         this.username = me.getUsername();
         this.first_name = me.getFirstName();
         this.last_name = me.getLastName();
         this.email = me.getEmail();
-        this.password_hached = me.getPassword();
-
 
         ArrayList<String> arrPackage = new ArrayList<>();
         for (Role role : me.getRoles()) {
@@ -118,16 +119,22 @@ public class AuthManager {
         SharedPreferences.Editor prefsEditor = App.getInstance()
                 .getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE).edit();
         prefsEditor.putString(KEY_USER_ROLES, json);
+        prefsEditor.putInt(KEY_ID, me.getId());
+        prefsEditor.putString(KEY_USERNAME, me.getUsername());
+        prefsEditor.putString(KEY_FIRST_NAME, me.getFirstName());
+        prefsEditor.putString(KEY_LAST_NAME, me.getLastName());
+        prefsEditor.putString(KEY_EMAIL, me.getEmail());
         prefsEditor.apply();
 
         this.roles = arrPackage;
     }
 
-    public void writeAccessToken(String token) {
+    public void writeAccessToken(AccessToken token) {
         if (token != null) {
             SharedPreferences.Editor editor = App.getInstance()
                     .getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE).edit();
-            editor.putString(KEY_USER_TOKEN, token);
+            String json = new Gson().toJson(token);
+            editor.putString(KEY_TOKEN, json);
             editor.apply();
 
             access_token = token;
@@ -135,21 +142,12 @@ public class AuthManager {
         } else {
             SharedPreferences.Editor editor = App.getInstance()
                     .getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE).edit();
-            editor.putString(KEY_USER_TOKEN, null);
+            editor.putString(KEY_TOKEN, null);
             editor.apply();
 
             access_token = null;
             authorized = false;
         }
-    }
-
-    public void writeDataLogin(String username, String password) {
-        SharedPreferences.Editor prefsEditor = App.getInstance()
-                .getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE).edit();
-        prefsEditor.putString(KEY_USERNAME, username);
-        prefsEditor.putString(KEY_PASSWORD, password);
-        prefsEditor.putBoolean(KEY_LOGIN_DATA, true);
-        prefsEditor.apply();
     }
 
     public void requestPersonalProfile() {
@@ -175,8 +173,7 @@ public class AuthManager {
 
         SharedPreferences.Editor editor = App.getInstance()
                 .getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE).edit();
-        editor.putBoolean(KEY_LOGIN_DATA, false);
-        editor.putString(KEY_USER_TOKEN, null);
+        editor.putString(KEY_TOKEN, null);
         editor.putString(KEY_ID, null);
         editor.putString(KEY_USERNAME, null);
         editor.putString(KEY_FIRST_NAME, null);
@@ -186,8 +183,6 @@ public class AuthManager {
         editor.putString(KEY_PASSWORD_HASHED, null);
         editor.putString(KEY_USER_ROLES, null);
 
-        editor.putString(KEY_LOGIN_DATA, null);
-
         editor.apply();
 
         this.access_token = null;
@@ -196,8 +191,6 @@ public class AuthManager {
         this.first_name = null;
         this.last_name = null;
         this.email = null;
-        this.password = null;
-        this.password_hached = null;
         this.roles = null;
         this.authorized = false;
 
@@ -206,10 +199,6 @@ public class AuthManager {
 
     public String getUsername() {
         return username;
-    }
-
-    public String getPassword() {
-        return password;
     }
 
     public User getUser() {

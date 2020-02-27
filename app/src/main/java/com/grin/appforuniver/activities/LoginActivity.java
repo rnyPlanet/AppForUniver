@@ -15,13 +15,12 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.grin.appforuniver.R;
-import com.grin.appforuniver.data.model.dto.AuthenticationRequestDto;
+import com.grin.appforuniver.data.model.AccessToken;
 import com.grin.appforuniver.data.model.user.User;
 import com.grin.appforuniver.data.service.AuthService;
 import com.grin.appforuniver.data.service.UserService;
 import com.grin.appforuniver.data.tools.AuthManager;
 
-import java.util.Map;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -54,13 +53,15 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         mAuthService = AuthService.getService();
         mUserService = UserService.getService();
-        AuthManager.getInstance().writeAccessToken(null);
 
         mProgressBar = new ProgressDialog(LoginActivity.this);
 
-        if (AuthManager.getInstance().isLoginData()) {
+        if (AuthManager.getInstance().isAuthorized()) {
             mProgressBar.show();
-            loginUser(AuthManager.getInstance().getUsername(), AuthManager.getInstance().getPassword());
+            Intent intent = new Intent(this, NavigationDrawer.class);
+            startActivity(intent);
+
+            finish();
         } else {
             setContentView(R.layout.activity_login);
             ButterKnife.bind(this);
@@ -87,23 +88,15 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void loginUser(String username, String password) {
-        AuthenticationRequestDto authenticationRequestDto = new AuthenticationRequestDto(username, password);
-        mAuthService.requestToken(authenticationRequestDto, new AuthService.OnRequstTokenListener() {
+        mAuthService.requestAccessToken(username, password, new AuthService.OnRequestTokenListener() {
             @Override
-            public void onRequestTokenSuccess(Call<Map<Object, Object>> call, Response<Map<Object, Object>> response) {
+            public void onRequestTokenSuccess(Call<AccessToken> call, Response<AccessToken> response) {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
 
-                        for (Map.Entry<Object, Object> item : response.body().entrySet()) {
-                            if (item.getKey().equals("token")) {
-                                AuthManager.getInstance().writeAccessToken(item.getValue().toString());
-                                AuthManager.getInstance().writeDataLogin(username, password);
-                                break;
-                            }
-                        }
-
+                        AccessToken accessToken = response.body();
+                        AuthManager.getInstance().writeAccessToken(accessToken);
                         getMe();
-
                     }
                 } else {
                     mProgressBar.dismiss();
@@ -113,7 +106,7 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onRequestTokenFailed(Call<Map<Object, Object>> call, Throwable t) {
+            public void onRequestTokenFailed(Call<AccessToken> call, Throwable t) {
                 mProgressBar.dismiss();
                 if (Objects.requireNonNull(t.getMessage()).contains("Failed to connect to /194.9.70.244:8075")) {
                     AuthManager.getInstance().writeAccessToken(null);
@@ -129,12 +122,12 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onRequestCurrentUserProfileSuccess(Call<User> call, Response<User> response) {
                 if (response.isSuccessful()) {
-                    if (response.body() != null && !AuthManager.getInstance().getAccessToken().isEmpty()) {
+                    if (response.body() != null && AuthManager.getInstance().getAccessToken() != null) {
                         AuthManager.getInstance().writeUserInfo(response.body());
 
                         mProgressBar.dismiss();
 
-                        Intent intent = new Intent(getApplicationContext(), NavigationDrawer.class);
+                        Intent intent = new Intent(LoginActivity.this, NavigationDrawer.class);
                         startActivity(intent);
 
                         finish();

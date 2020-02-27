@@ -2,11 +2,13 @@ package com.grin.appforuniver.data.service;
 
 import com.google.gson.GsonBuilder;
 import com.grin.appforuniver.data.api.AuthApi;
-import com.grin.appforuniver.data.model.dto.AuthenticationRequestDto;
+import com.grin.appforuniver.data.model.AccessToken;
+import com.grin.appforuniver.data.tools.TokenAuthenticator;
 import com.grin.appforuniver.utils.Constants;
 
-import java.util.Map;
+import java.io.IOException;
 
+import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -15,18 +17,18 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class AuthService {
 
-    public void requestToken(AuthenticationRequestDto user, OnRequstTokenListener l) {
-        Call<Map<Object, Object>> getToken = buildApi().loginUser(user);
-        getToken.enqueue(new Callback<Map<Object, Object>>() {
+    public void requestAccessToken(String username, String password, OnRequestTokenListener l) {
+        Call<AccessToken> getToken = buildApi().loginUser(username, password, "password");
+        getToken.enqueue(new Callback<AccessToken>() {
             @Override
-            public void onResponse(Call<Map<Object, Object>> call, Response<Map<Object, Object>> response) {
+            public void onResponse(Call<AccessToken> call, Response<AccessToken> response) {
                 if (l != null) {
                     l.onRequestTokenSuccess(call, response);
                 }
             }
 
             @Override
-            public void onFailure(Call<Map<Object, Object>> call, Throwable t) {
+            public void onFailure(Call<AccessToken> call, Throwable t) {
                 if (l != null) {
                     l.onRequestTokenFailed(call, t);
                 }
@@ -34,13 +36,25 @@ public class AuthService {
         });
     }
 
+    public Response<AccessToken> requestRefreshingToken(String refreshToken) throws IOException {
+        Call<AccessToken> getToken = buildApi().refreshAccessToken(refreshToken, "refresh_token");
+        return getToken.execute();
+    }
+
     public static AuthService getService() {
         return new AuthService();
     }
 
+    private OkHttpClient buildClient() {
+        return new OkHttpClient.Builder()
+                .authenticator(new TokenAuthenticator())
+                .build();
+    }
+
     private AuthApi buildApi() {
         return new Retrofit.Builder()
-                .baseUrl(Constants.API_BASE_URL)
+                .baseUrl(Constants.LOGIN_URL)
+                .client(buildClient())
                 .addConverterFactory(
                         GsonConverterFactory.create(
                                 new GsonBuilder()
@@ -49,9 +63,9 @@ public class AuthService {
                 .create((AuthApi.class));
     }
 
-    public interface OnRequstTokenListener {
-        void onRequestTokenSuccess(Call<Map<Object, Object>> call, Response<Map<Object, Object>> response);
+    public interface OnRequestTokenListener {
+        void onRequestTokenSuccess(Call<AccessToken> call, Response<AccessToken> response);
 
-        void onRequestTokenFailed(Call<Map<Object, Object>> call, Throwable t);
+        void onRequestTokenFailed(Call<AccessToken> call, Throwable t);
     }
 }
