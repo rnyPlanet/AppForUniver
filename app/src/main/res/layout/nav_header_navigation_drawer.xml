@@ -54,16 +54,4 @@
             android:textSize="17sp" />
 
     </LinearLayout>
-
-    <Button
-        android:id="@+id/nav_log_or_registr"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@null"
-        android:text="@string/login_register"
-        android:textAllCaps="false"
-        android:textColor="@android:color/black"
-        android:textSize="17sp"
-        android:visibility="gone" />
-
 </LinearLayout>
