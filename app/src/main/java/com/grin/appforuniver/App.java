@@ -1,11 +1,11 @@
 package com.grin.appforuniver;
 
 import android.app.Application;
-import android.content.res.Configuration;
+
+import androidx.appcompat.app.AppCompatDelegate;
 
 import com.grin.appforuniver.utils.LocaleUtils;
-
-import java.util.Locale;
+import com.grin.appforuniver.utils.ThemeUtils;
 
 public class App extends Application {
     private static App instance;
@@ -17,13 +17,6 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
-        LocaleUtils.setLocale(new Locale("uk"));
-        LocaleUtils.updateConfig(this, getBaseContext().getResources().getConfiguration());
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        LocaleUtils.updateConfig(this, newConfig);
+        LocaleUtils.loadLocale(this);
     }
 }
