@@ -61,7 +61,6 @@
     <string name="dialog_consultation_create_description">Description</string>
 
     <!-- Auxiliary strings -->
-    <string name="login_register">Login | Register</string>
     <string name="consultation_activity_room">Room: </string>
     <string name="edit_consultation">Edit consultation</string>
     <string name="account_header">account_header</string>
