@@ -2,9 +2,11 @@ package com.grin.appforuniver.activities;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,16 +18,24 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
 import com.grin.appforuniver.R;
+import com.grin.appforuniver.data.model.user.Photo;
+import com.grin.appforuniver.data.tools.AuthInterceptor;
 import com.grin.appforuniver.data.tools.AuthManager;
 import com.grin.appforuniver.fragments.AdminFragment;
 import com.grin.appforuniver.fragments.ConsultationFragment;
 import com.grin.appforuniver.fragments.HomeFragment;
 import com.grin.appforuniver.fragments.ScheduleFragment;
 import com.grin.appforuniver.fragments.UserAccountFragment;
+import com.grin.appforuniver.utils.CircularTransformation;
+import com.grin.appforuniver.utils.Constants;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.OkHttp3Downloader;
+import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import okhttp3.OkHttpClient;
 
 public class NavigationDrawer extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -73,9 +83,65 @@ public class NavigationDrawer extends AppCompatActivity
     @SuppressLint("SetTextI18n")
     public void userInfo() {
         mHeaderView.userLastFirstName.setText(AuthManager.getInstance().getFirstName() + " " + AuthManager.getInstance().getLastName());
-        mHeaderView.userIcon.setText(userIconText(AuthManager.getInstance().getFirstName(), AuthManager.getInstance().getLastName()));
         mHeaderView.email.setText(AuthManager.getInstance().getEmail());
+        if (AuthManager.getInstance().getUser() != null) {
+            Photo photo = AuthManager.getInstance().getUser().getPhoto();
+            if (photo != null) {
+                String urlPhoto = Constants.API_BASE_URL + "photo" + photo.getUrl();
 
+                OkHttpClient client = new OkHttpClient.Builder()
+                        .addInterceptor(new AuthInterceptor())
+                        .build();
+
+                Uri photoUri = Uri.parse(urlPhoto);
+                Picasso picasso = new Picasso.Builder(this)
+                        .downloader(new OkHttp3Downloader(client))
+                        .build();
+                picasso
+                        .load(photoUri)
+                        .placeholder(R.drawable.account_circle_outline)
+                        .error(R.drawable.ic_warning)
+                        .transform(new CircularTransformation(0))
+                        .into(mHeaderView.userIcon, new Callback() {
+                            @Override
+                            public void onSuccess() {
+                            }
+
+                            @Override
+                            public void onError(Exception e) {
+                                e.printStackTrace();
+                            }
+                        });
+            } else {
+                Picasso.get()
+                        .load(R.drawable.account_circle_outline)
+                        .transform(new CircularTransformation(0))
+                        .into(mHeaderView.userIcon, new Callback() {
+                            @Override
+                            public void onSuccess() {
+                            }
+
+                            @Override
+                            public void onError(Exception e) {
+                                e.printStackTrace();
+                            }
+                        });
+            }
+        } else {
+//            Picasso.get()
+//                    .load(R.drawable.account_circle_outline)
+//                    .transform(new CircularTransformation(0))
+//                    .into(mHeaderView.userIcon, new Callback() {
+//                        @Override
+//                        public void onSuccess() {
+//                        }
+//
+//                        @Override
+//                        public void onError(Exception e) {
+//                            e.printStackTrace();
+//                        }
+//                    });
+        }
         navigationView.getMenu().findItem(R.id.nav_personal_area).setVisible(true);
     }
 
@@ -90,12 +156,6 @@ public class NavigationDrawer extends AppCompatActivity
     protected void onDestroy() {
         super.onDestroy();
         mUnbinder.unbind();
-    }
-
-    public String userIconText(String firstName, String secondName) {
-        char userFirstNameLetter = firstName.charAt(0);
-        char userSecondNameLetter = secondName.charAt(0);
-        return userFirstNameLetter + "" + userSecondNameLetter;
     }
 
     @Override
@@ -161,7 +221,7 @@ public class NavigationDrawer extends AppCompatActivity
 
     protected static class HeaderViewHolder {
         @BindView(R.id.user_name_icon)
-        protected TextView userIcon;
+        protected ImageView userIcon;
         @BindView(R.id.nav_header_firstName_lastName)
         protected TextView userLastFirstName;
         @BindView(R.id.nav_header_email)
