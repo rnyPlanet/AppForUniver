@@ -9,7 +9,6 @@ import com.grin.appforuniver.App;
 import com.grin.appforuniver.data.model.AccessToken;
 import com.grin.appforuniver.data.model.user.Role;
 import com.grin.appforuniver.data.model.user.User;
-import com.grin.appforuniver.data.service.AuthService;
 import com.grin.appforuniver.data.service.UserService;
 
 import java.lang.reflect.Type;
@@ -19,7 +18,7 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Response;
 
-public class AuthManager {
+public class AuthManager implements UserService.OnRequestCurrentUserProfileListener {
 
     public static final String PREFERENCE_NAME = "authorize_manager";
     private static final String KEY_TOKEN = "token";
@@ -37,14 +36,13 @@ public class AuthManager {
     private AccessToken access_token;
     private int id;
     private String username;
-    private String first_name;
-    private String last_name;
+    private String firstName;
+    private String lastName;
     private String email;
     private List<String> roles;
     private boolean authorized;
     private User me;
     private UserService mUserService;
-    private AuthService mAuthService;
 
     private AuthManager() {
         SharedPreferences sharedPreferences = App.getInstance()
@@ -61,8 +59,8 @@ public class AuthManager {
         if (authorized) {
             this.id = sharedPreferences.getInt(KEY_ID, -1);
             this.username = sharedPreferences.getString(KEY_USERNAME, null);
-            this.first_name = sharedPreferences.getString(KEY_FIRST_NAME, null);
-            this.last_name = sharedPreferences.getString(KEY_LAST_NAME, null);
+            this.firstName = sharedPreferences.getString(KEY_FIRST_NAME, null);
+            this.lastName = sharedPreferences.getString(KEY_LAST_NAME, null);
             this.email = sharedPreferences.getString(KEY_EMAIL, null);
 
             String json = sharedPreferences.getString(KEY_USER_ROLES, "");
@@ -73,7 +71,6 @@ public class AuthManager {
 
         this.me = null;
         this.mUserService = UserService.getService();
-        this.mAuthService = AuthService.getService();
     }
 
     public static AuthManager getInstance() {
@@ -87,16 +84,36 @@ public class AuthManager {
         return instance;
     }
 
-    public int getID() {
-        return id;
-    }
-
     public AccessToken getAccessToken() {
         return access_token;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
     public List<String> getUserRoles() {
         return roles;
+    }
+
+    public User getUser() {
+        return me;
     }
 
     public boolean isAuthorized() {
@@ -107,8 +124,8 @@ public class AuthManager {
         this.me = me;
         this.id = me.getId();
         this.username = me.getUsername();
-        this.first_name = me.getFirstName();
-        this.last_name = me.getLastName();
+        this.firstName = me.getFirstName();
+        this.lastName = me.getLastName();
         this.email = me.getEmail();
 
         ArrayList<String> arrPackage = new ArrayList<>();
@@ -152,19 +169,7 @@ public class AuthManager {
 
     public void requestPersonalProfile() {
         if (authorized) {
-            mUserService.requestCurrentUserProfile(new UserService.OnRequestCurrentUserProfileListener() {
-                @Override
-                public void onRequestCurrentUserProfileSuccess(Call<User> call, Response<User> response) {
-                    if (response.isSuccessful()) {
-                        writeUserInfo(response.body());
-                    }
-                }
-
-                @Override
-                public void onRequestCurrentUserProfileFailed(Call<User> call, Throwable t) {
-                }
-            });
-
+            mUserService.requestCurrentUserProfile(this);
         }
     }
 
@@ -188,8 +193,8 @@ public class AuthManager {
         this.access_token = null;
         this.id = -1;
         this.username = null;
-        this.first_name = null;
-        this.last_name = null;
+        this.firstName = null;
+        this.lastName = null;
         this.email = null;
         this.roles = null;
         this.authorized = false;
@@ -197,11 +202,20 @@ public class AuthManager {
         this.me = null;
     }
 
-    public String getUsername() {
-        return username;
+    //request user profile
+    @Override
+    public void onRequestCurrentUserProfileSuccess(Call<User> call, Response<User> response) {
+        if (response.isSuccessful()) {
+            writeUserInfo(response.body());
+        } else if (isAuthorized()) {
+            mUserService.requestCurrentUserProfile(this);
+        }
     }
 
-    public User getUser() {
-        return me;
+    @Override
+    public void onRequestCurrentUserProfileFailed(Call<User> call, Throwable t) {
+        if (isAuthorized()) {
+            mUserService.requestCurrentUserProfile(this);
+        }
     }
 }
