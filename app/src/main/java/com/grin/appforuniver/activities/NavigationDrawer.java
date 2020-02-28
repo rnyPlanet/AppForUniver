@@ -16,7 +16,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
 import com.grin.appforuniver.R;
-import com.grin.appforuniver.data.model.user.User;
 import com.grin.appforuniver.data.tools.AuthManager;
 import com.grin.appforuniver.fragments.AdminFragment;
 import com.grin.appforuniver.fragments.ConsultationFragment;
@@ -24,83 +23,85 @@ import com.grin.appforuniver.fragments.HomeFragment;
 import com.grin.appforuniver.fragments.ScheduleFragment;
 import com.grin.appforuniver.fragments.UserAccountFragment;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 public class NavigationDrawer extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    public final String TAG = NavigationDrawer.class.getSimpleName();
+    private static final String TAG = NavigationDrawer.class.getSimpleName();
 
-    private DrawerLayout mDrawer;
-    private NavigationView mNavigationView;
+    private Unbinder mUnbinder;
 
-    private User mUser = null;
+    //region BindView
+    @BindView(R.id.drawer_layout)
+    protected DrawerLayout drawer;
+    @BindView(R.id.toolbar)
+    protected Toolbar toolbar;
+    @BindView(R.id.nav_view)
+    protected NavigationView navigationView;
+
+    private HeaderViewHolder mHeaderView;
+    //endregion
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation_drawer);
+        mUnbinder = ButterKnife.bind(this);
+        View header = navigationView.getHeaderView(0);
+        mHeaderView = new HeaderViewHolder(header);
 
-        navigationDrawer();
+        setSupportActionBar(toolbar);
+
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        navigationView.setNavigationItemSelectedListener(this);
+
+        toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ScheduleFragment()).commit();
-            mNavigationView.setCheckedItem(R.id.nav_schedule);
+            navigationView.setCheckedItem(R.id.nav_schedule);
         }
-        mUser = AuthManager.getInstance().getUser();
-
         userInfo();
-    }
-
-
-    private void navigationDrawer() {
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        mDrawer = findViewById(R.id.drawer_layout);
-
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        mDrawer.addDrawerListener(toggle);
-        toggle.syncState();
-
-        mNavigationView = findViewById(R.id.nav_view);
-        mNavigationView.setNavigationItemSelectedListener(this);
-
-        toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
     }
 
     @SuppressLint("SetTextI18n")
     public void userInfo() {
-        if (mUser != null) {
-            TextView nvHeaderFirstLastNameTv = mNavigationView.getHeaderView(0).findViewById(R.id.nav_header_firstName_lastName);
-            nvHeaderFirstLastNameTv.setVisibility(View.VISIBLE);
-            nvHeaderFirstLastNameTv.setText(mUser.getFirstName() + " " + mUser.getLastName());
+        mHeaderView.userLastFirstName.setText(AuthManager.getInstance().getFirstName() + " " + AuthManager.getInstance().getLastName());
+        mHeaderView.userIcon.setText(userIconText(AuthManager.getInstance().getFirstName(), AuthManager.getInstance().getLastName()));
+        mHeaderView.email.setText(AuthManager.getInstance().getEmail());
 
-            // Set user icon data
-            setUserIconData(mUser.getFirstName(), mUser.getLastName());
-
-            TextView nvHeaderUserEmailTv = mNavigationView.getHeaderView(0).findViewById(R.id.nav_header_email);
-            nvHeaderUserEmailTv.setVisibility(View.VISIBLE);
-            nvHeaderUserEmailTv.setText(mUser.getEmail());
-
-            mNavigationView.getHeaderView(0).findViewById(R.id.nav_log_or_registr).setVisibility(View.GONE);
-            mNavigationView.getMenu().findItem(R.id.nav_personal_area).setVisible(true);
-        }
+        navigationView.getMenu().findItem(R.id.nav_personal_area).setVisible(true);
     }
 
-    @SuppressLint("SetTextI18n")
-    public void setUserIconData(String firstName, String secondName) {
+    @Override
+    protected void onStart() {
+        super.onStart();
+        AuthManager.getInstance().requestPersonalProfile();
+        userInfo();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mUnbinder.unbind();
+    }
+
+    public String userIconText(String firstName, String secondName) {
         char userFirstNameLetter = firstName.charAt(0);
         char userSecondNameLetter = secondName.charAt(0);
-        TextView userIcon = mNavigationView.getHeaderView(0).findViewById(R.id.user_name_icon);
-
-        // Set up new data
-        userIcon.setText(userFirstNameLetter + "" + userSecondNameLetter);
-
+        return userFirstNameLetter + "" + userSecondNameLetter;
     }
 
     @Override
     public void onBackPressed() {
-        if (mDrawer.isDrawerOpen(GravityCompat.START)) {
-            mDrawer.closeDrawer(GravityCompat.START);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
         }
@@ -154,8 +155,20 @@ public class NavigationDrawer extends AppCompatActivity
 
         }
 
-        mDrawer.closeDrawer(GravityCompat.START);
+        drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
+    protected static class HeaderViewHolder {
+        @BindView(R.id.user_name_icon)
+        protected TextView userIcon;
+        @BindView(R.id.nav_header_firstName_lastName)
+        protected TextView userLastFirstName;
+        @BindView(R.id.nav_header_email)
+        protected TextView email;
+
+        HeaderViewHolder(View view) {
+            ButterKnife.bind(this, view);
+        }
+    }
 }
