@@ -28,6 +28,7 @@ import com.grin.appforuniver.fragments.ScheduleFragment;
 import com.grin.appforuniver.fragments.UserAccountFragment;
 import com.grin.appforuniver.utils.CircularTransformation;
 import com.grin.appforuniver.utils.Constants;
+import com.grin.appforuniver.utils.LocaleUtils;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
@@ -58,6 +59,7 @@ public class NavigationDrawer extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        LocaleUtils.loadLocale(this);
         setContentView(R.layout.activity_navigation_drawer);
         mUnbinder = ButterKnife.bind(this);
         View header = navigationView.getHeaderView(0);

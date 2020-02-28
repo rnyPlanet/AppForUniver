@@ -61,7 +61,7 @@
     <string name="dialog_consultation_create_choose_room">Аудиторія</string>
     <string name="dialog_consultation_create_description">Опис</string>
     <string name="dialog_consultation_create_select_date_and_time">Оберіть час та дату</string>
-    <string name="drk">Темний</string>
+    <string name="drk">Темна</string>
     <string name="empty_state_description">Інформація відсутня</string>
     <string name="empty_state_text">Вибачте! Інформація відсутня</string>
     <string name="eng">Англійська</string>
@@ -113,4 +113,7 @@
     <string name="chip_adapter_room">"Аудиторія: "</string>
     <string name="close">Закрити</string>
     <string name="clear">"Відчистити: "</string>
+    <string name="title_theme">Тема</string>
+    <string name="title_language">Мова</string>
+    <string name="title_general_section">Загальні</string>
 </resources>

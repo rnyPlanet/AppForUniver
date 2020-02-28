@@ -1,43 +1,31 @@
 package com.grin.appforuniver.utils;
 
-import android.app.Application;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.content.res.Resources;
-import android.os.Build;
-import android.view.ContextThemeWrapper;
+
+import com.grin.appforuniver.App;
+import com.grin.appforuniver.activities.SettingsActivity;
 
 import java.util.Locale;
 
+import static com.grin.appforuniver.data.tools.AuthManager.PREFERENCE_NAME;
+
 public class LocaleUtils {
 
-    public static final String LAN_UKRANIAN      = "uk";
-//    public static final String LAN_PORTUGUESE   = "pt";
-    public static final String LAN_ENGLISH      = "en";
-
-    private static Locale sLocale;
-
-    public static void setLocale(Locale locale) {
-        sLocale = locale;
-        if(sLocale != null) {
-            Locale.setDefault(sLocale);
-        }
+    public static void loadLocale(Context context) {
+        SharedPreferences sharedPreferences = App.getInstance()
+                .getSharedPreferences(SettingsActivity.PREFERENCE_NAME_SETTINGS, Context.MODE_PRIVATE);
+        Locale locale = new Locale(sharedPreferences.getString("language", "en"));
+        Locale.setDefault(locale);
+        Configuration configuration = new Configuration();
+        configuration.setLocale(locale);
+        context.getResources().updateConfiguration(configuration, context.getResources().getDisplayMetrics());
     }
 
-    public static void updateConfig(ContextThemeWrapper wrapper) {
-        if(sLocale != null) {
-            Configuration configuration = new Configuration();
-            configuration.setLocale(sLocale);
-            wrapper.applyOverrideConfiguration(configuration);
-        }
-    }
-
-    public static void updateConfig(Application app, Configuration configuration) {
-        if(sLocale != null && Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            //Wrapping the configuration to avoid Activity endless loop
-            Configuration config = new Configuration(configuration);
-            config.locale = sLocale;
-            Resources res = app.getBaseContext().getResources();
-            res.updateConfiguration(config, res.getDisplayMetrics());
-        }
+    public static Locale getLocale(Context context) {
+        SharedPreferences sharedPreferences = App.getInstance()
+                .getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
+        return new Locale(sharedPreferences.getString("language", "en"));
     }
 }
