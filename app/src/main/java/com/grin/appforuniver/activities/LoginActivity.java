@@ -58,9 +58,9 @@ public class LoginActivity extends AppCompatActivity {
 
         if (AuthManager.getInstance().isAuthorized()) {
             mProgressBar.show();
+            AuthManager.getInstance().requestPersonalProfile();
             Intent intent = new Intent(this, NavigationDrawer.class);
             startActivity(intent);
-
             finish();
         } else {
             setContentView(R.layout.activity_login);
