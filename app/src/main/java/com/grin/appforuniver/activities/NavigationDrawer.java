@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -29,6 +30,7 @@ import com.grin.appforuniver.fragments.UserAccountFragment;
 import com.grin.appforuniver.utils.CircularTransformation;
 import com.grin.appforuniver.utils.Constants;
 import com.grin.appforuniver.utils.LocaleUtils;
+import com.grin.appforuniver.utils.ThemeUtils;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
@@ -58,6 +60,17 @@ public class NavigationDrawer extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        switch (ThemeUtils.getTheme()) {
+            case ThemeUtils.Theme.SYSTEM:
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+                break;
+            case ThemeUtils.Theme.LIGHT:
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                break;
+            case ThemeUtils.Theme.DARK:
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                break;
+        }
         super.onCreate(savedInstanceState);
         LocaleUtils.loadLocale(this);
         setContentView(R.layout.activity_navigation_drawer);

@@ -167,9 +167,9 @@
         <item>@string/drk</item>
     </string-array>
     <string-array name="theme_values">
-        <item>system_theme</item>
-        <item>light_theme</item>
-        <item>dark_theme</item>
+        <item>System</item>
+        <item>Light</item>
+        <item>Dark</item>
     </string-array>
     <string name="default_theme" translatable="false">system_theme</string>
 

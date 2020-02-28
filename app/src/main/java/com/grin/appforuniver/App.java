@@ -2,7 +2,10 @@ package com.grin.appforuniver;
 
 import android.app.Application;
 
+import androidx.appcompat.app.AppCompatDelegate;
+
 import com.grin.appforuniver.utils.LocaleUtils;
+import com.grin.appforuniver.utils.ThemeUtils;
 
 public class App extends Application {
     private static App instance;

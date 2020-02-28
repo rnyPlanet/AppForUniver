@@ -7,12 +7,14 @@ import android.os.Bundle;
 import android.preference.PreferenceFragment;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.NavUtils;
 
 import com.grin.appforuniver.App;
 import com.grin.appforuniver.R;
 import com.grin.appforuniver.utils.LocaleUtils;
+import com.grin.appforuniver.utils.ThemeUtils;
 
 public class SettingsActivity extends AppCompatActivity {
     public static final String PREFERENCE_NAME_SETTINGS = "settings";
@@ -21,6 +23,17 @@ public class SettingsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        switch (ThemeUtils.getTheme()) {
+            case ThemeUtils.Theme.SYSTEM:
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+                break;
+            case ThemeUtils.Theme.LIGHT:
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                break;
+            case ThemeUtils.Theme.DARK:
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                break;
+        }
         super.onCreate(savedInstanceState);
         LocaleUtils.loadLocale(this);
         setContentView(R.layout.activity_settings);
