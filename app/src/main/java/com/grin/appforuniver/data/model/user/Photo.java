@@ -2,12 +2,10 @@ package com.grin.appforuniver.data.model.user;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.Arrays;
-
 import lombok.Data;
 
 @Data
-class Photo {
+public class Photo {
 
     /*
     photo": {
@@ -18,8 +16,8 @@ class Photo {
 
     @SerializedName("id")
     private Integer mId;
-    @SerializedName("photo")
-    private byte[] mPhoto;
+    @SerializedName("filename")
+    private String mPhotoUrl;
 
     public Integer getId() {
         return mId;
@@ -29,19 +27,19 @@ class Photo {
         this.mId = id;
     }
 
-    public byte[] getPhoto() {
-        return mPhoto;
+    public String getUrl() {
+        return mPhotoUrl;
     }
 
-    public void setPhoto(byte[] photo) {
-        this.mPhoto = photo;
+    public void setPhoto(String photo) {
+        this.mPhotoUrl = photo;
     }
 
     @Override
     public String toString() {
         return "Photo{" +
                 "id=" + mId +
-                ", photo=" + Arrays.toString(mPhoto) +
+                ", photo=" + mPhotoUrl +
                 '}';
     }
 }
