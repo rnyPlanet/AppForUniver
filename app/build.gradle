@@ -37,6 +37,7 @@ android {
             applicationId "com.grin.appforuniver"
             minSdkVersion 19
             targetSdkVersion 29
+            multiDexEnabled true
             versionCode 1
             versionName versionProps['VERSION_MAJOR'] + "." +
                     versionProps['VERSION_MINOR'] + "." +
@@ -120,5 +121,9 @@ dependencies {
 
     // Dependencies for HTML parsing
     implementation 'org.jsoup:jsoup:1.12.1'
+    //dexter permissions
+    implementation "com.karumi:dexter:5.0.0"
 
+    implementation 'com.github.yalantis:ucrop:2.2.2'
+    implementation 'androidx.multidex:multidex:2.0.1'
 }
