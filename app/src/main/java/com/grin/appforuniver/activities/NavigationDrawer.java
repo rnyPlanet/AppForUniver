@@ -102,13 +102,11 @@ public class NavigationDrawer extends AppCompatActivity
         if (AuthManager.getInstance().getUser() != null) {
             Photo photo = AuthManager.getInstance().getUser().getPhoto();
             if (photo != null) {
-                String urlPhoto = Constants.API_BASE_URL + "photo" + photo.getUrl();
-
                 OkHttpClient client = new OkHttpClient.Builder()
                         .addInterceptor(new AuthInterceptor())
                         .build();
 
-                Uri photoUri = Uri.parse(urlPhoto);
+                Uri photoUri = Uri.parse(Constants.API_BASE_URL + "photo/current_user/get_avatar");
                 Picasso picasso = new Picasso.Builder(this)
                         .downloader(new OkHttp3Downloader(client))
                         .build();
