@@ -18,11 +18,10 @@
         android:layout_marginTop="26dp"
         android:orientation="vertical">
 
-        <TextView
+        <ImageView
             android:id="@+id/user_name_icon"
             android:layout_width="72dp"
             android:layout_height="72dp"
-            android:background="@drawable/user_name_icon"
             android:gravity="center"
             android:textColor="@android:color/white"
             android:textSize="30sp" />
@@ -54,16 +53,4 @@
             android:textSize="17sp" />
 
     </LinearLayout>
-
-    <Button
-        android:id="@+id/nav_log_or_registr"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@null"
-        android:text="@string/login_register"
-        android:textAllCaps="false"
-        android:textColor="@android:color/black"
-        android:textSize="17sp"
-        android:visibility="gone" />
-
 </LinearLayout>
