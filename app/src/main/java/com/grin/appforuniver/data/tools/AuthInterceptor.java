@@ -1,5 +1,9 @@
 package com.grin.appforuniver.data.tools;
 
+import android.content.Intent;
+
+import com.grin.appforuniver.App;
+import com.grin.appforuniver.activities.LoginActivity;
 import com.grin.appforuniver.data.model.AccessToken;
 import com.grin.appforuniver.data.service.AuthService;
 
@@ -30,6 +34,12 @@ public class AuthInterceptor implements Interceptor {
                         .newBuilder()
                         .addHeader("Authorization", "Bearer " + AuthManager.getInstance().getAccessToken().access_token)
                         .build();
+            } else if (refreshResponse.code() == 401) {
+                AuthManager.getInstance().logout();
+                Intent intent = new Intent(App.getInstance(), LoginActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                App.getInstance().startActivity(intent);
             }
             response.close();
             response = chain.proceed(request);

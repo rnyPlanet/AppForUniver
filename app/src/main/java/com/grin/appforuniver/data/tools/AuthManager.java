@@ -173,6 +173,10 @@ public class AuthManager implements UserService.OnRequestCurrentUserProfileListe
         }
     }
 
+    public void cancelRequest() {
+        mUserService.cancel();
+    }
+
     public void logout() {
 //        service.cancel();
 

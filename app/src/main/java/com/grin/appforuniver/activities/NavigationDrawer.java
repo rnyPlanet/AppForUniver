@@ -171,6 +171,7 @@ public class NavigationDrawer extends AppCompatActivity
     protected void onDestroy() {
         super.onDestroy();
         mUnbinder.unbind();
+        AuthManager.getInstance().cancelRequest();
     }
 
     @Override
