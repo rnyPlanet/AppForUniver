@@ -16,6 +16,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class UserService {
+    private Call call;
 
     public void requestCurrentUserProfile(OnRequestCurrentUserProfileListener l) {
         Call<User> getCurrentUserAccount = buildApi(buildClient()).getMyAccount();
@@ -34,6 +35,7 @@ public class UserService {
                 }
             }
         });
+        call = getCurrentUserAccount;
     }
 
     public void requestCurrentUserStudentProfile(OnRequestCurrentUserStudentProfileListener l) {
@@ -53,6 +55,7 @@ public class UserService {
                 }
             }
         });
+        call = getCurrentUserStudentProfile;
     }
 
     public void requestCurrentUserProfessorProfile(OnRequestCurrentUserProfessorProfileListener l) {
@@ -72,6 +75,13 @@ public class UserService {
                 }
             }
         });
+        call = getCurrentUserProfessorProfile;
+    }
+
+    public void cancel() {
+        if (call != null) {
+            call.cancel();
+        }
     }
 
     public static UserService getService() {
