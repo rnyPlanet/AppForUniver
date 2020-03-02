@@ -34,15 +34,15 @@ public class AuthInterceptor implements Interceptor {
                         .newBuilder()
                         .addHeader("Authorization", "Bearer " + AuthManager.getInstance().getAccessToken().access_token)
                         .build();
-            } else if (refreshResponse.code() == 401) {
+                response.close();
+                response = chain.proceed(request);
+            } else {
                 AuthManager.getInstance().logout();
                 Intent intent = new Intent(App.getInstance(), LoginActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 App.getInstance().startActivity(intent);
             }
-            response.close();
-            response = chain.proceed(request);
         }
         return response;
     }
