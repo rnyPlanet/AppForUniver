@@ -17,6 +17,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class GroupService {
+    private static final String TAG = GroupService.class.getSimpleName();
 
     public void requestGroupById(int id, OnRequestGroupListener l) {
         Call<Groups> getGroupById = buildApi(buildClient()).getGroupById(id);
@@ -63,7 +64,7 @@ public class GroupService {
     private OkHttpClient buildClient() {
         return new OkHttpClient.Builder()
                 .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
-                .addInterceptor(new AuthInterceptor())
+                .addInterceptor(AuthInterceptor.getInstance())
                 .build();
     }
 

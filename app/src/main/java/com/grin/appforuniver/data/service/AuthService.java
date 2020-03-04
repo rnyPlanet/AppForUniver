@@ -16,6 +16,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class AuthService {
+    private static final String TAG = "AuthService";
 
     public void requestAccessToken(String username, String password, OnRequestTokenListener l) {
         Call<AccessToken> getToken = buildApi().loginUser(username, password, "password");
@@ -47,7 +48,7 @@ public class AuthService {
 
     private OkHttpClient buildClient() {
         return new OkHttpClient.Builder()
-                .authenticator(new TokenAuthenticator())
+                .authenticator(TokenAuthenticator.getInstance())
                 .build();
     }
 
