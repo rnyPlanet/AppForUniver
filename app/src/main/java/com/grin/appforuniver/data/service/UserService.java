@@ -17,6 +17,8 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class UserService {
+    private static final String TAG = UserService.class.getSimpleName();
+
     private Call call;
 
     public void requestCurrentUserProfile(OnRequestCurrentUserProfileListener l) {
@@ -111,7 +113,7 @@ public class UserService {
     private OkHttpClient buildClient() {
         return new OkHttpClient.Builder()
                 .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
-                .addInterceptor(new AuthInterceptor())
+                .addInterceptor(AuthInterceptor.getInstance())
                 .build();
     }
 

@@ -19,6 +19,7 @@ import retrofit2.Call;
 import retrofit2.Response;
 
 public class AuthManager implements UserService.OnRequestCurrentUserProfileListener {
+    private static final String TAG = "AuthManager";
 
     public static final String PREFERENCE_NAME = "authorize_manager";
     private static final String KEY_TOKEN = "token";

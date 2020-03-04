@@ -17,6 +17,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ProfessorService {
+    private static final String TAG = ProfessorService.class.getSimpleName();
 
     public void requestProfessorById(int id, OnRequestProfessorListener l) {
         Call<Professors> getProfessorById = buildApi(buildClient()).getProfessorById(id);
@@ -63,7 +64,7 @@ public class ProfessorService {
     private OkHttpClient buildClient() {
         return new OkHttpClient.Builder()
                 .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
-                .addInterceptor(new AuthInterceptor())
+                .addInterceptor(AuthInterceptor.getInstance())
                 .build();
     }
 

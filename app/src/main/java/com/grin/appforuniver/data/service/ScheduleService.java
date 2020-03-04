@@ -17,6 +17,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ScheduleService {
+    private static final String TAG = ScheduleService.class.getSimpleName();
 
     public void requestScheduleByCriteria(int subject, int type, int professorId, int roomId, int groupId, String place, String week, int indexInDay, String additionalRequirements, final OnRequestScheduleListener l) {
         Call<List<Classes>> getScheduleByCriteria = buildApi(buildClient())
@@ -64,7 +65,7 @@ public class ScheduleService {
     private OkHttpClient buildClient() {
         return new OkHttpClient.Builder()
                 .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
-                .addInterceptor(new AuthInterceptor())
+                .addInterceptor(AuthInterceptor.getInstance())
                 .build();
     }
 

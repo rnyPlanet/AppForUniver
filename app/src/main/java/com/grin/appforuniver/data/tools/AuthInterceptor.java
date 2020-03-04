@@ -16,9 +16,27 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class AuthInterceptor implements Interceptor {
+    private static final String TAG = AuthInterceptor.class.getSimpleName();
+
+    private AuthInterceptor() {
+    }
+
+    private static AuthInterceptor instance;
+
+    public static AuthInterceptor getInstance() {
+        if (instance == null) {
+            synchronized (AuthManager.class) {
+                if (instance == null) {
+                    instance = new AuthInterceptor();
+                }
+            }
+        }
+        return instance;
+    }
+
     @NotNull
     @Override
-    public Response intercept(@NotNull Chain chain) throws IOException {
+    public synchronized Response intercept(@NotNull Chain chain) throws IOException {
         Request request = chain.request()
                 .newBuilder()
                 .addHeader("Authorization", "Bearer " + AuthManager.getInstance().getAccessToken().access_token)
