@@ -14,6 +14,24 @@ import okhttp3.Response;
 import okhttp3.Route;
 
 public class TokenAuthenticator implements Authenticator {
+    private static final String TAG = TokenAuthenticator.class.getSimpleName();
+
+    private TokenAuthenticator() {
+    }
+
+    private static TokenAuthenticator instance;
+
+    public static TokenAuthenticator getInstance() {
+        if (instance == null) {
+            synchronized (AuthManager.class) {
+                if (instance == null) {
+                    instance = new TokenAuthenticator();
+                }
+            }
+        }
+        return instance;
+    }
+
     @Nullable
     @Override
     public Request authenticate(@Nullable Route route, @NotNull Response response) throws IOException {

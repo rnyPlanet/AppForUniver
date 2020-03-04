@@ -19,6 +19,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ConsultationService {
+    private static final String TAG = ConsultationService.class.getSimpleName();
 
     public void requestConsultationById(int id, final OnRequestConsultationListener l) {
         Call<Consultation> getConsultationById = buildApi(buildClient()).getConsultationById(id);
@@ -199,7 +200,7 @@ public class ConsultationService {
     private OkHttpClient buildClient() {
         return new OkHttpClient.Builder()
                 .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
-                .addInterceptor(new AuthInterceptor())
+                .addInterceptor(AuthInterceptor.getInstance())
                 .build();
     }
 

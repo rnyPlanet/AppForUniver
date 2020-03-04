@@ -167,7 +167,7 @@ public class UserAccountFragment extends Fragment {
             String urlPhoto = Constants.API_BASE_URL + "photo/current_user/get_avatar";
 
             OkHttpClient client = new OkHttpClient.Builder()
-                    .addInterceptor(new AuthInterceptor())
+                    .addInterceptor(AuthInterceptor.getInstance())
                     .build();
 
             Uri photoUri = Uri.parse(urlPhoto);
@@ -358,7 +358,7 @@ public class UserAccountFragment extends Fragment {
             public void onRequestAvatarProfileSuccess(Call<Void> call, Response<Void> response) {
                 String urlPhoto = Constants.API_BASE_URL + "photo/current_user/get_avatar";
                 OkHttpClient client = new OkHttpClient.Builder()
-                        .addInterceptor(new AuthInterceptor())
+                        .addInterceptor(AuthInterceptor.getInstance())
                         .build();
 
                 Uri photoUri = Uri.parse(urlPhoto);
