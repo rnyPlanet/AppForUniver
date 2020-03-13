@@ -10,9 +10,11 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -68,6 +70,8 @@ public class UserAccountFragment extends Fragment {
     public final String TAG = UserAccountFragment.class.getSimpleName();
     public static final int REQUEST_IMAGE = 100;
     private UserService mUserService;
+
+    //region BindView
     @BindView(R.id.user_account_detail_progress)
     ProgressBar detail_progress;
 
@@ -106,9 +110,7 @@ public class UserAccountFragment extends Fragment {
     ImageView avatarImageView;
     @BindView(R.id.add_avatar)
     ImageView addAvatarImageView;
-
-    @BindView(R.id.user_account_detail_log_out_button)
-    Button logout_btn;
+    //endregion
 
     private View mView;
     private Unbinder mUnbinder;
@@ -117,6 +119,7 @@ public class UserAccountFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
         mUserService = UserService.getService();
         mView = inflater.inflate(R.layout.fragment_user_account, container, false);
 
@@ -127,6 +130,23 @@ public class UserAccountFragment extends Fragment {
         getMyAccount(mView.getContext());
 
         return mView;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.account_toolbar_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_logout:
+                onClickLogout();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private void getMyAccount(Context context) {
@@ -144,7 +164,7 @@ public class UserAccountFragment extends Fragment {
 
         if (AuthManager.getInstance().getUserRoles().contains(ROLE_TEACHER.toString())) {
             getMyAccountProfessor(context);
-        } else{
+        } else {
             posada_tv.setText(R.string.student);
         }
 
@@ -157,7 +177,6 @@ public class UserAccountFragment extends Fragment {
 
         detail_progress.setVisibility(View.GONE);
         userinfo_rl.setVisibility(View.VISIBLE);
-        logout_btn.setVisibility(View.VISIBLE);
         user_account_header.setVisibility(View.VISIBLE);
         email_ll.setVisibility(View.VISIBLE);
         telefon1_ll.setVisibility(View.VISIBLE);
@@ -222,7 +241,6 @@ public class UserAccountFragment extends Fragment {
     private void getMyAccountStudent(Context context) {
     }
 
-    @OnClick(R.id.user_account_detail_log_out_button)
     void onClickLogout() {
         AuthManager.getInstance().logout();
 
