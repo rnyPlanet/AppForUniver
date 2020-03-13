@@ -144,6 +144,8 @@ public class UserAccountFragment extends Fragment {
 
         if (AuthManager.getInstance().getUserRoles().contains(ROLE_TEACHER.toString())) {
             getMyAccountProfessor(context);
+        } else{
+            posada_tv.setText(R.string.student);
         }
 
         if (mUser.getTelefon1() != null && !mUser.getTelefon1().isEmpty()) {
@@ -198,14 +200,9 @@ public class UserAccountFragment extends Fragment {
             public void onRequestCurrentUserProfessorProfileSuccess(Call<Professors> call, Response<Professors> response) {
                 if (response.body() != null) {
                     mProfessor = response.body();
-
                     if (mProfessor.getPosada() != null) {
-                        posada_ll.setVisibility(View.VISIBLE);
                         posada_tv.setText(mProfessor.getPosada().getFullPostProfessor());
-                    } else {
-                        posada_ll.setVisibility(View.GONE);
                     }
-
                     if (mProfessor.getDepartment() != null) {
                         department_ll.setVisibility(View.VISIBLE);
                         department_tv.setText(mProfessor.getDepartment().getName());
@@ -269,7 +266,6 @@ public class UserAccountFragment extends Fragment {
             }
         });
     }
-
 
     private void launchCameraIntent() {
         Intent intent = new Intent(getActivity(), ImagePickerActivity.class);

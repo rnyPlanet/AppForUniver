@@ -1,12 +1,11 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="MaterialTheme.DarkToolbar.ActionBar.DayNight"> <!-- MaterialTheme.DarkToolbar.ActionBar.DayNight -->
-        <!-- Customize your theme here. -->
+    <style name="AppTheme" parent="MaterialTheme.DarkToolbar.ActionBar.DayNight">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
-
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+        <item name="colorSecondary">@color/colorAccent</item>
     </style>
 
     <style name="AppTheme.NoActionBar">

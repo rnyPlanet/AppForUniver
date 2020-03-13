@@ -58,10 +58,8 @@
         <!-- uCrop cropping activity -->
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
-            android:screenOrientation="portrait"
+            android:screenOrientation="fullSensor"
             android:theme="@style/AppTheme.NoActionBar" />
-
-
         <!-- cache directory file provider paths -->
         <provider
             android:name="androidx.core.content.FileProvider"

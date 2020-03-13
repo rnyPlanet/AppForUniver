@@ -133,6 +133,7 @@
     <string name="search_professor">Search professor</string>
     <string name="subject">Subject</string>
     <string name="professor">Professor</string>
+    <string name="student">Student</string>
     <string name="position">Position</string>
     <string name="group">Group</string>
     <string name="subject_type">Subject type</string>

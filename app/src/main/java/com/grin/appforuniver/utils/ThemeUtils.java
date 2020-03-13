@@ -29,5 +29,4 @@ public class ThemeUtils {
                 .getSharedPreferences(SettingsActivity.PREFERENCE_NAME_SETTINGS, Context.MODE_PRIVATE);
         return sharedPreferences.getString("theme", Theme.LIGHT);
     }
-
 }
