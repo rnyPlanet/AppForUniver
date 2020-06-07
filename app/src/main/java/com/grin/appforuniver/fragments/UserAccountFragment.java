@@ -361,6 +361,11 @@ public class UserAccountFragment extends Fragment {
     private void uploadPhoto(File finalFile) {
         MultipartBody.Part body;
         if (finalFile != null) {
+            long fileSize = finalFile.length();
+            if (fileSize >= ImagePickerActivity.MAX_FILE_SIZE_FOR_UPLOAD) {
+                Toast.makeText(getContext(), "File so much. Please crop image", Toast.LENGTH_LONG).show();
+                return;
+            }
             RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), finalFile);
             body = MultipartBody.Part.createFormData("image", finalFile.getName(), requestBody);
         } else {

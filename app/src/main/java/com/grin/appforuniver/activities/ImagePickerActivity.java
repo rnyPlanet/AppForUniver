@@ -6,6 +6,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap.CompressFormat;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -33,6 +34,8 @@ import static androidx.core.content.FileProvider.getUriForFile;
 
 public class ImagePickerActivity extends AppCompatActivity {
     private static final String TAG = ImagePickerActivity.class.getSimpleName();
+
+    public static final long MAX_FILE_SIZE_FOR_UPLOAD = 1048576L;
     public static final String INTENT_IMAGE_PICKER_OPTION = "image_picker_option";
     public static final String INTENT_ASPECT_RATIO_X = "aspect_ratio_x";
     public static final String INTENT_ASPECT_RATIO_Y = "aspect_ratio_Y";
@@ -202,6 +205,8 @@ public class ImagePickerActivity extends AppCompatActivity {
 
         if (setBitmapMaxWidthHeight)
             options.withMaxResultSize(bitmapMaxWidth, bitmapMaxHeight);
+
+        options.setCompressionFormat(CompressFormat.JPEG);
 
         UCrop.of(sourceUri, destinationUri)
                 .withOptions(options)
