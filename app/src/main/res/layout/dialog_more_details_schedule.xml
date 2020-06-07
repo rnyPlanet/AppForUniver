@@ -1,178 +1,183 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:id="@+id/subject"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingStart="@dimen/card_padding"
-        android:paddingTop="8dp"
-        android:paddingEnd="@dimen/card_padding"
-        android:paddingBottom="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/subject_title"
+        <LinearLayout
+            android:id="@+id/subject"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableStart="@drawable/ic_subject"
-            android:drawablePadding="12dp"
-            android:paddingTop="@dimen/padding"
-            android:paddingBottom="@dimen/padding"
-            android:text="@string/subject"
-            android:textColor="?android:attr/textColorPrimary"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:orientation="vertical"
+            android:paddingStart="@dimen/card_padding"
+            android:paddingTop="8dp"
+            android:paddingEnd="@dimen/card_padding"
+            android:paddingBottom="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/name_subject"
+            <TextView
+                android:id="@+id/subject_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_subject"
+                android:drawablePadding="12dp"
+                android:paddingTop="@dimen/padding"
+                android:paddingBottom="@dimen/padding"
+                android:text="@string/subject"
+                android:textColor="?android:attr/textColorPrimary"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/name_subject"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/card"
+                android:padding="@dimen/card_padding" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/subject_type"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/card"
-            android:padding="@dimen/card_padding" />
+            android:orientation="vertical"
+            android:paddingStart="@dimen/card_padding"
+            android:paddingTop="8dp"
+            android:paddingEnd="@dimen/card_padding"
+            android:paddingBottom="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/subject">
+
+            <TextView
+                android:id="@+id/subject_type_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_subject_type"
+                android:drawablePadding="12dp"
+                android:paddingTop="@dimen/padding"
+                android:paddingBottom="@dimen/padding"
+                android:text="@string/subject_type"
+                android:textColor="?android:attr/textColorPrimary"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/name_subject_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/card"
+                android:padding="@dimen/card_padding" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/professor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="@dimen/card_padding"
+            android:paddingTop="8dp"
+            android:paddingEnd="@dimen/card_padding"
+            android:paddingBottom="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/subject_type">
+
+            <TextView
+                android:id="@+id/prof_name_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_professor"
+                android:drawablePadding="12dp"
+                android:paddingTop="@dimen/padding"
+                android:paddingBottom="@dimen/padding"
+                android:text="@string/professor"
+                android:textColor="?android:attr/textColorPrimary"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/name_prof"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/card"
+                android:padding="@dimen/card_padding" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/posada"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="@dimen/card_padding"
+            android:paddingTop="8dp"
+            android:paddingEnd="@dimen/card_padding"
+            android:paddingBottom="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/professor">
+
+            <TextView
+                android:id="@+id/posada_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_professor_position"
+                android:drawablePadding="12dp"
+                android:paddingTop="@dimen/padding"
+                android:paddingBottom="@dimen/padding"
+                android:text="@string/position"
+                android:textColor="?android:attr/textColorPrimary"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/name_prof_posada"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/card"
+                android:padding="@dimen/card_padding" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="@dimen/card_padding"
+            android:paddingTop="8dp"
+            android:paddingEnd="@dimen/card_padding"
+            android:paddingBottom="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/posada">
+
+            <TextView
+                android:id="@+id/group_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_room_light"
+                android:drawablePadding="12dp"
+                android:paddingTop="@dimen/padding"
+                android:paddingBottom="@dimen/padding"
+                android:text="@string/group"
+                android:textColor="?android:attr/textColorPrimary"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/name_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/card"
+                android:padding="@dimen/card_padding" />
+        </LinearLayout>
+
     </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/subject_type"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingStart="@dimen/card_padding"
-        android:paddingTop="8dp"
-        android:paddingEnd="@dimen/card_padding"
-        android:paddingBottom="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/subject">
-
-        <TextView
-            android:id="@+id/subject_type_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableStart="@drawable/ic_subject_type"
-            android:drawablePadding="12dp"
-            android:paddingTop="@dimen/padding"
-            android:paddingBottom="@dimen/padding"
-            android:text="@string/subject_type"
-            android:textColor="?android:attr/textColorPrimary"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/name_subject_type"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/card"
-            android:padding="@dimen/card_padding" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/professor"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingStart="@dimen/card_padding"
-        android:paddingTop="8dp"
-        android:paddingEnd="@dimen/card_padding"
-        android:paddingBottom="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/subject_type">
-
-        <TextView
-            android:id="@+id/prof_name_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableStart="@drawable/ic_professor"
-            android:drawablePadding="12dp"
-            android:paddingTop="@dimen/padding"
-            android:paddingBottom="@dimen/padding"
-            android:text="@string/professor"
-            android:textColor="?android:attr/textColorPrimary"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/name_prof"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/card"
-            android:padding="@dimen/card_padding" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/posada"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingStart="@dimen/card_padding"
-        android:paddingTop="8dp"
-        android:paddingEnd="@dimen/card_padding"
-        android:paddingBottom="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/professor">
-
-        <TextView
-            android:id="@+id/posada_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableStart="@drawable/ic_professor_position"
-            android:drawablePadding="12dp"
-            android:paddingTop="@dimen/padding"
-            android:paddingBottom="@dimen/padding"
-            android:text="@string/position"
-            android:textColor="?android:attr/textColorPrimary"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/name_prof_posada"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/card"
-            android:padding="@dimen/card_padding" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/group"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingStart="@dimen/card_padding"
-        android:paddingTop="8dp"
-        android:paddingEnd="@dimen/card_padding"
-        android:paddingBottom="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/posada">
-
-        <TextView
-            android:id="@+id/group_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableStart="@drawable/ic_room_light"
-            android:drawablePadding="12dp"
-            android:paddingTop="@dimen/padding"
-            android:paddingBottom="@dimen/padding"
-            android:text="@string/group"
-            android:textColor="?android:attr/textColorPrimary"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/name_group"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/card"
-            android:padding="@dimen/card_padding" />
-    </LinearLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
