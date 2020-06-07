@@ -1,4 +1,4 @@
-package com.grin.appforuniver.holders;
+package com.grin.appforuniver.holders.ScheduleTypeViewHolders;
 
 import android.content.Context;
 import android.view.View;
@@ -14,7 +14,6 @@ import java.util.List;
 
 import static com.grin.appforuniver.utils.Constants.Subgroup;
 import static com.grin.appforuniver.utils.Constants.Week;
-import static com.grin.appforuniver.utils.Functions.Schedule.compareSubgroupAndWeek;
 
 public class ScheduleStandardType1Holder extends ScheduleStandardTypeParentHolder {
     private Context context;

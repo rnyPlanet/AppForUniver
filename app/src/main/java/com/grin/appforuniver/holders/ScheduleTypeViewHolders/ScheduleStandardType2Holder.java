@@ -1,4 +1,4 @@
-package com.grin.appforuniver.holders;
+package com.grin.appforuniver.holders.ScheduleTypeViewHolders;
 
 import android.content.Context;
 import android.view.View;
@@ -14,22 +14,20 @@ import java.util.List;
 
 import static com.grin.appforuniver.utils.Constants.Subgroup;
 import static com.grin.appforuniver.utils.Constants.Week;
-import static com.grin.appforuniver.utils.Functions.Schedule.compareSubgroupAndWeek;
 
-public class ScheduleStandardType5Holder extends ScheduleStandardTypeParentHolder {
+public class ScheduleStandardType2Holder extends ScheduleStandardTypeParentHolder {
     private Context context;
     private TextView numberPair;
     private View firstSubgroupBothWeek;
-    private View secondSubgroupFirstWeek;
-    private View secondSubgroupSecondWeek;
+    private View secondSubgroupBothWeek;
 
-    public ScheduleStandardType5Holder(@NonNull View itemView, Context context) {
+    public ScheduleStandardType2Holder(@NonNull View itemView, Context context) {
         super(itemView);
         this.context = context;
         numberPair = itemView.findViewById(R.id.number_pair);
         firstSubgroupBothWeek = itemView.findViewById(R.id.first_subgroup_both_week);
-        secondSubgroupFirstWeek = itemView.findViewById(R.id.second_subgroup_first_week);
-        secondSubgroupSecondWeek = itemView.findViewById(R.id.second_subgroup_second_week);
+        secondSubgroupBothWeek = itemView.findViewById(R.id.second_subgroup_both_week);
+
     }
 
     public void bind(ScheduleStandardTypeModel schedulePair) {
@@ -40,11 +38,8 @@ public class ScheduleStandardType5Holder extends ScheduleStandardTypeParentHolde
             if (compareSubgroupAndWeek(classes, Subgroup.FIRST, Week.BOTH)) {
                 initializeCardSubject(firstSubgroupBothWeek, classes, context);
             }
-            if (compareSubgroupAndWeek(classes, Subgroup.SECOND, Week.FIRST)) {
-                initializeCardSubject(secondSubgroupFirstWeek, classes, context);
-            }
-            if (compareSubgroupAndWeek(classes, Subgroup.SECOND, Week.SECOND)) {
-                initializeCardSubject(secondSubgroupSecondWeek, classes, context);
+            if (compareSubgroupAndWeek(classes, Subgroup.SECOND, Week.BOTH)) {
+                initializeCardSubject(secondSubgroupBothWeek, classes, context);
             }
         }
     }

@@ -217,7 +217,7 @@ public class ConsultationActionsDialog extends DialogFragment implements DatePic
         }
 
         ConsultationRequestDto consultationRequestDto = new ConsultationRequestDto(
-                AuthManager.getInstance().getID(),
+                AuthManager.getInstance().getId(),
                 idSelectedRoom,
                 parseSelectedDate(),
                 (descriptionET.getText().toString().length() == 0) ? null : descriptionET.getText().toString());

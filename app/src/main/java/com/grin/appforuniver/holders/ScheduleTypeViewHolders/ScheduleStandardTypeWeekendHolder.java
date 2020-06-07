@@ -1,4 +1,4 @@
-package com.grin.appforuniver.holders;
+package com.grin.appforuniver.holders.ScheduleTypeViewHolders;
 
 import android.view.View;
 

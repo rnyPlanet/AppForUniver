@@ -2,105 +2,180 @@ package com.grin.appforuniver.activities;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
 import com.grin.appforuniver.R;
-import com.grin.appforuniver.data.model.user.User;
+import com.grin.appforuniver.data.model.user.Photo;
+import com.grin.appforuniver.data.tools.AuthInterceptor;
 import com.grin.appforuniver.data.tools.AuthManager;
 import com.grin.appforuniver.fragments.AdminFragment;
 import com.grin.appforuniver.fragments.ConsultationFragment;
 import com.grin.appforuniver.fragments.HomeFragment;
 import com.grin.appforuniver.fragments.ScheduleFragment;
 import com.grin.appforuniver.fragments.UserAccountFragment;
+import com.grin.appforuniver.utils.CircularTransformation;
+import com.grin.appforuniver.utils.Constants;
+import com.grin.appforuniver.utils.LocaleUtils;
+import com.grin.appforuniver.utils.ThemeUtils;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.OkHttp3Downloader;
+import com.squareup.picasso.Picasso;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+import okhttp3.OkHttpClient;
 
 public class NavigationDrawer extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    public final String TAG = NavigationDrawer.class.getSimpleName();
+    private static final String TAG = NavigationDrawer.class.getSimpleName();
 
-    private DrawerLayout mDrawer;
-    private NavigationView mNavigationView;
+    private Unbinder mUnbinder;
 
-    private User mUser = null;
+    //region BindView
+    @BindView(R.id.drawer_layout)
+    protected DrawerLayout drawer;
+    @BindView(R.id.toolbar)
+    protected Toolbar toolbar;
+    @BindView(R.id.nav_view)
+    protected NavigationView navigationView;
+
+    private HeaderViewHolder mHeaderView;
+    //endregion
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        switch (ThemeUtils.getTheme()) {
+            case ThemeUtils.Theme.SYSTEM:
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+                break;
+            case ThemeUtils.Theme.LIGHT:
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                break;
+            case ThemeUtils.Theme.DARK:
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                break;
+        }
         super.onCreate(savedInstanceState);
+        LocaleUtils.loadLocale(this);
         setContentView(R.layout.activity_navigation_drawer);
+        mUnbinder = ButterKnife.bind(this);
+        View header = navigationView.getHeaderView(0);
+        mHeaderView = new HeaderViewHolder(header);
 
-        navigationDrawer();
+        setSupportActionBar(toolbar);
+
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        navigationView.setNavigationItemSelectedListener(this);
+
+        toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ScheduleFragment()).commit();
-            mNavigationView.setCheckedItem(R.id.nav_schedule);
+            navigationView.setCheckedItem(R.id.nav_schedule);
         }
-        mUser = AuthManager.getInstance().getUser();
-
         userInfo();
-    }
-
-
-    private void navigationDrawer() {
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        mDrawer = findViewById(R.id.drawer_layout);
-
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        mDrawer.addDrawerListener(toggle);
-        toggle.syncState();
-
-        mNavigationView = findViewById(R.id.nav_view);
-        mNavigationView.setNavigationItemSelectedListener(this);
-
-        toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
     }
 
     @SuppressLint("SetTextI18n")
     public void userInfo() {
-        if (mUser != null) {
-            TextView nvHeaderFirstLastNameTv = mNavigationView.getHeaderView(0).findViewById(R.id.nav_header_firstName_lastName);
-            nvHeaderFirstLastNameTv.setVisibility(View.VISIBLE);
-            nvHeaderFirstLastNameTv.setText(mUser.getFirstName() + " " + mUser.getLastName());
+        mHeaderView.userLastFirstName.setText(AuthManager.getInstance().getFirstName() + " " + AuthManager.getInstance().getLastName());
+        mHeaderView.email.setText(AuthManager.getInstance().getEmail());
+        if (AuthManager.getInstance().getUser() != null) {
+            Photo photo = AuthManager.getInstance().getUser().getPhoto();
+            if (photo != null) {
+                OkHttpClient client = new OkHttpClient.Builder()
+                        .addInterceptor(AuthInterceptor.getInstance())
+                        .build();
 
-            // Set user icon data
-            setUserIconData(mUser.getFirstName(), mUser.getLastName());
+                Uri photoUri = Uri.parse(Constants.API_BASE_URL + "photo/current_user/get_avatar");
+                Picasso picasso = new Picasso.Builder(this)
+                        .downloader(new OkHttp3Downloader(client))
+                        .build();
+                picasso
+                        .load(photoUri)
+                        .placeholder(R.drawable.account_circle_outline)
+                        .error(R.drawable.ic_warning)
+                        .transform(new CircularTransformation(0))
+                        .into(mHeaderView.userIcon, new Callback() {
+                            @Override
+                            public void onSuccess() {
+                            }
 
-            TextView nvHeaderUserEmailTv = mNavigationView.getHeaderView(0).findViewById(R.id.nav_header_email);
-            nvHeaderUserEmailTv.setVisibility(View.VISIBLE);
-            nvHeaderUserEmailTv.setText(mUser.getEmail());
+                            @Override
+                            public void onError(Exception e) {
+                                e.printStackTrace();
+                            }
+                        });
+            } else {
+                Picasso.get()
+                        .load(R.drawable.account_circle_outline)
+                        .transform(new CircularTransformation(0))
+                        .into(mHeaderView.userIcon, new Callback() {
+                            @Override
+                            public void onSuccess() {
+                            }
 
-            mNavigationView.getHeaderView(0).findViewById(R.id.nav_log_or_registr).setVisibility(View.GONE);
-            mNavigationView.getMenu().findItem(R.id.nav_personal_area).setVisible(true);
+                            @Override
+                            public void onError(Exception e) {
+                                e.printStackTrace();
+                            }
+                        });
+            }
+        } else {
+//            Picasso.get()
+//                    .load(R.drawable.account_circle_outline)
+//                    .transform(new CircularTransformation(0))
+//                    .into(mHeaderView.userIcon, new Callback() {
+//                        @Override
+//                        public void onSuccess() {
+//                        }
+//
+//                        @Override
+//                        public void onError(Exception e) {
+//                            e.printStackTrace();
+//                        }
+//                    });
         }
+        navigationView.getMenu().findItem(R.id.nav_personal_area).setVisible(true);
     }
 
-    @SuppressLint("SetTextI18n")
-    public void setUserIconData(String firstName, String secondName) {
-        char userFirstNameLetter = firstName.charAt(0);
-        char userSecondNameLetter = secondName.charAt(0);
-        TextView userIcon = mNavigationView.getHeaderView(0).findViewById(R.id.user_name_icon);
+    @Override
+    protected void onStart() {
+        super.onStart();
+        AuthManager.getInstance().requestPersonalProfile();
+        userInfo();
+    }
 
-        // Set up new data
-        userIcon.setText(userFirstNameLetter + "" + userSecondNameLetter);
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mUnbinder.unbind();
+        AuthManager.getInstance().cancelRequest();
     }
 
     @Override
     public void onBackPressed() {
-        if (mDrawer.isDrawerOpen(GravityCompat.START)) {
-            mDrawer.closeDrawer(GravityCompat.START);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
         }
@@ -154,8 +229,20 @@ public class NavigationDrawer extends AppCompatActivity
 
         }
 
-        mDrawer.closeDrawer(GravityCompat.START);
+        drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
+    protected static class HeaderViewHolder {
+        @BindView(R.id.user_name_icon)
+        protected ImageView userIcon;
+        @BindView(R.id.nav_header_firstName_lastName)
+        protected TextView userLastFirstName;
+        @BindView(R.id.nav_header_email)
+        protected TextView email;
+
+        HeaderViewHolder(View view) {
+            ButterKnife.bind(this, view);
+        }
+    }
 }

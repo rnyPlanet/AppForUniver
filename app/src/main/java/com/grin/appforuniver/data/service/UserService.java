@@ -7,6 +7,7 @@ import com.grin.appforuniver.data.model.user.User;
 import com.grin.appforuniver.data.tools.AuthInterceptor;
 import com.grin.appforuniver.utils.Constants;
 
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
@@ -16,6 +17,9 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class UserService {
+    private static final String TAG = UserService.class.getSimpleName();
+
+    private Call call;
 
     public void requestCurrentUserProfile(OnRequestCurrentUserProfileListener l) {
         Call<User> getCurrentUserAccount = buildApi(buildClient()).getMyAccount();
@@ -34,6 +38,7 @@ public class UserService {
                 }
             }
         });
+        call = getCurrentUserAccount;
     }
 
     public void requestCurrentUserStudentProfile(OnRequestCurrentUserStudentProfileListener l) {
@@ -53,6 +58,7 @@ public class UserService {
                 }
             }
         });
+        call = getCurrentUserStudentProfile;
     }
 
     public void requestCurrentUserProfessorProfile(OnRequestCurrentUserProfessorProfileListener l) {
@@ -72,6 +78,32 @@ public class UserService {
                 }
             }
         });
+        call = getCurrentUserProfessorProfile;
+    }
+
+    public void setAvatarProfile(MultipartBody.Part photo, OnRequestAvatarProfileListener l) {
+        Call<Void> getCurrentUserProfessorProfile = buildApi(buildClient()).setAvatarProfile(photo);
+        getCurrentUserProfessorProfile.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (l != null) {
+                    l.onRequestAvatarProfileSuccess(call, response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                if (l != null) {
+                    l.onRequestAvatarProfileFailed(call, t);
+                }
+            }
+        });
+    }
+
+    public void cancel() {
+        if (call != null) {
+            call.cancel();
+        }
     }
 
     public static UserService getService() {
@@ -81,13 +113,13 @@ public class UserService {
     private OkHttpClient buildClient() {
         return new OkHttpClient.Builder()
                 .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
-                .addInterceptor(new AuthInterceptor())
+                .addInterceptor(AuthInterceptor.getInstance())
                 .build();
     }
 
     private UserApi buildApi(OkHttpClient client) {
         return new Retrofit.Builder()
-                .baseUrl(Constants.BASE_URL)
+                .baseUrl(Constants.API_BASE_URL)
                 .client(client)
                 .addConverterFactory(
                         GsonConverterFactory.create(
@@ -113,5 +145,11 @@ public class UserService {
         void onRequestCurrentUserProfessorProfileSuccess(Call<Professors> call, Response<Professors> response);
 
         void onRequestCurrentUserProfessorProfileFailed(Call<Professors> call, Throwable t);
+    }
+
+    public interface OnRequestAvatarProfileListener {
+        void onRequestAvatarProfileSuccess(Call<Void> call, Response<Void> response);
+
+        void onRequestAvatarProfileFailed(Call<Void> call, Throwable t);
     }
 }

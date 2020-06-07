@@ -61,12 +61,11 @@
     <string name="dialog_consultation_create_description">Description</string>
 
     <!-- Auxiliary strings -->
-    <string name="login_register">Login | Register</string>
     <string name="consultation_activity_room">Room: </string>
     <string name="edit_consultation">Edit consultation</string>
     <string name="account_header">account_header</string>
     <string name="logo">Logo</string>
-    <string name="univ_name">Чорноморський національний університет імені Петра Могили</string>
+    <string name="univ_name">Petro Mohyla Black Sea National University</string>
     <string name="university_logo">university_logo</string>
     <string name="activity_login_loginTV">Login</string>
     <string name="title_activity_settings">Settings</string>
@@ -134,6 +133,7 @@
     <string name="search_professor">Search professor</string>
     <string name="subject">Subject</string>
     <string name="professor">Professor</string>
+    <string name="student">Student</string>
     <string name="position">Position</string>
     <string name="group">Group</string>
     <string name="subject_type">Subject type</string>
@@ -148,5 +148,37 @@
     <string name="hide_description">Hide description</string>
     <string name="close">Close</string>
     <string name="select_item" translatable="false">Select item</string>
+    <string name="title_general_section">General</string>
+    <string name="title_language">Language</string>
+    <string-array name="language">
+        <item>English</item>
+        <item>Russian</item>
+        <item>Ukrainian</item>
+    </string-array>
+    <string-array name="language_values">
+        <item>en</item>
+        <item>ru</item>
+        <item>uk</item>
+    </string-array>
+    <string name="default_language" translatable="false">en</string>
+    <string name="title_theme">Theme</string>
+    <string-array name="theme">
+        <item>@string/sys</item>
+        <item>@string/lth</item>
+        <item>@string/drk</item>
+    </string-array>
+    <string-array name="theme_values">
+        <item>System</item>
+        <item>Light</item>
+        <item>Dark</item>
+    </string-array>
+    <string name="default_theme" translatable="false">system_theme</string>
+    <string name="toast_image_intent_null">Image picker option is missing!</string>
+    <string name="lbl_set_profile_photo">Set profile image</string>
+    <string name="lbl_take_camera_picture">Take a picture</string>
+    <string name="lbl_choose_from_gallery">Choose from gallery</string>
+    <string name="dialog_permission_title">Grant Permissions</string>
+    <string name="dialog_permission_message">This app needs permission to use this feature. You can grant them in app settings.</string>
+    <string name="go_to_settings">GOTO SETTINGS</string>
 
 </resources>
