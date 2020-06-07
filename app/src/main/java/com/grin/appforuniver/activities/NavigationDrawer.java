@@ -19,7 +19,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
 import com.grin.appforuniver.R;
-import com.grin.appforuniver.data.model.user.Photo;
 import com.grin.appforuniver.data.tools.AuthInterceptor;
 import com.grin.appforuniver.data.tools.AuthManager;
 import com.grin.appforuniver.fragments.AdminFragment;
@@ -92,69 +91,35 @@ public class NavigationDrawer extends AppCompatActivity
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ScheduleFragment()).commit();
             navigationView.setCheckedItem(R.id.nav_schedule);
         }
-        userInfo();
     }
 
     @SuppressLint("SetTextI18n")
     public void userInfo() {
         mHeaderView.userLastFirstName.setText(AuthManager.getInstance().getFirstName() + " " + AuthManager.getInstance().getLastName());
         mHeaderView.email.setText(AuthManager.getInstance().getEmail());
-        if (AuthManager.getInstance().getUser() != null) {
-            Photo photo = AuthManager.getInstance().getUser().getPhoto();
-            if (photo != null) {
-                OkHttpClient client = new OkHttpClient.Builder()
-                        .addInterceptor(AuthInterceptor.getInstance())
-                        .build();
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(AuthInterceptor.getInstance())
+                .build();
 
-                Uri photoUri = Uri.parse(Constants.API_BASE_URL + "photo/current_user/get_avatar");
-                Picasso picasso = new Picasso.Builder(this)
-                        .downloader(new OkHttp3Downloader(client))
-                        .build();
-                picasso
-                        .load(photoUri)
-                        .placeholder(R.drawable.account_circle_outline)
-                        .error(R.drawable.ic_warning)
-                        .transform(new CircularTransformation(0))
-                        .into(mHeaderView.userIcon, new Callback() {
-                            @Override
-                            public void onSuccess() {
-                            }
+        Uri photoUri = Uri.parse(Constants.API_BASE_URL + "photo/current_user/get_avatar");
+        Picasso picasso = new Picasso.Builder(this)
+                .downloader(new OkHttp3Downloader(client))
+                .build();
+        picasso
+                .load(photoUri)
+                .placeholder(R.drawable.account_circle_outline)
+                .error(R.drawable.ic_warning)
+                .transform(new CircularTransformation(0))
+                .into(mHeaderView.userIcon, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                    }
 
-                            @Override
-                            public void onError(Exception e) {
-                                e.printStackTrace();
-                            }
-                        });
-            } else {
-                Picasso.get()
-                        .load(R.drawable.account_circle_outline)
-                        .transform(new CircularTransformation(0))
-                        .into(mHeaderView.userIcon, new Callback() {
-                            @Override
-                            public void onSuccess() {
-                            }
-
-                            @Override
-                            public void onError(Exception e) {
-                                e.printStackTrace();
-                            }
-                        });
-            }
-        } else {
-//            Picasso.get()
-//                    .load(R.drawable.account_circle_outline)
-//                    .transform(new CircularTransformation(0))
-//                    .into(mHeaderView.userIcon, new Callback() {
-//                        @Override
-//                        public void onSuccess() {
-//                        }
-//
-//                        @Override
-//                        public void onError(Exception e) {
-//                            e.printStackTrace();
-//                        }
-//                    });
-        }
+                    @Override
+                    public void onError(Exception e) {
+                        e.printStackTrace();
+                    }
+                });
         navigationView.getMenu().findItem(R.id.nav_personal_area).setVisible(true);
     }
 
