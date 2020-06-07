@@ -21,7 +21,7 @@
     <string name="sign_in_btn">Вхід</string>
     <string name="menu_home">Головна</string>
     <string name="menu_settings">Налаштування</string>
-    <string name="error_network" translatable="false">Щось пішло не зі планом</string>
+    <string name="error_network" translatable="false">Йойк, трапилась халепа</string>
     <string name="consultation_activity_room">Аудиторія: </string>
     <string name="edit_consultation">Редагувати консультацію</string>
     <string name="user_account_department">Факультет</string>
@@ -116,4 +116,5 @@
     <string name="title_theme">Тема</string>
     <string name="title_language">Мова</string>
     <string name="title_general_section">Загальні</string>
+    <string name="student">Студент</string>
 </resources>

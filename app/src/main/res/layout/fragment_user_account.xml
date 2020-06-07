@@ -12,6 +12,74 @@
         android:orientation="vertical"
         tools:context=".fragments.AdminFragment">
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/user_account_header"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimary"
+            android:padding="16dp"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/avatar_image_view"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_empty_user_photo" />
+
+            <ImageView
+                android:id="@+id/add_avatar"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                app:layout_constraintBottom_toBottomOf="@+id/avatar_image_view"
+                app:layout_constraintEnd_toEndOf="@+id/avatar_image_view"
+                app:srcCompat="@drawable/ic_add_avatar" />
+
+            <LinearLayout
+                android:id="@+id/user_account_username_ll"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/avatar_image_view"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/user_account_username_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/user_account_posada_ll"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="16dp"
+                android:orientation="vertical"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/avatar_image_view"
+                app:layout_constraintTop_toBottomOf="@+id/user_account_username_ll">
+
+                <TextView
+                    android:id="@+id/user_account_posada_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/white" />
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
         <ProgressBar
             android:id="@+id/user_account_detail_progress"
             android:layout_width="wrap_content"
@@ -25,90 +93,12 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/user_account_userinfo_rl" />
 
-        <Button
-            android:id="@+id/user_account_detail_log_out_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
-            android:background="@drawable/outline"
-            android:text="@string/user_account_logout"
-            android:textColor="@android:color/white"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@+id/user_account_header"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/user_account_posada_ll" />
-
-        <View
-            android:id="@+id/user_account_header"
-            android:layout_width="0dp"
-            android:layout_height="200dp"
-            android:background="@drawable/page_header_background"
-            android:contentDescription="@string/account_header"
-
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <LinearLayout
-            android:id="@+id/user_account_posada_ll"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
-            android:orientation="vertical"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/user_account_detail_log_out_button"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/avatar_image_view"
-            app:layout_constraintTop_toBottomOf="@+id/user_account_username_ll">
-
-            <TextView
-                android:id="@+id/user_account_posada_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@android:color/white" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/user_account_username_ll"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="16dp"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toTopOf="@id/user_account_detail_log_out_button"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/avatar_image_view"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0">
-
-            <TextView
-                android:id="@+id/user_account_username_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@android:color/white"
-                android:textSize="30sp"
-                android:textStyle="bold" />
-        </LinearLayout>
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/user_account_userinfo_rl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="16dp"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -219,26 +209,6 @@
             </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <ImageView
-            android:id="@+id/avatar_image_view"
-            android:layout_width="90dp"
-            android:layout_height="90dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
-            app:layout_constraintStart_toStartOf="@+id/user_account_header"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/account_circle_outline" />
-
-        <ImageView
-            android:id="@+id/add_avatar"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toBottomOf="@+id/avatar_image_view"
-            app:layout_constraintEnd_toEndOf="@+id/avatar_image_view"
-            app:srcCompat="@drawable/ic_add_circle_outline" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
