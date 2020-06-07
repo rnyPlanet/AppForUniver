@@ -1,4 +1,4 @@
-package com.grin.appforuniver.holders;
+package com.grin.appforuniver.holders.ScheduleTypeViewHolders;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -11,8 +11,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.grin.appforuniver.R;
 import com.grin.appforuniver.data.model.schedule.Classes;
+import com.grin.appforuniver.utils.Constants;
 
-class ScheduleStandardTypeParentHolder extends RecyclerView.ViewHolder {
+abstract class ScheduleStandardTypeParentHolder extends RecyclerView.ViewHolder {
     ScheduleStandardTypeParentHolder(@NonNull View itemView) {
         super(itemView);
     }
@@ -26,6 +27,10 @@ class ScheduleStandardTypeParentHolder extends RecyclerView.ViewHolder {
         //initialize professor name
         ((TextView) parentView.findViewById(R.id.professor)).setText(classes.getProfessor().getUser().getShortFIO());
         parentView.setOnClickListener(view -> dialogMoreDetailsSchedule(classes, context).show());
+    }
+
+    boolean compareSubgroupAndWeek(Classes classes, Constants.Subgroup subgroup, Constants.Week week) {
+        return classes.getSubgroup() == subgroup && classes.getWeek() == week;
     }
 
     private AlertDialog dialogMoreDetailsSchedule(Classes classes, Context context) {

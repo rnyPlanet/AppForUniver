@@ -32,6 +32,7 @@ import com.grin.appforuniver.dialogs.ScheduleFilterDialog;
 import com.grin.appforuniver.dialogs.SearchableDialog;
 import com.grin.appforuniver.fragments.schedule.ScheduleFiltrationManager;
 import com.grin.appforuniver.fragments.schedule.ScheduleStandardTypeModel;
+import com.grin.appforuniver.utils.StickHeaderItemDecoration;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -53,6 +54,8 @@ public class ScheduleFragment extends Fragment implements ScheduleFilterDialog.O
     private ScheduleFiltrationManager scheduleFiltrationManager;
 
     private ChipFilterAdapter chipFilterAdapter;
+    private ScheduleGroupAdapter scheduleAdapter;
+    private StickHeaderItemDecoration stickHeaderItemDecoration;
 
     @Nullable
     @Override
@@ -146,10 +149,11 @@ public class ScheduleFragment extends Fragment implements ScheduleFilterDialog.O
                 List<ScheduleStandardTypeModel> schedulePairs = new ScheduleParser(response.body(), scheduleFiltrationManager.isProfessorsSchedule())
                         .parse()
                         .getParsedSchedule();
-
-                ScheduleGroupAdapter scheduleAdapter = new ScheduleGroupAdapter();
+                scheduleAdapter = new ScheduleGroupAdapter();
                 scheduleAdapter.setClasses(schedulePairs);
+                stickHeaderItemDecoration = new StickHeaderItemDecoration(scheduleAdapter);
                 recyclerViewSchedule.setAdapter(scheduleAdapter);
+                recyclerViewSchedule.addItemDecoration(stickHeaderItemDecoration);
             }
         }
 

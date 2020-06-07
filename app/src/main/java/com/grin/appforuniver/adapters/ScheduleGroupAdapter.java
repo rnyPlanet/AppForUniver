@@ -3,28 +3,31 @@ package com.grin.appforuniver.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.grin.appforuniver.R;
 import com.grin.appforuniver.fragments.schedule.ScheduleStandardTypeModel;
-import com.grin.appforuniver.holders.ScheduleStandardType1Holder;
-import com.grin.appforuniver.holders.ScheduleStandardType2Holder;
-import com.grin.appforuniver.holders.ScheduleStandardType3Holder;
-import com.grin.appforuniver.holders.ScheduleStandardType4Holder;
-import com.grin.appforuniver.holders.ScheduleStandardType5Holder;
-import com.grin.appforuniver.holders.ScheduleStandardType6Holder;
-import com.grin.appforuniver.holders.ScheduleStandardType7Holder;
-import com.grin.appforuniver.holders.ScheduleStandardType8Holder;
-import com.grin.appforuniver.holders.ScheduleStandardType9Holder;
-import com.grin.appforuniver.holders.ScheduleStandardTypeDaySeparatorHolder;
-import com.grin.appforuniver.holders.ScheduleStandardTypeWeekendHolder;
+import com.grin.appforuniver.holders.ScheduleTypeViewHolders.ScheduleStandardType1Holder;
+import com.grin.appforuniver.holders.ScheduleTypeViewHolders.ScheduleStandardType2Holder;
+import com.grin.appforuniver.holders.ScheduleTypeViewHolders.ScheduleStandardType3Holder;
+import com.grin.appforuniver.holders.ScheduleTypeViewHolders.ScheduleStandardType4Holder;
+import com.grin.appforuniver.holders.ScheduleTypeViewHolders.ScheduleStandardType5Holder;
+import com.grin.appforuniver.holders.ScheduleTypeViewHolders.ScheduleStandardType6Holder;
+import com.grin.appforuniver.holders.ScheduleTypeViewHolders.ScheduleStandardType7Holder;
+import com.grin.appforuniver.holders.ScheduleTypeViewHolders.ScheduleStandardType8Holder;
+import com.grin.appforuniver.holders.ScheduleTypeViewHolders.ScheduleStandardType9Holder;
+import com.grin.appforuniver.holders.ScheduleTypeViewHolders.ScheduleStandardTypeDaySeparatorHolder;
+import com.grin.appforuniver.holders.ScheduleTypeViewHolders.ScheduleStandardTypeWeekendHolder;
+import com.grin.appforuniver.utils.StickHeaderItemDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ScheduleGroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class ScheduleGroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements StickHeaderItemDecoration.StickyHeaderInterface {
     private static final String TAG = "ScheduleGroupAdapter";
 
     private List<ScheduleStandardTypeModel> itemList = new ArrayList<>();
@@ -58,6 +61,43 @@ public class ScheduleGroupAdapter extends RecyclerView.Adapter<RecyclerView.View
         this.itemList.clear();
         this.itemList.addAll(itemList);
         notifyDataSetChanged();
+    }
+
+    @Override
+    public boolean isHeader(int itemPosition) {
+        if (itemList.size() > 0) {
+            return ScheduleCellType.get(itemList.get(itemPosition)).type() == R.layout.schedule_day_separator;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public int getHeaderLayout(int headerPosition) {
+        if (itemList.size() > 0) {
+            return ScheduleCellType.get(itemList.get(headerPosition)).type();
+        } else {
+            return 0;
+        }
+    }
+
+    @Override
+    public int getHeaderPositionForItem(int itemPosition) {
+        int headerPosition = 0;
+        do {
+            if (this.isHeader(itemPosition)) {
+                headerPosition = itemPosition;
+                break;
+            }
+            itemPosition -= 1;
+        } while (itemPosition >= 0);
+        return headerPosition;
+    }
+
+    @Override
+    public void bindHeaderData(View header, int headerPosition) {
+        // binding our header data here
+        ((TextView) header.findViewById(R.id.text_day)).setText(itemList.get(headerPosition).place.name());
     }
 
     enum ScheduleCellType {
