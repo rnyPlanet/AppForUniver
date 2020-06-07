@@ -1,8 +1,8 @@
 package com.grin.appforuniver.utils;
 
 public class Constants {
-    public static final String API_BASE_URL = "http://194.9.70.244:8075/api/v1/";
-    public static final String LOGIN_URL = "http://194.9.70.244:8075/";
+    public static final String API_BASE_URL = "http://appuniver.ddns.net:8075/api/v1/";
+    public static final String LOGIN_URL = "http://appuniver.ddns.net:8075/";
 
     public static final String BASIC_AUTH_LOGIN = "CHMNU-client";
     public static final String BASIC_AUTH_PASSWORD = "CHMNU";
