@@ -137,6 +137,18 @@ public class Classes {
         this.mSubgroup = mSubgroup;
     }
 
+    public boolean compareToWeek(Week week) {
+        return mWeek == week;
+    }
+
+    public boolean compareToSubgroup(Subgroup subgroup) {
+        return mSubgroup == subgroup;
+    }
+
+    public boolean compareToSubgroupAndWeek(Subgroup subgroup, Week week) {
+        return mSubgroup == subgroup && mWeek == week;
+    }
+
     @Override
     public String toString() {
         return "Classes{" +

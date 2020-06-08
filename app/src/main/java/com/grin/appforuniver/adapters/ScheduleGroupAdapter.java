@@ -111,7 +111,7 @@ public class ScheduleGroupAdapter extends RecyclerView.Adapter<RecyclerView.View
             RecyclerView.ViewHolder holder(ViewGroup parent) {
                 LayoutInflater inflater = LayoutInflater.from(parent.getContext());
                 View view = inflater.inflate(type(), parent, false);
-                return new ScheduleStandardType1Holder(view, parent.getContext());
+                return new ScheduleStandardType1Holder(view);
             }
 
             @Override
@@ -129,7 +129,7 @@ public class ScheduleGroupAdapter extends RecyclerView.Adapter<RecyclerView.View
             RecyclerView.ViewHolder holder(ViewGroup parent) {
                 LayoutInflater inflater = LayoutInflater.from(parent.getContext());
                 View view = inflater.inflate(type(), parent, false);
-                return new ScheduleStandardType2Holder(view, parent.getContext());
+                return new ScheduleStandardType2Holder(view);
             }
 
             @Override
@@ -147,7 +147,7 @@ public class ScheduleGroupAdapter extends RecyclerView.Adapter<RecyclerView.View
             RecyclerView.ViewHolder holder(ViewGroup parent) {
                 LayoutInflater inflater = LayoutInflater.from(parent.getContext());
                 View view = inflater.inflate(type(), parent, false);
-                return new ScheduleStandardType3Holder(view, parent.getContext());
+                return new ScheduleStandardType3Holder(view);
             }
 
             @Override
@@ -165,7 +165,7 @@ public class ScheduleGroupAdapter extends RecyclerView.Adapter<RecyclerView.View
             RecyclerView.ViewHolder holder(ViewGroup parent) {
                 LayoutInflater inflater = LayoutInflater.from(parent.getContext());
                 View view = inflater.inflate(type(), parent, false);
-                return new ScheduleStandardType4Holder(view, parent.getContext());
+                return new ScheduleStandardType4Holder(view);
             }
 
             @Override
@@ -183,7 +183,7 @@ public class ScheduleGroupAdapter extends RecyclerView.Adapter<RecyclerView.View
             RecyclerView.ViewHolder holder(ViewGroup parent) {
                 LayoutInflater inflater = LayoutInflater.from(parent.getContext());
                 View view = inflater.inflate(type(), parent, false);
-                return new ScheduleStandardType5Holder(view, parent.getContext());
+                return new ScheduleStandardType5Holder(view);
             }
 
             @Override
@@ -201,7 +201,7 @@ public class ScheduleGroupAdapter extends RecyclerView.Adapter<RecyclerView.View
             RecyclerView.ViewHolder holder(ViewGroup parent) {
                 LayoutInflater inflater = LayoutInflater.from(parent.getContext());
                 View view = inflater.inflate(type(), parent, false);
-                return new ScheduleStandardType6Holder(view, parent.getContext());
+                return new ScheduleStandardType6Holder(view);
             }
 
             @Override
@@ -219,7 +219,7 @@ public class ScheduleGroupAdapter extends RecyclerView.Adapter<RecyclerView.View
             RecyclerView.ViewHolder holder(ViewGroup parent) {
                 LayoutInflater inflater = LayoutInflater.from(parent.getContext());
                 View view = inflater.inflate(type(), parent, false);
-                return new ScheduleStandardType7Holder(view, parent.getContext());
+                return new ScheduleStandardType7Holder(view);
             }
 
             @Override
@@ -237,7 +237,7 @@ public class ScheduleGroupAdapter extends RecyclerView.Adapter<RecyclerView.View
             RecyclerView.ViewHolder holder(ViewGroup parent) {
                 LayoutInflater inflater = LayoutInflater.from(parent.getContext());
                 View view = inflater.inflate(type(), parent, false);
-                return new ScheduleStandardType8Holder(view, parent.getContext());
+                return new ScheduleStandardType8Holder(view);
             }
 
             @Override
@@ -255,7 +255,7 @@ public class ScheduleGroupAdapter extends RecyclerView.Adapter<RecyclerView.View
             RecyclerView.ViewHolder holder(ViewGroup parent) {
                 LayoutInflater inflater = LayoutInflater.from(parent.getContext());
                 View view = inflater.inflate(type(), parent, false);
-                return new ScheduleStandardType9Holder(view, parent.getContext());
+                return new ScheduleStandardType9Holder(view);
             }
 
             @Override

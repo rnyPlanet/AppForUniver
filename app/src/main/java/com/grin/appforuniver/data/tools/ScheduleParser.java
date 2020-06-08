@@ -94,31 +94,31 @@ public class ScheduleParser {
         bothSubgroup_secondWeek = false;
         bothSubgroup_bothWeek = false;
         for (Classes classes : mListClasses) {
-            if (classes.getSubgroup() == Constants.Subgroup.FIRST && classes.getWeek() == Constants.Week.FIRST) {
+            if (classes.compareToSubgroupAndWeek(Constants.Subgroup.FIRST, Constants.Week.FIRST)) {
                 firstSubgroup_firstWeek = true;
             }
-            if (classes.getSubgroup() == Constants.Subgroup.FIRST && classes.getWeek() == Constants.Week.SECOND) {
+            if (classes.compareToSubgroupAndWeek(Constants.Subgroup.FIRST, Constants.Week.SECOND)) {
                 firstSubgroup_secondWeek = true;
             }
-            if (classes.getSubgroup() == Constants.Subgroup.FIRST && classes.getWeek() == Constants.Week.BOTH) {
+            if (classes.compareToSubgroupAndWeek(Constants.Subgroup.FIRST, Constants.Week.BOTH)) {
                 firstSubgroup_bothWeek = true;
             }
-            if (classes.getSubgroup() == Constants.Subgroup.SECOND && classes.getWeek() == Constants.Week.FIRST) {
+            if (classes.compareToSubgroupAndWeek(Constants.Subgroup.SECOND, Constants.Week.FIRST)) {
                 secondSubgroup_firstWeek = true;
             }
-            if (classes.getSubgroup() == Constants.Subgroup.SECOND && classes.getWeek() == Constants.Week.SECOND) {
+            if (classes.compareToSubgroupAndWeek(Constants.Subgroup.SECOND, Constants.Week.SECOND)) {
                 secondSubgroup_secondWeek = true;
             }
-            if (classes.getSubgroup() == Constants.Subgroup.SECOND && classes.getWeek() == Constants.Week.BOTH) {
+            if (classes.compareToSubgroupAndWeek(Constants.Subgroup.SECOND, Constants.Week.BOTH)) {
                 secondSubgroup_bothWeek = true;
             }
-            if (classes.getSubgroup() == Constants.Subgroup.BOTH && classes.getWeek() == Constants.Week.FIRST) {
+            if (classes.compareToSubgroupAndWeek(Constants.Subgroup.BOTH, Constants.Week.FIRST)) {
                 bothSubgroup_firstWeek = true;
             }
-            if (classes.getSubgroup() == Constants.Subgroup.BOTH && classes.getWeek() == Constants.Week.SECOND) {
+            if (classes.compareToSubgroupAndWeek(Constants.Subgroup.BOTH, Constants.Week.SECOND)) {
                 bothSubgroup_secondWeek = true;
             }
-            if (classes.getSubgroup() == Constants.Subgroup.BOTH && classes.getWeek() == Constants.Week.BOTH) {
+            if (classes.compareToSubgroupAndWeek(Constants.Subgroup.BOTH, Constants.Week.BOTH)) {
                 bothSubgroup_bothWeek = true;
             }
         }
@@ -138,11 +138,11 @@ public class ScheduleParser {
         bothSubgroup_secondWeek = false;
         bothSubgroup_bothWeek = false;
         for (Classes classes : mListClasses) {
-            if (classes.getWeek() == Constants.Week.FIRST || classes.getWeek() == Constants.Week.SECOND) {
+            if (classes.compareToWeek(Constants.Week.FIRST) || classes.compareToWeek(Constants.Week.SECOND)) {
                 bothSubgroup_firstWeek = true;
                 bothSubgroup_secondWeek = true;
             }
-            if (classes.getWeek() == Constants.Week.BOTH) {
+            if (classes.compareToWeek(Constants.Week.BOTH)) {
                 bothSubgroup_bothWeek = true;
             }
         }
