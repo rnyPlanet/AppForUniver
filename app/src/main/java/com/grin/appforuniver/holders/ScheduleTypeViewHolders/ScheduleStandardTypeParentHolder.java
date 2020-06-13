@@ -92,41 +92,41 @@ abstract class ScheduleStandardTypeParentHolder extends RecyclerView.ViewHolder 
         }
     }
 
-    public abstract void bindNumberPair(String numberPair);
+    abstract void bindNumberPair(String numberPair);
 
-    public void bindBothSubgroupBothWeek(Classes classes) {
+    void bindBothSubgroupBothWeek(Classes classes) {
         throw new RuntimeException("Stub! " + classes.getSubgroup() + " " + classes.getWeek());
     }
 
-    public void bindFirstSubgroupBothWeek(Classes classes) {
+    void bindFirstSubgroupBothWeek(Classes classes) {
         throw new RuntimeException("Stub! " + classes.getSubgroup() + " " + classes.getWeek());
     }
 
-    public void bindSecondSubgroupBothWeek(Classes classes) {
+    void bindSecondSubgroupBothWeek(Classes classes) {
         throw new RuntimeException("Stub! " + classes.getSubgroup() + " " + classes.getWeek());
     }
 
-    public void bindFirstSubgroupFirstWeek(Classes classes) {
+    void bindFirstSubgroupFirstWeek(Classes classes) {
         throw new RuntimeException("Stub! " + classes.getSubgroup() + " " + classes.getWeek());
     }
 
-    public void bindSecondSubgroupFirstWeek(Classes classes) {
+    void bindSecondSubgroupFirstWeek(Classes classes) {
         throw new RuntimeException("Stub! " + classes.getSubgroup() + " " + classes.getWeek());
     }
 
-    public void bindFirstSubgroupSecondWeek(Classes classes) {
+    void bindFirstSubgroupSecondWeek(Classes classes) {
         throw new RuntimeException("Stub! " + classes.getSubgroup() + " " + classes.getWeek());
     }
 
-    public void bindSecondSubgroupSecondWeek(Classes classes) {
+    void bindSecondSubgroupSecondWeek(Classes classes) {
         throw new RuntimeException("Stub! " + classes.getSubgroup() + " " + classes.getWeek());
     }
 
-    public void bindBothSubgroupFirstWeek(Classes classes) {
+    void bindBothSubgroupFirstWeek(Classes classes) {
         throw new RuntimeException("Stub! " + classes.getSubgroup() + " " + classes.getWeek());
     }
 
-    public void bindBothSubgroupSecondWeek(Classes classes) {
+    void bindBothSubgroupSecondWeek(Classes classes) {
         throw new RuntimeException("Stub! " + classes.getSubgroup() + " " + classes.getWeek());
     }
 

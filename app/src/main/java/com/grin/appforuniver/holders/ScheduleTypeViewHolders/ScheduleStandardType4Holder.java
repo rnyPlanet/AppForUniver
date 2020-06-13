@@ -21,17 +21,17 @@ public class ScheduleStandardType4Holder extends ScheduleStandardTypeParentHolde
     }
 
     @Override
-    public void bindNumberPair(String numberPair) {
+    void bindNumberPair(String numberPair) {
         this.numberPair.setText(numberPair);
     }
 
     @Override
-    public void bindBothSubgroupFirstWeek(Classes classes) {
+    void bindBothSubgroupFirstWeek(Classes classes) {
         bindCardSubject(bothSubgroupFirstWeek, classes);
     }
 
     @Override
-    public void bindBothSubgroupSecondWeek(Classes classes) {
+    void bindBothSubgroupSecondWeek(Classes classes) {
         bindCardSubject(bothSubgroupSecondWeek, classes);
     }
 }
