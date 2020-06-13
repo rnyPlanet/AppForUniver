@@ -1,4 +1,4 @@
-package com.grin.appforuniver.fragments;
+package com.grin.appforuniver.ui.userAccount;
 
 import android.Manifest;
 import android.app.Activity;
@@ -26,6 +26,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.grin.appforuniver.R;
 import com.grin.appforuniver.activities.ImagePickerActivity;
@@ -70,7 +71,7 @@ public class UserAccountFragment extends Fragment {
     public final String TAG = UserAccountFragment.class.getSimpleName();
     public static final int REQUEST_IMAGE = 100;
     private UserService mUserService;
-
+    private UserAccountViewModel userAccountViewModel;
     //region BindView
     @BindView(R.id.user_account_detail_progress)
     ProgressBar detail_progress;
@@ -117,16 +118,25 @@ public class UserAccountFragment extends Fragment {
     private User mUser;
     private Professors mProfessor;
 
+    public UserAccountFragment() {
+    }
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         mUserService = UserService.getService();
         mView = inflater.inflate(R.layout.fragment_user_account, container, false);
-
-        Objects.requireNonNull(getActivity()).setTitle(R.string.menu_user_account);
-
+        userAccountViewModel = ViewModelProviders.of(this).get(UserAccountViewModel.class);
         mUnbinder = ButterKnife.bind(this, mView);
 
+        userAccountViewModel.getUserFI().observe(getViewLifecycleOwner(), s -> {
+            username_ll.setVisibility(View.VISIBLE);
+            username_tv.setText(s);
+        });
+        userAccountViewModel.getEmail().observe(getViewLifecycleOwner(), s -> {
+            email_ll.setVisibility(View.VISIBLE);
+            email_tv.setText(s);
+        });
         getMyAccount(mView.getContext());
 
         return mView;
@@ -152,16 +162,6 @@ public class UserAccountFragment extends Fragment {
     private void getMyAccount(Context context) {
         mUser = AuthManager.getInstance().getUser();
 
-        if (mUser.getFirstName() != null) {
-            username_ll.setVisibility(View.VISIBLE);
-            username_tv.setText(mUser.getFullFI());
-        }
-
-        if (mUser.getEmail() != null && !mUser.getEmail().isEmpty()) {
-            email_ll.setVisibility(View.VISIBLE);
-            email_tv.setText(mUser.getEmail());
-        }
-
         if (AuthManager.getInstance().getUserRoles().contains(ROLE_TEACHER.toString())) {
             getMyAccountProfessor(context);
         } else {
@@ -180,37 +180,31 @@ public class UserAccountFragment extends Fragment {
         user_account_header.setVisibility(View.VISIBLE);
         email_ll.setVisibility(View.VISIBLE);
         telefon1_ll.setVisibility(View.VISIBLE);
-        if (mUser.getPhoto() == null) {
-            Picasso.get()
-                    .load(R.drawable.account_circle_outline)
-                    .into(avatarImageView);
-        } else {
-            String urlPhoto = Constants.API_BASE_URL + "photo/current_user/get_avatar";
+        String urlPhoto = Constants.API_BASE_URL + "photo/current_user/get_avatar";
 
-            OkHttpClient client = new OkHttpClient.Builder()
-                    .addInterceptor(AuthInterceptor.getInstance())
-                    .build();
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(AuthInterceptor.getInstance())
+                .build();
 
-            Uri photoUri = Uri.parse(urlPhoto);
-            Picasso picasso = new Picasso.Builder(getContext())
-                    .downloader(new OkHttp3Downloader(client))
-                    .build();
-            picasso
-                    .load(photoUri)
-                    .placeholder(R.drawable.account_circle_outline)
-                    .error(R.drawable.ic_warning)
-                    .transform(new CircularTransformation(0))
-                    .into(avatarImageView, new Callback() {
-                        @Override
-                        public void onSuccess() {
-                        }
+        Uri photoUri = Uri.parse(urlPhoto);
+        Picasso picasso = new Picasso.Builder(getContext())
+                .downloader(new OkHttp3Downloader(client))
+                .build();
+        picasso
+                .load(photoUri)
+                .placeholder(R.drawable.account_circle_outline)
+                .error(R.drawable.ic_warning)
+                .transform(new CircularTransformation(0))
+                .into(avatarImageView, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                    }
 
-                        @Override
-                        public void onError(Exception e) {
-                            e.printStackTrace();
-                        }
-                    });
-        }
+                    @Override
+                    public void onError(Exception e) {
+                        e.printStackTrace();
+                    }
+                });
     }
 
     private void getMyAccountProfessor(Context context) {
@@ -244,7 +238,7 @@ public class UserAccountFragment extends Fragment {
     void onClickLogout() {
         AuthManager.getInstance().logout();
 
-        Objects.requireNonNull(getActivity()).startActivity(new Intent(getContext(), LoginActivity.class));
+        requireActivity().startActivity(new Intent(getContext(), LoginActivity.class));
         getActivity().finish();
     }
 

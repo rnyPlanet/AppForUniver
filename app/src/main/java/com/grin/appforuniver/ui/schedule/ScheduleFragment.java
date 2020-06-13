@@ -1,4 +1,4 @@
-package com.grin.appforuniver.fragments;
+package com.grin.appforuniver.ui.schedule;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -64,7 +64,6 @@ public class ScheduleFragment extends Fragment implements ScheduleFilterDialog.O
         mProfessorService = ProfessorService.getService();
         setHasOptionsMenu(true);
         mView = inflater.inflate(R.layout.fragment_schedule, container, false);
-        getActivity().setTitle(R.string.menu_schedule);
         recyclerViewSchedule = mView.findViewById(R.id.recyclerView);
         recyclerViewFiltration = mView.findViewById(R.id.recyclerViewFiltration);
         recyclerViewSchedule.setLayoutManager(new LinearLayoutManager(getContext()));
