@@ -1,14 +1,14 @@
-package com.grin.appforuniver.fragments;
+package com.grin.appforuniver.ui.home;
 
 import android.os.Bundle;
 import android.os.StrictMode;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.grin.appforuniver.R;
 
@@ -27,13 +27,13 @@ public class HomeFragment extends Fragment {
 
     public final String TAG = HomeFragment.class.getSimpleName();
     private View mView;
+    private HomeViewModel viewModel;
     private Unbinder mUnbinder;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_home, container, false);
-        getActivity().setTitle(R.string.menu_home);
-
+        viewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
         mUnbinder = ButterKnife.bind(this, mView);
 
         setThreadPolicy();

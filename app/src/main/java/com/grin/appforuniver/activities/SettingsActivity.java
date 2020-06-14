@@ -41,7 +41,6 @@ public class SettingsActivity extends AppCompatActivity {
         // Init toolbar
         Toolbar toolbar = findViewById(R.id.settings_toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(getString(R.string.menu_settings));
         // Back btn pressed
         toolbar.setNavigationOnClickListener(v -> {
             if (settingChanged) {

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation.xml"
+    app:startDestination="@id/nav_schedule">
+
+    <fragment
+        android:id="@+id/nav_schedule"
+        android:name="com.grin.appforuniver.ui.schedule.ScheduleFragment"
+        android:label="@string/menu_schedule"
+        tools:layout="@layout/fragment_schedule"/>
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.grin.appforuniver.ui.home.HomeFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_home"/>
+    <fragment
+        android:id="@+id/nav_personal_area"
+        android:name="com.grin.appforuniver.ui.userAccount.UserAccountFragment"
+        android:label="@string/menu_user_account"
+        tools:layout="@layout/fragment_user_account"/>
+    <fragment
+        android:id="@+id/nav_admin"
+        android:name="com.grin.appforuniver.ui.admin.AdminFragment"
+        android:label="@string/menu_admin"
+        tools:layout="@layout/fragment_admin" />
+    <fragment
+        android:id="@+id/nav_consultation"
+        android:name="com.grin.appforuniver.ui.consultation.ConsultationFragment"
+        android:label="@string/menu_consultation"
+        tools:layout="@layout/fragment_consultations" />
+    <activity
+        android:id="@+id/nav_settings"
+        android:name="com.grin.appforuniver.activities.SettingsActivity"
+        android:label="@string/menu_settings"
+        tools:layout="@layout/activity_settings" />
+</navigation>

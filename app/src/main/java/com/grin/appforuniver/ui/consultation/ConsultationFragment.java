@@ -1,4 +1,4 @@
-package com.grin.appforuniver.fragments;
+package com.grin.appforuniver.ui.consultation;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,8 +8,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
@@ -17,15 +16,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.grin.appforuniver.R;
 import com.grin.appforuniver.data.tools.AuthManager;
-import com.grin.appforuniver.fragments.consultations.AllConsultationsFragment;
-import com.grin.appforuniver.fragments.consultations.ConsultationListFragment;
-import com.grin.appforuniver.fragments.consultations.MyConsultationsFragment;
-import com.grin.appforuniver.fragments.consultations.SubscribeConsultationsFragment;
 import com.grin.appforuniver.dialogs.ConsultationActionsDialog;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import com.grin.appforuniver.fragments.consultations.ConsultationListFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -41,6 +33,7 @@ public class ConsultationFragment extends Fragment implements ConsultationListFr
     public final String TAG = ConsultationFragment.class.getSimpleName();
 
     private View mView;
+    private ConsultationViewModel viewModel;
     private Unbinder mUnbinder;
 
     @BindView(R.id.fragment_consultation_viewpager)
@@ -49,16 +42,15 @@ public class ConsultationFragment extends Fragment implements ConsultationListFr
     TabLayout tabLayout;
     @BindView(R.id.fragment_consultations_fab)
     FloatingActionButton floatingActionButton;
-
+    PagerAdapter pagerAdapter;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        viewModel = ViewModelProviders.of(this).get(ConsultationViewModel.class);
         mView = inflater.inflate(R.layout.fragment_consultations, container, false);
-        Objects.requireNonNull(getActivity()).setTitle(R.string.menu_consultation);
         mUnbinder = ButterKnife.bind(this, mView);
-
-        viewPager.setAdapter(new PagerAdapter(getChildFragmentManager()));
-
+        pagerAdapter = new PagerAdapter(getChildFragmentManager(), this);
+        viewPager.setAdapter(pagerAdapter);
         tabLayout.setVisibility(View.VISIBLE);
         tabLayout.setupWithViewPager(viewPager);
         if (AuthManager.getInstance().getUserRoles().contains(ROLE_TEACHER.toString())) {
@@ -76,48 +68,9 @@ public class ConsultationFragment extends Fragment implements ConsultationListFr
     @Override
     public void onCreated() {
         Toasty.success(getContext(), getString(R.string.successful_created), Toast.LENGTH_SHORT, true).show();
-        viewPager.setAdapter(new PagerAdapter(getChildFragmentManager()));
+        viewPager.setAdapter(pagerAdapter);
     }
 
-    private class PagerAdapter extends FragmentPagerAdapter {
-        private class ItemViewPager {
-            String title;
-            Fragment fragment;
-
-            public ItemViewPager(String title, Fragment fragment) {
-                this.title = title;
-                this.fragment = fragment;
-            }
-        }
-
-        private List<ItemViewPager> items;
-
-        private PagerAdapter(FragmentManager supportFragmentManager) {
-            super(supportFragmentManager);
-            items = new ArrayList<>();
-            items.add(new ItemViewPager(getString(R.string.consultation_all), new AllConsultationsFragment(ConsultationFragment.this)));
-            if (AuthManager.getInstance().getUserRoles().contains(ROLE_TEACHER.toString())) {
-                items.add(new ItemViewPager(getString(R.string.consultation_my), new MyConsultationsFragment(ConsultationFragment.this)));
-            }
-            items.add(new ItemViewPager(getString(R.string.consultation_subscribe), new SubscribeConsultationsFragment(ConsultationFragment.this)));
-        }
-
-        @NonNull
-        @Override
-        public Fragment getItem(int position) {
-            return items.get(position).fragment;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return items.get(position).title;
-        }
-
-        @Override
-        public int getCount() {
-            return items.size();
-        }
-    }
 
     @Override
     public void onDestroyView() {

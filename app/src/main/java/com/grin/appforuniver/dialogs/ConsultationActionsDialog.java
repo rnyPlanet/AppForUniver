@@ -57,6 +57,8 @@ public class ConsultationActionsDialog extends DialogFragment implements DatePic
     private Context mContext;
     private Unbinder mUnbinder;
 
+
+
     private View mRootView;
     @BindView(R.id.dialog_consultation_create_spinner_til)
     TextInputLayout roomTIL;
@@ -108,6 +110,7 @@ public class ConsultationActionsDialog extends DialogFragment implements DatePic
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         super.onCreateDialog(savedInstanceState);
+
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = Objects.requireNonNull(getActivity()).getLayoutInflater();
         mRootView = inflater.inflate(R.layout.dialog_consultation_create, null);

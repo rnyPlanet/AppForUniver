@@ -1,31 +1,25 @@
 package com.grin.appforuniver.activities;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
 import com.grin.appforuniver.R;
 import com.grin.appforuniver.data.tools.AuthInterceptor;
 import com.grin.appforuniver.data.tools.AuthManager;
-import com.grin.appforuniver.fragments.AdminFragment;
-import com.grin.appforuniver.fragments.ConsultationFragment;
-import com.grin.appforuniver.fragments.HomeFragment;
-import com.grin.appforuniver.fragments.ScheduleFragment;
-import com.grin.appforuniver.fragments.UserAccountFragment;
 import com.grin.appforuniver.utils.CircularTransformation;
 import com.grin.appforuniver.utils.Constants;
 import com.grin.appforuniver.utils.LocaleUtils;
@@ -39,20 +33,16 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import okhttp3.OkHttpClient;
 
-public class NavigationDrawer extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class NavigationDrawer extends AppCompatActivity {
 
     private static final String TAG = NavigationDrawer.class.getSimpleName();
+    private AppBarConfiguration mAppBarConfiguration;
 
     private Unbinder mUnbinder;
 
     //region BindView
-    @BindView(R.id.drawer_layout)
-    protected DrawerLayout drawer;
     @BindView(R.id.toolbar)
     protected Toolbar toolbar;
-    @BindView(R.id.nav_view)
-    protected NavigationView navigationView;
 
     private HeaderViewHolder mHeaderView;
     //endregion
@@ -74,23 +64,35 @@ public class NavigationDrawer extends AppCompatActivity
         LocaleUtils.loadLocale(this);
         setContentView(R.layout.activity_navigation_drawer);
         mUnbinder = ButterKnife.bind(this);
-        View header = navigationView.getHeaderView(0);
-        mHeaderView = new HeaderViewHolder(header);
+
 
         setSupportActionBar(toolbar);
 
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        View header = navigationView.getHeaderView(0);
+        mHeaderView = new HeaderViewHolder(header);
+        // Passing each menu ID as a set of Ids because each
+        // menu should be considered as top level destinations.
+        mAppBarConfiguration = new AppBarConfiguration.Builder(
+                R.id.nav_home,
+                R.id.nav_schedule,
+                R.id.nav_consultation,
+                R.id.nav_admin,
+                R.id.nav_personal_area,
+                R.id.nav_settings)
+                .setDrawerLayout(drawer)
+                .build();
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
+        NavigationUI.setupWithNavController(navigationView, navController);
+    }
 
-        navigationView.setNavigationItemSelectedListener(this);
-
-        toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
-
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ScheduleFragment()).commit();
-            navigationView.setCheckedItem(R.id.nav_schedule);
-        }
+    @Override
+    public boolean onSupportNavigateUp() {
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        return NavigationUI.navigateUp(navController, mAppBarConfiguration)
+                || super.onSupportNavigateUp();
     }
 
     @SuppressLint("SetTextI18n")
@@ -120,7 +122,6 @@ public class NavigationDrawer extends AppCompatActivity
                         e.printStackTrace();
                     }
                 });
-        navigationView.getMenu().findItem(R.id.nav_personal_area).setVisible(true);
     }
 
     @Override
@@ -135,67 +136,6 @@ public class NavigationDrawer extends AppCompatActivity
         super.onDestroy();
         mUnbinder.unbind();
         AuthManager.getInstance().cancelRequest();
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }
-
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-        switch (item.getItemId()) {
-            case R.id.nav_home:
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.fragment_container, new HomeFragment())
-                        .commit();
-                break;
-            case R.id.nav_schedule:
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.fragment_container, new ScheduleFragment())
-                        .commit();
-                break;
-
-
-            case R.id.nav_consultation:
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.fragment_container, new ConsultationFragment())
-                        .commit();
-                break;
-
-
-            case R.id.nav_admin:
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.fragment_container, new AdminFragment())
-                        .commit();
-                break;
-
-
-            case R.id.nav_personal_area:
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.fragment_container, new UserAccountFragment())
-                        .commit();
-                break;
-
-            case R.id.nav_settings:
-                Intent settings = new Intent(this, SettingsActivity.class);
-                startActivity(settings);
-                break;
-
-        }
-
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
     }
 
     protected static class HeaderViewHolder {

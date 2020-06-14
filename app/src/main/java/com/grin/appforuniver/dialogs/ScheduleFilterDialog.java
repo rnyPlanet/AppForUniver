@@ -14,6 +14,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.grin.appforuniver.R;
@@ -22,32 +23,21 @@ import com.grin.appforuniver.data.model.schedule.Professors;
 import com.grin.appforuniver.data.model.schedule.Rooms;
 import com.grin.appforuniver.data.model.schedule.Subject;
 import com.grin.appforuniver.data.model.schedule.TypeClasses;
-import com.grin.appforuniver.data.service.GroupService;
-import com.grin.appforuniver.data.service.ProfessorService;
-import com.grin.appforuniver.data.service.RoomService;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import es.dmoral.toasty.Toasty;
-import retrofit2.Call;
-import retrofit2.Response;
 
 import static com.grin.appforuniver.utils.Constants.Place;
 import static com.grin.appforuniver.utils.Constants.Week;
 
 public class ScheduleFilterDialog extends DialogFragment {
-    private GroupService mGroupService;
-    private ProfessorService mProfessorService;
-    private RoomService mRoomService;
+
     private Context mContext;
     private Unbinder mUnbinder;
 
+    private ScheduleFilterDialogViewModel viewModel;
     @BindView(R.id.dialog_filtration_schedule_spinner_professor_til)
     TextInputLayout professorTIL;
     @BindView(R.id.dialog_filtration_schedule_spinner_professor_et)
@@ -62,9 +52,9 @@ public class ScheduleFilterDialog extends DialogFragment {
     TextInputLayout groupTIL;
     @BindView(R.id.dialog_filtration_schedule_spinner_group_et)
     AutoCompleteTextView groupField;
-    private ArrayList<Professors> mArrayProfessors = new ArrayList<>();
-    private ArrayList<Rooms> mArrayRooms = new ArrayList<>();
-    private ArrayList<Groups> mArrayGroups = new ArrayList<>();
+    private ArrayAdapter<Professors> arrayProfessorsAdapter;
+    private ArrayAdapter<Rooms> arrayRoomsAdapter;
+    private ArrayAdapter<Groups> arrayGroupsAdapter;
     Professors selectedProfessors = null;
     Rooms selectedRooms = null;
     Groups selectedGroups = null;
@@ -73,9 +63,6 @@ public class ScheduleFilterDialog extends DialogFragment {
 
     public ScheduleFilterDialog(Context mContext) {
         this.mContext = mContext;
-        mGroupService = GroupService.getService();
-        mProfessorService = ProfessorService.getService();
-        mRoomService = RoomService.getService();
     }
 
     public void setOnSelectListener(OnSelectListener onFilterParameter) {
@@ -88,58 +75,27 @@ public class ScheduleFilterDialog extends DialogFragment {
         super.onCreateDialog(savedInstanceState);
         View rootView = getActivity().getLayoutInflater().inflate(R.layout.schedule_filtration_dialog, null);
         mUnbinder = ButterKnife.bind(this, rootView);
-        mProfessorService.requestAllProfessors(new ProfessorService.OnRequestProfessorListListener() {
-            @Override
-            public void onRequestProfessorListSuccess(Call<List<Professors>> call, Response<List<Professors>> response) {
-                if (response.isSuccessful()) {
-                    if (response.body() != null) {
-                        mArrayProfessors.clear();
-                        mArrayProfessors.addAll(response.body());
-                        Collections.sort(mArrayProfessors, (professors, t1) -> String.CASE_INSENSITIVE_ORDER.compare(professors.getUser().getShortFIO(), t1.getUser().getShortFIO()));
-                    }
-                }
-            }
-
-            @Override
-            public void onRequestProfessorListFailed(Call<List<Professors>> call, Throwable t) {
-                Toasty.error(Objects.requireNonNull(getContext()), Objects.requireNonNull(t.getMessage()), Toast.LENGTH_SHORT, true).show();
-            }
+        viewModel = ViewModelProviders.of(this).get(ScheduleFilterDialogViewModel.class);
+        viewModel.getProfessorsLiveData().observe(requireActivity(), professors -> {
+            arrayProfessorsAdapter = new ArrayAdapter<>(requireContext(),
+                    android.R.layout.simple_dropdown_item_1line,
+                    professors);
+            professorField.setAdapter(arrayProfessorsAdapter);
         });
-        mRoomService.requestAllRooms(new RoomService.OnRequestRoomListListener() {
-            @Override
-            public void onRequestRoomListSuccess(Call<List<Rooms>> call, Response<List<Rooms>> response) {
-                if (response.isSuccessful()) {
-                    if (response.body() != null) {
-                        mArrayRooms.clear();
-                        mArrayRooms.addAll(response.body());
-                        Collections.sort(mArrayRooms, (rooms, t1) -> String.CASE_INSENSITIVE_ORDER.compare(rooms.getName(), t1.getName()));
-                    }
-                }
-            }
-
-            @Override
-            public void onRequestRoomListFailed(Call<List<Rooms>> call, Throwable t) {
-                Toasty.error(Objects.requireNonNull(getContext()), Objects.requireNonNull(t.getMessage()), Toast.LENGTH_SHORT, true).show();
-            }
+        viewModel.getRoomsLiveData().observe(requireActivity(), rooms -> {
+            arrayRoomsAdapter = new ArrayAdapter<>(requireContext(),
+                    android.R.layout.simple_dropdown_item_1line,
+                    rooms);
+            roomField.setAdapter(arrayRoomsAdapter);
         });
-        mGroupService.requestAllGroups(new GroupService.OnRequestGroupListListener() {
-            @Override
-            public void onRequestGroupListSuccess(Call<List<Groups>> call, Response<List<Groups>> response) {
-                if (response.isSuccessful()) {
-                    if (response.body() != null) {
-                        mArrayGroups.clear();
-                        mArrayGroups.addAll(response.body());
-                        Collections.sort(mArrayGroups, (groups, t1) -> String.CASE_INSENSITIVE_ORDER.compare(groups.getmName(), t1.getmName()));
-                    }
-                }
-            }
-
-            @Override
-            public void onRequestGroupListFailed(Call<List<Groups>> call, Throwable t) {
-                Toasty.error(Objects.requireNonNull(getContext()), Objects.requireNonNull(t.getMessage()), Toast.LENGTH_SHORT, true).show();
-            }
+        viewModel.getGroupsLiveData().observe(requireActivity(), groups -> {
+            arrayGroupsAdapter = new ArrayAdapter<>(requireContext(),
+                    android.R.layout.simple_dropdown_item_1line,
+                    groups);
+            groupField.setAdapter(arrayGroupsAdapter);
         });
-
+        viewModel.getErrorMessageLiveData().observe(requireActivity(), errorMessage ->
+                Toasty.error(requireContext(), errorMessage, Toast.LENGTH_SHORT, true).show());
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         builder.setView(rootView);
         builder.setTitle(R.string.filter);
@@ -154,21 +110,6 @@ public class ScheduleFilterDialog extends DialogFragment {
             }
         });
 
-
-        ArrayAdapter<Professors> arrayProfessorsAdapter = new ArrayAdapter<>(
-                getActivity(), android.R.layout.simple_dropdown_item_1line,
-                mArrayProfessors);
-        ArrayAdapter<Rooms> arrayRoomsAdapter = new ArrayAdapter<>(
-                getActivity(), android.R.layout.simple_dropdown_item_1line,
-                mArrayRooms);
-        ArrayAdapter<Groups> arrayGroupsAdapter = new ArrayAdapter<>(
-                getActivity(), android.R.layout.simple_dropdown_item_1line,
-                mArrayGroups);
-
-        professorField.setAdapter(arrayProfessorsAdapter);
-        roomField.setAdapter(arrayRoomsAdapter);
-        groupField.setAdapter(arrayGroupsAdapter);
-
         initializeAutoCompleteSpinners(professorTIL, professorField, getString(R.string.select_professor));
         initializeAutoCompleteSpinners(roomTIL, roomField, getString(R.string.select_room));
         initializeAutoCompleteSpinners(groupTIL, groupField, getString(R.string.select_group));
@@ -177,8 +118,7 @@ public class ScheduleFilterDialog extends DialogFragment {
         roomField.setOnItemClickListener((adapterView, view, i, l) -> selectedRooms = arrayRoomsAdapter.getItem(i));
         groupField.setOnItemClickListener((adapterView, view, i, l) -> selectedGroups = arrayGroupsAdapter.getItem(i));
 
-        AlertDialog alertDialog = builder.create();
-        return alertDialog;
+        return builder.create();
     }
 
     private void initializeAutoCompleteSpinners(TextInputLayout textInputLayout, AutoCompleteTextView autoCompleteTextView, String errorText) {
