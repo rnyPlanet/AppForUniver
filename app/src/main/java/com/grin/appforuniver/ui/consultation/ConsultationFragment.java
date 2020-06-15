@@ -50,7 +50,7 @@ public class ConsultationFragment extends Fragment implements ConsultationListFr
             binding.fab.show();
         }
         binding.fab.setOnClickListener(view1 -> {
-            ConsultationActionsDialog consultationCreateDialog = new ConsultationActionsDialog(requireContext(), ConsultationFragment.this);
+            ConsultationActionsDialog consultationCreateDialog = new ConsultationActionsDialog(ConsultationFragment.this);
             consultationCreateDialog.show(getFragmentManager(), "consultationCreateDialog");
         });
     }

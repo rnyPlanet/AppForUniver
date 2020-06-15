@@ -137,7 +137,7 @@ public class ConsultationActivity extends AppCompatActivity implements Consultat
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.edit_consultation: {
-                DialogFragment dialogFragment = new ConsultationActionsDialog(this, this);
+                DialogFragment dialogFragment = new ConsultationActionsDialog(this);
                 Bundle bundle = new Bundle();
                 bundle.putInt(KEY, mIdConsultation);
                 dialogFragment.setArguments(bundle);

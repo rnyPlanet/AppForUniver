@@ -69,19 +69,16 @@ public class ConsultationActionsDialog extends DialogFragment implements DatePic
     private OnCreate onCreate;
     private OnUpdate onUpdate;
 
-    public ConsultationActionsDialog(Context context) {
-        this.mContext = context;
+    public ConsultationActionsDialog() {
         mConsultationService = ConsultationService.getService();
         mRoomService = RoomService.getService();
     }
 
-    public ConsultationActionsDialog(Context context, OnCreate onCreate) {
-        this(context);
+    public ConsultationActionsDialog(OnCreate onCreate) {
         this.onCreate = onCreate;
     }
 
-    public ConsultationActionsDialog(Context context, OnUpdate onUpdate) {
-        this(context);
+    public ConsultationActionsDialog(OnUpdate onUpdate) {
         this.onUpdate = onUpdate;
     }
 
