@@ -48,8 +48,6 @@ public class ConsultationActionsDialog extends DialogFragment implements DatePic
     private ConsultationService mConsultationService;
     private RoomService mRoomService;
     private Bundle mBundleArguments;
-    private Context mContext;
-
 
     private DialogConsultationCreateBinding binding;
 

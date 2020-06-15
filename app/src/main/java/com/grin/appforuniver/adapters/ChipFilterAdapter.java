@@ -30,8 +30,7 @@ public class ChipFilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private List<Object> listFilterItems;
     private OnRemovedFilterItem onRemovedFilterItem;
 
-    public ChipFilterAdapter(Context context, OnRemovedFilterItem onRemovedFilterItem) {
-        this.context = context;
+    public ChipFilterAdapter(OnRemovedFilterItem onRemovedFilterItem) {
         this.onRemovedFilterItem = onRemovedFilterItem;
         this.listFilterItems = new ArrayList<>();
     }
@@ -57,6 +56,12 @@ public class ChipFilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     @Override
     public int getItemCount() {
         return listFilterItems.size();
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        context = recyclerView.getContext();
     }
 
     public void setItemsFilter(List<Object> listFilterItems) {

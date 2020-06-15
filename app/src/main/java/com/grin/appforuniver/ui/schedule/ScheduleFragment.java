@@ -69,7 +69,7 @@ public class ScheduleFragment extends Fragment implements ScheduleFilterDialog.O
         recyclerViewSchedule.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerViewFiltration.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
 
-        chipFilterAdapter = new ChipFilterAdapter(getContext(), listFilterItems -> {
+        chipFilterAdapter = new ChipFilterAdapter(listFilterItems -> {
             ScheduleFiltrationManager.Builder scheduleFilters = new ScheduleFiltrationManager.Builder(mListenerSchedule);
             for (Object object : listFilterItems) {
                 if (object instanceof Subject)
@@ -135,8 +135,8 @@ public class ScheduleFragment extends Fragment implements ScheduleFilterDialog.O
         });
     }
 
-    private void dialogFiltrationSchedule(Context context) {
-        ScheduleFilterDialog scheduleFilterDialog = new ScheduleFilterDialog(context);
+    private void dialogFiltrationSchedule() {
+        ScheduleFilterDialog scheduleFilterDialog = new ScheduleFilterDialog();
         scheduleFilterDialog.setOnSelectListener(this);
         scheduleFilterDialog.show(getChildFragmentManager(), "filtration_dialog");
     }
@@ -185,7 +185,7 @@ public class ScheduleFragment extends Fragment implements ScheduleFilterDialog.O
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_filter:
-                dialogFiltrationSchedule(getContext());
+                dialogFiltrationSchedule();
                 return true;
             case R.id.action_search_professor:
                 dialogSearchProfessor(getContext());

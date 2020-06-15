@@ -32,8 +32,6 @@ import static com.grin.appforuniver.utils.Constants.Week;
 
 public class ScheduleFilterDialog extends DialogFragment {
 
-    private Context mContext;
-
     private ScheduleFilterDialogViewModel viewModel;
     private ScheduleFiltrationDialogBinding binding;
     private ArrayAdapter<Professors> arrayProfessorsAdapter;
@@ -45,8 +43,7 @@ public class ScheduleFilterDialog extends DialogFragment {
 
     private OnSelectListener onFilterParameter;
 
-    public ScheduleFilterDialog(Context mContext) {
-        this.mContext = mContext;
+    public ScheduleFilterDialog() {
     }
 
     public void setOnSelectListener(OnSelectListener onFilterParameter) {
@@ -80,7 +77,7 @@ public class ScheduleFilterDialog extends DialogFragment {
         });
         viewModel.getErrorMessageLiveData().observe(requireActivity(), errorMessage ->
                 Toasty.error(requireContext(), errorMessage, Toast.LENGTH_SHORT, true).show());
-        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        AlertDialog.Builder builder = new AlertDialog.Builder(rootView.getContext());
         builder.setView(rootView);
         builder.setTitle(R.string.filter);
         builder.setPositiveButton(R.string.filtration, (dialogInterface, i) -> {
