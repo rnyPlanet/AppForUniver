@@ -7,10 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.grin.appforuniver.R;
+import com.grin.appforuniver.databinding.FragmentHomeBinding;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -20,33 +21,30 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
-
 public class HomeFragment extends Fragment {
 
     public final String TAG = HomeFragment.class.getSimpleName();
-    private View mView;
     private HomeViewModel viewModel;
-    private Unbinder mUnbinder;
+    private FragmentHomeBinding binding;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.fragment_home, container, false);
         viewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
-        mUnbinder = ButterKnife.bind(this, mView);
-
-        setThreadPolicy();
-        parseUniversityMainPage();
-
-        return mView;
+        binding = FragmentHomeBinding.inflate(inflater, container, false);
+        return binding.getRoot();
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        setThreadPolicy();
+        parseUniversityMainPage();
+    }
 
     @Override
     public void onDestroyView() {
+        binding = null;
         super.onDestroyView();
-        mUnbinder.unbind();
     }
 
     private void setThreadPolicy() {

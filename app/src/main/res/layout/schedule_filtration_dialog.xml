@@ -7,7 +7,7 @@
     android:padding="16dp">
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/dialog_filtration_schedule_spinner_professor_til"
+        android:id="@+id/spinner_professor_til"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <AutoCompleteTextView
-            android:id="@+id/dialog_filtration_schedule_spinner_professor_et"
+            android:id="@+id/spinner_professor_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:completionHint="Select professor"
@@ -34,7 +34,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/dialog_filtration_schedule_spinner_room_til"
+        android:id="@+id/spinner_room_til"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -42,10 +42,10 @@
         app:errorEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dialog_filtration_schedule_spinner_professor_til">
+        app:layout_constraintTop_toBottomOf="@+id/spinner_professor_til">
 
         <AutoCompleteTextView
-            android:id="@+id/dialog_filtration_schedule_spinner_room_et"
+            android:id="@+id/spinner_room_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:completionHint="Select room"
@@ -61,7 +61,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/dialog_filtration_schedule_spinner_group_til"
+        android:id="@+id/spinner_group_til"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -69,10 +69,10 @@
         app:errorEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dialog_filtration_schedule_spinner_room_til">
+        app:layout_constraintTop_toBottomOf="@+id/spinner_room_til">
 
         <AutoCompleteTextView
-            android:id="@+id/dialog_filtration_schedule_spinner_group_et"
+            android:id="@+id/spinner_group_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:completionHint="Select group"

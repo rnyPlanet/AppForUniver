@@ -15,16 +15,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -36,6 +31,7 @@ import com.grin.appforuniver.data.model.user.User;
 import com.grin.appforuniver.data.service.UserService;
 import com.grin.appforuniver.data.tools.AuthInterceptor;
 import com.grin.appforuniver.data.tools.AuthManager;
+import com.grin.appforuniver.databinding.FragmentUserAccountBinding;
 import com.grin.appforuniver.utils.CircularTransformation;
 import com.grin.appforuniver.utils.Constants;
 import com.karumi.dexter.Dexter;
@@ -52,10 +48,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import butterknife.Unbinder;
 import es.dmoral.toasty.Toasty;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -72,49 +64,8 @@ public class UserAccountFragment extends Fragment {
     public static final int REQUEST_IMAGE = 100;
     private UserService mUserService;
     private UserAccountViewModel userAccountViewModel;
-    //region BindView
-    @BindView(R.id.user_account_detail_progress)
-    ProgressBar detail_progress;
+    private FragmentUserAccountBinding binding;
 
-    @BindView(R.id.user_account_userinfo_rl)
-    ConstraintLayout userinfo_rl;
-
-    @BindView(R.id.user_account_header)
-    View user_account_header;
-
-    @BindView(R.id.user_account_username_ll)
-    LinearLayout username_ll;
-    @BindView(R.id.user_account_username_tv)
-    TextView username_tv;
-
-    @BindView(R.id.user_account_email_ll)
-    LinearLayout email_ll;
-    @BindView(R.id.user_account_email_tv)
-    TextView email_tv;
-
-    @BindView(R.id.user_account_department_ll)
-    LinearLayout department_ll;
-    @BindView(R.id.user_account_department_tv)
-    TextView department_tv;
-
-    @BindView(R.id.user_account_posada_ll)
-    LinearLayout posada_ll;
-    @BindView(R.id.user_account_posada_tv)
-    TextView posada_tv;
-
-    @BindView(R.id.user_account_phone1_ll)
-    LinearLayout telefon1_ll;
-    @BindView(R.id.user_account_phone1_tv)
-    TextView telefon1_tv;
-
-    @BindView(R.id.avatar_image_view)
-    ImageView avatarImageView;
-    @BindView(R.id.add_avatar)
-    ImageView addAvatarImageView;
-    //endregion
-
-    private View mView;
-    private Unbinder mUnbinder;
     private User mUser;
     private Professors mProfessor;
 
@@ -125,21 +76,26 @@ public class UserAccountFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         mUserService = UserService.getService();
-        mView = inflater.inflate(R.layout.fragment_user_account, container, false);
         userAccountViewModel = ViewModelProviders.of(this).get(UserAccountViewModel.class);
-        mUnbinder = ButterKnife.bind(this, mView);
+        binding = FragmentUserAccountBinding.inflate(inflater, container, false);
+        return binding.getRoot();
+    }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         userAccountViewModel.getUserFI().observe(getViewLifecycleOwner(), s -> {
-            username_ll.setVisibility(View.VISIBLE);
-            username_tv.setText(s);
+            binding.userAccountUsernameLl.setVisibility(View.VISIBLE);
+            binding.userAccountUsernameTv.setText(s);
         });
         userAccountViewModel.getEmail().observe(getViewLifecycleOwner(), s -> {
-            email_ll.setVisibility(View.VISIBLE);
-            email_tv.setText(s);
+            binding.userAccountEmailLl.setVisibility(View.VISIBLE);
+            binding.userAccountEmailTv.setText(s);
         });
-        getMyAccount(mView.getContext());
+        binding.avatarImageView.setOnClickListener(view1 -> changeAvatar());
+        binding.addAvatar.setOnClickListener(view2 -> changeAvatar());
+        getMyAccount(binding.getRoot().getContext());
 
-        return mView;
     }
 
     @Override
@@ -165,21 +121,21 @@ public class UserAccountFragment extends Fragment {
         if (AuthManager.getInstance().getUserRoles().contains(ROLE_TEACHER.toString())) {
             getMyAccountProfessor(context);
         } else {
-            posada_tv.setText(R.string.student);
+            binding.userAccountPosadaTv.setText(R.string.student);
         }
 
         if (mUser.getTelefon1() != null && !mUser.getTelefon1().isEmpty()) {
-            telefon1_ll.setVisibility(View.VISIBLE);
-            telefon1_tv.setText(mUser.getTelefon1());
+            binding.userAccountPhone1Ll.setVisibility(View.VISIBLE);
+            binding.userAccountPhone1Tv.setText(mUser.getTelefon1());
         } else {
-            telefon1_ll.setVisibility(View.GONE);
+            binding.userAccountPhone1Ll.setVisibility(View.GONE);
         }
 
-        detail_progress.setVisibility(View.GONE);
-        userinfo_rl.setVisibility(View.VISIBLE);
-        user_account_header.setVisibility(View.VISIBLE);
-        email_ll.setVisibility(View.VISIBLE);
-        telefon1_ll.setVisibility(View.VISIBLE);
+        binding.userAccountDetailProgress.setVisibility(View.GONE);
+        binding.userAccountUserinfoRl.setVisibility(View.VISIBLE);
+        binding.userAccountHeader.setVisibility(View.VISIBLE);
+        binding.userAccountEmailLl.setVisibility(View.VISIBLE);
+        binding.userAccountPhone1Ll.setVisibility(View.VISIBLE);
         String urlPhoto = Constants.API_BASE_URL + "photo/current_user/get_avatar";
 
         OkHttpClient client = new OkHttpClient.Builder()
@@ -195,7 +151,7 @@ public class UserAccountFragment extends Fragment {
                 .placeholder(R.drawable.account_circle_outline)
                 .error(R.drawable.ic_warning)
                 .transform(new CircularTransformation(0))
-                .into(avatarImageView, new Callback() {
+                .into(binding.avatarImageView, new Callback() {
                     @Override
                     public void onSuccess() {
                     }
@@ -214,13 +170,13 @@ public class UserAccountFragment extends Fragment {
                 if (response.body() != null) {
                     mProfessor = response.body();
                     if (mProfessor.getPosada() != null) {
-                        posada_tv.setText(mProfessor.getPosada().getFullPostProfessor());
+                        binding.userAccountPosadaTv.setText(mProfessor.getPosada().getFullPostProfessor());
                     }
                     if (mProfessor.getDepartment() != null) {
-                        department_ll.setVisibility(View.VISIBLE);
-                        department_tv.setText(mProfessor.getDepartment().getName());
+                        binding.userAccountDepartmentLl.setVisibility(View.VISIBLE);
+                        binding.userAccountDepartmentTv.setText(mProfessor.getDepartment().getName());
                     } else {
-                        department_ll.setVisibility(View.GONE);
+                        binding.userAccountDepartmentLl.setVisibility(View.GONE);
                     }
                 }
             }
@@ -242,7 +198,6 @@ public class UserAccountFragment extends Fragment {
         getActivity().finish();
     }
 
-    @OnClick({R.id.avatar_image_view, R.id.add_avatar})
     void changeAvatar() {
         Dexter.withActivity(getActivity())
                 .withPermissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -383,7 +338,7 @@ public class UserAccountFragment extends Fragment {
                         .placeholder(R.drawable.account_circle_outline)
                         .error(R.drawable.ic_warning)
                         .transform(new CircularTransformation(0))
-                        .into(avatarImageView, new Callback() {
+                        .into(binding.avatarImageView, new Callback() {
                             @Override
                             public void onSuccess() {
                             }
@@ -404,8 +359,8 @@ public class UserAccountFragment extends Fragment {
 
     @Override
     public void onDestroyView() {
+        binding = null;
         super.onDestroyView();
-        mUnbinder.unbind();
     }
 
 }

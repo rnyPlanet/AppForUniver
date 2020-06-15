@@ -7,22 +7,17 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.tabs.TabLayout;
 import com.grin.appforuniver.R;
 import com.grin.appforuniver.data.tools.AuthManager;
+import com.grin.appforuniver.databinding.FragmentConsultationsBinding;
 import com.grin.appforuniver.dialogs.ConsultationActionsDialog;
 import com.grin.appforuniver.fragments.consultations.ConsultationListFragment;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import butterknife.Unbinder;
 import es.dmoral.toasty.Toasty;
 
 import static com.grin.appforuniver.utils.Constants.Roles.ROLE_TEACHER;
@@ -32,58 +27,53 @@ public class ConsultationFragment extends Fragment implements ConsultationListFr
 
     public final String TAG = ConsultationFragment.class.getSimpleName();
 
-    private View mView;
     private ConsultationViewModel viewModel;
-    private Unbinder mUnbinder;
 
-    @BindView(R.id.fragment_consultation_viewpager)
-    ViewPager viewPager;
-    @BindView(R.id.fragment_consultation_tabLayout)
-    TabLayout tabLayout;
-    @BindView(R.id.fragment_consultations_fab)
-    FloatingActionButton floatingActionButton;
-    PagerAdapter pagerAdapter;
+    private PagerAdapter pagerAdapter;
+    private FragmentConsultationsBinding binding;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         viewModel = ViewModelProviders.of(this).get(ConsultationViewModel.class);
-        mView = inflater.inflate(R.layout.fragment_consultations, container, false);
-        mUnbinder = ButterKnife.bind(this, mView);
-        pagerAdapter = new PagerAdapter(getChildFragmentManager(), this);
-        viewPager.setAdapter(pagerAdapter);
-        tabLayout.setVisibility(View.VISIBLE);
-        tabLayout.setupWithViewPager(viewPager);
-        if (AuthManager.getInstance().getUserRoles().contains(ROLE_TEACHER.toString())) {
-            floatingActionButton.show();
-        }
-        return mView;
+        binding = FragmentConsultationsBinding.inflate(inflater, container, false);
+        return binding.getRoot();
     }
 
-    @OnClick(R.id.fragment_consultations_fab)
-    void create() {
-        ConsultationActionsDialog consultationCreateDialog = new ConsultationActionsDialog(getContext(), this);
-        consultationCreateDialog.show(getFragmentManager(), "consultationCreateDialog");
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        pagerAdapter = new PagerAdapter(getChildFragmentManager(), this);
+        binding.viewpager.setAdapter(pagerAdapter);
+        binding.tabLayout.setVisibility(View.VISIBLE);
+        binding.tabLayout.setupWithViewPager(binding.viewpager);
+        if (AuthManager.getInstance().getUserRoles().contains(ROLE_TEACHER.toString())) {
+            binding.fab.show();
+        }
+        binding.fab.setOnClickListener(view1 -> {
+            ConsultationActionsDialog consultationCreateDialog = new ConsultationActionsDialog(requireContext(), ConsultationFragment.this);
+            consultationCreateDialog.show(getFragmentManager(), "consultationCreateDialog");
+        });
     }
 
     @Override
     public void onCreated() {
         Toasty.success(getContext(), getString(R.string.successful_created), Toast.LENGTH_SHORT, true).show();
-        viewPager.setAdapter(pagerAdapter);
+        binding.viewpager.setAdapter(pagerAdapter);
     }
 
 
     @Override
     public void onDestroyView() {
+        binding = null;
         super.onDestroyView();
-        mUnbinder.unbind();
     }
 
     @Override
     public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-        if (dy > 0 && floatingActionButton.getVisibility() == View.VISIBLE) {
-            floatingActionButton.hide();
-        } else if (dy < 0 && floatingActionButton.getVisibility() != View.VISIBLE) {
-            floatingActionButton.show();
+        if (dy > 0 && binding.fab.getVisibility() == View.VISIBLE) {
+            binding.fab.hide();
+        } else if (dy < 0 && binding.fab.getVisibility() != View.VISIBLE) {
+            binding.fab.show();
         }
     }
 }

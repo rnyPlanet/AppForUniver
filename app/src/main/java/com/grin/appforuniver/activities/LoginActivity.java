@@ -5,27 +5,20 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatEditText;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
-import com.google.android.material.textfield.TextInputLayout;
 import com.grin.appforuniver.R;
 import com.grin.appforuniver.data.model.AccessToken;
 import com.grin.appforuniver.data.model.user.User;
 import com.grin.appforuniver.data.service.AuthService;
 import com.grin.appforuniver.data.service.UserService;
 import com.grin.appforuniver.data.tools.AuthManager;
+import com.grin.appforuniver.databinding.ActivityLoginBinding;
 
 import java.util.Objects;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -37,16 +30,7 @@ public class LoginActivity extends AppCompatActivity {
     private AuthService mAuthService;
     private UserService mUserService;
     private ProgressDialog mProgressBar;
-
-    @BindView(R.id.activity_login_username_et)
-    TextInputLayout usernameTIL;
-    @BindView(R.id.activity_login_password_et)
-    TextInputLayout passwordTIL;
-    @BindView(R.id.password_field)
-    AppCompatEditText passwordField;
-
-    @BindView(R.id.login_activity_constraint)
-    ConstraintLayout loginPageActivity;
+    ActivityLoginBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,9 +47,10 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         } else {
-            setContentView(R.layout.activity_login);
-            ButterKnife.bind(this);
-            passwordField.setOnEditorActionListener((textView, actionId, keyEvent) -> {
+            binding = ActivityLoginBinding.inflate(getLayoutInflater());
+            setContentView(binding.getRoot());
+            binding.loginButton.setOnClickListener(view -> logIn());
+            binding.passwordField.setOnEditorActionListener((textView, actionId, keyEvent) -> {
                 if (actionId == EditorInfo.IME_ACTION_SEND) logIn();
                 return false;
             });
@@ -74,9 +59,9 @@ public class LoginActivity extends AppCompatActivity {
             // Change header visibility
             //
 
-            loginPageActivity.post(() -> {
-                int height = loginPageActivity.getHeight();
-                loginPageActivity.addOnLayoutChangeListener((v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) -> {
+            binding.getRoot().post(() -> {
+                int height = binding.getRoot().getHeight();
+                binding.getRoot().addOnLayoutChangeListener((v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) -> {
                     if ((bottom - top) == height) {
                         changeHeaderItemsVisible("visible");
                     } else {
@@ -144,56 +129,52 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private boolean validateLoginInput() {
-        String loginInput = Objects.requireNonNull(usernameTIL.getEditText()).getText().toString().trim();
+        String loginInput = Objects.requireNonNull(binding.usernameEt.getEditText()).getText().toString().trim();
 
         if (loginInput.isEmpty()) {
-            usernameTIL.setError(getString(R.string.field_cant_be_empty));
+            binding.usernameEt.setError(getString(R.string.field_cant_be_empty));
             return false;
         } else {
-            usernameTIL.setError(null);
+            binding.usernameEt.setError(null);
             return true;
         }
 
     }
 
     private boolean validatePasswordInput() {
-        String passwordInput = Objects.requireNonNull(passwordTIL.getEditText()).getText().toString().trim();
+        String passwordInput = Objects.requireNonNull(binding.passwordEt.getEditText()).getText().toString().trim();
 
         if (passwordInput.isEmpty()) {
-            passwordTIL.setError(getString(R.string.field_cant_be_empty));
+            binding.passwordEt.setError(getString(R.string.field_cant_be_empty));
             return false;
         } else {
-            passwordTIL.setError(null);
+            binding.passwordEt.setError(null);
             return true;
         }
 
     }
 
-    @OnClick(R.id.activity_login_login_btn)
     void logIn() {
         if (validateLoginInput() & validatePasswordInput()) {
             mProgressBar.setMessage(getString(R.string.checking));
             mProgressBar.show();
 
-            loginUser(Objects.requireNonNull(usernameTIL.getEditText()).getText().toString(),
-                    Objects.requireNonNull(passwordTIL.getEditText()).getText().toString());
+            loginUser(Objects.requireNonNull(binding.usernameEt.getEditText()).getText().toString(),
+                    Objects.requireNonNull(binding.usernameEt.getEditText()).getText().toString());
 
         }
     }
 
     // Visual settings
     private void changeHeaderItemsVisible(String visibility) {
-        TextView login_title = findViewById(R.id.login_title);
-        ImageView university_logo = findViewById(R.id.university_logo);
-
         switch (visibility) {
             case "gone":
-                login_title.setVisibility(View.GONE);
-                university_logo.setVisibility(View.GONE);
+                binding.loginTitle.setVisibility(View.GONE);
+                binding.universityLogo.setVisibility(View.GONE);
                 break;
             case "visible":
-                login_title.setVisibility(View.VISIBLE);
-                university_logo.setVisibility(View.VISIBLE);
+                binding.loginTitle.setVisibility(View.VISIBLE);
+                binding.universityLogo.setVisibility(View.VISIBLE);
                 break;
         }
     }

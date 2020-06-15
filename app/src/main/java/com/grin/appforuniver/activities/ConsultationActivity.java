@@ -7,9 +7,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -21,14 +18,12 @@ import androidx.fragment.app.DialogFragment;
 import com.grin.appforuniver.R;
 import com.grin.appforuniver.data.model.consultation.Consultation;
 import com.grin.appforuniver.data.service.ConsultationService;
+import com.grin.appforuniver.databinding.ActivityConsultationBinding;
 import com.grin.appforuniver.dialogs.ConsultationActionsDialog;
 
 import java.util.Map;
 import java.util.Objects;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -36,38 +31,20 @@ import retrofit2.Response;
 public class ConsultationActivity extends AppCompatActivity implements ConsultationActionsDialog.OnUpdate, ConsultationService.OnRequestConsultationListener, ConsultationService.OnSetSubscribeStatusListener {
     public final String TAG = ConsultationActivity.class.getSimpleName();
     private ConsultationService mService;
-    private Unbinder mUnbinder;
+    private ActivityConsultationBinding binding;
     private int mIdConsultation;
     private Consultation mConsultation;
 
     private Menu mMenuList;
-
-    @BindView(R.id.students_count)
-    TextView countStudentTV;
-    @BindView(R.id.activity_consultation_FIO_tv)
-    TextView fioTV;
-    @BindView(R.id.activity_consultation_roomNum_tv)
-    TextView roomTV;
-    @BindView(R.id.activity_consultation_dateOfPassage_tv)
-    TextView dateOfPassage;
-    @BindView(R.id.activity_consultation_timeOfPassage_tv)
-    TextView timeOfPassage;
-    @BindView(R.id.activity_consultation_description_tv)
-    TextView description;
-    @BindView(R.id.activity_consultation_subscribe_manage)
-    Button subscribeManageBTN;
-
-    @BindView(R.id.activity_consultation_pb)
-    ProgressBar progressBar;
 
     public static String KEY = "idConsultation";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_consultation);
+        binding = ActivityConsultationBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         mService = ConsultationService.getService();
-        mUnbinder = ButterKnife.bind(this);
 
         Objects.requireNonNull(getSupportActionBar()).setHomeAsUpIndicator(R.drawable.ic_arrow_back_black_24dp);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -107,24 +84,23 @@ public class ConsultationActivity extends AppCompatActivity implements Consultat
     private void initMenu() {
         mMenuList.findItem(R.id.edit_consultation).setVisible(true);
         mMenuList.findItem(R.id.delete_consultation).setVisible(true);
-        subscribeManageBTN.setVisibility(View.GONE);
+        binding.subscribeManageButton.setVisibility(View.GONE);
     }
 
     @SuppressLint("SetTextI18n")
     private void init() {
-        countStudentTV.setText(Integer.toString(mConsultation.getUsersCollection().size()));
-        fioTV.setText(mConsultation.getCreatedUser().getFullFIO());
-        roomTV.setText(mConsultation.getRoom().getName());
-        dateOfPassage.setText(mConsultation.getDateOfPassage());
-        timeOfPassage.setText(mConsultation.getTimeOfPassage());
+        binding.studentsCount.setText(Integer.toString(mConsultation.getUsersCollection().size()));
+        binding.FIOTv.setText(mConsultation.getCreatedUser().getFullFIO());
+        binding.roomNumberTv.setText(mConsultation.getRoom().getName());
+        binding.dateOfPassageTv.setText(mConsultation.getDateOfPassage());
+        binding.timeOfPassageTv.setText(mConsultation.getTimeOfPassage());
         if (mConsultation.getDescription() != null) {
-            findViewById(R.id.consultation_description).setVisibility(View.VISIBLE);
-            description.setText(mConsultation.getDescription());
+            binding.consultationDescription.setVisibility(View.VISIBLE);
+            binding.descriptionTv.setText(mConsultation.getDescription());
         } else {
-            View emptyState = findViewById(R.id.empty_consultation_activity);
-            findViewById(R.id.consultation_description).setVisibility(View.GONE);
+            binding.consultationDescription.setVisibility(View.GONE);
 
-            emptyState.setVisibility(View.VISIBLE);
+            binding.emptyConsultationActivity.getRoot().setVisibility(View.VISIBLE);
         }
     }
 
@@ -138,15 +114,15 @@ public class ConsultationActivity extends AppCompatActivity implements Consultat
 
     void manageSubscribeButton(boolean isSubscribed) {
         if (isSubscribed) {
-            subscribeManageBTN.setOnClickListener(view -> unSubscribe());
-            subscribeManageBTN.setBackground(ContextCompat.getDrawable(this, R.drawable.outline));
-            subscribeManageBTN.setTextColor(getResources().getColor(android.R.color.white));
-            subscribeManageBTN.setText(getResources().getString(R.string.activity_consultation_unsubscribe));
+            binding.subscribeManageButton.setOnClickListener(view -> unSubscribe());
+            binding.subscribeManageButton.setBackground(ContextCompat.getDrawable(this, R.drawable.outline));
+            binding.subscribeManageButton.setTextColor(getResources().getColor(android.R.color.white));
+            binding.subscribeManageButton.setText(getResources().getString(R.string.activity_consultation_unsubscribe));
         } else {
-            subscribeManageBTN.setOnClickListener(view -> subscribe());
-            subscribeManageBTN.setBackground(ContextCompat.getDrawable(this, R.drawable.btn));
-            subscribeManageBTN.setTextColor(getResources().getColor(R.color.colorPrimary));
-            subscribeManageBTN.setText(getResources().getString(R.string.activity_consultation_subscribe));
+            binding.subscribeManageButton.setOnClickListener(view -> subscribe());
+            binding.subscribeManageButton.setBackground(ContextCompat.getDrawable(this, R.drawable.btn));
+            binding.subscribeManageButton.setTextColor(getResources().getColor(R.color.colorPrimary));
+            binding.subscribeManageButton.setText(getResources().getString(R.string.activity_consultation_subscribe));
         }
     }
 
@@ -208,8 +184,8 @@ public class ConsultationActivity extends AppCompatActivity implements Consultat
 
     @Override
     public void onDestroy() {
+        binding = null;
         super.onDestroy();
-        mUnbinder.unbind();
     }
 
     @Override

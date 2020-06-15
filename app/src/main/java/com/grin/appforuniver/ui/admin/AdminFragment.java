@@ -9,34 +9,26 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.grin.appforuniver.R;
-
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
+import com.grin.appforuniver.databinding.FragmentAdminBinding;
 
 public class AdminFragment extends Fragment {
 
     public final String TAG = AdminFragment.class.getSimpleName();
 
-    private View mView;
     private AdminViewModel viewModel;
-    private Unbinder mUnbinder;
+    private FragmentAdminBinding binding;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.fragment_admin, container, false);
         viewModel = ViewModelProviders.of(this).get(AdminViewModel.class);
-
-        mUnbinder = ButterKnife.bind(this, mView);
-
-        return mView;
+        binding = FragmentAdminBinding.inflate(inflater, container, false);
+        return binding.getRoot();
     }
-
 
     @Override
     public void onDestroyView() {
+        binding = null;
         super.onDestroyView();
-        mUnbinder.unbind();
     }
 
 }

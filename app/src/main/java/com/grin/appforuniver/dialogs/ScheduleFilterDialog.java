@@ -23,10 +23,8 @@ import com.grin.appforuniver.data.model.schedule.Professors;
 import com.grin.appforuniver.data.model.schedule.Rooms;
 import com.grin.appforuniver.data.model.schedule.Subject;
 import com.grin.appforuniver.data.model.schedule.TypeClasses;
+import com.grin.appforuniver.databinding.ScheduleFiltrationDialogBinding;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 import es.dmoral.toasty.Toasty;
 
 import static com.grin.appforuniver.utils.Constants.Place;
@@ -35,23 +33,9 @@ import static com.grin.appforuniver.utils.Constants.Week;
 public class ScheduleFilterDialog extends DialogFragment {
 
     private Context mContext;
-    private Unbinder mUnbinder;
 
     private ScheduleFilterDialogViewModel viewModel;
-    @BindView(R.id.dialog_filtration_schedule_spinner_professor_til)
-    TextInputLayout professorTIL;
-    @BindView(R.id.dialog_filtration_schedule_spinner_professor_et)
-    AutoCompleteTextView professorField;
-
-    @BindView(R.id.dialog_filtration_schedule_spinner_room_til)
-    TextInputLayout roomTIL;
-    @BindView(R.id.dialog_filtration_schedule_spinner_room_et)
-    AutoCompleteTextView roomField;
-
-    @BindView(R.id.dialog_filtration_schedule_spinner_group_til)
-    TextInputLayout groupTIL;
-    @BindView(R.id.dialog_filtration_schedule_spinner_group_et)
-    AutoCompleteTextView groupField;
+    private ScheduleFiltrationDialogBinding binding;
     private ArrayAdapter<Professors> arrayProfessorsAdapter;
     private ArrayAdapter<Rooms> arrayRoomsAdapter;
     private ArrayAdapter<Groups> arrayGroupsAdapter;
@@ -73,26 +57,26 @@ public class ScheduleFilterDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         super.onCreateDialog(savedInstanceState);
-        View rootView = getActivity().getLayoutInflater().inflate(R.layout.schedule_filtration_dialog, null);
-        mUnbinder = ButterKnife.bind(this, rootView);
+        View rootView = requireActivity().getLayoutInflater().inflate(R.layout.schedule_filtration_dialog, null);
+        binding = ScheduleFiltrationDialogBinding.bind(rootView);
         viewModel = ViewModelProviders.of(this).get(ScheduleFilterDialogViewModel.class);
         viewModel.getProfessorsLiveData().observe(requireActivity(), professors -> {
             arrayProfessorsAdapter = new ArrayAdapter<>(requireContext(),
                     android.R.layout.simple_dropdown_item_1line,
                     professors);
-            professorField.setAdapter(arrayProfessorsAdapter);
+            binding.spinnerProfessorEt.setAdapter(arrayProfessorsAdapter);
         });
         viewModel.getRoomsLiveData().observe(requireActivity(), rooms -> {
             arrayRoomsAdapter = new ArrayAdapter<>(requireContext(),
                     android.R.layout.simple_dropdown_item_1line,
                     rooms);
-            roomField.setAdapter(arrayRoomsAdapter);
+            binding.spinnerRoomEt.setAdapter(arrayRoomsAdapter);
         });
         viewModel.getGroupsLiveData().observe(requireActivity(), groups -> {
             arrayGroupsAdapter = new ArrayAdapter<>(requireContext(),
                     android.R.layout.simple_dropdown_item_1line,
                     groups);
-            groupField.setAdapter(arrayGroupsAdapter);
+            binding.spinnerGroupEt.setAdapter(arrayGroupsAdapter);
         });
         viewModel.getErrorMessageLiveData().observe(requireActivity(), errorMessage ->
                 Toasty.error(requireContext(), errorMessage, Toast.LENGTH_SHORT, true).show());
@@ -110,13 +94,13 @@ public class ScheduleFilterDialog extends DialogFragment {
             }
         });
 
-        initializeAutoCompleteSpinners(professorTIL, professorField, getString(R.string.select_professor));
-        initializeAutoCompleteSpinners(roomTIL, roomField, getString(R.string.select_room));
-        initializeAutoCompleteSpinners(groupTIL, groupField, getString(R.string.select_group));
+        initializeAutoCompleteSpinners(binding.spinnerProfessorTil, binding.spinnerProfessorEt, getString(R.string.select_professor));
+        initializeAutoCompleteSpinners(binding.spinnerRoomTil, binding.spinnerRoomEt, getString(R.string.select_room));
+        initializeAutoCompleteSpinners(binding.spinnerGroupTil, binding.spinnerGroupEt, getString(R.string.select_group));
 
-        professorField.setOnItemClickListener((adapterView, view, i, l) -> selectedProfessors = arrayProfessorsAdapter.getItem(i));
-        roomField.setOnItemClickListener((adapterView, view, i, l) -> selectedRooms = arrayRoomsAdapter.getItem(i));
-        groupField.setOnItemClickListener((adapterView, view, i, l) -> selectedGroups = arrayGroupsAdapter.getItem(i));
+        binding.spinnerProfessorEt.setOnItemClickListener((adapterView, view, i, l) -> selectedProfessors = arrayProfessorsAdapter.getItem(i));
+        binding.spinnerRoomEt.setOnItemClickListener((adapterView, view, i, l) -> selectedRooms = arrayRoomsAdapter.getItem(i));
+        binding.spinnerGroupEt.setOnItemClickListener((adapterView, view, i, l) -> selectedGroups = arrayGroupsAdapter.getItem(i));
 
         return builder.create();
     }
@@ -151,8 +135,8 @@ public class ScheduleFilterDialog extends DialogFragment {
 
     @Override
     public void onDestroyView() {
+        binding = null;
         super.onDestroyView();
-        mUnbinder.unbind();
     }
 
     public interface OnSelectListener {
