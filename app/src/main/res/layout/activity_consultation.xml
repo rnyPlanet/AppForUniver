@@ -57,7 +57,7 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/activity_consultation_FIO_tv"
+                android:id="@+id/FIO_tv"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="16dp"
@@ -83,7 +83,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/activity_consultation_roomNum_tv"
+                    android:id="@+id/room_number_tv"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -96,7 +96,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/activity_consultation_timeOfPassage_tv"
+                    android:id="@+id/time_of_passage_tv"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -110,7 +110,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/activity_consultation_dateOfPassage_tv"
+                    android:id="@+id/date_of_passage_tv"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -125,7 +125,7 @@
             </LinearLayout>
 
             <Button
-                android:id="@+id/activity_consultation_subscribe_manage"
+                android:id="@+id/subscribe_manage_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/page_padding"
@@ -149,7 +149,7 @@
             app:layout_constraintTop_toBottomOf="@+id/consultation_header">
 
             <TextView
-                android:id="@+id/activity_consultation_descriptionText_tv"
+                android:id="@+id/descriptionText_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
@@ -161,7 +161,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/activity_consultation_description_tv"
+                android:id="@+id/description_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/card"
@@ -183,7 +183,7 @@
             tools:ignore="UseCompoundDrawables" />
 
         <ProgressBar
-            android:id="@+id/activity_consultation_pb"
+            android:id="@+id/progress_bar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"

@@ -3,23 +3,19 @@ package com.grin.appforuniver.activities;
 import android.annotation.SuppressLint;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.appcompat.widget.Toolbar;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.google.android.material.navigation.NavigationView;
 import com.grin.appforuniver.R;
 import com.grin.appforuniver.data.tools.AuthInterceptor;
 import com.grin.appforuniver.data.tools.AuthManager;
+import com.grin.appforuniver.databinding.ActivityNavigationDrawerBinding;
+import com.grin.appforuniver.databinding.NavHeaderNavigationDrawerBinding;
 import com.grin.appforuniver.utils.CircularTransformation;
 import com.grin.appforuniver.utils.Constants;
 import com.grin.appforuniver.utils.LocaleUtils;
@@ -28,9 +24,6 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 import okhttp3.OkHttpClient;
 
 public class NavigationDrawer extends AppCompatActivity {
@@ -38,14 +31,8 @@ public class NavigationDrawer extends AppCompatActivity {
     private static final String TAG = NavigationDrawer.class.getSimpleName();
     private AppBarConfiguration mAppBarConfiguration;
 
-    private Unbinder mUnbinder;
-
-    //region BindView
-    @BindView(R.id.toolbar)
-    protected Toolbar toolbar;
-
-    private HeaderViewHolder mHeaderView;
-    //endregion
+    private ActivityNavigationDrawerBinding binding;
+    private NavHeaderNavigationDrawerBinding navBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,16 +49,11 @@ public class NavigationDrawer extends AppCompatActivity {
         }
         super.onCreate(savedInstanceState);
         LocaleUtils.loadLocale(this);
-        setContentView(R.layout.activity_navigation_drawer);
-        mUnbinder = ButterKnife.bind(this);
+        binding = ActivityNavigationDrawerBinding.inflate(getLayoutInflater());
+        navBinding = NavHeaderNavigationDrawerBinding.bind(binding.navView.getHeaderView(0));
+        setContentView(binding.getRoot());
+        setSupportActionBar(binding.appBarNavigationDrawer.toolbar);
 
-
-        setSupportActionBar(toolbar);
-
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        View header = navigationView.getHeaderView(0);
-        mHeaderView = new HeaderViewHolder(header);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
@@ -81,11 +63,11 @@ public class NavigationDrawer extends AppCompatActivity {
                 R.id.nav_admin,
                 R.id.nav_personal_area,
                 R.id.nav_settings)
-                .setDrawerLayout(drawer)
+                .setDrawerLayout(binding.drawerLayout)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
-        NavigationUI.setupWithNavController(navigationView, navController);
+        NavigationUI.setupWithNavController(binding.navView, navController);
     }
 
     @Override
@@ -97,8 +79,8 @@ public class NavigationDrawer extends AppCompatActivity {
 
     @SuppressLint("SetTextI18n")
     public void userInfo() {
-        mHeaderView.userLastFirstName.setText(AuthManager.getInstance().getFirstName() + " " + AuthManager.getInstance().getLastName());
-        mHeaderView.email.setText(AuthManager.getInstance().getEmail());
+        navBinding.navHeaderFirstNameLastName.setText(AuthManager.getInstance().getFirstName() + " " + AuthManager.getInstance().getLastName());
+        navBinding.navHeaderEmail.setText(AuthManager.getInstance().getEmail());
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(AuthInterceptor.getInstance())
                 .build();
@@ -112,7 +94,7 @@ public class NavigationDrawer extends AppCompatActivity {
                 .placeholder(R.drawable.account_circle_outline)
                 .error(R.drawable.ic_warning)
                 .transform(new CircularTransformation(0))
-                .into(mHeaderView.userIcon, new Callback() {
+                .into(navBinding.userNameIcon, new Callback() {
                     @Override
                     public void onSuccess() {
                     }
@@ -134,20 +116,7 @@ public class NavigationDrawer extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mUnbinder.unbind();
         AuthManager.getInstance().cancelRequest();
     }
 
-    protected static class HeaderViewHolder {
-        @BindView(R.id.user_name_icon)
-        protected ImageView userIcon;
-        @BindView(R.id.nav_header_firstName_lastName)
-        protected TextView userLastFirstName;
-        @BindView(R.id.nav_header_email)
-        protected TextView email;
-
-        HeaderViewHolder(View view) {
-            ButterKnife.bind(this, view);
-        }
-    }
 }
