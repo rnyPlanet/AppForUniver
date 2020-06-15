@@ -11,7 +11,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Professor"
+        android:hint="@string/professor"
         app:errorEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -27,8 +27,7 @@
             android:drawableStart="@drawable/ic_account"
             android:drawablePadding="12dp"
             android:inputType="textNoSuggestions"
-            android:paddingStart="@dimen/padding"
-            android:paddingEnd="@dimen/padding"
+            android:padding="@dimen/padding"
             android:singleLine="true"
             tools:ignore="LabelFor" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -54,8 +53,7 @@
             android:drawableStart="@drawable/ic_room_light"
             android:drawablePadding="12dp"
             android:inputType="textNoSuggestions"
-            android:paddingStart="@dimen/padding"
-            android:paddingEnd="@dimen/padding"
+            android:padding="@dimen/padding"
             android:singleLine="true"
             tools:ignore="LabelFor" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -65,7 +63,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Group"
+        android:hint="@string/group"
         app:errorEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -81,8 +79,7 @@
             android:drawableStart="@drawable/ic_group_light"
             android:drawablePadding="12dp"
             android:inputType="textNoSuggestions"
-            android:paddingStart="@dimen/padding"
-            android:paddingEnd="@dimen/padding"
+            android:padding="@dimen/padding"
             android:singleLine="true"
             tools:ignore="LabelFor" />
     </com.google.android.material.textfield.TextInputLayout>

@@ -160,7 +160,7 @@ public class LoginActivity extends AppCompatActivity {
             mProgressBar.show();
 
             loginUser(Objects.requireNonNull(binding.usernameEt.getEditText()).getText().toString(),
-                    Objects.requireNonNull(binding.usernameEt.getEditText()).getText().toString());
+                    Objects.requireNonNull(binding.passwordEt.getEditText()).getText().toString());
 
         }
     }
