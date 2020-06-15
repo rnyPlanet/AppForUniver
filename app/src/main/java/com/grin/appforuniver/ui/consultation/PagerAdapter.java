@@ -8,10 +8,10 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import com.grin.appforuniver.App;
 import com.grin.appforuniver.R;
 import com.grin.appforuniver.data.tools.AuthManager;
-import com.grin.appforuniver.fragments.consultations.AllConsultationsFragment;
-import com.grin.appforuniver.fragments.consultations.ConsultationListFragment;
-import com.grin.appforuniver.fragments.consultations.MyConsultationsFragment;
-import com.grin.appforuniver.fragments.consultations.SubscribeConsultationsFragment;
+import com.grin.appforuniver.ui.consultationtabs.AllConsultationsFragment;
+import com.grin.appforuniver.ui.consultationtabs.ConsultationListFragment;
+import com.grin.appforuniver.ui.consultationtabs.MyConsultationsFragment;
+import com.grin.appforuniver.ui.consultationtabs.SubscribeConsultationsFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +19,7 @@ import java.util.List;
 import static com.grin.appforuniver.utils.Constants.Roles.ROLE_TEACHER;
 
 class PagerAdapter extends FragmentPagerAdapter {
-    public static class ItemViewPager {
+    private static class ItemViewPager {
         String title;
         Fragment fragment;
 
@@ -50,11 +50,6 @@ class PagerAdapter extends FragmentPagerAdapter {
         ));
 
 
-    }
-
-    public void addAll(List<ItemViewPager> tabs) {
-        this.tabs.addAll(tabs);
-        notifyDataSetChanged();
     }
 
     @NonNull

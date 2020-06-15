@@ -9,14 +9,13 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.grin.appforuniver.R;
 import com.grin.appforuniver.data.tools.AuthManager;
 import com.grin.appforuniver.databinding.FragmentConsultationsBinding;
 import com.grin.appforuniver.dialogs.ConsultationActionsDialog;
-import com.grin.appforuniver.fragments.consultations.ConsultationListFragment;
+import com.grin.appforuniver.ui.consultationtabs.ConsultationListFragment;
 
 import es.dmoral.toasty.Toasty;
 
@@ -27,14 +26,11 @@ public class ConsultationFragment extends Fragment implements ConsultationListFr
 
     public final String TAG = ConsultationFragment.class.getSimpleName();
 
-    private ConsultationViewModel viewModel;
-
     private PagerAdapter pagerAdapter;
     private FragmentConsultationsBinding binding;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        viewModel = ViewModelProviders.of(this).get(ConsultationViewModel.class);
         binding = FragmentConsultationsBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
@@ -70,10 +66,12 @@ public class ConsultationFragment extends Fragment implements ConsultationListFr
 
     @Override
     public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-        if (dy > 0 && binding.fab.getVisibility() == View.VISIBLE) {
-            binding.fab.hide();
-        } else if (dy < 0 && binding.fab.getVisibility() != View.VISIBLE) {
-            binding.fab.show();
+        if (AuthManager.getInstance().getUserRoles().contains(ROLE_TEACHER.toString())) {
+            if (dy > 0 && binding.fab.getVisibility() == View.VISIBLE) {
+                binding.fab.hide();
+            } else if (dy < 0 && binding.fab.getVisibility() != View.VISIBLE) {
+                binding.fab.show();
+            }
         }
     }
 }
