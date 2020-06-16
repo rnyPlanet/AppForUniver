@@ -8,6 +8,7 @@ import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
@@ -39,7 +40,7 @@ public interface ConsultationApi {
     @PUT("consultations/{id}/update")
     Call<Void> updateConsultation(@Path("id") int id, @Body ConsultationRequestDto consultationRequestDto);
 
-    @PUT("consultations/{id}/delete")
+    @DELETE("consultations/{id}/delete")
     Call<Void> deleteConsultation(@Path("id") int id);
 
     @GET("consultations/{id}/statusConsultation")
