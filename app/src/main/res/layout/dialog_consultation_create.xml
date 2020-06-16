@@ -28,8 +28,7 @@
             android:drawableStart="@drawable/ic_room_light"
             android:drawablePadding="12dp"
             android:inputType="textNoSuggestions"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
+            android:padding="@dimen/padding"
             android:singleLine="true"
             tools:ignore="LabelFor" />
 
@@ -58,8 +57,7 @@
             android:drawablePadding="12dp"
             android:focusableInTouchMode="false"
             android:inputType="textNoSuggestions"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
+            android:padding="@dimen/padding"
             android:singleLine="true"
             tools:ignore="LabelFor" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -84,8 +82,7 @@
             android:drawableStart="@drawable/ic_comment"
             android:drawablePadding="12dp"
             android:inputType="textMultiLine"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
+            android:padding="@dimen/padding"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
