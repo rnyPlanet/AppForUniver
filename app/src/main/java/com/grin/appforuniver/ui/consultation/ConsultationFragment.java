@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.grin.appforuniver.R;
 import com.grin.appforuniver.data.tools.AuthManager;
 import com.grin.appforuniver.databinding.FragmentConsultationsBinding;
-import com.grin.appforuniver.dialogs.ConsultationActionsDialog;
+import com.grin.appforuniver.ui.consultationActionsDialog.ConsultationActionsDialog;
 import com.grin.appforuniver.ui.consultationtabs.ConsultationListFragment;
 
 import es.dmoral.toasty.Toasty;

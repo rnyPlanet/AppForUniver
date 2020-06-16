@@ -35,9 +35,9 @@
                 android:value=".activities.NavigationDrawer" />
         </activity>
         <activity
-            android:name=".activities.ConsultationActivity"
+            android:name=".ui.detailConsultation.DetailConsultationActivity"
             android:label="@string/consultation_title"
-            android:parentActivityName=".activities.ConsultationActivity" />
+            android:parentActivityName=".ui.detailConsultation.DetailConsultationActivity" />
         <activity
             android:name=".activities.NavigationDrawer"
             android:configChanges="orientation|keyboardHidden|screenSize"

@@ -4,7 +4,7 @@ import android.content.Intent;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.grin.appforuniver.activities.ConsultationActivity;
+import com.grin.appforuniver.ui.detailConsultation.DetailConsultationActivity;
 import com.grin.appforuniver.data.model.consultation.Consultation;
 import com.grin.appforuniver.databinding.ItemConsultationBinding;
 
@@ -31,7 +31,7 @@ public class ConsultationViewHolder extends RecyclerView.ViewHolder {
         binding.dateOfPassageTv.setText(item.getDateOfPassage());
         binding.timeTv.setText(item.getTimeOfPassage());
         binding.getRoot().setOnClickListener(view -> {
-            Intent intent = new Intent(binding.getRoot().getContext(), ConsultationActivity.class);
+            Intent intent = new Intent(binding.getRoot().getContext(), DetailConsultationActivity.class);
             intent.putExtra("Consultation", item.getId());
             binding.getRoot().getContext().startActivity(intent);
         });

@@ -8,7 +8,7 @@
     android:padding="16dp">
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/create_spinner_til"
+        android:id="@+id/room_spinner_til"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <AutoCompleteTextView
-            android:id="@+id/create_spinner_et"
+            android:id="@+id/rooms_spinner_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:completionHint="Select room"
@@ -36,7 +36,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/create_select_date_time_til"
+        android:id="@+id/select_date_time_til"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -45,10 +45,10 @@
         app:errorEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/create_spinner_til">
+        app:layout_constraintTop_toBottomOf="@+id/room_spinner_til">
 
         <AutoCompleteTextView
-            android:id="@+id/create_select_date_time_et"
+            android:id="@+id/select_date_time_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:completionHint="@string/dialog_consultation_create_select_date_and_time"
@@ -73,10 +73,10 @@
         app:errorEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/create_select_date_time_til">
+        app:layout_constraintTop_toBottomOf="@+id/select_date_time_til">
 
         <AutoCompleteTextView
-            android:id="@+id/create_description_et"
+            android:id="@+id/description_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
