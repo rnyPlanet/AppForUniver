@@ -28,7 +28,6 @@
             android:name=".activities.SettingsActivity"
             android:configChanges="locale"
             android:label="@string/title_activity_settings"
-            android:parentActivityName=".activities.NavigationDrawer"
             android:theme="@style/Basic">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -36,8 +35,7 @@
         </activity>
         <activity
             android:name=".ui.detailConsultation.DetailConsultationActivity"
-            android:label="@string/consultation_title"
-            android:parentActivityName=".ui.detailConsultation.DetailConsultationActivity" />
+            android:label="@string/consultation_title" />
         <activity
             android:name=".activities.NavigationDrawer"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -45,7 +43,6 @@
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".activities.LoginActivity"
-            android:parentActivityName=".activities.NavigationDrawer"
             android:theme="@style/Basic"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
