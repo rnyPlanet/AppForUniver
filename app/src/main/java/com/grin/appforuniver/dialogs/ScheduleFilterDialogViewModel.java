@@ -4,9 +4,9 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.grin.appforuniver.data.model.schedule.Groups;
-import com.grin.appforuniver.data.model.schedule.Professors;
-import com.grin.appforuniver.data.model.schedule.Rooms;
+import com.grin.appforuniver.data.models.Groups;
+import com.grin.appforuniver.data.models.Professors;
+import com.grin.appforuniver.data.models.Rooms;
 import com.grin.appforuniver.data.service.GroupService;
 import com.grin.appforuniver.data.service.ProfessorService;
 import com.grin.appforuniver.data.service.RoomService;
@@ -89,7 +89,7 @@ public class ScheduleFilterDialogViewModel extends ViewModel {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
                         List<Groups> groups = response.body();
-                        Collections.sort(groups, (group1, t1) -> String.CASE_INSENSITIVE_ORDER.compare(group1.getmName(), t1.getmName()));
+                        Collections.sort(groups, (group1, t1) -> String.CASE_INSENSITIVE_ORDER.compare(group1.getName(), t1.getName()));
                         groupsLiveData.setValue(groups);
                     }
                 }

@@ -1,6 +1,6 @@
 package com.grin.appforuniver.data.api;
 
-import com.grin.appforuniver.data.model.schedule.Rooms;
+import com.grin.appforuniver.data.models.Rooms;
 
 import java.util.List;
 

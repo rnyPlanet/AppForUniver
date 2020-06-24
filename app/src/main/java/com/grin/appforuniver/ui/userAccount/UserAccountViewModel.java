@@ -7,8 +7,8 @@ import androidx.lifecycle.ViewModel;
 import com.grin.appforuniver.App;
 import com.grin.appforuniver.R;
 import com.grin.appforuniver.activities.ImagePickerActivity;
-import com.grin.appforuniver.data.model.schedule.Professors;
-import com.grin.appforuniver.data.model.user.User;
+import com.grin.appforuniver.data.models.Professors;
+import com.grin.appforuniver.data.models.User;
 import com.grin.appforuniver.data.service.UserService;
 import com.grin.appforuniver.data.tools.AuthManager;
 

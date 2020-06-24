@@ -19,9 +19,9 @@ import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.grin.appforuniver.R;
-import com.grin.appforuniver.ui.detailConsultation.DetailConsultationActivity;
-import com.grin.appforuniver.data.model.schedule.Rooms;
+import com.grin.appforuniver.data.models.Rooms;
 import com.grin.appforuniver.databinding.DialogConsultationCreateBinding;
+import com.grin.appforuniver.ui.detailConsultation.DetailConsultationActivity;
 
 import java.util.Calendar;
 

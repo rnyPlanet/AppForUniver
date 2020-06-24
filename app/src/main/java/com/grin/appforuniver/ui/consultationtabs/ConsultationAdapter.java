@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.grin.appforuniver.data.model.consultation.Consultation;
+import com.grin.appforuniver.data.models.Consultation;
 import com.grin.appforuniver.databinding.ItemConsultationBinding;
 import com.grin.appforuniver.holders.consultation.ConsultationViewHolder;
 

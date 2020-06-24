@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.chip.Chip;
 import com.grin.appforuniver.R;
-import com.grin.appforuniver.data.model.schedule.Groups;
+import com.grin.appforuniver.data.models.Groups;
 
 public class GroupViewHolder extends RecyclerView.ViewHolder {
     private Chip chip;
@@ -18,7 +18,7 @@ public class GroupViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void bind(Groups group, View.OnClickListener deleteItemListener) {
-        String text = chip.getContext().getString(R.string.chip_adapter_group) + group.getmName();
+        String text = chip.getContext().getString(R.string.chip_adapter_group) + group.getName();
         chip.setText(text);
         chip.setOnCloseIconClickListener(deleteItemListener);
     }

@@ -1,8 +1,8 @@
 package com.grin.appforuniver.data.api;
 
-import com.grin.appforuniver.data.model.AccessToken;
-import com.grin.appforuniver.data.model.dto.RegisterRequestDto;
-import com.grin.appforuniver.data.model.user.User;
+import com.grin.appforuniver.data.models.AccessToken;
+import com.grin.appforuniver.data.models.User;
+import com.grin.appforuniver.data.models.dto.RegisterRequestDto;
 
 import retrofit2.Call;
 import retrofit2.http.Body;

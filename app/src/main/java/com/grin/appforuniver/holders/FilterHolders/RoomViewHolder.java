@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.chip.Chip;
 import com.grin.appforuniver.R;
-import com.grin.appforuniver.data.model.schedule.Rooms;
+import com.grin.appforuniver.data.models.Rooms;
 
 public class RoomViewHolder extends RecyclerView.ViewHolder {
     private Chip chip;

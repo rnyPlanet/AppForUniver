@@ -1,7 +1,7 @@
 package com.grin.appforuniver.data.tools;
 
 import com.grin.appforuniver.R;
-import com.grin.appforuniver.data.model.schedule.Classes;
+import com.grin.appforuniver.data.models.Classes;
 import com.grin.appforuniver.fragments.schedule.ScheduleStandardTypeModel;
 import com.grin.appforuniver.utils.Constants;
 

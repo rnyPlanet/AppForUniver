@@ -2,8 +2,8 @@ package com.grin.appforuniver.data.service;
 
 import com.google.gson.GsonBuilder;
 import com.grin.appforuniver.data.api.UserApi;
-import com.grin.appforuniver.data.model.schedule.Professors;
-import com.grin.appforuniver.data.model.user.User;
+import com.grin.appforuniver.data.models.Professors;
+import com.grin.appforuniver.data.models.User;
 import com.grin.appforuniver.data.tools.AuthInterceptor;
 import com.grin.appforuniver.utils.Constants;
 

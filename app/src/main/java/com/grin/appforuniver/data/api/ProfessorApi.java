@@ -1,6 +1,6 @@
 package com.grin.appforuniver.data.api;
 
-import com.grin.appforuniver.data.model.schedule.Professors;
+import com.grin.appforuniver.data.models.Professors;
 
 import java.util.List;
 

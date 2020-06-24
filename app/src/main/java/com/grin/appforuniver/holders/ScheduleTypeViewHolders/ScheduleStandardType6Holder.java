@@ -6,7 +6,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.grin.appforuniver.R;
-import com.grin.appforuniver.data.model.schedule.Classes;
+import com.grin.appforuniver.data.models.Classes;
 
 public class ScheduleStandardType6Holder extends ScheduleStandardTypeParentHolder {
     private TextView numberPair;

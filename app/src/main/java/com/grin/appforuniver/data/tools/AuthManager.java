@@ -6,9 +6,9 @@ import android.content.SharedPreferences;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.grin.appforuniver.App;
-import com.grin.appforuniver.data.model.AccessToken;
-import com.grin.appforuniver.data.model.user.Role;
-import com.grin.appforuniver.data.model.user.User;
+import com.grin.appforuniver.data.models.AccessToken;
+import com.grin.appforuniver.data.models.Role;
+import com.grin.appforuniver.data.models.User;
 import com.grin.appforuniver.data.service.UserService;
 
 import java.lang.reflect.Type;

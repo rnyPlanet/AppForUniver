@@ -2,8 +2,8 @@ package com.grin.appforuniver.data.service;
 
 import com.google.gson.GsonBuilder;
 import com.grin.appforuniver.data.api.ConsultationApi;
-import com.grin.appforuniver.data.model.consultation.Consultation;
-import com.grin.appforuniver.data.model.dto.ConsultationRequestDto;
+import com.grin.appforuniver.data.models.Consultation;
+import com.grin.appforuniver.data.models.dto.ConsultationRequestDto;
 import com.grin.appforuniver.data.tools.AuthInterceptor;
 import com.grin.appforuniver.utils.Constants;
 

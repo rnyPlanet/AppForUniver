@@ -1,8 +1,8 @@
 package com.grin.appforuniver.data.api;
 
 
-import com.grin.appforuniver.data.model.schedule.Professors;
-import com.grin.appforuniver.data.model.user.User;
+import com.grin.appforuniver.data.models.Professors;
+import com.grin.appforuniver.data.models.User;
 
 import okhttp3.MultipartBody;
 import retrofit2.Call;

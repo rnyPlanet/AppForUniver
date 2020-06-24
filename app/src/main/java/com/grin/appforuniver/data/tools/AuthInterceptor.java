@@ -4,7 +4,7 @@ import android.content.Intent;
 
 import com.grin.appforuniver.App;
 import com.grin.appforuniver.activities.LoginActivity;
-import com.grin.appforuniver.data.model.AccessToken;
+import com.grin.appforuniver.data.models.AccessToken;
 import com.grin.appforuniver.data.service.AuthService;
 
 import org.jetbrains.annotations.NotNull;
@@ -39,18 +39,18 @@ public class AuthInterceptor implements Interceptor {
     public synchronized Response intercept(@NotNull Chain chain) throws IOException {
         Request request = chain.request()
                 .newBuilder()
-                .addHeader("Authorization", "Bearer " + AuthManager.getInstance().getAccessToken().access_token)
+                .addHeader("Authorization", "Bearer " + AuthManager.getInstance().getAccessToken().getAccessToken())
                 .build();
 
 
         Response response = chain.proceed(request);
         if (response.code() == 401) {
-            retrofit2.Response<AccessToken> refreshResponse = AuthService.getService().requestRefreshingToken(AuthManager.getInstance().getAccessToken().refresh_token);
+            retrofit2.Response<AccessToken> refreshResponse = AuthService.getService().requestRefreshingToken(AuthManager.getInstance().getAccessToken().getRefreshToken());
             if (refreshResponse != null && refreshResponse.code() == 200) {
                 AuthManager.getInstance().writeAccessToken(refreshResponse.body());
                 request = chain.request()
                         .newBuilder()
-                        .addHeader("Authorization", "Bearer " + AuthManager.getInstance().getAccessToken().access_token)
+                        .addHeader("Authorization", "Bearer " + AuthManager.getInstance().getAccessToken().getAccessToken())
                         .build();
                 response.close();
                 response = chain.proceed(request);

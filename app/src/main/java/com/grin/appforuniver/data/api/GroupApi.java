@@ -1,6 +1,6 @@
 package com.grin.appforuniver.data.api;
 
-import com.grin.appforuniver.data.model.schedule.Groups;
+import com.grin.appforuniver.data.models.Groups;
 
 import java.util.List;
 

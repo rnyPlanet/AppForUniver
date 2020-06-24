@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.grin.appforuniver.data.model.consultation.Consultation;
+import com.grin.appforuniver.data.models.Consultation;
 import com.grin.appforuniver.data.service.ConsultationService;
 
 import java.util.Map;

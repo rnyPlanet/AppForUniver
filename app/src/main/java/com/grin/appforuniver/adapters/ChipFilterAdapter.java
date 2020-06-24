@@ -9,9 +9,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.grin.appforuniver.R;
-import com.grin.appforuniver.data.model.schedule.Groups;
-import com.grin.appforuniver.data.model.schedule.Professors;
-import com.grin.appforuniver.data.model.schedule.Rooms;
+import com.grin.appforuniver.data.models.Groups;
+import com.grin.appforuniver.data.models.Professors;
+import com.grin.appforuniver.data.models.Rooms;
 import com.grin.appforuniver.holders.FilterHolders.DefaultViewHolder;
 import com.grin.appforuniver.holders.FilterHolders.GroupViewHolder;
 import com.grin.appforuniver.holders.FilterHolders.ProfessorViewHolder;

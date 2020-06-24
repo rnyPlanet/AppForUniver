@@ -1,7 +1,7 @@
 package com.grin.appforuniver.data.api;
 
-import com.grin.appforuniver.data.model.consultation.Consultation;
-import com.grin.appforuniver.data.model.dto.ConsultationRequestDto;
+import com.grin.appforuniver.data.models.Consultation;
+import com.grin.appforuniver.data.models.dto.ConsultationRequestDto;
 
 import java.util.List;
 import java.util.Map;

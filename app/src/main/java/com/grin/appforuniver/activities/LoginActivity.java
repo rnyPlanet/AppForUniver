@@ -10,8 +10,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.grin.appforuniver.R;
-import com.grin.appforuniver.data.model.AccessToken;
-import com.grin.appforuniver.data.model.user.User;
+import com.grin.appforuniver.data.models.AccessToken;
+import com.grin.appforuniver.data.models.User;
 import com.grin.appforuniver.data.service.AuthService;
 import com.grin.appforuniver.data.service.UserService;
 import com.grin.appforuniver.data.tools.AuthManager;
@@ -78,7 +78,6 @@ public class LoginActivity extends AppCompatActivity {
             public void onRequestTokenSuccess(Call<AccessToken> call, Response<AccessToken> response) {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
-
                         AccessToken accessToken = response.body();
                         AuthManager.getInstance().writeAccessToken(accessToken);
                         getMe();

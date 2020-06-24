@@ -2,7 +2,7 @@ package com.grin.appforuniver.data.service;
 
 import com.google.gson.GsonBuilder;
 import com.grin.appforuniver.data.api.ScheduleApi;
-import com.grin.appforuniver.data.model.schedule.Classes;
+import com.grin.appforuniver.data.models.Classes;
 import com.grin.appforuniver.data.tools.AuthInterceptor;
 import com.grin.appforuniver.utils.Constants;
 

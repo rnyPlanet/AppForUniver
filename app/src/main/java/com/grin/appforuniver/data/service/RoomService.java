@@ -2,7 +2,7 @@ package com.grin.appforuniver.data.service;
 
 import com.google.gson.GsonBuilder;
 import com.grin.appforuniver.data.api.RoomApi;
-import com.grin.appforuniver.data.model.schedule.Rooms;
+import com.grin.appforuniver.data.models.Rooms;
 import com.grin.appforuniver.data.tools.AuthInterceptor;
 import com.grin.appforuniver.utils.Constants;
 

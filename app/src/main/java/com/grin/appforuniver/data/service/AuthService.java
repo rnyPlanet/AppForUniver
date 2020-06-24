@@ -2,7 +2,7 @@ package com.grin.appforuniver.data.service;
 
 import com.google.gson.GsonBuilder;
 import com.grin.appforuniver.data.api.AuthApi;
-import com.grin.appforuniver.data.model.AccessToken;
+import com.grin.appforuniver.data.models.AccessToken;
 import com.grin.appforuniver.data.tools.TokenAuthenticator;
 import com.grin.appforuniver.utils.Constants;
 

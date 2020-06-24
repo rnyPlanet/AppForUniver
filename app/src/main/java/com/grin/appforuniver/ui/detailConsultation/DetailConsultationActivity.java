@@ -16,7 +16,7 @@ import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.grin.appforuniver.R;
-import com.grin.appforuniver.data.model.consultation.Consultation;
+import com.grin.appforuniver.data.models.Consultation;
 import com.grin.appforuniver.databinding.ActivityConsultationBinding;
 import com.grin.appforuniver.ui.consultationActionsDialog.ConsultationActionsDialog;
 
@@ -66,8 +66,8 @@ public class DetailConsultationActivity extends AppCompatActivity implements Con
         binding.studentsCount.setText(Integer.toString(consultation.getUsersCollection().size()));
         binding.FIOTv.setText(consultation.getCreatedUser().getFullFIO());
         binding.roomNumberTv.setText(consultation.getRoom().getName());
-        binding.dateOfPassageTv.setText(consultation.getDateOfPassage());
-        binding.timeOfPassageTv.setText(consultation.getTimeOfPassage());
+        binding.dateOfPassageTv.setText(consultation.getDateOfEvent());
+        binding.timeOfPassageTv.setText(consultation.getTimeOfEvent());
         if (consultation.getDescription() != null) {
             binding.consultationDescription.setVisibility(View.VISIBLE);
             binding.descriptionTv.setText(consultation.getDescription());

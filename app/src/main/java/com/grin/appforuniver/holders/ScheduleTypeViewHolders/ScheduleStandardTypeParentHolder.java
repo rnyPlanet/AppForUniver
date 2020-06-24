@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.grin.appforuniver.R;
-import com.grin.appforuniver.data.model.schedule.Classes;
+import com.grin.appforuniver.data.models.Classes;
 import com.grin.appforuniver.fragments.schedule.ScheduleStandardTypeModel;
 import com.grin.appforuniver.utils.Constants;
 
@@ -27,7 +27,7 @@ abstract class ScheduleStandardTypeParentHolder extends RecyclerView.ViewHolder 
     void bindCardSubject(View parentView, Classes classes) {
         parentView.setVisibility(View.VISIBLE);
         //initialize subject
-        ((TextView) parentView.findViewById(R.id.subject)).setText(classes.getSubject().getShortname());
+        ((TextView) parentView.findViewById(R.id.subject)).setText(classes.getSubject().getShortName());
         //initialize audience room
         ((TextView) parentView.findViewById(R.id.audience_room)).setText(classes.getRoom().getName());
         //initialize professor name
@@ -48,9 +48,9 @@ abstract class ScheduleStandardTypeParentHolder extends RecyclerView.ViewHolder 
         nameSubject.setText(classes.getSubject().getFullName());
         nameProf.setText(classes.getProfessor().getUser().getFullFIO());
         nameProfPosada.setText(classes.getProfessor().getPosada().getFullPostProfessor());
-        nameGroup.setText(classes.getAssignedGroup().getmName());
+        nameGroup.setText(classes.getAssignedGroup().getName());
         typeSubject.setText(classes.getType().getType());
-        builder.setTitle(classes.getSubject().getShortname());
+        builder.setTitle(classes.getSubject().getShortName());
         builder.setView(rootView);
         builder.setPositiveButton(R.string.hide_description, (dialogInterface, i) -> {
         });

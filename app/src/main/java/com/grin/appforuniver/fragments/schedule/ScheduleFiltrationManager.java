@@ -1,10 +1,10 @@
 package com.grin.appforuniver.fragments.schedule;
 
-import com.grin.appforuniver.data.model.schedule.Groups;
-import com.grin.appforuniver.data.model.schedule.Professors;
-import com.grin.appforuniver.data.model.schedule.Rooms;
-import com.grin.appforuniver.data.model.schedule.Subject;
-import com.grin.appforuniver.data.model.schedule.TypeClasses;
+import com.grin.appforuniver.data.models.Groups;
+import com.grin.appforuniver.data.models.Professors;
+import com.grin.appforuniver.data.models.Rooms;
+import com.grin.appforuniver.data.models.Subject;
+import com.grin.appforuniver.data.models.TypeClasses;
 import com.grin.appforuniver.data.service.ScheduleService;
 import com.grin.appforuniver.data.tools.AuthManager;
 
@@ -104,7 +104,7 @@ public class ScheduleFiltrationManager {
         int typeClassesId = (type != null) ? type.getId() : -1;
         int professorId = (professor != null) ? professor.getId() : -1;
         int roomId = (room != null) ? room.getId() : -1;
-        int groupId = (group != null) ? group.getmId() : -1;
+        int groupId = (group != null) ? group.getId() : -1;
         String placeStr = (place != null) ? place.toString() : null;
         String weekStr = (week != null) ? week.toString() : null;
 

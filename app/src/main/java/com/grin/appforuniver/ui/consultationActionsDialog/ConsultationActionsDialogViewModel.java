@@ -8,9 +8,9 @@ import androidx.lifecycle.ViewModel;
 
 import com.grin.appforuniver.App;
 import com.grin.appforuniver.R;
-import com.grin.appforuniver.data.model.consultation.Consultation;
-import com.grin.appforuniver.data.model.dto.ConsultationRequestDto;
-import com.grin.appforuniver.data.model.schedule.Rooms;
+import com.grin.appforuniver.data.models.Consultation;
+import com.grin.appforuniver.data.models.Rooms;
+import com.grin.appforuniver.data.models.dto.ConsultationRequestDto;
 import com.grin.appforuniver.data.service.ConsultationService;
 import com.grin.appforuniver.data.service.RoomService;
 import com.grin.appforuniver.data.tools.AuthManager;
@@ -191,7 +191,7 @@ public class ConsultationActionsDialogViewModel extends ViewModel implements Con
         if (response.isSuccessful()) {
             if (response.body() != null) {
                 consultation = response.body();
-                selectedDateAndTimeLiveData.setValue(consultation.getDateAndTimeOfPassage());
+                selectedDateAndTimeLiveData.setValue(consultation.getDateAndTimeOfEvent());
                 descriptionLiveData.setValue(consultation.getDescription());
                 if (idConsultationLiveData.getValue() != null) {
                     setSelectedRoom(consultation.getRoom());

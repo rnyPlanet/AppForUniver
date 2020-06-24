@@ -2,7 +2,6 @@ package com.grin.appforuniver.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -18,11 +17,11 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.grin.appforuniver.R;
-import com.grin.appforuniver.data.model.schedule.Groups;
-import com.grin.appforuniver.data.model.schedule.Professors;
-import com.grin.appforuniver.data.model.schedule.Rooms;
-import com.grin.appforuniver.data.model.schedule.Subject;
-import com.grin.appforuniver.data.model.schedule.TypeClasses;
+import com.grin.appforuniver.data.models.Groups;
+import com.grin.appforuniver.data.models.Professors;
+import com.grin.appforuniver.data.models.Rooms;
+import com.grin.appforuniver.data.models.Subject;
+import com.grin.appforuniver.data.models.TypeClasses;
 import com.grin.appforuniver.databinding.ScheduleFiltrationDialogBinding;
 
 import es.dmoral.toasty.Toasty;
