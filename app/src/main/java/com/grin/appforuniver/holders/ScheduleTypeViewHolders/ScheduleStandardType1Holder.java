@@ -1,30 +1,25 @@
 package com.grin.appforuniver.holders.ScheduleTypeViewHolders;
 
-import android.view.View;
-import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 
-import com.grin.appforuniver.R;
 import com.grin.appforuniver.data.models.Classes;
+import com.grin.appforuniver.databinding.ScheduleSingleType1Binding;
 
 public class ScheduleStandardType1Holder extends ScheduleStandardTypeParentHolder {
-    private TextView numberPair;
-    private View bothSubgroupBothWeek;
+   private ScheduleSingleType1Binding binding;
 
-    public ScheduleStandardType1Holder(@NonNull View itemView) {
-        super(itemView);
-        numberPair = itemView.findViewById(R.id.number_pair);
-        bothSubgroupBothWeek = itemView.findViewById(R.id.both_subgroup_both_week);
+    public ScheduleStandardType1Holder(@NonNull ScheduleSingleType1Binding binding) {
+        super(binding.getRoot());
+        this.binding=binding;
     }
 
     @Override
     void bindNumberPair(String numberPair) {
-        this.numberPair.setText(numberPair);
+        binding.numberPair.setText(numberPair);
     }
 
     @Override
     void bindBothSubgroupBothWeek(Classes classes) {
-        bindCardSubject(bothSubgroupBothWeek, classes);
+        bindCardSubject(binding.bothSubgroupBothWeek, classes);
     }
 }

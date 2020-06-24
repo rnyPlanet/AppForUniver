@@ -1,13 +1,13 @@
 package com.grin.appforuniver.holders.ScheduleTypeViewHolders;
 
-import android.view.View;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.grin.appforuniver.databinding.ScheduleWeekendDayBinding;
+
 public class ScheduleStandardTypeWeekendHolder extends RecyclerView.ViewHolder {
 
-    public ScheduleStandardTypeWeekendHolder(@NonNull View itemView) {
-        super(itemView);
+    public ScheduleStandardTypeWeekendHolder(@NonNull ScheduleWeekendDayBinding binding) {
+        super(binding.getRoot());
     }
 }

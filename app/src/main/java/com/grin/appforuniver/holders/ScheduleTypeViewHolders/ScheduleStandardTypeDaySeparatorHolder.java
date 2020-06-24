@@ -1,24 +1,19 @@
 package com.grin.appforuniver.holders.ScheduleTypeViewHolders;
 
-import android.view.View;
-import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.grin.appforuniver.R;
+import com.grin.appforuniver.databinding.ScheduleDaySeparatorBinding;
 
 public class ScheduleStandardTypeDaySeparatorHolder extends RecyclerView.ViewHolder {
-    private TextView numberPair;
-    private TextView day;
+    private ScheduleDaySeparatorBinding binding;
 
-    public ScheduleStandardTypeDaySeparatorHolder(@NonNull View itemView) {
-        super(itemView);
-        numberPair = itemView.findViewById(R.id.number_pair);
-        day = itemView.findViewById(R.id.text_day);
+    public ScheduleStandardTypeDaySeparatorHolder(@NonNull ScheduleDaySeparatorBinding binding) {
+        super(binding.getRoot());
+        this.binding = binding;
     }
 
     public void bind(String day) {
-        this.day.setText(day);
+        binding.textDay.setText(day);
     }
 }

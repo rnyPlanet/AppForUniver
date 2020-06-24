@@ -4,13 +4,14 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.grin.appforuniver.R;
 import com.grin.appforuniver.data.models.Classes;
+import com.grin.appforuniver.databinding.DialogMoreDetailsScheduleBinding;
+import com.grin.appforuniver.databinding.ScheduleCardClassesBinding;
 import com.grin.appforuniver.fragments.schedule.ScheduleStandardTypeModel;
 import com.grin.appforuniver.utils.Constants;
 
@@ -19,37 +20,29 @@ import java.util.List;
 abstract class ScheduleStandardTypeParentHolder extends RecyclerView.ViewHolder {
     Context context;
 
-    ScheduleStandardTypeParentHolder(@NonNull View itemView) {
-        super(itemView);
-        this.context = itemView.getContext();
+    ScheduleStandardTypeParentHolder(@NonNull View binding) {
+        super(binding);
+        this.context = binding.getContext();
     }
 
-    void bindCardSubject(View parentView, Classes classes) {
-        parentView.setVisibility(View.VISIBLE);
-        //initialize subject
-        ((TextView) parentView.findViewById(R.id.subject)).setText(classes.getSubject().getShortName());
-        //initialize audience room
-        ((TextView) parentView.findViewById(R.id.audience_room)).setText(classes.getRoom().getName());
-        //initialize professor name
-        ((TextView) parentView.findViewById(R.id.professor)).setText(classes.getProfessor().getUser().getShortFIO());
-        parentView.setOnClickListener(view -> dialogMoreDetailsSchedule(classes, context).show());
+    void bindCardSubject(ScheduleCardClassesBinding binding, Classes classes) {
+        binding.getRoot().setVisibility(View.VISIBLE);
+        binding.subject.setText(classes.getSubject().getShortName());
+        binding.audienceRoom.setText(classes.getRoom().getName());
+        binding.professor.setText(classes.getProfessor().getUser().getShortFIO());
+        binding.getRoot().setOnClickListener(view -> dialogMoreDetailsSchedule(classes, context).show());
     }
 
     private AlertDialog dialogMoreDetailsSchedule(Classes classes, Context context) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         LayoutInflater inflater = LayoutInflater.from(context);
         View rootView = inflater.inflate(R.layout.dialog_more_details_schedule, null);
-
-        TextView nameSubject = rootView.findViewById(R.id.name_subject);
-        TextView nameProf = rootView.findViewById(R.id.name_prof);
-        TextView nameProfPosada = rootView.findViewById(R.id.name_prof_posada);
-        TextView nameGroup = rootView.findViewById(R.id.name_group);
-        TextView typeSubject = rootView.findViewById(R.id.name_subject_type);
-        nameSubject.setText(classes.getSubject().getFullName());
-        nameProf.setText(classes.getProfessor().getUser().getFullFIO());
-        nameProfPosada.setText(classes.getProfessor().getPosada().getFullPostProfessor());
-        nameGroup.setText(classes.getAssignedGroup().getName());
-        typeSubject.setText(classes.getType().getType());
+        DialogMoreDetailsScheduleBinding binding = DialogMoreDetailsScheduleBinding.bind(rootView);
+        binding.nameSubject.setText(classes.getSubject().getFullName());
+        binding.nameProf.setText(classes.getProfessor().getUser().getFullFIO());
+        binding.nameProfPosada.setText(classes.getProfessor().getPosada().getFullPostProfessor());
+        binding.nameGroup.setText(classes.getAssignedGroup().getName());
+        binding.nameSubjectType.setText(classes.getType().getType());
         builder.setTitle(classes.getSubject().getShortName());
         builder.setView(rootView);
         builder.setPositiveButton(R.string.hide_description, (dialogInterface, i) -> {

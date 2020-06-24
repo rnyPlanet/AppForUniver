@@ -1,25 +1,20 @@
 package com.grin.appforuniver.holders.ScheduleTypeViewHolders;
 
-import android.view.View;
-import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.grin.appforuniver.R;
+import com.grin.appforuniver.databinding.ScheduleSingleType9Binding;
 
 public class ScheduleStandardType9Holder extends RecyclerView.ViewHolder {
-    private TextView numberPair;
-    private TextView message;
+    private ScheduleSingleType9Binding binding;
 
-    public ScheduleStandardType9Holder(@NonNull View itemView) {
-        super(itemView);
-        numberPair = itemView.findViewById(R.id.number_pair);
-        message = itemView.findViewById(R.id.message);
+    public ScheduleStandardType9Holder(@NonNull ScheduleSingleType9Binding binding) {
+        super(binding.getRoot());
+        this.binding = binding;
     }
 
     public void bind(String numberPair, String message) {
-        this.numberPair.setText(numberPair);
-        this.message.setText(message);
+        binding.numberPair.setText(numberPair);
+        binding.message.setText(message);
     }
 }
